@@ -51,3 +51,6 @@ mlartifacts/
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Test script output (raw Textract JSON dumps)
+scripts/output/
