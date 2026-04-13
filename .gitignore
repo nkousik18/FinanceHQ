@@ -54,3 +54,6 @@ mlartifacts/
 
 # Test script output (raw Textract JSON dumps)
 scripts/output/
+
+# IAM policy files (contain account-specific ARNs)
+scripts/iam_policy.json
