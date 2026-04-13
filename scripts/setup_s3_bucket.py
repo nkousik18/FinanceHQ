@@ -15,7 +15,11 @@ import boto3
 from botocore.exceptions import ClientError
 from dotenv import load_dotenv
 
+from app.core.logging import setup_logging, get_logger
+
 load_dotenv()
+setup_logging(log_level=os.environ.get("LOG_LEVEL", "INFO"), environment="development")
+logger = get_logger("setup_s3_bucket")
 
 
 def create_bucket():
@@ -29,7 +33,7 @@ def create_bucket():
         region_name=region,
     )
 
-    print(f"Creating bucket: {bucket} in {region}")
+    logger.info("creating_bucket", bucket=bucket, region=region)
 
     try:
         if region == "us-east-1":
@@ -39,16 +43,15 @@ def create_bucket():
                 Bucket=bucket,
                 CreateBucketConfiguration={"LocationConstraint": region},
             )
-        print(f"  Bucket created.")
+        logger.info("bucket_created", bucket=bucket)
     except ClientError as e:
         code = e.response["Error"]["Code"]
         if code in ("BucketAlreadyOwnedByYou", "BucketAlreadyExists"):
-            print(f"  Bucket already exists — skipping.")
+            logger.info("bucket_already_exists", bucket=bucket)
         else:
-            print(f"  ERROR: {e}")
+            logger.error("bucket_creation_failed", bucket=bucket, error=str(e))
             sys.exit(1)
 
-    # Block all public access
     s3.put_public_access_block(
         Bucket=bucket,
         PublicAccessBlockConfiguration={
@@ -58,16 +61,14 @@ def create_bucket():
             "RestrictPublicBuckets": True,
         },
     )
-    print("  Public access blocked.")
+    logger.info("public_access_blocked", bucket=bucket)
 
-    # Enable versioning (cheap safety net)
     s3.put_bucket_versioning(
         Bucket=bucket,
         VersioningConfiguration={"Status": "Enabled"},
     )
-    print("  Versioning enabled.")
-
-    print(f"\nDone. Bucket s3://{bucket} is ready.")
+    logger.info("versioning_enabled", bucket=bucket)
+    logger.info("bucket_ready", uri=f"s3://{bucket}")
 
 
 if __name__ == "__main__":
