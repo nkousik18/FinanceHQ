@@ -423,11 +423,18 @@ def _get_page_count(s3_client, pdf_key: str) -> int:
 # Public entry point
 # ------------------------------------------------------------------
 
-def extract_document(session_id: str) -> ExtractionResult:
+def extract_document(
+    session_id: str,
+    pdf_key: str | None = None,
+    raw_text_key: str | None = None,
+    textract_response_key: str | None = None,
+) -> ExtractionResult:
     """
     Main extraction entry point.
 
-    Expects PDF already at S3Keys.upload_pdf(session_id).
+    By default reads the PDF from S3Keys.upload_pdf(session_id).
+    Pass pdf_key to override (multi-doc sessions use per-doc keys).
+
     Saves raw Textract JSON + extracted text to S3.
     Returns ExtractionResult with text, tables, and form fields.
     """
@@ -435,7 +442,9 @@ def extract_document(session_id: str) -> ExtractionResult:
     s3 = get_s3_client()
     textract = _build_textract_client()
 
-    pdf_key = S3Keys.upload_pdf(session_id)
+    pdf_key = pdf_key or S3Keys.upload_pdf(session_id)
+    raw_text_key = raw_text_key or S3Keys.raw_text(session_id)
+    textract_response_key = textract_response_key or S3Keys.textract_response(session_id)
 
     if not s3.exists(pdf_key):
         raise ExtractionError(
@@ -453,10 +462,9 @@ def extract_document(session_id: str) -> ExtractionResult:
         result = _assemble_result(session_id, all_blocks, job_id=job_id)
 
     # Persist raw response + extracted text to S3
-    raw_key = S3Keys.textract_response(session_id)
-    s3.upload_json(raw_key, json.dumps(raw_response, default=str))
-    result.raw_response_s3_key = raw_key
-    s3.upload_text(S3Keys.raw_text(session_id), result.full_text)
+    s3.upload_json(textract_response_key, json.dumps(raw_response, default=str))
+    result.raw_response_s3_key = textract_response_key
+    s3.upload_text(raw_text_key, result.full_text)
 
     logger.info(
         "extraction_complete",
