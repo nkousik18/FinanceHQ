@@ -14,6 +14,9 @@ class Settings(BaseSettings):
 
     # Bytez
     bytez_api_key: str = ""
+    bytez_model: str = "meta-llama/Llama-3.1-8B-Instruct"
+    bytez_max_tokens: int = 512
+    bytez_temperature: float = 0.1
 
     # MLflow
     mlflow_tracking_uri: str = "http://localhost:5000"
