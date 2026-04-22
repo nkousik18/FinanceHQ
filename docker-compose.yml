@@ -1,0 +1,41 @@
+services:
+
+  mlflow:
+    build:
+      context: docker/mlflow
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow_data:/mlflow
+    env_file:
+      - fastapi_service/.env
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:5000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - financehq
+
+  fastapi:
+    build:
+      context: .
+      dockerfile: docker/fastapi/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - fastapi_service/.env
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    depends_on:
+      mlflow:
+        condition: service_healthy
+    networks:
+      - financehq
+
+networks:
+  financehq:
+
+volumes:
+  mlflow_data:
