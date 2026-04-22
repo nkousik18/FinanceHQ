@@ -10,6 +10,12 @@ Returns:
   - assembled prompt string ready to send to the LLM
   - the intent that was used (primary)
   - the prompt variant label (for MLflow A/B tracking)
+
+Variant selection
+-----------------
+Each intent has two prompt variants (v1: detailed+instructional,
+v2: concise+structured). The VariantSelector reads MLflow run data to pick
+the better-performing variant per intent (see app/tracking/ab_selector.py).
 """
 from __future__ import annotations
 
@@ -18,22 +24,41 @@ from dataclasses import dataclass
 from app.retrieval.intent_classifier import Intent, ClassifiedIntent
 from app.retrieval.retriever import RetrievedChunk
 from app.prompts.templates.lookup import LOOKUP_PROMPT
+from app.prompts.templates.lookup_v2 import LOOKUP_PROMPT_V2
 from app.prompts.templates.calculate import CALCULATE_PROMPT
+from app.prompts.templates.calculate_v2 import CALCULATE_PROMPT_V2
 from app.prompts.templates.compare import COMPARE_PROMPT
+from app.prompts.templates.compare_v2 import COMPARE_PROMPT_V2
 from app.prompts.templates.explain import EXPLAIN_PROMPT
+from app.prompts.templates.explain_v2 import EXPLAIN_PROMPT_V2
 from app.prompts.templates.summarise import SUMMARISE_PROMPT
+from app.prompts.templates.summarise_v2 import SUMMARISE_PROMPT_V2
+from app.tracking.ab_selector import get_selector
 from app.core.logging import get_logger
 
 logger = get_logger(__name__)
 
-# Map intent → (template, variant_label)
-# variant_label is used for MLflow A/B tracking in Phase 3
-_TEMPLATE_MAP: dict[Intent, tuple[str, str]] = {
-    Intent.LOOKUP:    (LOOKUP_PROMPT,    "lookup_v1"),
-    Intent.CALCULATE: (CALCULATE_PROMPT, "calculate_v1"),
-    Intent.COMPARE:   (COMPARE_PROMPT,   "compare_v1"),
-    Intent.EXPLAIN:   (EXPLAIN_PROMPT,   "explain_v1"),
-    Intent.SUMMARISE: (SUMMARISE_PROMPT, "summarise_v1"),
+# variant label → prompt template string
+_VARIANT_TEMPLATES: dict[str, str] = {
+    "lookup_v1":    LOOKUP_PROMPT,
+    "lookup_v2":    LOOKUP_PROMPT_V2,
+    "calculate_v1": CALCULATE_PROMPT,
+    "calculate_v2": CALCULATE_PROMPT_V2,
+    "compare_v1":   COMPARE_PROMPT,
+    "compare_v2":   COMPARE_PROMPT_V2,
+    "explain_v1":   EXPLAIN_PROMPT,
+    "explain_v2":   EXPLAIN_PROMPT_V2,
+    "summarise_v1": SUMMARISE_PROMPT,
+    "summarise_v2": SUMMARISE_PROMPT_V2,
+}
+
+# intent → available variants (first entry is the fallback)
+_INTENT_VARIANTS: dict[Intent, list[str]] = {
+    Intent.LOOKUP:    ["lookup_v1",    "lookup_v2"],
+    Intent.CALCULATE: ["calculate_v1", "calculate_v2"],
+    Intent.COMPARE:   ["compare_v1",   "compare_v2"],
+    Intent.EXPLAIN:   ["explain_v1",   "explain_v2"],
+    Intent.SUMMARISE: ["summarise_v1", "summarise_v2"],
 }
 
 MAX_CONTEXT_WORDS = 1200   # keep prompt within reasonable token budget
@@ -43,7 +68,7 @@ MAX_CONTEXT_WORDS = 1200   # keep prompt within reasonable token budget
 class RoutedPrompt:
     prompt: str
     intent: Intent
-    variant: str               # e.g. "lookup_v1" — used for A/B tracking
+    variant: str               # e.g. "lookup_v2" — logged to MLflow for A/B tracking
     chunks_used: int
     context_words: int
 
@@ -73,20 +98,28 @@ def route(
     chunks: list[RetrievedChunk],
 ) -> RoutedPrompt:
     """
-    Select prompt template based on primary intent, assemble with context.
+    Select prompt variant based on primary intent + A/B selector, then
+    assemble with retrieved context.
 
     For multi-intent queries, the primary intent (highest priority) drives
-    template selection. Secondary intents are logged for MLflow tracking.
+    template selection. Secondary intents are logged for observability.
     """
     if not intents:
-        # Safety fallback
         primary_intent = Intent.SUMMARISE
-        variant = "summarise_v1"
     else:
         primary_intent = intents[0].intent
-        variant = _TEMPLATE_MAP[primary_intent][1]
 
-    template, variant = _TEMPLATE_MAP[primary_intent]
+    available_variants = _INTENT_VARIANTS[primary_intent]
+
+    try:
+        selector = get_selector()
+        variant = selector.choose(primary_intent.value, available_variants)
+    except Exception as exc:
+        # Selector failure must never break the query path
+        logger.warning("ab_selector_unavailable", error=str(exc))
+        variant = available_variants[0]
+
+    template = _VARIANT_TEMPLATES[variant]
     context, context_words = _build_context(chunks, MAX_CONTEXT_WORDS)
     prompt = template.format(context=context, question=question)
 
