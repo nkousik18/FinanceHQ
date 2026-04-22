@@ -8,7 +8,8 @@ Endpoints:
     POST /sessions                         — create a named session
     POST /sessions/{id}/documents          — upload a PDF into a session
     GET  /sessions/{id}/status             — poll session + per-doc status
-    POST /query                            — RAG query across all session docs
+    POST /query                            — RAG query, returns full JSON response
+    POST /query/stream                     — same query, streams answer via SSE
     GET  /health                           — liveness check
 """
 from __future__ import annotations
@@ -25,7 +26,7 @@ logger = get_logger(__name__)
 app = FastAPI(
     title="FinanceHQ",
     description="RAG service for loan document Q&A",
-    version="0.4.0",
+    version="0.5.0",
 )
 
 app.add_middleware(

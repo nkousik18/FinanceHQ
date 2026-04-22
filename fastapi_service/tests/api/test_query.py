@@ -1,5 +1,5 @@
 """
-Tests for app/api/query.py  (POST /query)
+Tests for app/api/query.py  (POST /query, POST /query/stream)
 Run: pytest tests/api/test_query.py -v
 """
 import pytest
@@ -280,3 +280,116 @@ class TestHealthEndpoint:
     def test_health_returns_ok(self, client):
         resp = client.get("/health")
         assert resp.json() == {"status": "ok"}
+
+
+# ------------------------------------------------------------------
+# POST /query/stream — SSE streaming
+# ------------------------------------------------------------------
+
+def _parse_sse(raw: str) -> list[dict]:
+    """Parse raw SSE body into list of decoded JSON event payloads."""
+    import json as _json
+    events = []
+    for block in raw.split("\n\n"):
+        block = block.strip()
+        if block.startswith("data: "):
+            events.append(_json.loads(block[len("data: "):]))
+    return events
+
+
+class TestQueryStreamEndpoint:
+
+    def test_returns_200_with_sse_content_type(self, client):
+        with patch("app.api.query.retrieve", return_value=_make_retrieved()), \
+             patch("app.api.query.get_intent_classifier") as mock_clf, \
+             patch("app.api.query.route", return_value=_make_routed()), \
+             patch("app.api.query.get_llm_client") as mock_llm:
+            mock_clf.return_value.classify.return_value = _make_intents()
+            mock_llm.return_value.complete.return_value = _make_llm_response("Hello world")
+
+            resp = client.post("/query/stream", json={
+                "session_id": "sess-001",
+                "question": "What is the interest rate?",
+            })
+        assert resp.status_code == 200
+        assert "text/event-stream" in resp.headers["content-type"]
+
+    def test_token_events_cover_full_answer(self, client):
+        with patch("app.api.query.retrieve", return_value=_make_retrieved()), \
+             patch("app.api.query.get_intent_classifier") as mock_clf, \
+             patch("app.api.query.route", return_value=_make_routed()), \
+             patch("app.api.query.get_llm_client") as mock_llm:
+            mock_clf.return_value.classify.return_value = _make_intents()
+            mock_llm.return_value.complete.return_value = _make_llm_response("Hello world")
+
+            resp = client.post("/query/stream", json={
+                "session_id": "sess-001",
+                "question": "What is the interest rate?",
+            })
+        events = _parse_sse(resp.text)
+        tokens = [e["token"] for e in events if "token" in e]
+        assert "".join(tokens).strip() == "Hello world"
+
+    def test_done_event_is_last(self, client):
+        with patch("app.api.query.retrieve", return_value=_make_retrieved()), \
+             patch("app.api.query.get_intent_classifier") as mock_clf, \
+             patch("app.api.query.route", return_value=_make_routed()), \
+             patch("app.api.query.get_llm_client") as mock_llm:
+            mock_clf.return_value.classify.return_value = _make_intents()
+            mock_llm.return_value.complete.return_value = _make_llm_response("Hello world")
+
+            resp = client.post("/query/stream", json={
+                "session_id": "sess-001",
+                "question": "What is the interest rate?",
+            })
+        events = _parse_sse(resp.text)
+        assert events[-1].get("done") is True
+
+    def test_done_event_has_metadata(self, client):
+        with patch("app.api.query.retrieve", return_value=_make_retrieved()), \
+             patch("app.api.query.get_intent_classifier") as mock_clf, \
+             patch("app.api.query.route", return_value=_make_routed(Intent.LOOKUP)), \
+             patch("app.api.query.get_llm_client") as mock_llm:
+            mock_clf.return_value.classify.return_value = _make_intents(Intent.LOOKUP)
+            mock_llm.return_value.complete.return_value = _make_llm_response("Hello world")
+
+            resp = client.post("/query/stream", json={
+                "session_id": "sess-001",
+                "question": "What is the interest rate?",
+            })
+        done = _parse_sse(resp.text)[-1]
+        assert done["intent"] == "lookup"
+        assert done["variant"] == "lookup_v1"
+        assert done["latency_ms"] > 0
+        assert "chunks_used" in done
+        assert "context_words" in done
+
+    def test_stream_404_when_session_not_found(self, client):
+        with patch("app.api.query.retrieve",
+                   side_effect=RetrieverError("No index for session")):
+            resp = client.post("/query/stream", json={
+                "session_id": "missing-session",
+                "question": "What is the rate?",
+            })
+        assert resp.status_code == 404
+
+    def test_stream_502_when_llm_fails(self, client):
+        with patch("app.api.query.retrieve", return_value=_make_retrieved()), \
+             patch("app.api.query.get_intent_classifier") as mock_clf, \
+             patch("app.api.query.route", return_value=_make_routed()), \
+             patch("app.api.query.get_llm_client") as mock_llm:
+            mock_clf.return_value.classify.return_value = _make_intents()
+            mock_llm.return_value.complete.side_effect = BytezInferenceError("out of capacity")
+
+            resp = client.post("/query/stream", json={
+                "session_id": "sess-001",
+                "question": "What is the rate?",
+            })
+        assert resp.status_code == 502
+
+    def test_stream_422_on_empty_question(self, client):
+        resp = client.post("/query/stream", json={
+            "session_id": "sess-001",
+            "question": "",
+        })
+        assert resp.status_code == 422
