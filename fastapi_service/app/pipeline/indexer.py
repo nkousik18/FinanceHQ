@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import io
 import json
+import os
 import tempfile
 
 import numpy as np
@@ -87,4 +88,88 @@ def build_and_save_index(session_id: str, chunks: list[Chunk]) -> int:
     s3.upload_file(S3Keys.faiss_index(session_id), tmp_path)
     logger.info("faiss_index_saved", session_id=session_id, key=S3Keys.faiss_index(session_id))
 
+    return index.ntotal
+
+
+def merge_into_session_index(session_id: str, new_chunks: list[Chunk]) -> int:
+    """
+    Embed new_chunks and merge them into the session-level FAISS index.
+
+    If a session index already exists in S3, the new chunks are appended to
+    the existing chunks + embeddings and the index is rebuilt from scratch.
+    If no index exists yet, this behaves identically to build_and_save_index.
+
+    Returns total number of chunks in the merged index.
+
+    NOTE: Not safe for concurrent writes to the same session_id.
+    Sequential uploads only — add a distributed lock (Redis etc.) for concurrency.
+    """
+    if not new_chunks:
+        raise IndexingError(f"No chunks to merge for session={session_id}")
+
+    embedder = get_embedder()
+    s3 = get_s3_client()
+
+    # ------------------------------------------------------------------
+    # Embed new chunks
+    # ------------------------------------------------------------------
+    new_texts = [c.text for c in new_chunks]
+    logger.info("merge_embed_start", session_id=session_id, new_chunks=len(new_texts))
+    new_embeddings = embedder.embed(new_texts)   # (N, 384) float32 normalised
+
+    # ------------------------------------------------------------------
+    # Load existing session artifacts (if any)
+    # ------------------------------------------------------------------
+    existing_chunks: list[Chunk] = []
+    existing_embeddings: np.ndarray | None = None
+
+    if s3.exists(S3Keys.chunks(session_id)):
+        raw = s3.download_text(S3Keys.chunks(session_id))
+        existing_chunks = [Chunk(**d) for d in json.loads(raw)]
+        logger.info("merge_loaded_existing", session_id=session_id, existing=len(existing_chunks))
+
+    if s3.exists(S3Keys.embeddings(session_id)):
+        npy_bytes = s3.download_bytes(S3Keys.embeddings(session_id))
+        existing_embeddings = np.load(io.BytesIO(npy_bytes))
+
+    # ------------------------------------------------------------------
+    # Merge
+    # ------------------------------------------------------------------
+    all_chunks = existing_chunks + new_chunks
+
+    if existing_embeddings is not None:
+        all_embeddings = np.vstack([existing_embeddings, new_embeddings]).astype(np.float32)
+    else:
+        all_embeddings = new_embeddings
+
+    # ------------------------------------------------------------------
+    # Rebuild FAISS index from merged embeddings
+    # ------------------------------------------------------------------
+    dimension = all_embeddings.shape[1]
+    index = faiss.IndexFlatIP(dimension)
+    index.add(all_embeddings)
+    logger.info(
+        "merge_index_rebuilt",
+        session_id=session_id,
+        total_vectors=index.ntotal,
+        new=len(new_chunks),
+        existing=len(existing_chunks),
+    )
+
+    # ------------------------------------------------------------------
+    # Persist merged artifacts (overwrite session-level keys)
+    # ------------------------------------------------------------------
+    chunks_payload = json.dumps([c.to_dict() for c in all_chunks], ensure_ascii=False)
+    s3.upload_json(S3Keys.chunks(session_id), chunks_payload)
+
+    npy_buffer = io.BytesIO()
+    np.save(npy_buffer, all_embeddings)
+    s3.upload_bytes(S3Keys.embeddings(session_id), npy_buffer.getvalue())
+
+    with tempfile.NamedTemporaryFile(suffix=".index", delete=False) as tmp:
+        tmp_path = tmp.name
+    faiss.write_index(index, tmp_path)
+    s3.upload_file(S3Keys.faiss_index(session_id), tmp_path)
+
+    logger.info("merge_complete", session_id=session_id, total_chunks=index.ntotal)
     return index.ntotal

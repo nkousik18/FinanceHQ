@@ -46,3 +46,24 @@ class S3Keys:
     @staticmethod
     def faiss_index(session_id: str) -> str:
         return f"chunks/{session_id}/faiss.index"
+
+    @staticmethod
+    def session_status(session_id: str) -> str:
+        return f"sessions/{session_id}/status.json"
+
+    # Per-document keys (multi-doc sessions)
+    @staticmethod
+    def doc_pdf(session_id: str, doc_id: str) -> str:
+        return f"uploads/{session_id}/{doc_id}/original.pdf"
+
+    @staticmethod
+    def doc_chunks(session_id: str, doc_id: str) -> str:
+        return f"chunks/{session_id}/{doc_id}/chunks.json"
+
+    @staticmethod
+    def doc_raw_text(session_id: str, doc_id: str) -> str:
+        return f"extracted/{session_id}/{doc_id}/raw_text.txt"
+
+    @staticmethod
+    def doc_textract_response(session_id: str, doc_id: str) -> str:
+        return f"extracted/{session_id}/{doc_id}/textract_response.json"
