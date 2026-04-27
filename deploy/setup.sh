@@ -9,19 +9,22 @@ APP_DIR="/home/ubuntu/FinanceHQ"
 
 echo "==> Updating system packages"
 sudo apt-get update -y
-sudo apt-get install -y python3.11 python3.11-venv python3-pip nginx git
+sudo apt-get install -y python3 python3-venv python3-pip nginx git
+
+# Use whatever python3 is available (3.12 on Ubuntu 24.04)
+PYTHON=$(which python3)
 
 echo "==> Cloning repository"
 git clone "$REPO" "$APP_DIR"
 cd "$APP_DIR"
 
 echo "==> Creating FastAPI venv"
-python3.11 -m venv venv_api
+$PYTHON -m venv venv_api
 venv_api/bin/pip install --upgrade pip
 venv_api/bin/pip install -r requirements.fastapi.txt
 
 echo "==> Creating Django venv"
-python3.11 -m venv venv_ui
+$PYTHON -m venv venv_ui
 venv_ui/bin/pip install --upgrade pip
 venv_ui/bin/pip install -r django_frontend/requirements.django.txt
 
