@@ -1,0 +1,19 @@
+[Unit]
+Description=FinanceHQ MLflow tracking server
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu/FinanceHQ
+ExecStart=/home/ubuntu/FinanceHQ/venv_api/bin/mlflow server \
+    --backend-store-uri sqlite:///mlflow.db \
+    --default-artifact-root s3://financehq/mlflow-artifacts \
+    --host 127.0.0.1 \
+    --port 5000
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
