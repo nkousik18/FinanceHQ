@@ -1,0 +1,370 @@
+<div id="content-hero" class="tab-content fade-in">
+
+  <!-- ── Hero Banner — two-column ── -->
+  <div class="hero-gradient relative overflow-hidden">
+    <div class="hero-glow absolute inset-0 pointer-events-none"></div>
+    <div class="max-w-7xl mx-auto px-6 py-20 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+        <!-- Left: copy -->
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-6"
+               style="background:var(--cyan-dim); border:1px solid var(--cyan-glow); color:var(--cyan);">
+            <span class="pulse-dot w-1.5 h-1.5 rounded-full cyan-bg inline-block"></span>
+            ML / MLOps Portfolio Project
+          </div>
+
+          <h1 class="text-4xl md:text-5xl font-extrabold leading-tight mb-5 text-white">
+            Ask Anything About<br>
+            <span class="cyan-text">Your Loan Document</span>
+          </h1>
+
+          <p class="text-base leading-relaxed mb-8" style="color:var(--muted2); max-width:480px;">
+            Upload a PDF loan file and get grounded answers in plain English —
+            AWS Textract extraction, FAISS vector search, intent-routed prompts,
+            and real-time LLM streaming.
+          </p>
+
+          <div class="flex flex-wrap gap-3">
+            <button onclick="showTab('chat')"
+              class="cyan-bg text-gray-900 px-6 py-3 rounded-xl font-semibold text-sm hover:opacity-90 transition shadow-lg flex items-center gap-2">
+              <i class="fas fa-comments"></i> Try the Demo
+            </button>
+            <button onclick="showTab('architecture')"
+              style="background:var(--bg-card); border:1px solid var(--border); color:var(--text);"
+              class="px-6 py-3 rounded-xl font-semibold text-sm transition flex items-center gap-2"
+              onmouseover="this.style.borderColor='var(--cyan-glow)'"
+              onmouseout="this.style.borderColor='var(--border)'">
+              <i class="fas fa-diagram-project"></i> View Architecture
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: terminal mock -->
+        <div class="rounded-2xl overflow-hidden shadow-2xl" style="border:1px solid var(--border);">
+          <!-- Terminal bar -->
+          <div class="flex items-center gap-2 px-4 py-3" style="background:#0D1526; border-bottom:1px solid var(--border);">
+            <span class="w-3 h-3 rounded-full inline-block" style="background:#FF5F57;"></span>
+            <span class="w-3 h-3 rounded-full inline-block" style="background:#FEBC2E;"></span>
+            <span class="w-3 h-3 rounded-full inline-block" style="background:#28C840;"></span>
+            <span class="text-xs ml-3" style="color:var(--muted);">FinanceHQ — POST /query/stream</span>
+          </div>
+          <!-- Terminal body -->
+          <div class="p-5 font-mono text-sm leading-relaxed" style="background:#080D1A; min-height:260px;">
+            <div style="color:var(--muted);">$ session_id = <span style="color:#34D399;">"a3f2…9c1d"</span></div>
+            <div class="mt-2" style="color:var(--muted);">$ question = <span style="color:#34D399;">"What is the interest rate?"</span></div>
+            <br>
+            <div style="color:var(--cyan);">→ retrieving top-5 chunks from FAISS…</div>
+            <div style="color:var(--cyan);">→ intent classified: <span class="font-bold">lookup</span> · routing to lookup_v2</div>
+            <br>
+            <div style="color:var(--muted2);">
+              <span style="color:#FBBF24;">&#9650; streaming</span>
+              <span class="ml-2">The interest rate on this loan is</span>
+            </div>
+            <div class="mt-1 text-white font-medium leading-relaxed" style="max-width:360px;">
+              <span style="color:#F1F5F9;">8.65% per annum</span>
+              <span style="color:var(--muted2);"> (floating), linked to the bank's MCLR with a spread of </span>
+              <span style="color:#F1F5F9;">0.15%</span>
+              <span style="color:var(--muted2);">. Subject to quarterly revision per RBI guidelines.</span>
+            </div>
+            <br>
+            <div class="flex flex-wrap gap-2 text-xs">
+              <span class="px-2 py-1 rounded" style="background:var(--bg-card); color:var(--cyan); border:1px solid var(--border);">lookup_v2</span>
+              <span class="px-2 py-1 rounded" style="background:var(--bg-card); color:var(--muted2); border:1px solid var(--border);">1.24s</span>
+              <span class="px-2 py-1 rounded" style="background:var(--bg-card); color:var(--muted2); border:1px solid var(--border);">5 chunks</span>
+              <span class="px-2 py-1 rounded" style="background:var(--bg-card); color:var(--muted2); border:1px solid var(--border);">843 words</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── KPI Strip ── -->
+  <div style="background:var(--bg-card); border-bottom:1px solid var(--border);">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 divide-x" style="border-color:var(--border);">
+
+        <div class="px-8 py-6">
+          <div class="text-3xl font-extrabold cyan-text">&lt;1.8s</div>
+          <div class="text-sm font-medium text-white mt-1">Avg Query Latency</div>
+          <div class="text-xs mt-0.5" style="color:var(--muted);">best model · A/B selected</div>
+        </div>
+
+        <div class="px-8 py-6">
+          <div class="text-3xl font-extrabold cyan-text">87%</div>
+          <div class="text-sm font-medium text-white mt-1">Groundedness Score</div>
+          <div class="text-xs mt-0.5" style="color:var(--muted);">answer ↔ context fidelity</div>
+        </div>
+
+        <div class="px-8 py-6">
+          <div class="text-3xl font-extrabold cyan-text">115+</div>
+          <div class="text-sm font-medium text-white mt-1">Automated Tests</div>
+          <div class="text-xs mt-0.5" style="color:var(--muted);">pytest · all passing</div>
+        </div>
+
+        <div class="px-8 py-6">
+          <div class="text-3xl font-extrabold cyan-text">3</div>
+          <div class="text-sm font-medium text-white mt-1">LLMs A/B Evaluated</div>
+          <div class="text-xs mt-0.5" style="color:var(--muted);">21 runs · MLflow tracked</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Problem / Solution ── -->
+  <div class="max-w-7xl mx-auto px-6 py-20">
+    <div class="mb-10">
+      <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+        <span class="w-1 h-6 rounded-full cyan-bg inline-block"></span>
+        The Problem I Solved
+      </h2>
+      <p class="mt-2 text-sm" style="color:var(--muted2); margin-left:16px;">Loan review is slow and manual. FinanceHQ makes it instant.</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6">
+
+      <!-- Before -->
+      <div class="rounded-2xl p-7" style="border:1px solid #3B1F1F; background:#0E0808;">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:rgba(239,68,68,0.15);">
+            <i class="fas fa-clock text-red-400 text-sm"></i>
+          </div>
+          <h3 class="text-base font-bold text-white">Without FinanceHQ</h3>
+        </div>
+        <div class="space-y-3">
+          <div class="flex items-start gap-3"><i class="fas fa-times text-red-400 mt-0.5 text-xs"></i><p class="text-sm" style="color:var(--muted2);">Manually scan 20–50 page PDF documents</p></div>
+          <div class="flex items-start gap-3"><i class="fas fa-times text-red-400 mt-0.5 text-xs"></i><p class="text-sm" style="color:var(--muted2);">Cross-reference tables, forms, and clauses by hand</p></div>
+          <div class="flex items-start gap-3"><i class="fas fa-times text-red-400 mt-0.5 text-xs"></i><p class="text-sm" style="color:var(--muted2);">Repeat the same process for every new document</p></div>
+          <div class="flex items-start gap-3"><i class="fas fa-times text-red-400 mt-0.5 text-xs"></i><p class="text-sm" style="color:var(--muted2);">No audit trail for which clause was referenced</p></div>
+        </div>
+        <div class="mt-6 p-4 rounded-xl" style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2);">
+          <div class="text-2xl font-extrabold text-red-400">20–30 min</div>
+          <div class="text-xs text-red-400 mt-0.5" style="opacity:0.8;">to answer one question from one document</div>
+        </div>
+      </div>
+
+      <!-- After -->
+      <div class="rounded-2xl p-7" style="border:1px solid var(--border); background:var(--bg-card);">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center cyan-dim">
+            <i class="fas fa-bolt cyan-text text-sm"></i>
+          </div>
+          <h3 class="text-base font-bold text-white">With FinanceHQ</h3>
+        </div>
+        <div class="space-y-3">
+          <div class="flex items-start gap-3"><i class="fas fa-check cyan-text mt-0.5 text-xs"></i><p class="text-sm" style="color:var(--muted2);">Upload any PDF — Textract handles tables, forms, handwriting</p></div>
+          <div class="flex items-start gap-3"><i class="fas fa-check cyan-text mt-0.5 text-xs"></i><p class="text-sm" style="color:var(--muted2);">Ask in plain English — intent classifier picks the right prompt</p></div>
+          <div class="flex items-start gap-3"><i class="fas fa-check cyan-text mt-0.5 text-xs"></i><p class="text-sm" style="color:var(--muted2);">Answers stream in real-time, grounded in the document</p></div>
+          <div class="flex items-start gap-3"><i class="fas fa-check cyan-text mt-0.5 text-xs"></i><p class="text-sm" style="color:var(--muted2);">Multi-doc sessions — query across N PDFs simultaneously</p></div>
+        </div>
+        <div class="mt-6 p-4 rounded-xl cyan-dim" style="border:1px solid var(--cyan-glow);">
+          <div class="text-2xl font-extrabold cyan-text">&lt;2 seconds</div>
+          <div class="text-xs cyan-text mt-0.5" style="opacity:0.8;">streamed answer, any question, any document</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── How It Works ── -->
+  <div style="background:var(--bg-card); border-top:1px solid var(--border); border-bottom:1px solid var(--border);" class="py-20">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="mb-10">
+        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+          <span class="w-1 h-6 rounded-full cyan-bg inline-block"></span>
+          How It Works
+        </h2>
+        <p class="mt-2 text-sm" style="color:var(--muted2); margin-left:16px;">Five stages from raw PDF to grounded answer</p>
+      </div>
+
+      <div class="flex flex-col md:flex-row items-stretch gap-0">
+
+        <div class="flex-1 relative">
+          <div class="flow-node p-5 h-full" style="border-radius:16px 0 0 16px;">
+            <div class="w-10 h-10 rounded-xl cyan-dim flex items-center justify-center mb-3">
+              <i class="fas fa-file-pdf cyan-text"></i>
+            </div>
+            <div class="font-semibold text-white text-sm">1. Upload</div>
+            <div class="text-xs mt-1" style="color:var(--muted);">PDF → S3</div>
+          </div>
+          <div class="hidden md:block absolute top-1/2 -right-3 z-10 w-6 h-6 rounded-full flex items-center justify-center" style="background:var(--bg-card2); border:1px solid var(--border); transform:translateY(-50%);">
+            <i class="fas fa-chevron-right cyan-text text-xs" style="margin-left:1px;"></i>
+          </div>
+        </div>
+
+        <div class="flex-1 relative">
+          <div class="flow-node p-5 h-full" style="border-radius:0;">
+            <div class="w-10 h-10 rounded-xl cyan-dim flex items-center justify-center mb-3">
+              <i class="fab fa-aws cyan-text"></i>
+            </div>
+            <div class="font-semibold text-white text-sm">2. Extract</div>
+            <div class="text-xs mt-1" style="color:var(--muted);">AWS Textract</div>
+          </div>
+          <div class="hidden md:block absolute top-1/2 -right-3 z-10 w-6 h-6 rounded-full flex items-center justify-center" style="background:var(--bg-card2); border:1px solid var(--border); transform:translateY(-50%);">
+            <i class="fas fa-chevron-right cyan-text text-xs" style="margin-left:1px;"></i>
+          </div>
+        </div>
+
+        <div class="flex-1 relative">
+          <div class="flow-node p-5 h-full" style="border-radius:0;">
+            <div class="w-10 h-10 rounded-xl cyan-dim flex items-center justify-center mb-3">
+              <i class="fas fa-cubes cyan-text"></i>
+            </div>
+            <div class="font-semibold text-white text-sm">3. Chunk + Index</div>
+            <div class="text-xs mt-1" style="color:var(--muted);">MiniLM + FAISS</div>
+          </div>
+          <div class="hidden md:block absolute top-1/2 -right-3 z-10 w-6 h-6 rounded-full flex items-center justify-center" style="background:var(--bg-card2); border:1px solid var(--border); transform:translateY(-50%);">
+            <i class="fas fa-chevron-right cyan-text text-xs" style="margin-left:1px;"></i>
+          </div>
+        </div>
+
+        <div class="flex-1 relative">
+          <div class="flow-node p-5 h-full" style="border-radius:0;">
+            <div class="w-10 h-10 rounded-xl cyan-dim flex items-center justify-center mb-3">
+              <i class="fas fa-brain cyan-text"></i>
+            </div>
+            <div class="font-semibold text-white text-sm">4. Retrieve + Route</div>
+            <div class="text-xs mt-1" style="color:var(--muted);">Intent + A/B Prompt</div>
+          </div>
+          <div class="hidden md:block absolute top-1/2 -right-3 z-10 w-6 h-6 rounded-full flex items-center justify-center" style="background:var(--bg-card2); border:1px solid var(--border); transform:translateY(-50%);">
+            <i class="fas fa-chevron-right cyan-text text-xs" style="margin-left:1px;"></i>
+          </div>
+        </div>
+
+        <div class="flex-1">
+          <div class="flow-node p-5 h-full" style="border-radius:0 16px 16px 0; border-color:var(--cyan-glow);">
+            <div class="w-10 h-10 rounded-xl cyan-dim flex items-center justify-center mb-3">
+              <i class="fas fa-bolt cyan-text"></i>
+            </div>
+            <div class="font-semibold text-white text-sm">5. Stream Answer</div>
+            <div class="text-xs mt-1" style="color:var(--muted);">Groq LLM + SSE</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── A/B Eval Results ── -->
+  <div class="max-w-7xl mx-auto px-6 py-20">
+    <div class="mb-10">
+      <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+        <span class="w-1 h-6 rounded-full cyan-bg inline-block"></span>
+        A/B Evaluation Results
+      </h2>
+      <p class="mt-2 text-sm" style="color:var(--muted2); margin-left:16px;">3 LLMs · 7 question types · 21 runs · tracked in MLflow</p>
+    </div>
+    <div class="rounded-2xl overflow-hidden" style="border:1px solid var(--border);">
+      <table class="w-full text-sm">
+        <thead>
+          <tr style="border-bottom:1px solid var(--border); background:var(--bg-card2);">
+            <th class="text-left px-6 py-4 font-semibold text-xs uppercase tracking-wider" style="color:var(--muted);">Model</th>
+            <th class="text-center px-4 py-4 font-semibold text-xs uppercase tracking-wider" style="color:var(--muted);">Avg Latency</th>
+            <th class="text-center px-4 py-4 font-semibold text-xs uppercase tracking-wider" style="color:var(--muted);">Groundedness</th>
+            <th class="text-center px-4 py-4 font-semibold text-xs uppercase tracking-wider" style="color:var(--muted);">Not-Found Acc.</th>
+            <th class="text-center px-4 py-4 font-semibold text-xs uppercase tracking-wider" style="color:var(--muted);">Verdict</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border); background:rgba(6,182,212,0.03);">
+            <td class="px-6 py-4 font-semibold text-white">Qwen 2.5-7B</td>
+            <td class="text-center px-4 py-4 font-bold cyan-text">1.85s</td>
+            <td class="text-center px-4 py-4 text-white">85%</td>
+            <td class="text-center px-4 py-4 text-white">100%</td>
+            <td class="text-center px-4 py-4">
+              <span class="px-3 py-1 rounded-full text-xs font-semibold cyan-dim" style="color:var(--cyan); border:1px solid var(--cyan);">Winner</span>
+            </td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td class="px-6 py-4 font-medium text-white">Mistral 7B</td>
+            <td class="text-center px-4 py-4" style="color:var(--muted2);">2.46s</td>
+            <td class="text-center px-4 py-4" style="color:var(--muted2);">87%</td>
+            <td class="text-center px-4 py-4" style="color:var(--muted2);">100%</td>
+            <td class="text-center px-4 py-4">
+              <span class="px-3 py-1 rounded-full text-xs" style="background:rgba(100,116,139,0.12); color:var(--muted2); border:1px solid var(--border);">Runner-up</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4 font-medium text-white">Llama 3.1-8B</td>
+            <td class="text-center px-4 py-4" style="color:var(--muted2);">2.82s</td>
+            <td class="text-center px-4 py-4" style="color:var(--muted2);">77%</td>
+            <td class="text-center px-4 py-4" style="color:var(--muted2);">100%</td>
+            <td class="text-center px-4 py-4">
+              <span class="px-3 py-1 rounded-full text-xs" style="background:rgba(100,116,139,0.12); color:var(--muted2); border:1px solid var(--border);">Baseline</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="px-6 py-3 flex items-center gap-2 text-xs" style="border-top:1px solid var(--border); background:var(--bg-card2); color:var(--muted);">
+        <i class="fas fa-info-circle cyan-text"></i>
+        Winning model auto-routed via epsilon-greedy A/B selector · metrics logged to MLflow
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tech Stack ── -->
+  <div style="background:var(--bg-card); border-top:1px solid var(--border);" class="py-20">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="mb-10">
+        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+          <span class="w-1 h-6 rounded-full cyan-bg inline-block"></span>
+          Tech Stack
+        </h2>
+        <p class="mt-2 text-sm" style="color:var(--muted2); margin-left:16px;">Production-grade tools across extraction, retrieval, inference, and deployment</p>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-3">
+
+        <div class="tech-badge p-4 text-center">
+          <i class="fab fa-python text-2xl mb-2" style="color:#3B82F6;"></i>
+          <div class="font-semibold text-white text-xs">FastAPI</div>
+        </div>
+        <div class="tech-badge p-4 text-center">
+          <i class="fab fa-python text-2xl mb-2 text-green-400"></i>
+          <div class="font-semibold text-white text-xs">Django</div>
+        </div>
+        <div class="tech-badge p-4 text-center">
+          <i class="fab fa-aws text-2xl mb-2 text-orange-400"></i>
+          <div class="font-semibold text-white text-xs">Textract</div>
+        </div>
+        <div class="tech-badge p-4 text-center">
+          <i class="fab fa-aws text-2xl mb-2 text-yellow-400"></i>
+          <div class="font-semibold text-white text-xs">S3</div>
+        </div>
+        <div class="tech-badge p-4 text-center">
+          <i class="fas fa-cubes cyan-text text-2xl mb-2"></i>
+          <div class="font-semibold text-white text-xs">FAISS</div>
+        </div>
+        <div class="tech-badge p-4 text-center">
+          <i class="fas fa-brain text-2xl mb-2 text-purple-400"></i>
+          <div class="font-semibold text-white text-xs">MiniLM</div>
+        </div>
+        <div class="tech-badge p-4 text-center">
+          <i class="fas fa-chart-line text-2xl mb-2 text-blue-400"></i>
+          <div class="font-semibold text-white text-xs">MLflow</div>
+        </div>
+        <div class="tech-badge p-4 text-center">
+          <i class="fab fa-docker text-2xl mb-2 text-sky-400"></i>
+          <div class="font-semibold text-white text-xs">Docker</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CTA ── -->
+  <div class="py-16" style="background:linear-gradient(135deg, #0D1A2E 0%, #0A0F1E 100%);">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div>
+        <h2 class="text-2xl font-bold text-white">See It in Action</h2>
+        <p class="mt-1 text-sm" style="color:var(--muted2);">Upload a loan PDF and ask your first question — no signup required.</p>
+      </div>
+      <button onclick="showTab('chat')"
+        class="cyan-bg text-gray-900 px-8 py-3 rounded-xl font-bold text-sm hover:opacity-90 transition shadow-lg flex items-center gap-2 flex-shrink-0">
+        <i class="fas fa-comments"></i> Open Chat Demo
+      </button>
+    </div>
+  </div>
+
+</div>

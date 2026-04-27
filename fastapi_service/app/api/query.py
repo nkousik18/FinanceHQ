@@ -1,16 +1,16 @@
 """
 POST /query        — full RAG pipeline, returns complete response.
-POST /query/stream — same pipeline, streams answer word-by-word via SSE.
+POST /query/stream — same pipeline, streams answer via real Groq SSE.
 
 Flow (both endpoints):
     1. Validate request (session_id + question)
     2. Retrieve top-k chunks from FAISS (session-scoped)
     3. Classify intent (MiniLM zero-shot)
     4. Route to the right prompt template
-    5. Call LLM via Bytez (full response — Bytez free tier has no streaming API)
+    5. Call Groq LLM (sync for /query, native streaming for /query/stream)
     6. Fire background task → log run to MLflow
     7. /query: return structured JSON
-       /query/stream: stream answer tokens as SSE, then send [DONE] event with metadata
+       /query/stream: stream real tokens as SSE, then send done event with metadata
 """
 from __future__ import annotations
 
@@ -25,7 +25,7 @@ from pydantic import BaseModel, Field
 from app.retrieval.retriever import retrieve, RetrieverError
 from app.retrieval.intent_classifier import get_intent_classifier
 from app.prompts.router import route
-from app.llm.bytez_client import get_llm_client, BytezInferenceError
+from app.llm.bytez_client import get_llm_client, stream_tokens, LLMInferenceError
 from app.tracking.mlflow_tracker import get_tracker
 from app.core.config import get_settings
 from app.core.logging import get_logger
@@ -48,7 +48,7 @@ class QueryRequest(BaseModel):
 class QueryResponse(BaseModel):
     answer: str
     intent: str
-    variant: str          # prompt variant — logged to MLflow for A/B tracking
+    variant: str
     chunks_used: int
     context_words: int
     latency_ms: float
@@ -72,13 +72,9 @@ def _log_to_mlflow(
     total_latency_ms: float,
     retrieved_chunks: list[dict],
 ) -> None:
-    """
-    Runs in a BackgroundTask thread — never blocks the HTTP response.
-    Silently swallows errors so a tracking failure never breaks the API.
-    """
     try:
         settings = get_settings()
-        tracker = get_tracker()
+        tracker  = get_tracker()
         tracker.log_query_run(
             session_id=session_id,
             question=question,
@@ -86,7 +82,7 @@ def _log_to_mlflow(
             prompt=prompt,
             intent=intent,
             variant=variant,
-            model_id=settings.bytez_model,
+            model_id=settings.groq_model,
             top_k=top_k,
             chunks_used=chunks_used,
             context_words=context_words,
@@ -95,12 +91,11 @@ def _log_to_mlflow(
             retrieved_chunks=retrieved_chunks,
         )
     except Exception as exc:
-        # Tracking must never crash the endpoint
         logger.warning("mlflow_logging_failed", error=str(exc))
 
 
 # ------------------------------------------------------------------
-# Endpoint
+# POST /query
 # ------------------------------------------------------------------
 
 @router.post("/query", response_model=QueryResponse)
@@ -114,25 +109,20 @@ def query(req: QueryRequest, background_tasks: BackgroundTasks) -> QueryResponse
         top_k=req.top_k,
     )
 
-    # 1. Retrieve
     try:
         chunks = retrieve(req.session_id, req.question, top_k=req.top_k)
     except RetrieverError as exc:
         logger.warning("retrieval_failed", error=str(exc))
         raise HTTPException(status_code=404, detail=str(exc))
 
-    # 2. Classify intent
     classifier = get_intent_classifier()
-    intents = classifier.classify(req.question)
+    intents    = classifier.classify(req.question)
+    routed     = route(req.question, intents, chunks)
 
-    # 3. Route prompt
-    routed = route(req.question, intents, chunks)
-
-    # 4. LLM call
     try:
-        llm = get_llm_client()
+        llm      = get_llm_client()
         llm_resp = llm.complete(routed.prompt)
-    except BytezInferenceError as exc:
+    except LLMInferenceError as exc:
         logger.error("llm_failed", error=str(exc))
         raise HTTPException(status_code=502, detail=f"LLM inference failed: {exc}")
 
@@ -147,7 +137,6 @@ def query(req: QueryRequest, background_tasks: BackgroundTasks) -> QueryResponse
         total_latency_ms=total_ms,
     )
 
-    # 5. Log to MLflow in background (non-blocking)
     retrieved_chunks_dicts = [
         {"rank": rc.rank, "score": rc.score, "text": rc.chunk.text[:300]}
         for rc in chunks
@@ -179,11 +168,8 @@ def query(req: QueryRequest, background_tasks: BackgroundTasks) -> QueryResponse
 
 
 # ------------------------------------------------------------------
-# POST /query/stream — SSE streaming
+# POST /query/stream — real Groq token streaming via SSE
 # ------------------------------------------------------------------
-
-_STREAM_DELAY_S = 0.03  # 30 ms per word — looks natural in a demo
-
 
 @router.post("/query/stream")
 async def query_stream(
@@ -191,11 +177,10 @@ async def query_stream(
 ) -> StreamingResponse:
     """
     Same RAG pipeline as POST /query.
-    Bytez has no free-tier streaming API, so the full answer is fetched first,
-    then streamed word-by-word to simulate a live typing effect.
+    Streams real tokens from Groq's streaming API as SSE events.
 
-    SSE event format:
-        data: {"token": "word "}         ← one per word while streaming
+    SSE format:
+        data: {"token": "Hello"}         ← one per token while streaming
         data: {"done": true, ...meta}    ← final event with intent/latency/etc.
     """
     t0 = time.monotonic()
@@ -207,7 +192,7 @@ async def query_stream(
         top_k=req.top_k,
     )
 
-    # Steps 1–4 run before the stream opens (errors return normal HTTP codes)
+    # Steps 1–3 run before the stream opens so errors return normal HTTP codes
     try:
         chunks = retrieve(req.session_id, req.question, top_k=req.top_k)
     except RetrieverError as exc:
@@ -215,50 +200,49 @@ async def query_stream(
         raise HTTPException(status_code=404, detail=str(exc))
 
     classifier = get_intent_classifier()
-    intents = classifier.classify(req.question)
-    routed = route(req.question, intents, chunks)
-
-    try:
-        llm = get_llm_client()
-        llm_resp = llm.complete(routed.prompt)
-    except BytezInferenceError as exc:
-        logger.error("stream_llm_failed", error=str(exc))
-        raise HTTPException(status_code=502, detail=f"LLM inference failed: {exc}")
-
-    total_ms = round((time.monotonic() - t0) * 1000, 1)
-
-    logger.info(
-        "query_stream_ready",
-        session_id=req.session_id,
-        intent=routed.intent.value,
-        variant=routed.variant,
-        total_latency_ms=total_ms,
-    )
+    intents    = classifier.classify(req.question)
+    routed     = route(req.question, intents, chunks)
 
     retrieved_chunks_dicts = [
         {"rank": rc.rank, "score": rc.score, "text": rc.chunk.text[:300]}
         for rc in chunks
     ]
-    background_tasks.add_task(
-        _log_to_mlflow,
-        session_id=req.session_id,
-        question=req.question,
-        answer=llm_resp.text,
-        prompt=routed.prompt,
-        intent=routed.intent.value,
-        variant=routed.variant,
-        top_k=req.top_k,
-        chunks_used=routed.chunks_used,
-        context_words=routed.context_words,
-        llm_latency_ms=llm_resp.latency_ms,
-        total_latency_ms=total_ms,
-        retrieved_chunks=retrieved_chunks_dicts,
-    )
 
     async def _event_stream():
-        for word in llm_resp.text.split(" "):
-            yield f"data: {json.dumps({'token': word + ' '})}\n\n"
-            await asyncio.sleep(_STREAM_DELAY_S)
+        full_answer  = []
+        llm_start    = time.monotonic()
+
+        try:
+            async for token in stream_tokens(routed.prompt):
+                full_answer.append(token)
+                yield f"data: {json.dumps({'token': token})}\n\n"
+        except LLMInferenceError as exc:
+            logger.error("stream_llm_failed", error=str(exc))
+            yield f"data: {json.dumps({'error': str(exc)})}\n\n"
+            return
+
+        llm_latency  = round((time.monotonic() - llm_start) * 1000, 1)
+        total_ms     = round((time.monotonic() - t0) * 1000, 1)
+        answer_text  = "".join(full_answer)
+
+        logger.info(
+            "query_stream_complete",
+            session_id=req.session_id,
+            intent=routed.intent.value,
+            variant=routed.variant,
+            total_latency_ms=total_ms,
+        )
+
+        # Log to MLflow after stream finishes (non-blocking via executor)
+        loop = asyncio.get_event_loop()
+        loop.run_in_executor(
+            None,
+            _log_to_mlflow,
+            req.session_id, req.question, answer_text, routed.prompt,
+            routed.intent.value, routed.variant, req.top_k,
+            routed.chunks_used, routed.context_words,
+            llm_latency, total_ms, retrieved_chunks_dicts,
+        )
 
         done_event = {
             "done": True,

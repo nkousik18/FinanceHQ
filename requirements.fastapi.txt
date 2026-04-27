@@ -16,7 +16,7 @@ faiss-cpu==1.8.0
 
 # LLM
 dspy-ai==2.4.9
-bytez==3.0.1
+groq
 
 # Tracking
 mlflow==2.13.0

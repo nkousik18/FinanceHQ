@@ -1,0 +1,11 @@
+/* FinanceHQ — global styles */
+/* Tab-specific styles will be added as each tab is built */
+
+body {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+.navbar-brand {
+  letter-spacing: 0.5px;
+}

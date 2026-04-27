@@ -1,8 +1,8 @@
 # Build State — FinanceHQ
 
-**Last updated:** 2026-04-14  
+**Last updated:** 2026-04-23  
 **Branch:** `feature/rag-query-pipeline`  
-**Last commit:** `7fceabb` — multi-doc sessions
+**Last commit:** `7fceabb` — multi-doc sessions (Django frontend added locally, not yet committed)
 
 This document is the single source of truth for what has been built, how every component works, what has been tested, and exactly where to continue next session.
 
@@ -77,7 +77,7 @@ FinanceHQ is a RAG (Retrieval-Augmented Generation) system for loan document Q&A
 ```
 FinanceHQ/
 ├── fastapi_service/
-│   ├── main.py                          ← FastAPI app entry point
+│   ├── main.py                          ← FastAPI app entry point (port 8001)
 │   ├── .env                             ← secrets (not committed)
 │   ├── pytest.ini
 │   ├── app/
@@ -100,25 +100,26 @@ FinanceHQ/
 │   │   │   ├── retriever.py             ← FAISS search, in-memory cache
 │   │   │   └── intent_classifier.py     ← MiniLM zero-shot intent detection
 │   │   ├── prompts/
-│   │   │   ├── router.py                ← routes intent → template + assembles context
+│   │   │   ├── router.py                ← routes intent → A/B-selected template, assembles context
 │   │   │   └── templates/
-│   │   │       ├── lookup.py
-│   │   │       ├── calculate.py
-│   │   │       ├── compare.py
-│   │   │       ├── explain.py
-│   │   │       └── summarise.py
+│   │   │       ├── lookup.py / lookup_v2.py
+│   │   │       ├── calculate.py / calculate_v2.py
+│   │   │       ├── compare.py / compare_v2.py
+│   │   │       ├── explain.py / explain_v2.py
+│   │   │       └── summarise.py / summarise_v2.py
 │   │   ├── llm/
 │   │   │   └── bytez_client.py          ← Bytez SDK wrapper, get_llm_client()
 │   │   ├── tracking/
-│   │   │   └── mlflow_tracker.py        ← FinanceHQTracker, get_tracker()
+│   │   │   ├── mlflow_tracker.py        ← FinanceHQTracker, get_tracker()
+│   │   │   └── ab_selector.py           ← epsilon-greedy variant selector, get_selector()
 │   │   └── api/
 │   │       ├── sessions.py              ← POST /sessions, POST /sessions/{id}/documents, GET status
 │   │       ├── upload.py                ← legacy (kept for reference, not registered)
-│   │       └── query.py                 ← POST /query
+│   │       └── query.py                 ← POST /query + POST /query/stream (SSE)
 │   └── tests/
 │       ├── api/
 │       │   ├── test_sessions.py         ← 20 tests
-│       │   └── test_query.py            ← 21 tests
+│       │   └── test_query.py            ← 28 tests (21 /query + 7 /query/stream)
 │       ├── llm/
 │       │   └── test_bytez_client.py     ← 14 tests
 │       ├── pipeline/
@@ -129,6 +130,31 @@ FinanceHQ/
 │       ├── retrieval/
 │       │   └── test_intent_classifier.py
 │       └── test_s3_client.py            ← requires AWS creds (skip in CI)
+├── django_frontend/
+│   ├── manage.py
+│   ├── financehq_ui/
+│   │   ├── settings.py                  ← FASTAPI_URL=http://localhost:8001, no DB, whitenoise
+│   │   ├── urls.py
+│   │   └── wsgi.py
+│   └── core/
+│       ├── views.py                     ← single index view
+│       ├── urls.py
+│       ├── context_processors.py        ← injects FASTAPI_URL into all templates
+│       ├── templates/core/
+│       │   ├── base.html                ← navbar, footer, dark navy + cyan theme
+│       │   ├── index.html
+│       │   └── partials/
+│       │       ├── hero.html            ← Overview tab: KPIs, flow diagram, tech stack
+│       │       ├── chat.html            ← Chat tab: upload panel + SSE chat
+│       │       ├── architecture.html    ← Architecture tab: API strip, 7 layer cards, metrics
+│       │       ├── about.html           ← About tab: profile, project cards, contact
+│       │       └── scripts.html         ← FASTAPI_URL injection + chat.js loader
+│       └── static/core/js/
+│           └── chat.js                  ← IIFE: session create, upload, poll, SSE stream
+├── docker/
+│   ├── fastapi/Dockerfile
+│   └── mlflow/Dockerfile
+├── docker-compose.yml                   ← FastAPI (8001) + MLflow (5000), named volume
 ├── scripts/
 │   ├── ab_eval.py                       ← 3-model A/B evaluation runner
 │   ├── ab_results.json                  ← raw results from last eval run
@@ -681,22 +707,30 @@ ENVIRONMENT=development
 ## 8. Running the Service
 
 ```bash
+# Terminal 1 — FastAPI (port 8001)
 cd fastapi_service
+pip install -r requirements.fastapi.txt
+uvicorn main:app --reload --port 8001
 
-# Install dependencies
-pip install -r requirements.txt
+# Terminal 2 — Django (port 8000)
+cd django_frontend
+pip install -r requirements.django.txt
+python manage.py runserver 8000
 
-# Start FastAPI (dev)
-uvicorn main:app --reload --port 8000
-
-# Start MLflow UI (separate terminal)
+# Terminal 3 — MLflow UI (or use Docker Compose)
 mlflow ui --port 5000
 
 # Run tests
+cd fastapi_service
 pytest --ignore=tests/pipeline/test_extractor.py --ignore=tests/test_s3_client.py -q
+
+# Docker Compose (FastAPI + MLflow together)
+docker-compose up --build
 ```
 
-Swagger UI available at: `http://localhost:8000/docs`
+Swagger UI: `http://localhost:8001/docs`  
+Django UI: `http://localhost:8000`  
+MLflow UI: `http://localhost:5000`
 
 ---
 
@@ -775,6 +809,20 @@ Ask a question against all indexed documents in a session.
 
 Errors: `404` session not found/not indexed, `502` LLM failure, `422` validation
 
+### `POST /query/stream`
+Same as `/query` but streams the answer word-by-word via SSE. Used by the Django chat UI.
+```
+Content-Type: text/event-stream
+
+data: {"token": "The "}
+data: {"token": "interest "}
+data: {"token": "rate "}
+...
+data: {"done": true, "intent": "lookup", "variant": "lookup_v2", "chunks_used": 5, "context_words": 847, "latency_ms": 1240.5}
+```
+
+Note: Bytez free tier has no native streaming. The full response is fetched first, then streamed word-by-word at 30ms/word intervals.
+
 ### `GET /health`
 ```json
 { "status": "ok" }
@@ -789,7 +837,7 @@ Run with: `pytest --ignore=tests/pipeline/test_extractor.py --ignore=tests/test_
 | File | Tests | Notes |
 |---|---|---|
 | `tests/api/test_sessions.py` | 20 | All pass. Tests endpoint, pipeline stages, merge logic |
-| `tests/api/test_query.py` | 21 | All pass. Full pipeline mocked |
+| `tests/api/test_query.py` | 28 | All pass. 21 for /query + 7 for /query/stream (SSE parsing) |
 | `tests/llm/test_bytez_client.py` | 14 | All pass. SDK mocked |
 | `tests/retrieval/test_intent_classifier.py` | ~15 | All pass |
 | `tests/pipeline/test_chunker.py` | ~10 | All pass |
@@ -798,7 +846,7 @@ Run with: `pytest --ignore=tests/pipeline/test_extractor.py --ignore=tests/test_
 | `tests/pipeline/test_extractor.py` | ~10 | **Requires AWS creds — skip in CI** |
 | `tests/test_s3_client.py` | ~10 | **Requires AWS creds — skip in CI** |
 
-**Total: ~115 pass, 2 known pre-existing failures, 2 files require AWS.**
+**Total: ~122 pass, 2 known pre-existing failures, 2 files require AWS.**
 
 The 2 pre-existing failures are in `test_cleaner` and `test_validator` — they were failing before our work and are unrelated to anything built in this session.
 
@@ -836,32 +884,34 @@ MLflow tracking: each run logged to `financehq_ab_eval` experiment. Start MLflow
 
 Remaining items from `docs/14_roadmap.md`:
 
-### Phase 2 (Retrieval) — Remaining
-- [ ] `POST /query/stream` — streaming response via SSE/async generator
-- [ ] Basic JWT auth (`app/auth/`) — register, login, Bearer token
+### Phase 2 (Retrieval) — Complete
+- [x] `POST /query/stream` — SSE streaming (word-by-word at 30ms/word)
+- Auth skipped intentionally — no friction for hiring manager demo
 
-### Phase 3 (MLflow + Evaluation) — Partially done
+### Phase 3 (MLflow + Evaluation) — Complete
 - [x] MLflow tracker (`app/tracking/mlflow_tracker.py`)
 - [x] A/B eval script (`scripts/ab_eval.py`)
-- [ ] MLflow running in Docker Compose (currently only local `mlflow ui`)
-- [ ] A/B variant selector (`app/tracking/ab_selector.py`) — auto-route traffic to winning variant
-- [ ] Bytez evaluator client (`app/llm/evaluator.py`) — LLM-as-judge scoring
+- [x] MLflow in Docker Compose (`docker/mlflow/Dockerfile`)
+- [x] A/B variant selector (`app/tracking/ab_selector.py`) — epsilon-greedy, ε=0.1
+- [ ] LLM-as-judge evaluator (`app/llm/evaluator.py`) — deprioritised, not needed for demo
 
-### Phase 4 (Django Frontend)
-- [ ] Django project scaffold (`django_frontend/`)
-- [ ] Postgres models for DocumentSession
-- [ ] Accounts app (signup, login)
-- [ ] Documents app (upload, status polling)
-- [ ] Chat app with SSE streaming
-- [ ] Django calling FastAPI internally
+### Phase 4 (Django Frontend) — Complete
+- [x] Django scaffold (`django_frontend/`) — single-page, no DB, no auth
+- [x] Hero tab — KPIs, flow diagram, tech stack, A/B results
+- [x] Chat tab — PDF upload, status polling, SSE streaming chat
+- [x] Architecture tab — API strip, 7 layer cards, metrics, design decisions
+- [x] About tab — profile, project overview, tech stack grid, contact
 
-### Phase 5 (Deployment)
-- [ ] Docker Compose with FastAPI + Django + MLflow
-- [ ] Render deployment config (`render.yaml`)
+### Phase 5 (Deployment) — Not started
+- [ ] Add Django to Docker Compose (FastAPI + MLflow already done)
+- [ ] `render.yaml` deployment config for Render
 - [ ] GitHub Actions CI/CD
 
 ### Bug Fix Needed
 - [ ] **Retriever cache eviction**: after a new doc is added to a session, `evict_session(session_id)` is not called in `run_pipeline()`. Queries after adding a second doc will search the old index until process restart. Fix: add `evict_session(session_id)` call at end of `run_pipeline()` stage 6.
+
+### Chat Tab Issues (deferred)
+- [ ] Issues noted by user during testing — details TBD
 
 ---
 
@@ -891,6 +941,6 @@ Remaining items from `docs/14_roadmap.md`:
 
 4. **Pre-existing test failures** — `test_cleaner.py::test_full_word_not_truncated` and `test_validator.py::test_warning_on_moderate_confidence` fail. Both are bugs in the test expectations, not in the production code.
 
-5. **MLflow not in Docker yet** — MLflow runs locally only (`mlflow ui --port 5000`). Live tracking won't work unless MLflow is running.
+5. **MLflow Docker Compose ready but not default** — `docker-compose.yml` runs MLflow on port 5000. For local dev without Docker, run `mlflow ui --port 5000` manually.
 
 6. **`app/api/upload.py` exists but is not registered** — It's the old single-doc upload endpoint, kept as reference. It is not included in `main.py`. Can be deleted.

@@ -12,11 +12,11 @@ class Settings(BaseSettings):
     # Textract
     textract_async_threshold_pages: int = 2  # pages >= this → async job
 
-    # Bytez
-    bytez_api_key: str = ""
-    bytez_model: str = "meta-llama/Llama-3.1-8B-Instruct"
-    bytez_max_tokens: int = 512
-    bytez_temperature: float = 0.1
+    # Groq
+    groq_api_key: str = ""
+    groq_model: str = "c4ai-aya-expanse-32b"
+    groq_max_tokens: int = 1024
+    groq_temperature: float = 0.1
 
     # MLflow
     mlflow_tracking_uri: str = "http://localhost:5000"
@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     environment: str = "development"
 
     class Config:
-        env_file = ".env"
+        env_file = (".env", "../.env")   # fastapi_service/.env or project root .env
         env_file_encoding = "utf-8"
 
 

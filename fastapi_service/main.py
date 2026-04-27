@@ -2,7 +2,7 @@
 FinanceHQ FastAPI service — entry point.
 
 Start:
-    uvicorn main:app --reload --port 8000
+    uvicorn main:app --reload --port 8001
 
 Endpoints:
     POST /sessions                         — create a named session

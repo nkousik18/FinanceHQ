@@ -1,0 +1,410 @@
+<script>
+    // Tab switching
+    function showTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll('.tab-btn').forEach(el => {
+            el.classList.remove('tab-active');
+            el.classList.add('opacity-80');
+        });
+        
+        document.getElementById(`content-${tabName}`).classList.remove('hidden');
+        const tabBtn = document.getElementById(`tab-${tabName}`);
+        if (tabBtn) {
+            tabBtn.classList.add('tab-active');
+            tabBtn.classList.remove('opacity-80');
+        }
+        
+        // Load dashboard data when switching to dashboard
+        if (tabName === 'dashboard' && metricsData.length === 0) {
+            loadMetrics();
+            loadAnomalies();
+            loadDecomposition();
+            loadNarrative();
+        }
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Contact form
+    async function sendContactForm() {
+        const name = document.getElementById('contact-name').value.trim();
+        const email = document.getElementById('contact-email').value.trim();
+        const message = document.getElementById('contact-message').value.trim();
+        const statusEl = document.getElementById('contact-status');
+        
+        if (!message) {
+            statusEl.innerHTML = '<p class="text-red-600 flex items-center gap-2"><i class="fas fa-exclamation-circle"></i> Please enter a message.</p>';
+            return;
+        }
+        
+        statusEl.innerHTML = '<p class="text-indigo-600 flex items-center gap-2"><i class="fas fa-spinner fa-spin"></i> Sending...</p>';
+        
+        try {
+            const response = await fetch('/api/contact/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, message })
+            });
+            
+            const result = await response.json();
+            
+            if (result.status === 'success') {
+                statusEl.innerHTML = '<p class="text-green-600 flex items-center gap-2"><i class="fas fa-check-circle"></i> ' + result.message + '</p>';
+                document.getElementById('contact-name').value = '';
+                document.getElementById('contact-email').value = '';
+                document.getElementById('contact-message').value = '';
+            } else {
+                throw new Error(result.message);
+            }
+        } catch (error) {
+            statusEl.innerHTML = '<p class="text-red-600 flex items-center gap-2"><i class="fas fa-exclamation-circle"></i> Failed: ' + error.message + '</p>';
+        }
+    }
+
+    // Dashboard functionality
+    let metricsData = [];
+    let decompositionData = null;
+    let currentChart = null;
+    let selectedMetric = 'total_revenue';
+
+    function updateThresholdLabel(value) {
+        document.getElementById('threshold-label').textContent = parseFloat(value).toFixed(1) + 'σ';
+    }
+
+    async function loadMetrics() {
+        try {
+            const response = await fetch('/api/metrics/?days=60');
+            const result = await response.json();
+            
+            if (result.status === 'success' && result.data.length > 0) {
+                metricsData = result.data;
+                populateDateDropdowns(result.data);
+                
+                const latest = result.data[0];
+                const previous = result.data[1] || latest;
+                
+                updateKPIs(latest, previous);
+                drawChart(result.data.slice().reverse(), selectedMetric);
+            }
+        } catch (error) {
+            console.error('Failed to load metrics:', error);
+        }
+    }
+
+    function populateDateDropdowns(data) {
+        const currentSelect = document.getElementById('current-date');
+        const previousSelect = document.getElementById('previous-date');
+        
+        if (!currentSelect || !previousSelect) return;
+        
+        currentSelect.innerHTML = data.map((d, i) => 
+            `<option value="${d.metric_date}" ${i === 0 ? 'selected' : ''}>${d.metric_date}</option>`
+        ).join('');
+        
+        previousSelect.innerHTML = data.map((d, i) => 
+            `<option value="${d.metric_date}" ${i === 1 ? 'selected' : ''}>${d.metric_date}</option>`
+        ).join('');
+    }
+
+    function updateKPIs(latest, previous) {
+        const revenueEl = document.getElementById('kpi-revenue');
+        if (!revenueEl) return;
+        
+        revenueEl.textContent = '$' + parseFloat(latest.total_revenue).toLocaleString('en-US', {minimumFractionDigits: 2});
+        const revChange = ((latest.total_revenue - previous.total_revenue) / previous.total_revenue * 100);
+        setChangeLabel('kpi-revenue-change', revChange);
+        
+        document.getElementById('kpi-orders').textContent = parseInt(latest.order_count).toLocaleString();
+        const ordChange = ((latest.order_count - previous.order_count) / previous.order_count * 100);
+        setChangeLabel('kpi-orders-change', ordChange);
+        
+        document.getElementById('kpi-aov').textContent = '$' + parseFloat(latest.avg_order_value).toFixed(2);
+        const aovChange = ((latest.avg_order_value - previous.avg_order_value) / previous.avg_order_value * 100);
+        setChangeLabel('kpi-aov-change', aovChange);
+    }
+
+    function setChangeLabel(elementId, change) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+        const arrow = change >= 0 ? '↑' : '↓';
+        const colorClass = change >= 0 ? 'text-green-500 bg-green-50' : 'text-red-500 bg-red-50';
+        el.innerHTML = `<span class="px-2 py-1 rounded-lg ${colorClass}">${arrow} ${Math.abs(change).toFixed(1)}%</span>`;
+    }
+
+    function drawChart(data, metric) {
+        const canvas = document.getElementById('revenueChart');
+        if (!canvas) return;
+        
+        const ctx = canvas.getContext('2d');
+        if (currentChart) currentChart.destroy();
+        
+        const labels = { 'total_revenue': 'Revenue', 'order_count': 'Orders', 'avg_order_value': 'AOV' };
+        const prefix = metric === 'order_count' ? '' : '$';
+        
+        currentChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.map(d => d.metric_date),
+                datasets: [{
+                    label: labels[metric],
+                    data: data.map(d => d[metric]),
+                    borderColor: 'rgb(79, 70, 229)',
+                    backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 2,
+                    pointHoverRadius: 6,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { 
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'white',
+                        titleColor: '#1f2937',
+                        bodyColor: '#4b5563',
+                        borderColor: '#e5e7eb',
+                        borderWidth: 1,
+                        padding: 12,
+                        boxPadding: 6
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: { callback: value => prefix + value.toLocaleString() },
+                        grid: { color: '#f3f4f6' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+        
+        const chartTitle = document.getElementById('chart-title');
+        if (chartTitle) chartTitle.textContent = labels[metric];
+    }
+
+    function setChartMetric(metric) {
+        selectedMetric = metric;
+        document.querySelectorAll('.chart-btn').forEach(btn => {
+            btn.className = btn.dataset.metric === metric 
+                ? 'chart-btn px-4 py-2 text-sm rounded-lg bg-indigo-100 text-indigo-700 font-medium transition'
+                : 'chart-btn px-4 py-2 text-sm rounded-lg bg-gray-100 text-gray-600 font-medium transition';
+        });
+        drawChart(metricsData.slice().reverse(), metric);
+    }
+
+    function selectMetric(metric) {
+        const metricSelect = document.getElementById('metric-select');
+        if (metricSelect) metricSelect.value = metric;
+        setChartMetric(metric);
+    }
+
+    async function loadAnomalies() {
+        try {
+            const thresholdSlider = document.getElementById('threshold-slider');
+            const threshold = thresholdSlider ? thresholdSlider.value : 2;
+            const response = await fetch(`/api/anomalies/?threshold=${threshold}`);
+            const result = await response.json();
+            
+            if (result.status === 'success') {
+                const anomaliesEl = document.getElementById('kpi-anomalies');
+                if (anomaliesEl) anomaliesEl.textContent = result.data.anomaly_count;
+            }
+        } catch (error) {
+            console.error('Failed to load anomalies:', error);
+        }
+    }
+
+    async function loadDecomposition() {
+        try {
+            const currentDateEl = document.getElementById('current-date');
+            const previousDateEl = document.getElementById('previous-date');
+            
+            const currentDate = currentDateEl ? currentDateEl.value : '';
+            const previousDate = previousDateEl ? previousDateEl.value : '';
+            
+            let url = '/api/decomposition/';
+            if (currentDate && previousDate) {
+                url += `?current_date=${currentDate}&previous_date=${previousDate}`;
+            }
+            
+            const response = await fetch(url);
+            const result = await response.json();
+            
+            if (result.status === 'success') {
+                decompositionData = result.data;
+                const dims = result.data.dimensions;
+                
+                if (dims.geography) renderBreakdown('geo-breakdown', dims.geography.top_contributors);
+                if (dims.product) renderBreakdown('product-breakdown', dims.product.top_contributors);
+                if (dims.payment) renderBreakdown('payment-breakdown', dims.payment.top_contributors);
+            }
+        } catch (error) {
+            console.error('Failed to load decomposition:', error);
+        }
+    }
+
+    function renderBreakdown(elementId, contributors) {
+        const container = document.getElementById(elementId);
+        if (!container) return;
+        
+        container.innerHTML = contributors.slice(0, 5).map(c => `
+            <div>
+                <div class="flex justify-between items-center mb-1.5">
+                    <span class="text-sm text-gray-700 font-medium">${c.segment}</span>
+                    <span class="text-sm font-bold ${c.contribution_pct >= 0 ? 'text-green-600' : 'text-red-600'}">
+                        ${c.contribution_pct > 0 ? '+' : ''}${c.contribution_pct.toFixed(1)}%
+                    </span>
+                </div>
+                <div class="w-full bg-gray-100 rounded-full h-2">
+                    <div class="h-2 rounded-full transition-all ${c.contribution_pct >= 0 ? 'bg-green-500' : 'bg-red-500'}" 
+                         style="width: ${Math.min(Math.abs(c.contribution_pct), 100)}%"></div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function toggleDrilldown(dimension) {
+        const drilldown = document.getElementById(`${dimension}-drilldown`);
+        const toggle = document.getElementById(`${dimension}-toggle`);
+        
+        if (!drilldown || !toggle) return;
+        
+        if (drilldown.classList.contains('hidden')) {
+            drilldown.classList.remove('hidden');
+            toggle.textContent = 'Hide';
+        } else {
+            drilldown.classList.add('hidden');
+            toggle.textContent = 'Details';
+        }
+    }
+
+    async function loadNarrative() {
+        try {
+            const currentDateEl = document.getElementById('current-date');
+            const previousDateEl = document.getElementById('previous-date');
+            
+            const currentDate = currentDateEl ? currentDateEl.value : '';
+            const previousDate = previousDateEl ? previousDateEl.value : '';
+            
+            let url = '/api/narrative/';
+            if (currentDate && previousDate) {
+                url += `?current_date=${currentDate}&previous_date=${previousDate}`;
+            }
+            
+            const response = await fetch(url);
+            const result = await response.json();
+            
+            if (result.status === 'success') {
+                const narrativeEl = document.getElementById('narrative');
+                if (narrativeEl) {
+                    narrativeEl.innerHTML = result.data.full.replace(/\*\*/g, '').replace(/\n/g, '<br>');
+                }
+            }
+        } catch (error) {
+            console.error('Failed to load narrative:', error);
+        }
+    }
+
+    function applyFilters() {
+        loadDecomposition();
+        loadNarrative();
+        loadAnomalies();
+        
+        const currentDateEl = document.getElementById('current-date');
+        const previousDateEl = document.getElementById('previous-date');
+        
+        if (!currentDateEl || !previousDateEl) return;
+        
+        const currentDate = currentDateEl.value;
+        const previousDate = previousDateEl.value;
+        
+        const current = metricsData.find(d => d.metric_date === currentDate);
+        const previous = metricsData.find(d => d.metric_date === previousDate);
+        
+        if (current && previous) updateKPIs(current, previous);
+    }
+
+    function resetFilters() {
+        const thresholdSlider = document.getElementById('threshold-slider');
+        const thresholdLabel = document.getElementById('threshold-label');
+        const metricSelect = document.getElementById('metric-select');
+        
+        if (thresholdSlider) thresholdSlider.value = 2;
+        if (thresholdLabel) thresholdLabel.textContent = '2.0σ';
+        if (metricSelect) metricSelect.value = 'total_revenue';
+        
+        if (metricsData.length >= 2) {
+            const currentDateEl = document.getElementById('current-date');
+            const previousDateEl = document.getElementById('previous-date');
+            if (currentDateEl) currentDateEl.value = metricsData[0].metric_date;
+            if (previousDateEl) previousDateEl.value = metricsData[1].metric_date;
+        }
+        
+        setChartMetric('total_revenue');
+        applyFilters();
+    }
+
+    function refreshData() {
+        loadMetrics();
+        loadAnomalies();
+        loadDecomposition();
+        loadNarrative();
+    }
+
+    function copyNarrative() {
+        const narrativeEl = document.getElementById('narrative');
+        if (!narrativeEl) return;
+        const narrative = narrativeEl.innerText;
+        navigator.clipboard.writeText(narrative).then(() => {
+            alert('Copied to clipboard!');
+        });
+    }
+
+    function downloadNarrative() {
+        const narrativeEl = document.getElementById('narrative');
+        if (!narrativeEl) return;
+        const narrative = narrativeEl.innerText;
+        const blob = new Blob([narrative], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'metricpulse-analysis.txt';
+        a.click();
+    }
+
+    async function runPipeline(forceAlert) {
+        const statusEl = document.getElementById('pipeline-status');
+        if (!statusEl) return;
+        
+        statusEl.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Running pipeline...';
+        
+        try {
+            const metricSelect = document.getElementById('metric-select');
+            const metric = metricSelect ? metricSelect.value : 'total_revenue';
+            
+            const response = await fetch('/api/pipeline/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ metric, force_alert: forceAlert, dry_run: !forceAlert })
+            });
+            
+            const result = await response.json();
+            
+            if (result.status === 'success') {
+                statusEl.innerHTML = `<i class="fas fa-check-circle mr-2"></i> Completed in ${result.data.duration_seconds.toFixed(2)}s | Alert: ${result.data.alert_status}`;
+                refreshData();
+            } else {
+                throw new Error(result.message);
+            }
+        } catch (error) {
+            statusEl.innerHTML = `<i class="fas fa-exclamation-circle mr-2"></i> Failed: ${error.message}`;
+        }
+    }
+</script>
