@@ -1,0 +1,23 @@
+# Instance 2 — FastAPI + MLflow
+# Replace all placeholder values with your real credentials
+
+# AWS
+AWS_ACCESS_KEY_ID=your-access-key
+AWS_SECRET_ACCESS_KEY=your-secret-key
+AWS_REGION=us-east-1
+S3_BUCKET=financehq
+
+TEXTRACT_ASYNC_THRESHOLD_PAGES=2
+
+# Groq
+GROQ_API_KEY=your-groq-api-key
+GROQ_MODEL=llama-3.3-70b-versatile
+GROQ_MAX_TOKENS=1024
+GROQ_TEMPERATURE=0.1
+
+# MLflow — runs locally on this instance
+MLFLOW_TRACKING_URI=http://127.0.0.1:5000
+MLFLOW_ARTIFACT_BUCKET=financehq
+
+LOG_LEVEL=INFO
+ENVIRONMENT=production

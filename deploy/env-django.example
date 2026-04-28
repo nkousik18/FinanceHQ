@@ -1,0 +1,13 @@
+# Instance 1 — Django UI only
+# Replace <INSTANCE1_IP> with this instance's public IP
+# Replace <INSTANCE2_IP> with the FastAPI instance's public IP
+
+DJANGO_SECRET_KEY=change-this-to-a-long-random-string
+DJANGO_DEBUG=false
+DJANGO_ALLOWED_HOSTS=<INSTANCE1_IP>
+
+# Browser calls FastAPI directly — must be Instance 2's public IP
+FASTAPI_URL=http://<INSTANCE2_IP>
+
+LOG_LEVEL=INFO
+ENVIRONMENT=production
