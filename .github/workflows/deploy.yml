@@ -5,8 +5,8 @@ on:
     branches: [main]
 
 jobs:
-  deploy-django:
-    name: Instance 1 — Django UI
+  deploy-react-ui:
+    name: Instance 1 — React UI
     runs-on: ubuntu-latest
     steps:
       - name: SSH and deploy
@@ -17,7 +17,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd ~/FinanceHQ
-            bash deploy/deploy-django.sh
+            bash deploy/deploy-react.sh
 
   deploy-fastapi:
     name: Instance 2 — FastAPI + MLflow
