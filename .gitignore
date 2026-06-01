@@ -45,6 +45,9 @@ Thumbs.db
 mlruns/
 mlartifacts/
 
+# Django build artifacts
+django_frontend/staticfiles/
+
 # FAISS / numpy artifacts
 *.index
 *.npy
