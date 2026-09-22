@@ -1,0 +1,1 @@
+Built FinanceHQ: upload a loan PDF, ask it anything, get document-grounded answers streamed back in real time — Textract → FAISS → Groq. Then I A/B tested 3 LLMs against each other and let the winner auto-route live traffic. 87% groundedness, <1.8s latency, 115+ tests passing.

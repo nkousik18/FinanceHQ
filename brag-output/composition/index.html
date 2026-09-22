@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <title>FinanceHQ — Brag</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/TextPlugin.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Geist Variable";
+        font-style: normal;
+        font-display: swap;
+        font-weight: 100 900;
+        src: url(assets/fonts/geist-latin-wght-normal.woff2) format("woff2-variations");
+      }
+      @font-face {
+        font-family: "Geist Mono";
+        font-style: normal;
+        font-display: swap;
+        font-weight: 400;
+        src: url(assets/fonts/geist-mono-latin-400-normal.woff2) format("woff2");
+      }
+      @font-face {
+        font-family: "Geist Mono";
+        font-style: normal;
+        font-display: swap;
+        font-weight: 600;
+        src: url(assets/fonts/geist-mono-latin-600-normal.woff2) format("woff2");
+      }
+      @font-face {
+        font-family: "Geist Mono";
+        font-style: normal;
+        font-display: swap;
+        font-weight: 700;
+        src: url(assets/fonts/geist-mono-latin-700-normal.woff2) format("woff2");
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0f0d0b;
+      }
+
+      :root {
+        --bg: #0f0d0b;
+        --cream: #f5f0e8;
+        --amber: #f59e0b;
+        --font-sans: "Geist Variable", system-ui, sans-serif;
+        --font-mono: "Geist Mono", "SFMono-Regular", monospace;
+        --audio-glow: 0;
+      }
+
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        font-family: var(--font-sans);
+        color: var(--cream);
+      }
+
+      /* ---------- persistent background layers (untimed) ---------- */
+      .bg-base {
+        position: absolute;
+        inset: 0;
+        background: var(--bg);
+      }
+      .bg-grid {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(245, 240, 232, 0.02) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(245, 240, 232, 0.02) 1px, transparent 1px);
+        background-size: 72px 72px;
+      }
+      .bg-noise {
+        position: absolute;
+        inset: 0;
+        opacity: 0.032;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 180px 180px;
+      }
+
+      /* ---------- shared scene layout ---------- */
+      .clip {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+      .stage-center {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+        text-align: center;
+        padding: 0 140px;
+      }
+
+      /* ---------- Scene 1 — the claim ---------- */
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 30px;
+        border-radius: 999px;
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        background: rgba(245, 158, 11, 0.08);
+        color: var(--amber);
+        font-family: var(--font-mono);
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        transform-origin: 50% 50%;
+        box-shadow: 0 0 calc(20px + var(--audio-glow) * 26px) rgba(245, 158, 11, calc(0.18 + var(--audio-glow) * 0.22));
+      }
+      .pill-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: var(--amber);
+        animation: dot-pulse 1.6s ease-in-out infinite;
+      }
+      @keyframes dot-pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.35; }
+      }
+      .hero-headline {
+        font-size: 108px;
+        font-weight: 700;
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+        max-width: 1500px;
+        transform-origin: 50% 50%;
+      }
+      .word-slot {
+        position: relative;
+        display: inline-block;
+        height: 1.08em;
+        text-align: left;
+        vertical-align: bottom;
+      }
+      .word-sizer {
+        visibility: hidden;
+        color: var(--amber);
+        white-space: nowrap;
+      }
+      .word {
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: var(--amber);
+        white-space: nowrap;
+      }
+
+      /* ---------- Scene 2 — the flow ---------- */
+      .phase {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .dropzone-mock {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 22px;
+        width: 620px;
+        padding: 56px 40px;
+        border-radius: 28px;
+        border: 2px dashed rgba(245, 240, 232, 0.16);
+        background: rgba(245, 240, 232, 0.03);
+        transform-origin: 50% 50%;
+      }
+      .dropzone-icon {
+        width: 76px;
+        height: 76px;
+        border-radius: 20px;
+        background: rgba(245, 158, 11, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .dropzone-icon svg {
+        width: 34px;
+        height: 34px;
+        stroke: var(--amber);
+      }
+      .dropzone-prompt {
+        font-size: 28px;
+        font-weight: 500;
+        color: var(--cream);
+      }
+      .dropzone-sub {
+        font-size: 20px;
+        color: rgba(245, 240, 232, 0.55);
+        font-family: var(--font-mono);
+      }
+
+      .file-chip {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 18px 28px;
+        border-radius: 16px;
+        border: 1px solid rgba(245, 158, 11, 0.28);
+        background: rgba(245, 158, 11, 0.08);
+        transform-origin: 50% 50%;
+      }
+      .file-chip svg {
+        width: 28px;
+        height: 28px;
+        stroke: var(--amber);
+        flex-shrink: 0;
+      }
+      .file-chip-name {
+        font-family: var(--font-mono);
+        font-size: 24px;
+        color: var(--cream);
+      }
+
+      .status-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        transform-origin: 50% 50%;
+      }
+      .status-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 999px;
+        background: var(--amber);
+        animation: dot-pulse 1.2s ease-in-out infinite;
+      }
+      .status-text {
+        font-family: var(--font-mono);
+        font-size: 24px;
+        letter-spacing: 0.06em;
+        color: rgba(245, 240, 232, 0.72);
+      }
+      .status-text.ready {
+        color: var(--amber);
+        font-weight: 700;
+      }
+
+      /* terminal window */
+      .terminal-window {
+        width: 1380px;
+        height: 700px;
+        border-radius: 24px;
+        border: 1px solid rgba(245, 240, 232, 0.08);
+        background: rgba(245, 240, 232, 0.015);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 0 calc(28px + var(--audio-glow) * 34px) rgba(245, 158, 11, calc(0.06 + var(--audio-glow) * 0.16));
+      }
+      .terminal-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 24px 32px;
+        border-bottom: 1px solid rgba(245, 240, 232, 0.08);
+        flex-shrink: 0;
+      }
+      .terminal-dot {
+        width: 18px;
+        height: 18px;
+        border-radius: 999px;
+      }
+      .terminal-label {
+        margin-left: 16px;
+        font-family: var(--font-mono);
+        font-size: 22px;
+        color: rgba(245, 240, 232, 0.68);
+      }
+      .terminal-body {
+        flex: 1;
+        padding: 44px 52px;
+        display: flex;
+        flex-direction: column;
+        gap: 34px;
+        font-family: var(--font-mono);
+        font-size: 30px;
+        line-height: 1.5;
+        text-align: left;
+      }
+      .term-row {
+        color: rgba(245, 240, 232, 0.62);
+      }
+      .term-row .term-value {
+        color: var(--cream);
+      }
+      .cursor-wrap {
+        display: inline-block;
+      }
+      .cursor-blink {
+        display: inline-block;
+        width: 3px;
+        height: 30px;
+        margin-left: 3px;
+        background: var(--amber);
+        vertical-align: -6px;
+        animation: blink 0.8s step-end infinite;
+      }
+      .trace-block {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 22px;
+        color: rgba(245, 240, 232, 0.55);
+      }
+      .trace-block .accent {
+        color: var(--amber);
+      }
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+
+      .stream-pill {
+        display: inline-flex;
+        width: fit-content;
+        align-items: center;
+        padding: 8px 20px;
+        border-radius: 8px;
+        background: rgba(245, 158, 11, 0.14);
+        color: var(--amber);
+        font-family: var(--font-mono);
+        font-size: 20px;
+        font-weight: 600;
+        transform-origin: 0% 50%;
+      }
+      .stream-answer {
+        font-size: 32px;
+        line-height: 1.55;
+        color: rgba(245, 240, 232, 0.9);
+        max-width: 1180px;
+      }
+      .tag-row {
+        display: flex;
+        gap: 14px;
+      }
+      .tag-chip {
+        padding: 12px 22px;
+        border-radius: 10px;
+        border: 1px solid rgba(245, 240, 232, 0.1);
+        color: rgba(245, 240, 232, 0.72);
+        font-family: var(--font-mono);
+        font-size: 22px;
+        transform-origin: 50% 50%;
+      }
+
+      /* ---------- Scene 3 — the flex ---------- */
+      .s3-headline {
+        font-size: 92px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        transform-origin: 50% 50%;
+      }
+      .ab-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1.4fr;
+        align-items: center;
+        width: 1240px;
+        padding: 30px 44px;
+        border-radius: 20px;
+        border: 1px solid rgba(245, 158, 11, 0.28);
+        background: rgba(245, 158, 11, 0.06);
+        transform-origin: 50% 50%;
+      }
+      .ab-cell {
+        text-align: left;
+        font-family: var(--font-mono);
+        font-size: 30px;
+        color: var(--cream);
+      }
+      .ab-cell.dim {
+        color: rgba(245, 240, 232, 0.68);
+      }
+      .ab-cell.amber {
+        color: var(--amber);
+        font-weight: 700;
+      }
+      .ab-badge {
+        display: inline-flex;
+        margin-left: 18px;
+        padding: 8px 18px;
+        border-radius: 999px;
+        background: rgba(245, 158, 11, 0.2);
+        color: var(--amber);
+        font-family: var(--font-mono);
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .stat-chip-row {
+        display: flex;
+        gap: 22px;
+      }
+      .stat-chip {
+        padding: 20px 34px;
+        border-radius: 16px;
+        border: 1px solid rgba(245, 240, 232, 0.1);
+        background: rgba(245, 240, 232, 0.03);
+        font-family: var(--font-mono);
+        font-size: 26px;
+        color: rgba(245, 240, 232, 0.82);
+        transform-origin: 50% 50%;
+      }
+      .stat-chip .num {
+        color: var(--amber);
+        font-weight: 700;
+      }
+
+      /* ---------- Scene 4 — outro ---------- */
+      .wordmark {
+        font-size: 100px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        transform-origin: 50% 50%;
+      }
+      .wordmark .hq {
+        color: var(--amber);
+      }
+      .tagline {
+        font-size: 34px;
+        color: rgba(245, 240, 232, 0.75);
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-5ee6" id="root" data-composition-id="financehq-brag" data-start="0" data-width="1920" data-height="1080" data-duration="20.9" data-fps="30">
+      <div data-hf-id="hf-7v19" class="bg-base"></div>
+      <div data-hf-id="hf-yqqm" class="bg-grid"></div>
+
+      <!-- ============ SCENE 1 — the claim (0.0–3.0) ============ -->
+      <section data-hf-id="hf-mx7g" id="s1" class="clip" data-start="0" data-duration="3.0" data-track-index="1">
+        <div data-hf-id="hf-stt4" class="stage-center">
+          <div data-hf-id="hf-fl9d" class="pill" id="s1-pill"><span data-hf-id="hf-5k6y" class="pill-dot"></span>RAG · Textract · FAISS · Groq SSE</div>
+          <h1 data-hf-id="hf-5jdl" class="hero-headline" id="s1-headline">
+            Loan answers,
+            <span data-hf-id="hf-r8to" class="word-slot" data-layout-allow-overlap="true">
+              <span data-hf-id="hf-nqk0" class="word-sizer" aria-hidden="true">grounded</span>
+              <span data-hf-id="hf-9b5x" class="word" id="s1-word-instant">instant</span>
+              <span data-hf-id="hf-d30d" class="word" id="s1-word-grounded">grounded</span>
+            </span>.
+          </h1>
+        </div>
+      </section>
+
+      <!-- ============ SCENE 2 — the flow (3.0–12.5) ============ -->
+      <section data-hf-id="hf-ecg3" id="s2" class="clip" data-start="3.0" data-duration="9.5" data-track-index="1">
+        <!-- phase A: upload -->
+        <div data-hf-id="hf-8sjo" class="phase" id="s2-phase-upload">
+          <div data-hf-id="hf-23mo" class="stage-center">
+            <div data-hf-id="hf-d0xr" class="dropzone-mock" id="s2-dropzone">
+              <div data-hf-id="hf-19r5" class="dropzone-icon">
+                <svg data-hf-id="hf-buz9" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path data-hf-id="hf-yagw" d="M12 3v12" /><path data-hf-id="hf-u999" d="M7 8l5-5 5 5" /><path data-hf-id="hf-82dm" d="M4 17v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" />
+                </svg>
+              </div>
+              <div data-hf-id="hf-7rzx" class="dropzone-prompt" id="s2-dropzone-prompt">Drop PDF here</div>
+              <div data-hf-id="hf-wo4w" class="dropzone-sub" id="s2-dropzone-sub">or click to browse · max 20 MB</div>
+
+              <div data-hf-id="hf-huby" class="file-chip" id="s2-file-chip">
+                <svg data-hf-id="hf-1fbd" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path data-hf-id="hf-e4lr" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path data-hf-id="hf-eid0" d="M14 2v6h6" />
+                </svg>
+                <span data-hf-id="hf-33cc" class="file-chip-name">home_loan.pdf</span>
+              </div>
+
+              <div data-hf-id="hf-r3tg" class="status-row" id="s2-status-row">
+                <span data-hf-id="hf-i0ip" class="status-dot"></span>
+                <span data-hf-id="hf-ojq4" class="status-text" id="s2-status-text">PENDING</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- phase B: chat / streaming answer -->
+        <div data-hf-id="hf-hd01" class="phase" id="s2-phase-chat">
+          <div data-hf-id="hf-ojfx" class="stage-center" style="gap: 0;">
+            <div data-hf-id="hf-peps" class="terminal-window" id="terminal-window">
+              <div data-hf-id="hf-b8ww" class="terminal-bar">
+                <span data-hf-id="hf-svu9" class="terminal-dot" style="background:#ff5f57"></span>
+                <span data-hf-id="hf-8dd1" class="terminal-dot" style="background:#febc2e"></span>
+                <span data-hf-id="hf-57lz" class="terminal-dot" style="background:#28c840"></span>
+                <span data-hf-id="hf-e285" class="terminal-label">FinanceHQ — POST /query/stream</span>
+              </div>
+              <div data-hf-id="hf-vv39" class="terminal-body">
+                <div data-hf-id="hf-8oah" class="term-row">
+                  <span data-hf-id="hf-mhko">$ question = "</span><span data-hf-id="hf-lp4x" class="term-value" id="q-typed"></span><span data-hf-id="hf-8lkn" class="cursor-wrap" id="q-cursor-wrap"><span data-hf-id="hf-v1gq" class="cursor-blink"></span></span><span data-hf-id="hf-nqnt">"</span>
+                </div>
+
+                <div data-hf-id="hf-ig8n" class="trace-block">
+                  <div data-hf-id="hf-hmq5" id="trace-line1" style="opacity:0">→ retrieving top-5 chunks from FAISS…</div>
+                  <div data-hf-id="hf-ut39" id="trace-line2" style="opacity:0">→ intent classified: <span data-hf-id="hf-no75" class="accent">lookup</span> · routing to <span data-hf-id="hf-xfdu" class="accent">lookup_v2</span></div>
+                </div>
+
+                <div data-hf-id="hf-24pj" style="display:flex; flex-direction:column; gap:18px;">
+                  <span data-hf-id="hf-nomu" class="stream-pill" id="stream-pill" style="opacity:0">streaming</span>
+                  <p data-hf-id="hf-b6we" class="stream-answer">
+                    <span data-hf-id="hf-zobs" id="a-typed"></span><span data-hf-id="hf-pax3" class="cursor-wrap" id="a-cursor-wrap"><span data-hf-id="hf-jkdq" class="cursor-blink"></span></span>
+                  </p>
+                </div>
+
+                <div data-hf-id="hf-dpvb" class="tag-row">
+                  <span data-hf-id="hf-07cs" class="tag-chip" id="tag1">lookup_v2</span>
+                  <span data-hf-id="hf-nv44" class="tag-chip" id="tag2">1.24s</span>
+                  <span data-hf-id="hf-2nj8" class="tag-chip" id="tag3">5 chunks</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SCENE 3 — the flex (12.5–17.9) ============ -->
+      <section data-hf-id="hf-byrc" id="s3" class="clip" data-start="12.5" data-duration="5.4" data-track-index="1">
+        <div data-hf-id="hf-0wpl" class="stage-center">
+          <h2 data-hf-id="hf-h5e2" class="s3-headline" id="s3-headline">3 LLMs. 1 winner.</h2>
+
+          <div data-hf-id="hf-c1j9" class="ab-row" id="s3-ab-row">
+            <span data-hf-id="hf-p5hz" class="ab-cell">Llama 3.3 70B</span>
+            <span data-hf-id="hf-2j7y" class="ab-cell dim">2.02s</span>
+            <span data-hf-id="hf-pxh0" class="ab-cell amber">87%</span>
+            <span data-hf-id="hf-hrel" class="ab-cell dim">100% <span data-hf-id="hf-ihop" class="ab-badge">Winner</span></span>
+          </div>
+
+          <div data-hf-id="hf-5py6" class="stat-chip-row">
+            <span data-hf-id="hf-sybo" class="stat-chip" id="s3-chip1"><span data-hf-id="hf-q91z" class="num">&lt;1.8s</span> avg latency</span>
+            <span data-hf-id="hf-mkox" class="stat-chip" id="s3-chip2"><span data-hf-id="hf-czet" class="num">115+</span> tests passing</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SCENE 4 — outro (17.9–20.9) ============ -->
+      <section data-hf-id="hf-g2ai" id="s4" class="clip" data-start="17.9" data-duration="3.0" data-track-index="1">
+        <div data-hf-id="hf-1b0m" class="stage-center">
+          <div data-hf-id="hf-nsf8" class="wordmark" id="s4-wordmark">Finance<span data-hf-id="hf-opon" class="hq">HQ</span></div>
+          <div data-hf-id="hf-r63l" class="tagline" id="s4-tagline">Document-grounded answers. Zero hallucinations.</div>
+        </div>
+      </section>
+
+      <!-- ============ AUDIO ============ -->
+      <audio data-hf-id="hf-j34y" id="bgm" src="assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3" data-start="0" data-duration="20.9" data-track-index="10"></audio>
+
+      <audio data-hf-id="hf-94nf" id="sfx-word-swap" src="assets/sfx/interface/switch_001.ogg" data-start="1.1" data-duration="0.4" data-track-index="11" data-volume="0.5"></audio>
+      <audio data-hf-id="hf-pwok" id="sfx-file-drop" src="assets/sfx/interface/drop_001.ogg" data-start="3.9" data-duration="0.11" data-track-index="12" data-volume="0.6"></audio>
+      <audio data-hf-id="hf-o3lv" id="sfx-stream-begin" src="assets/sfx/interface/drop_002.ogg" data-start="8.7" data-duration="0.19" data-track-index="13" data-volume="0.55"></audio>
+      <audio data-hf-id="hf-ial3" id="sfx-tag-pop" src="assets/sfx/ui/click1.ogg" data-start="11.4" data-duration="0.09" data-track-index="14" data-volume="0.5"></audio>
+      <audio data-hf-id="hf-d3qu" id="sfx-headline-slam" src="assets/sfx/impact/impactSoft_medium_001.ogg" data-start="12.5" data-duration="0.18" data-track-index="15" data-volume="0.6"></audio>
+      <audio data-hf-id="hf-9sde" id="sfx-winner-lock" src="assets/sfx/impact/impactBell_heavy_000.ogg" data-start="13.11" data-duration="1.3" data-track-index="16" data-volume="0.7"></audio>
+      <audio data-hf-id="hf-r0zp" id="sfx-chip1" src="assets/sfx/ui/click1.ogg" data-start="13.64" data-duration="0.09" data-track-index="17" data-volume="0.5"></audio>
+      <audio data-hf-id="hf-m9eu" id="sfx-chip2" src="assets/sfx/ui/click1.ogg" data-start="14.2" data-duration="0.09" data-track-index="18" data-volume="0.5"></audio>
+      <audio data-hf-id="hf-x4d6" id="sfx-outro-bell" src="assets/sfx/interface/bong_001.ogg" data-start="18.0" data-duration="0.12" data-track-index="19" data-volume="0.5"></audio>
+    </div>
+
+    <script>
+      gsap.registerPlugin(TextPlugin);
+
+      const tl = gsap.timeline({ paused: true });
+      const root = document.getElementById("root");
+
+      // ---------------------------------------------------------------
+      // Helper: append-words typewriter (deterministic, proportional
+      // per-token duration so the whole phrase lands exactly on time).
+      // ---------------------------------------------------------------
+      function typeTokens(targetSelector, tokens, startTime, totalDuration) {
+        const totalChars = tokens.reduce((sum, t) => sum + t.length, 0);
+        let acc = "";
+        let t = startTime;
+        tokens.forEach((token) => {
+          const dur = (token.length / totalChars) * totalDuration;
+          acc += token;
+          tl.to(targetSelector, { text: { value: acc }, duration: dur, ease: "none" }, t);
+          t += dur;
+        });
+        return t; // end time
+      }
+
+      // ================= SCENE 1 — the claim =================
+      tl.fromTo("#s1-pill", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.0);
+      tl.fromTo("#s1-headline", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.15);
+
+      tl.set("#s1-word-instant", { opacity: 1, y: 0 }, 0);
+      tl.set("#s1-word-grounded", { opacity: 0, y: 24 }, 0);
+      tl.to("#s1-word-instant", { opacity: 0, y: -24, duration: 0.35, ease: "power3.out" }, 1.1); // beat: word swap
+      tl.to("#s1-word-grounded", { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 1.1);
+
+      // ================= SCENE 2 — the flow =================
+      tl.set("#s2-phase-upload", { opacity: 1 }, 3.0);
+      tl.set("#s2-phase-chat", { opacity: 0 }, 3.0);
+      tl.to("#s2-phase-upload", { opacity: 0, duration: 0.3, ease: "power1.inOut" }, 5.7);
+      tl.to("#s2-phase-chat", { opacity: 1, duration: 0.3, ease: "power1.inOut" }, 6.0);
+
+      // -- sub-beat A: upload --
+      tl.fromTo("#s2-dropzone", { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" }, 3.0);
+      tl.set("#s2-file-chip", { opacity: 0, scale: 0 }, 3.0);
+      tl.set("#s2-status-row", { opacity: 0, y: 12 }, 3.0);
+
+      tl.to("#s2-dropzone-prompt", { opacity: 0, duration: 0.2 }, 3.55);
+      tl.to("#s2-dropzone-sub", { opacity: 0, duration: 0.2 }, 3.55);
+      tl.to("#s2-file-chip", { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" }, 3.6); // beat: file lands
+      tl.to("#s2-status-row", { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 3.95);
+
+      const statusSteps = [
+        { text: "PENDING", at: 4.0 },
+        { text: "EXTRACTING", at: 4.5 },
+        { text: "CHUNKING", at: 5.0 },
+        { text: "✓ READY", at: 5.5 },
+      ];
+      statusSteps.forEach((s) => {
+        tl.call(
+          () => {
+            const el = document.getElementById("s2-status-text");
+            el.textContent = s.text;
+            el.classList.toggle("ready", s.text.includes("READY"));
+          },
+          [],
+          s.at,
+        );
+      });
+
+      // -- sub-beat B: chat / streamed answer --
+      tl.set("#q-typed", { text: { value: "" } }, 6.0);
+      const qEnd = typeTokens("#q-typed", ["What is the interest rate?"], 6.0, 1.7);
+      tl.to("#q-cursor-wrap", { opacity: 0, duration: 0.2 }, qEnd + 0.15); // hide question cursor once trace begins
+
+      tl.fromTo("#trace-line1", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 7.7);
+      tl.fromTo("#trace-line2", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 8.05);
+
+      tl.fromTo(
+        "#stream-pill",
+        { opacity: 0, scale: 0 },
+        { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" },
+        8.7, // beat-locked: 8.74s strong cue (vol-12 preset)
+      );
+      tl.set("#a-typed", { text: { value: "" } }, 8.7);
+      const aEnd = typeTokens(
+        "#a-typed",
+        ["The ", "interest ", "rate ", "on ", "this ", "loan ", "is ", "8.65% ", "per ", "annum, ", "floating."],
+        8.7,
+        2.35,
+      );
+      tl.to("#stream-pill", { opacity: 0, duration: 0.25 }, aEnd + 0.05);
+      tl.to("#a-cursor-wrap", { opacity: 0, duration: 0.2 }, aEnd + 0.3);
+
+      [
+        { id: "#tag1", at: 11.4 },
+        { id: "#tag2", at: 11.52 },
+        { id: "#tag3", at: 11.64 },
+      ].forEach((tag) => {
+        tl.fromTo(tag.id, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" }, tag.at);
+      });
+
+      // ================= SCENE 3 — the flex =================
+      tl.fromTo(
+        "#s3-headline",
+        { opacity: 0, scale: 0.85 },
+        { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" },
+        12.5,
+      );
+      tl.fromTo(
+        "#s3-ab-row",
+        { opacity: 0, y: 26 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" },
+        13.0, // lands ~13.1s → beat-locked: 13.11s strong cue
+      );
+      tl.fromTo(
+        "#s3-chip1",
+        { opacity: 0, scale: 0 },
+        { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" },
+        13.64, // beat-grid: 13.64s
+      );
+      tl.fromTo(
+        "#s3-chip2",
+        { opacity: 0, scale: 0 },
+        { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" },
+        14.2, // beat-grid: 14.20s
+      );
+
+      // ================= SCENE 4 — outro =================
+      tl.fromTo(
+        "#s4-wordmark",
+        { opacity: 0, scale: 0.9 },
+        { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" },
+        18.0,
+      );
+      tl.fromTo("#s4-tagline", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 18.7);
+
+      // ================= MUSIC VOLUME ENVELOPE =================
+      tl.fromTo("#bgm", { volume: 0 }, { volume: 0.32, duration: 0.4, ease: "power1.out" }, 0);
+      tl.to("#bgm", { volume: 0.38, duration: 0.3, ease: "power1.inOut" }, 12.5);
+      tl.to("#bgm", { volume: 0, duration: 1.5, ease: "power1.in" }, 19.4);
+
+      // ================= SUBTLE AUDIO-REACTIVE GLOW =================
+      // Pre-extracted RMS drives a single CSS custom property; multiple
+      // elements read it via var(--audio-glow) in their box-shadow. No
+      // waveform/equalizer visuals — just a gentle amber breathe.
+      (function wireAudioReactive() {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "assets/music/audio-data.json", false);
+        xhr.send();
+        const AUDIO = JSON.parse(xhr.responseText);
+        for (let i = 0; i < AUDIO.frames.length; i++) {
+          const f = AUDIO.frames[i];
+          tl.call(() => root.style.setProperty("--audio-glow", f.rms.toFixed(3)), [], f.time);
+        }
+      })();
+
+      window.__timelines["financehq-brag"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

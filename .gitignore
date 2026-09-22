@@ -48,6 +48,7 @@ mlartifacts/
 # React build artifacts
 react_ui/node_modules/
 react_ui/dist/
+react_ui/.vite/
 
 # FAISS / numpy artifacts
 *.index
@@ -61,3 +62,8 @@ scripts/output/
 
 # IAM policy files (contain account-specific ARNs)
 scripts/iam_policy.json
+
+# HyperFrames Studio cache/preview artifacts (regenerable)
+**/.thumbnails/
+**/.waveform-cache/
+brag-output/composition/snapshots/

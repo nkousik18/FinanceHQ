@@ -1,0 +1,41 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "geist mono",
+        "createdAt": "2026-09-20T23:55:35.935Z",
+        "reason": "brand fidelity: FinanceHQ's real production UI (react_ui/tailwind.config.js, index.css) uses Geist Variable/Geist Mono as its actual shipped fonts; the brag video recreates the real product, not a generic AI default"
+      },
+      {
+        "rule": "all-caps-body",
+        "value": "*",
+        "files": [
+          "/Users/Masters/Projects/FinanceHQ/brag-output/composition/index.html"
+        ],
+        "createdAt": "2026-09-20T23:55:35.964Z",
+        "reason": "false positive: the only uppercase text is the hero pill badge (RAG · TEXTRACT · FAISS · GROQ SSE), a short single-line label matching the real site's Hero pill (text-xs uppercase tracking-widest), not a long passage"
+      },
+      {
+        "rule": "oversized-h1",
+        "value": "*",
+        "files": [
+          "/Users/Masters/Projects/FinanceHQ/brag-output/composition/index.html"
+        ],
+        "createdAt": "2026-09-20T23:55:35.989Z",
+        "reason": "brand fidelity: recreates FinanceHQ's real hero headline (react_ui animated-hero.tsx: text-5xl/7xl 'Loan answers, {word}.') at video hero scale; short 4-word headline, matches the actual shipped product"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "/Users/Masters/Projects/FinanceHQ/brag-output/composition/index.html"
+        ],
+        "createdAt": "2026-09-20T23:55:36.013Z",
+        "reason": "brand fidelity: recreates the real product's own pulsing dots (Hero pill's animate-pulse dot in animated-hero.tsx) and the pipeline status dot, which represents genuinely changing status text (PENDING/EXTRACTING/CHUNKING/READY) in this scene"
+      }
+    ]
+  }
+}
