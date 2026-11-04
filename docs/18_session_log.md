@@ -41,8 +41,16 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 Result: corpus = 41 EDGAR docs (1,836 pages) + 11 CFPB forms (40 pages). 39 evals tests pass.
 
+### Simulated scans (later the same day)
+| ID | Decision | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-04-19 | 40 simulated-scan pages at 3 degradation levels, with fixed quotas per stratum | Exact reference text for scanned-page accuracy (H6); real scans can't give that | Scope v2 Decision Log; `evals/corpus/scan_specs.json` |
+| S-2026-11-04-20 | Exclude signature pages; cap pages per document per stratum | Signature pages say little about reading accuracy; tables cluster in few documents | Scope v2 Decision Log |
+
+Result: corpus = 41 EDGAR docs (1,836 pages) + 11 CFPB forms (40 pages) + 40 simulated-scan pages (from 24 source docs). Builds are reproducible (byte-identical images). 46 evals tests pass.
+
 ### Open items
-- Next in R1: scan simulator, parser interface + Docling, ingestion labeling, §8.1 metrics, S0.
+- Next in R1: parser interface + Docling, ingestion labeling, §8.1 metrics, S0.
 
 ---
 
