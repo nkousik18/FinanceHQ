@@ -61,8 +61,15 @@ Results: full parse of 92 docs × 2 configs in ~40 minutes, 0 failures. 30 label
 
 Findings so far: Docling found no key-value pairs (flat PDFs); it missed a table PyMuPDF detected (`deal_02_ca_p021`); one Docling table on `scan_01` has overlapping cells.
 
+### Labelling app (later the same day)
+| ID | Decision | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-04-25 | Build a local click-and-drag labelling app instead of hand-editing JSON | Kousik found the JSON/coordinate workflow unclear; the app should cut labelling time | Scope v2 Decision Log; `evals/golden/ingest/app/` |
+
+Also fixed: overlay images drew boxes in the wrong place on Chrome-rendered pages (inherited scaling transform).
+
 ### Open items
-- **Kousik:** label the 30 pages (~6 h), from-scratch pages first; guide in `evals/golden/ingest/README.md`.
+- **Kousik:** label the 30 pages in the app (`venv/bin/python -m evals.golden.ingest.app.server`, open http://127.0.0.1:8765), from-scratch pages first; guide in `evals/golden/ingest/README.md`.
 - Next in R1 (agent, can proceed in parallel): §8.1 metric implementations with F8 tests; then S0 once labels are verified.
 
 ---

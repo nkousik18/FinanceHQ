@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page Labeller</title>
+<style>
+:root {
+  --bg: #f6f7f9; --panel: #ffffff; --ink: #1d232b; --muted: #6b7380; --line: #dfe3e8;
+  --accent: #2563eb; --ok: #15803d; --warn: #b45309; --bad: #b91c1c; --sel: #f59e0b;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { font: 13px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--ink); background: var(--bg);
+       display: grid; grid-template-columns: 230px 1fr 400px; grid-template-rows: 44px 1fr; }
+header { grid-column: 1 / 4; display: flex; align-items: center; gap: 8px; padding: 0 12px;
+         background: var(--panel); border-bottom: 1px solid var(--line); }
+header h1 { font-size: 14px; margin: 0 12px 0 0; }
+header .spacer { flex: 1; }
+button { font: inherit; padding: 4px 10px; border: 1px solid var(--line); background: #fff; border-radius: 6px; cursor: pointer; }
+button:hover { border-color: #b8c0cc; }
+button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+button.ok { background: var(--ok); color: #fff; border-color: var(--ok); }
+button.on { background: #e8efff; border-color: var(--accent); color: var(--accent); }
+button:disabled { opacity: .45; cursor: default; }
+input, select, textarea { font: inherit; border: 1px solid var(--line); border-radius: 5px; padding: 3px 5px; background: #fff; }
+textarea { width: 100%; resize: vertical; }
+#pages { overflow: auto; background: var(--panel); border-right: 1px solid var(--line); }
+#pages .group { padding: 8px 10px 4px; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+#pages .item { padding: 6px 10px; cursor: pointer; border-left: 3px solid transparent; display: flex; justify-content: space-between; gap: 6px; }
+#pages .item:hover { background: #f2f4f7; }
+#pages .item.cur { background: #e8efff; border-left-color: var(--accent); }
+.chip { font-size: 11px; padding: 0 6px; border-radius: 9px; background: #eef0f3; color: var(--muted); white-space: nowrap; }
+.chip.verified { background: #dcfce7; color: var(--ok); }
+.chip.bad { background: #fee2e2; color: var(--bad); }
+.chip.scratch { background: #fef3c7; color: var(--warn); }
+#center { overflow: auto; position: relative; }
+#canvasWrap { padding: 16px; }
+svg#canvas { background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.15); display: block; user-select: none; touch-action: none; }
+svg#canvas.draw { cursor: crosshair; }
+.el rect.box { fill-opacity: .06; stroke-width: 1.2; vector-effect: non-scaling-stroke; cursor: move; }
+.el.sel rect.box { stroke: var(--sel) !important; stroke-width: 2.5; fill-opacity: .12; }
+.el text { pointer-events: none; font-family: -apple-system, sans-serif; }
+.handle { fill: #fff; stroke: var(--sel); vector-effect: non-scaling-stroke; stroke-width: 1.5; }
+.handle.nw, .handle.se { cursor: nwse-resize; } .handle.ne, .handle.sw { cursor: nesw-resize; }
+#side { overflow: auto; background: var(--panel); border-left: 1px solid var(--line); display: flex; flex-direction: column; }
+.tabs { display: flex; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--panel); z-index: 2; }
+.tabs button { border: 0; border-radius: 0; flex: 1; padding: 9px 4px; border-bottom: 2px solid transparent; }
+.tabs button.on { border-bottom-color: var(--accent); background: none; }
+.tab { padding: 12px; display: none; }
+.tab.on { display: block; }
+.row { display: flex; gap: 6px; align-items: center; margin: 6px 0; flex-wrap: wrap; }
+.row label { color: var(--muted); min-width: 60px; }
+.muted { color: var(--muted); }
+.hint { color: var(--muted); font-size: 12px; margin: 4px 0 10px; }
+.bbox input { width: 62px; }
+#problems { border-top: 1px solid var(--line); padding: 10px 12px; margin-top: auto; background: #fbfbfc; }
+#problems ul { margin: 4px 0 0; padding-left: 18px; color: var(--bad); max-height: 160px; overflow: auto; }
+#problems .okmsg { color: var(--ok); }
+table.grid { border-collapse: collapse; margin-top: 8px; }
+table.grid td, table.grid th { border: 1px solid #cfd5dd; padding: 0; min-width: 54px; vertical-align: top; }
+table.grid th { background: #f2f4f7; font-weight: normal; font-size: 11px; color: var(--muted); padding: 2px 4px; }
+table.grid td textarea { border: 0; border-radius: 0; width: 100%; min-width: 90px; min-height: 26px; padding: 3px; resize: none; display: block; font-size: 12px; field-sizing: content; }
+table.grid td.hdr textarea { background: #f5f8ff; font-weight: 600; }
+table.grid td.selcell { outline: 2px solid var(--sel); outline-offset: -2px; }
+table.grid td.missing { background: #fee2e2; cursor: pointer; text-align: center; color: var(--bad); font-size: 11px; }
+.gridwrap { overflow: auto; max-height: 55vh; }
+ol.order { padding-left: 22px; margin: 6px 0; }
+ol.order li { padding: 3px 4px; border-radius: 4px; cursor: pointer; }
+ol.order li:hover { background: #f2f4f7; }
+ol.order li.sel { background: #fff4dc; }
+ol.order li button { padding: 0 6px; font-size: 11px; }
+.kv input { width: 150px; }
+.status-line { font-size: 12px; color: var(--muted); }
+.dirty { color: var(--warn); }
+kbd { font: 11px ui-monospace, monospace; background: #eef0f3; border-radius: 3px; padding: 0 4px; border: 1px solid #d6dae0; }
+.legend span { display: inline-block; margin: 2px 6px 2px 0; font-size: 11px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 3px; vertical-align: -1px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Page Labeller</h1>
+  <span id="pageTitle" class="muted">pick a page</span>
+  <span class="spacer"></span>
+  <button id="btnDraw" title="Draw a new box (D)">✚ Draw box</button>
+  <button id="btnUndo" title="Undo (Ctrl/Cmd+Z)">↶ Undo</button>
+  <button id="btnZoomOut">−</button><span id="zoomLbl" class="muted">100%</span><button id="btnZoomIn">+</button>
+  <span id="saveState" class="status-line"></span>
+  <button id="btnSave" class="primary" title="Save (Ctrl/Cmd+S)">Save</button>
+  <button id="btnVerify" class="ok">Mark verified</button>
+</header>
+
+<nav id="pages"></nav>
+
+<main id="center"><div id="canvasWrap"><svg id="canvas" xmlns="http://www.w3.org/2000/svg"></svg></div></main>
+
+<aside id="side">
+  <div class="tabs">
+    <button data-tab="tElement" class="on">Box</button>
+    <button data-tab="tTable">Table</button>
+    <button data-tab="tOrder">Order</button>
+    <button data-tab="tKV">Fields</button>
+    <button data-tab="tPage">Page</button>
+    <button data-tab="tHelp">Help</button>
+  </div>
+
+  <section id="tElement" class="tab on"></section>
+  <section id="tTable" class="tab"></section>
+  <section id="tOrder" class="tab"></section>
+  <section id="tKV" class="tab"></section>
+  <section id="tPage" class="tab"></section>
+  <section id="tHelp" class="tab">
+    <p><b>Goal:</b> make the labels match the page exactly. You're building the answer key.</p>
+    <p><b>Boxes:</b> click a box to select it. Drag to move, drag a corner to resize.
+       <kbd>D</kbd> (or "Draw box") then drag on the page to add a box. Boxes only need to be roughly right.</p>
+    <p><b>Type:</b> number keys set the selected box's type:
+      <br><kbd>1</kbd> text <kbd>2</kbd> section_header <kbd>3</kbd> title <kbd>4</kbd> list
+      <kbd>5</kbd> table <kbd>6</kbd> page_header <kbd>7</kbd> page_footer <kbd>8</kbd> page_number <kbd>9</kbd> other</p>
+    <p><b>Other keys:</b> <kbd>Delete</kbd> remove box · arrows nudge (<kbd>Shift</kbd> = 5pt) ·
+       <kbd>Esc</kbd> deselect · <kbd>Ctrl/Cmd+Z</kbd> undo · <kbd>Ctrl/Cmd+S</kbd> save.</p>
+    <p><b>Tables:</b> set a box's type to <i>table</i>, then open the Table tab. Fix rows/columns and cell
+       text (numbers exactly). Merged cell: select it, set its row/column span. Big table: paste its rows
+       into "Fill from pasted text".</p>
+    <p><b>Form fields</b> (CFPB pages): add every label → value pair, e.g. Loan Amount → $162,000.</p>
+    <p><b>Order:</b> the order a person reads the boxes. "Auto order" sorts top-to-bottom; fix columns by hand.</p>
+    <p><b>Done?</b> Problems at the bottom must be empty, then "Mark verified".</p>
+    <p class="muted">From-scratch pages start empty on purpose: label them without looking at Docling's output.</p>
+  </section>
+
+  <div id="problems"></div>
+</aside>
+
+<script>
+"use strict";
+const CLASS_KEYS = ["text","section_header","title","list","table","page_header","page_footer","page_number","other"];
+const COLORS = { title:"#c00000", section_header:"#d35400", text:"#1f5fbf", list:"#008b8b", table:"#15803d",
+                 page_header:"#7e22ce", page_footer:"#7e22ce", page_number:"#a21caf", other:"#6b7280" };
+const $ = s => document.querySelector(s);
+const el = (tag, attrs = {}, ...kids) => {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "on") for (const [ev, fn] of Object.entries(v)) n.addEventListener(ev, fn);
+    else if (k === "class") n.className = v;
+    else if (v !== undefined && v !== null && v !== false) n.setAttribute(k, v === true ? "" : v);
+  }
+  for (const kid of kids.flat()) if (kid !== null && kid !== undefined) n.append(kid.nodeType ? kid : String(kid));
+  return n;
+};
+const svgEl = (tag, attrs = {}) => {
+  const n = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+  return n;
+};
+const round1 = v => Math.round(v * 10) / 10;
+
+let META = null, PAGES = [], PID = null, LAB = null;
+let selId = null, selCell = null, drawMode = false, zoom = 1, lastClass = "text";
+let dirty = false, history = [], drag = null, validateTimer = null, problems = [];
+
+async function api(path, opts = {}) {
+  const r = await fetch(path, { headers: { "Content-Type": "application/json" }, ...opts });
+  const body = await r.json().catch(() => ({}));
+  return { ok: r.ok, status: r.status, body };
+}
+
+// ---------------------------------------------------------------- pages
+async function loadPages() {
+  PAGES = (await api("/api/pages")).body;
+  renderPageList();
+}
+function renderPageList() {
+  const nav = $("#pages"); nav.innerHTML = "";
+  const done = PAGES.filter(p => p.status === "verified").length;
+  nav.append(el("div", { class: "group" }, `Pages · ${done}/${PAGES.length} verified`));
+  let group = null;
+  for (const p of PAGES) {
+    const g = p.from_scratch ? "1 · Label from scratch first" : p.stratum.replace("_", " ");
+    if (g !== group) { group = g; nav.append(el("div", { class: "group" }, g)); }
+    const chips = [];
+    if (p.status === "verified") chips.push(el("span", { class: "chip verified" }, "✓"));
+    else if (p.problems) chips.push(el("span", { class: "chip bad" }, p.problems));
+    nav.append(el("div", { class: "item" + (p.page_id === PID ? " cur" : ""), on: { click: () => openPage(p.page_id) } },
+      el("span", {}, p.page_id), el("span", {}, chips)));
+  }
+}
+
+async function openPage(pid) {
+  if (dirty && !confirm("You have unsaved changes on this page. Discard them?")) return;
+  const r = await api(`/api/labels/${pid}`);
+  if (!r.ok) { alert("Could not load " + pid); return; }
+  PID = pid; LAB = r.body; selId = null; selCell = null; history = []; setDirty(false);
+  $("#pageTitle").textContent = `${pid} · ${LAB.stratum.replace("_", " ")}${LAB.from_scratch ? " · FROM SCRATCH" : ""} · ${LAB.status}`;
+  fitZoom();
+  renderAll(); renderPageList(); validateSoon(0);
+}
+
+// ---------------------------------------------------------------- state helpers
+function setDirty(d) {
+  dirty = d;
+  $("#saveState").innerHTML = d ? '<span class="dirty">● unsaved</span>' : (PID ? "saved" : "");
+}
+function snapshot() { history.push(JSON.stringify(LAB)); if (history.length > 200) history.shift(); }
+function changed() { setDirty(true); validateSoon(); }
+function mutate(fn) { snapshot(); fn(); changed(); renderAll(); }
+function undo() {
+  if (!history.length) return;
+  LAB = JSON.parse(history.pop());
+  if (selId && !getEl(selId)) selId = null;
+  changed(); renderAll();
+}
+const getEl = id => LAB.layout_elements.find(e => e.id === id);
+const tableOf = id => LAB.tables.find(t => t.element_id === id);
+function nextId(prefix, items) {
+  let n = 0;
+  for (const it of items) { const m = String(it.id || "").match(new RegExp("^" + prefix + "(\\d+)$")); if (m) n = Math.max(n, +m[1]); }
+  return prefix + (n + 1);
+}
+
+// ---------------------------------------------------------------- canvas
+function fitZoom() {
+  const avail = $("#center").clientWidth - 40;
+  const pxW = LAB.page_size[0] * META.image_dpi / 72;
+  zoom = Math.max(0.4, Math.min(2.5, avail / pxW));
+}
+function pxPerPt() { return zoom * META.image_dpi / 72; }
+
+function renderCanvas() {
+  const svg = $("#canvas"); svg.innerHTML = "";
+  if (!LAB) return;
+  const [W, H] = LAB.page_size, s = pxPerPt();
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.setAttribute("width", W * s); svg.setAttribute("height", H * s);
+  svg.classList.toggle("draw", drawMode);
+  $("#zoomLbl").textContent = Math.round(zoom * 100) + "%";
+  svg.append(svgEl("image", { href: `/img/${PID}.png`, x: 0, y: 0, width: W, height: H }));
+
+  const fs = 10 / s, hs = 7 / s;
+  const els = [...LAB.layout_elements].sort((a, b) => area(b.bbox) - area(a.bbox));   // big first, small on top
+  for (const e of els) {
+    const [x0, y0, x1, y1] = e.bbox, c = COLORS[e.class] || "#000";
+    const g = svgEl("g", { class: "el" + (e.id === selId ? " sel" : ""), "data-id": e.id });
+    g.append(svgEl("rect", { class: "box", x: x0, y: y0, width: x1 - x0, height: y1 - y0, stroke: c, fill: c }));
+    const t = svgEl("text", { x: x0 + 1 / s, y: y0 - 2 / s, "font-size": fs, fill: c });
+    t.textContent = `${e.id} ${e.class}`;
+    g.append(t);
+    if (e.id === selId) for (const [k, hx, hy] of [["nw", x0, y0], ["ne", x1, y0], ["sw", x0, y1], ["se", x1, y1]])
+      g.append(svgEl("rect", { class: "handle " + k, "data-h": k, x: hx - hs / 2, y: hy - hs / 2, width: hs, height: hs }));
+    svg.append(g);
+  }
+}
+const area = b => (b[2] - b[0]) * (b[3] - b[1]);
+function toPt(evt) {
+  const svg = $("#canvas"), p = svg.createSVGPoint();
+  p.x = evt.clientX; p.y = evt.clientY;
+  const q = p.matrixTransform(svg.getScreenCTM().inverse());
+  return [Math.max(0, Math.min(LAB.page_size[0], q.x)), Math.max(0, Math.min(LAB.page_size[1], q.y))];
+}
+
+$("#canvas").addEventListener("pointerdown", evt => {
+  if (!LAB || evt.button !== 0) return;
+  const [x, y] = toPt(evt);
+  const hEl = evt.target.closest("[data-h]"), gEl = evt.target.closest("g.el");
+  if (drawMode || evt.shiftKey && !gEl) {
+    snapshot();
+    const e = { id: nextId("e", LAB.layout_elements), class: lastClass, bbox: [round1(x), round1(y), round1(x), round1(y)], text: "" };
+    LAB.layout_elements.push(e); LAB.reading_order.push(e.id);
+    selId = e.id; drag = { kind: "create", id: e.id, x0: x, y0: y };
+  } else if (hEl && selId) {
+    snapshot(); drag = { kind: "resize", id: selId, corner: hEl.dataset.h, start: [...getEl(selId).bbox] };
+  } else if (gEl) {
+    selId = gEl.dataset.id; selCell = null;
+    snapshot(); drag = { kind: "move", id: selId, x0: x, y0: y, start: [...getEl(selId).bbox], moved: false };
+  } else {
+    selId = null; selCell = null; renderAll(); return;
+  }
+  try { $("#canvas").setPointerCapture(evt.pointerId); } catch (_) { /* synthetic events */ }
+  renderAll();
+});
+$("#canvas").addEventListener("pointermove", evt => {
+  if (!drag) return;
+  const [x, y] = toPt(evt), e = getEl(drag.id);
+  if (drag.kind === "create") {
+    e.bbox = [round1(Math.min(x, drag.x0)), round1(Math.min(y, drag.y0)), round1(Math.max(x, drag.x0)), round1(Math.max(y, drag.y0))];
+  } else if (drag.kind === "move") {
+    const [W, H] = LAB.page_size, [a, b, c, d] = drag.start;
+    const dx = Math.max(-a, Math.min(W - c, x - drag.x0)), dy = Math.max(-b, Math.min(H - d, y - drag.y0));
+    if (Math.abs(dx) + Math.abs(dy) > 0.5) drag.moved = true;
+    e.bbox = [round1(a + dx), round1(b + dy), round1(c + dx), round1(d + dy)];
+  } else if (drag.kind === "resize") {
+    let [a, b, c, d] = drag.start;
+    if (drag.corner.includes("n")) b = y; if (drag.corner.includes("s")) d = y;
+    if (drag.corner.includes("w")) a = x; if (drag.corner.includes("e")) c = x;
+    e.bbox = [round1(Math.min(a, c)), round1(Math.min(b, d)), round1(Math.max(a, c)), round1(Math.max(b, d))];
+  }
+  const t = tableOf(e.id); if (t) t.bbox = [...e.bbox];
+  renderCanvas();
+});
+$("#canvas").addEventListener("pointerup", () => {
+  if (!drag) return;
+  const e = getEl(drag.id);
+  if (drag.kind === "create" && (e.bbox[2] - e.bbox[0] < 3 || e.bbox[3] - e.bbox[1] < 3)) {   // a click, not a box
+    history.pop(); removeElement(e.id, false); selId = null;
+  } else if (drag.kind === "move" && !drag.moved) {
+    history.pop();                                                     // plain click: no history entry
+  } else {
+    changed();
+  }
+  if (drag.kind === "create" && getEl(drag.id)) { drawMode = false; updateDrawBtn(); }
+  drag = null; renderAll();
+});
+
+function removeElement(id, withHistory = true) {
+  const go = () => {
+    LAB.layout_elements = LAB.layout_elements.filter(e => e.id !== id);
+    LAB.reading_order = LAB.reading_order.filter(r => r !== id);
+    LAB.tables = LAB.tables.filter(t => t.element_id !== id);
+  };
+  if (withHistory) mutate(go); else go();
+}
+
+function setClass(id, cls) {
+  const e = getEl(id); if (!e || e.class === cls) return;
+  if (e.class === "table" && tableOf(id) && !confirm("This box has a table with cells. Changing its type deletes the table. Continue?")) return;
+  mutate(() => {
+    if (e.class === "table") LAB.tables = LAB.tables.filter(t => t.element_id !== id);
+    e.class = cls; lastClass = cls;
+    if (cls === "table" && !tableOf(id))
+      LAB.tables.push({ id: nextId("t", LAB.tables), element_id: id, bbox: [...e.bbox], num_rows: 1, num_cols: 1,
+                        header_rows: [], cells: [{ row: 0, col: 0, row_span: 1, col_span: 1, text: "" }] });
+  });
+}
+
+// ---------------------------------------------------------------- side panels
+function renderAll() {
+  renderCanvas(); renderElementTab(); renderTableTab(); renderOrderTab(); renderKVTab(); renderPageTab();
+  $("#btnVerify").textContent = LAB && LAB.status === "verified" ? "Verified ✓ (undo)" : "Mark verified";
+}
+
+function renderElementTab() {
+  const t = $("#tElement"); t.innerHTML = "";
+  if (!LAB) { t.append(el("p", { class: "hint" }, "Pick a page on the left.")); return; }
+  const e = selId && getEl(selId);
+  if (!e) {
+    t.append(el("p", { class: "hint" }, "Click a box on the page to edit it, or press D / “Draw box” and drag to add one."),
+             el("div", { class: "legend" }, CLASS_KEYS.map((c, i) => el("span", {}, el("i", { style: `background:${COLORS[c]}` }), `${i + 1} ${c}`))),
+             el("p", { class: "hint" }, `${LAB.layout_elements.length} boxes on this page.`));
+    return;
+  }
+  const sel = el("select", { on: { change: ev => setClass(e.id, ev.target.value) } },
+    CLASS_KEYS.map((c, i) => el("option", { value: c, selected: c === e.class }, `${i + 1}  ${c}`)));
+  const bboxInputs = e.bbox.map((v, i) => el("input", { type: "number", step: "1", value: v, on: { change: ev => mutate(() => {
+    e.bbox[i] = +ev.target.value; const tb = tableOf(e.id); if (tb) tb.bbox = [...e.bbox]; }) } }));
+  t.append(
+    el("div", { class: "row" }, el("label", {}, "Box"), el("b", {}, e.id)),
+    el("div", { class: "row" }, el("label", {}, "Type"), sel),
+    el("div", { class: "row bbox" }, el("label", {}, "x0 y0 x1 y1"), bboxInputs),
+    el("div", {}, el("label", { class: "muted" }, "Text (optional; needed for header/footer lines)")),
+    el("textarea", { rows: 5, on: { focus: snapshot, input: ev => { e.text = ev.target.value; changed(); } } }, e.text || ""),
+    el("div", { class: "row" },
+      e.class === "table" ? el("button", { on: { click: () => showTab("tTable") } }, "Edit table cells →") : null,
+      el("button", { on: { click: () => { removeElement(e.id); selId = null; renderAll(); } } }, "Delete box")),
+  );
+}
+
+// ------------------------------- tables
+function normalizeGrid(t) {
+  const occ = Array.from({ length: t.num_rows }, () => Array(t.num_cols).fill(false));
+  const kept = [];
+  for (const c of [...t.cells].sort((a, b) => a.row - b.row || a.col - b.col)) {
+    if (c.row < 0 || c.col < 0 || c.row >= t.num_rows || c.col >= t.num_cols || occ[c.row][c.col]) continue;
+    c.row_span = Math.max(1, Math.min(c.row_span || 1, t.num_rows - c.row));
+    c.col_span = Math.max(1, Math.min(c.col_span || 1, t.num_cols - c.col));
+    const free = (rs, cs) => { for (let r = c.row; r < c.row + rs; r++) for (let k = c.col; k < c.col + cs; k++) if (occ[r][k]) return false; return true; };
+    while (!free(c.row_span, c.col_span)) { if (c.col_span > 1) c.col_span--; else c.row_span--; }
+    for (let r = c.row; r < c.row + c.row_span; r++) for (let k = c.col; k < c.col + c.col_span; k++) occ[r][k] = true;
+    kept.push(c);
+  }
+  for (let r = 0; r < t.num_rows; r++) for (let k = 0; k < t.num_cols; k++)
+    if (!occ[r][k]) kept.push({ row: r, col: k, row_span: 1, col_span: 1, text: "" });
+  t.cells = kept.sort((a, b) => a.row - b.row || a.col - b.col);
+  t.header_rows = (t.header_rows || []).filter(h => h < t.num_rows);
+}
+function insertRow(t, after) {
+  for (const c of t.cells) { if (c.row > after) c.row++; else if (c.row + c.row_span - 1 > after) c.row_span++; }
+  t.header_rows = t.header_rows.map(h => h > after ? h + 1 : h);
+  t.num_rows++; normalizeGrid(t);
+}
+function insertCol(t, after) {
+  for (const c of t.cells) { if (c.col > after) c.col++; else if (c.col + c.col_span - 1 > after) c.col_span++; }
+  t.num_cols++; normalizeGrid(t);
+}
+function deleteRow(t, r) {
+  if (t.num_rows <= 1) return;
+  t.cells = t.cells.filter(c => !(c.row === r && c.row_span === 1));
+  for (const c of t.cells) { if (c.row > r) c.row--; else if (c.row + c.row_span - 1 >= r) c.row_span--; }
+  t.header_rows = t.header_rows.filter(h => h !== r).map(h => h > r ? h - 1 : h);
+  t.num_rows--; normalizeGrid(t);
+}
+function deleteCol(t, k) {
+  if (t.num_cols <= 1) return;
+  t.cells = t.cells.filter(c => !(c.col === k && c.col_span === 1));
+  for (const c of t.cells) { if (c.col > k) c.col--; else if (c.col + c.col_span - 1 >= k) c.col_span--; }
+  t.num_cols--; normalizeGrid(t);
+}
+function fillFromText(t, text) {
+  const lines = text.split(/\r?\n/).filter(l => l.trim());
+  const split = l => l.includes("\t") ? l.split("\t") : l.includes("|") ? l.replace(/^\s*\||\|\s*$/g, "").split("|") : l.split(/\s{2,}/);
+  const rows = lines.filter(l => !/^\s*\|?\s*:?-{2,}/.test(l)).map(l => split(l).map(s => s.trim()));
+  if (!rows.length) return;
+  t.num_rows = rows.length; t.num_cols = Math.max(...rows.map(r => r.length));
+  t.cells = []; rows.forEach((r, i) => r.forEach((txt, k) => t.cells.push({ row: i, col: k, row_span: 1, col_span: 1, text: txt })));
+  normalizeGrid(t);
+}
+function gridProblems(t) {
+  const occ = Array.from({ length: t.num_rows }, () => Array(t.num_cols).fill(0));
+  for (const c of t.cells) for (let r = c.row; r < c.row + c.row_span; r++) for (let k = c.col; k < c.col + c.col_span; k++)
+    if (r < t.num_rows && k < t.num_cols && r >= 0 && k >= 0) occ[r][k]++;
+  return occ;
+}
+
+function renderTableTab() {
+  const tab = $("#tTable"); tab.innerHTML = "";
+  if (!LAB) return;
+  const e = selId && getEl(selId), t = e && tableOf(e.id);
+  if (!t) {
+    tab.append(el("p", { class: "hint" }, "Select a box of type “table” to edit its cells."),
+      el("p", { class: "hint" }, `${LAB.tables.length} table(s) on this page: `,
+        LAB.tables.map(x => el("button", { on: { click: () => { selId = x.element_id; selCell = null; renderAll(); } } }, `${x.id} (${x.element_id})`))));
+    return;
+  }
+  const occ = gridProblems(t);
+  const broken = occ.some(r => r.some(v => v !== 1));
+  const cur = selCell && t.cells.find(c => c.row === selCell[0] && c.col === selCell[1]);
+
+  tab.append(el("div", { class: "row" }, el("b", {}, `${t.id}`), el("span", { class: "muted" }, `${t.num_rows} rows × ${t.num_cols} cols · box ${e.id}`)));
+  if (broken) tab.append(el("div", { class: "row" }, el("span", { style: "color:var(--bad)" }, "Grid has overlapping or missing cells."),
+                                   el("button", { on: { click: () => mutate(() => normalizeGrid(t)) } }, "Fix grid")));
+  tab.append(el("div", { class: "row" },
+    el("button", { on: { click: () => mutate(() => insertRow(t, cur ? cur.row + cur.row_span - 1 : t.num_rows - 1)) } }, "+ Row below"),
+    el("button", { on: { click: () => mutate(() => insertCol(t, cur ? cur.col + cur.col_span - 1 : t.num_cols - 1)) } }, "+ Col right"),
+    el("button", { disabled: !cur, on: { click: () => { mutate(() => deleteRow(t, cur.row)); selCell = null; renderAll(); } } }, "− Row"),
+    el("button", { disabled: !cur, on: { click: () => { mutate(() => deleteCol(t, cur.col)); selCell = null; renderAll(); } } }, "− Col")));
+  if (cur) tab.append(el("div", { class: "row" }, el("span", { class: "muted" }, `Cell (${cur.row},${cur.col}) span:`),
+    el("input", { type: "number", min: 1, value: cur.row_span, style: "width:52px", title: "rows",
+      on: { change: ev => mutate(() => { cur.row_span = Math.max(1, +ev.target.value); normalizeGrid(t); }) } }), "rows",
+    el("input", { type: "number", min: 1, value: cur.col_span, style: "width:52px", title: "cols",
+      on: { change: ev => mutate(() => { cur.col_span = Math.max(1, +ev.target.value); normalizeGrid(t); }) } }), "cols"));
+
+  const tbl = el("table", { class: "grid" });
+  const covered = new Set();
+  for (const c of t.cells) for (let r = c.row; r < c.row + c.row_span; r++) for (let k = c.col; k < c.col + c.col_span; k++)
+    if (r !== c.row || k !== c.col) covered.add(r + "," + k);
+  const anchors = new Map(t.cells.map(c => [c.row + "," + c.col, c]));
+  for (let r = 0; r < t.num_rows; r++) {
+    const isHdr = t.header_rows.includes(r);
+    const tr = el("tr", {}, el("th", { title: "header row?" },
+      el("input", { type: "checkbox", checked: isHdr, on: { change: ev => mutate(() => {
+        t.header_rows = ev.target.checked ? [...new Set([...t.header_rows, r])].sort((a, b) => a - b) : t.header_rows.filter(h => h !== r); }) } }), r));
+    for (let k = 0; k < t.num_cols; k++) {
+      const key = r + "," + k, c = anchors.get(key);
+      if (c) {
+        const isSel = selCell && selCell[0] === r && selCell[1] === k;
+        tr.append(el("td", { class: (isHdr ? "hdr " : "") + (isSel ? "selcell" : ""), rowspan: c.row_span, colspan: c.col_span },
+          el("textarea", { rows: 1, on: {
+            focus: () => { snapshot(); if (!isSel) { selCell = [r, k]; renderTableTab(); setTimeout(() => focusCell(r, k), 0); } },
+            input: ev => { c.text = ev.target.value; changed(); } }, "data-rc": key }, c.text)));
+      } else if (!covered.has(key)) {
+        tr.append(el("td", { class: "missing", on: { click: () => mutate(() => t.cells.push({ row: r, col: k, row_span: 1, col_span: 1, text: "" })) } }, "missing"));
+      }
+    }
+    tbl.append(tr);
+  }
+  tab.append(el("div", { class: "gridwrap" }, tbl));
+
+  const paste = el("textarea", { rows: 4, placeholder: "Paste rows here: one row per line; columns separated by tabs, | or 2+ spaces" });
+  tab.append(el("details", {}, el("summary", {}, "Fill from pasted text (replaces all cells)"), paste,
+    el("button", { on: { click: () => { if (paste.value.trim() && confirm("Replace all cells of this table?")) { mutate(() => fillFromText(t, paste.value)); } } } }, "Replace cells")));
+}
+function focusCell(r, k) { const ta = document.querySelector(`#tTable textarea[data-rc="${r},${k}"]`); if (ta) ta.focus(); }
+
+// ------------------------------- reading order
+function renderOrderTab() {
+  const tab = $("#tOrder"); tab.innerHTML = "";
+  if (!LAB) return;
+  tab.append(el("p", { class: "hint" }, "The order a person reads the boxes. Multi-column: finish a column before the next. Headers/footers can be left out."),
+    el("div", { class: "row" },
+      el("button", { on: { click: () => mutate(() => {
+        LAB.reading_order = [...LAB.layout_elements].sort((a, b) => (a.bbox[1] - b.bbox[1]) || (a.bbox[0] - b.bbox[0])).map(e => e.id); }) } }, "Auto order (top → bottom)"),
+      el("button", { on: { click: () => mutate(() => {
+        for (const e of LAB.layout_elements) if (!LAB.reading_order.includes(e.id)) LAB.reading_order.push(e.id); }) } }, "Add missing")));
+  const ol = el("ol", { class: "order" });
+  LAB.reading_order.forEach((id, i) => {
+    const e = getEl(id);
+    const mv = d => mutate(() => { const o = LAB.reading_order, j = i + d; if (j < 0 || j >= o.length) return; [o[i], o[j]] = [o[j], o[i]]; });
+    ol.append(el("li", { class: id === selId ? "sel" : "", on: { click: ev => { if (ev.target.tagName !== "BUTTON") { selId = id; renderAll(); } } } },
+      el("button", { on: { click: () => mv(-1) } }, "↑"), " ", el("button", { on: { click: () => mv(1) } }, "↓"), " ",
+      el("button", { title: "leave out of reading order", on: { click: () => mutate(() => { LAB.reading_order.splice(i, 1); }) } }, "✕"), " ",
+      el("b", {}, id), " ", el("span", { class: "muted" }, e ? `${e.class} · ${(e.text || "").slice(0, 40)}` : "(missing box!)")));
+  });
+  tab.append(ol);
+  const left = LAB.layout_elements.filter(e => !LAB.reading_order.includes(e.id));
+  if (left.length) tab.append(el("p", { class: "hint" }, "Not in reading order: " + left.map(e => e.id).join(", ")));
+}
+
+// ------------------------------- form fields
+function renderKVTab() {
+  const tab = $("#tKV"); tab.innerHTML = "";
+  if (!LAB) return;
+  tab.append(el("p", { class: "hint" }, "Label → value pairs on forms (mostly CFPB pages), e.g. “Loan Amount” → “$162,000”. Docling found none, so add them all. SEC agreement pages usually have none."));
+  LAB.key_values.forEach((kv, i) => tab.append(el("div", { class: "row kv" },
+    el("input", { value: kv.key || "", placeholder: "label", on: { focus: snapshot, input: ev => { kv.key = ev.target.value; changed(); } } }),
+    el("input", { value: kv.value || "", placeholder: "value", on: { focus: snapshot, input: ev => { kv.value = ev.target.value; changed(); } } }),
+    el("button", { on: { click: () => mutate(() => LAB.key_values.splice(i, 1)) } }, "✕"))));
+  tab.append(el("button", { on: { click: () => { mutate(() => LAB.key_values.push({ key: "", value: "" })); const ins = $("#tKV").querySelectorAll("input"); if (ins.length) ins[ins.length - 2].focus(); } } }, "+ Add pair"));
+}
+
+// ------------------------------- page
+function renderPageTab() {
+  const tab = $("#tPage"); tab.innerHTML = "";
+  if (!LAB) return;
+  const hf = el("textarea", { rows: 3, on: { focus: snapshot, input: ev => { LAB.header_footer_lines = ev.target.value.split("\n").map(s => s.trim()).filter(Boolean); changed(); } } },
+    (LAB.header_footer_lines || []).join("\n"));
+  tab.append(
+    el("div", { class: "row" }, el("label", {}, "Page"), `${LAB.doc_id} p.${LAB.page}`),
+    el("div", { class: "row" }, el("label", {}, "Stratum"), LAB.stratum),
+    LAB.scan_of ? el("div", { class: "row" }, el("label", {}, "Scan of"), `${LAB.scan_of} (${LAB.scan_level})`) : null,
+    el("div", { class: "row" }, el("label", {}, "Status"), LAB.status, LAB.labeled_by ? ` · ${LAB.labeled_by} ${LAB.verified_on || ""}` : ""),
+    el("div", { class: "row" }, el("label", {}, "Prefill"), LAB.prefill_source || "none (from scratch)"),
+    el("p", {}, el("b", {}, "Header / footer lines"), el("br"), el("span", { class: "hint" }, "Exact text of each running header/footer line, one per line.")),
+    hf,
+    el("button", { on: { click: () => mutate(() => {
+      LAB.header_footer_lines = LAB.layout_elements.filter(e => ["page_header", "page_footer", "page_number"].includes(e.class) && (e.text || "").trim()).map(e => e.text.trim()); }) } },
+      "Fill from header/footer boxes"),
+    el("p", {}, el("b", {}, "Notes")),
+    el("textarea", { rows: 3, on: { focus: snapshot, input: ev => { LAB.notes = ev.target.value; changed(); } } }, LAB.notes || ""));
+}
+
+function showTab(id) {
+  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === id));
+  document.querySelectorAll(".tab").forEach(s => s.classList.toggle("on", s.id === id));
+}
+document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => showTab(b.dataset.tab)));
+
+// ---------------------------------------------------------------- validate / save
+function validateSoon(ms = 400) {
+  clearTimeout(validateTimer);
+  validateTimer = setTimeout(async () => {
+    if (!LAB) return;
+    problems = (await api("/api/validate", { method: "POST", body: JSON.stringify(LAB) })).body.errors || [];
+    renderProblems();
+  }, ms);
+}
+function renderProblems() {
+  const p = $("#problems"); p.innerHTML = "";
+  if (!LAB) return;
+  if (!problems.length) p.append(el("div", { class: "okmsg" }, "✓ No problems."));
+  else p.append(el("b", {}, `${problems.length} problem(s) — fix before marking verified`), el("ul", {}, problems.map(x => el("li", {}, x))));
+}
+async function save(status) {
+  if (!LAB) return false;
+  const body = JSON.parse(JSON.stringify(LAB));
+  if (status) body.status = status;
+  if (body.status !== "verified") { body.labeled_by = body.labeled_by || null; }
+  const r = await api(`/api/labels/${PID}`, { method: "PUT", body: JSON.stringify(body) });
+  if (!r.ok) { problems = r.body.errors || [r.body.error || "save failed"]; renderProblems(); alert("Not saved: fix the problems listed at the bottom right."); return false; }
+  LAB = (await api(`/api/labels/${PID}`)).body;
+  setDirty(false); problems = r.body.errors || []; renderProblems(); renderAll();
+  $("#pageTitle").textContent = `${PID} · ${LAB.stratum.replace("_", " ")}${LAB.from_scratch ? " · FROM SCRATCH" : ""} · ${LAB.status}`;
+  await loadPages();
+  return true;
+}
+$("#btnSave").addEventListener("click", () => save());
+$("#btnVerify").addEventListener("click", async () => {
+  if (!LAB) return;
+  if (LAB.status === "verified") { if (confirm("Mark this page as not verified again?")) { snapshot(); LAB.status = "prefilled"; LAB.verified_on = null; await save(); } return; }
+  if (await save("verified")) {
+    const i = PAGES.findIndex(p => p.page_id === PID), next = PAGES.slice(i + 1).find(p => p.status !== "verified");
+    if (next && confirm(`Verified. Open the next page (${next.page_id})?`)) openPage(next.page_id);
+  }
+});
+
+// ---------------------------------------------------------------- toolbar + keys
+function updateDrawBtn() { $("#btnDraw").classList.toggle("on", drawMode); $("#canvas").classList.toggle("draw", drawMode); }
+$("#btnDraw").addEventListener("click", () => { drawMode = !drawMode; updateDrawBtn(); });
+$("#btnUndo").addEventListener("click", undo);
+$("#btnZoomIn").addEventListener("click", () => { zoom = Math.min(4, zoom * 1.2); renderCanvas(); });
+$("#btnZoomOut").addEventListener("click", () => { zoom = Math.max(0.3, zoom / 1.2); renderCanvas(); });
+
+document.addEventListener("keydown", evt => {
+  const typing = ["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement.tagName);
+  const mod = evt.metaKey || evt.ctrlKey;
+  if (mod && evt.key.toLowerCase() === "s") { evt.preventDefault(); save(); return; }
+  if (mod && evt.key.toLowerCase() === "z" && !typing) { evt.preventDefault(); undo(); return; }
+  if (typing || !LAB) return;
+  if (evt.key === "Escape") { selId = null; selCell = null; drawMode = false; updateDrawBtn(); renderAll(); }
+  else if (evt.key.toLowerCase() === "d") { drawMode = !drawMode; updateDrawBtn(); }
+  else if (selId && (evt.key === "Delete" || evt.key === "Backspace")) { evt.preventDefault(); removeElement(selId); selId = null; renderAll(); }
+  else if (selId && /^[1-9]$/.test(evt.key)) setClass(selId, CLASS_KEYS[+evt.key - 1]);
+  else if (selId && evt.key.startsWith("Arrow")) {
+    evt.preventDefault();
+    const d = evt.shiftKey ? 5 : 1, e = getEl(selId), [W, H] = LAB.page_size;
+    const dx = evt.key === "ArrowLeft" ? -d : evt.key === "ArrowRight" ? d : 0, dy = evt.key === "ArrowUp" ? -d : evt.key === "ArrowDown" ? d : 0;
+    mutate(() => { if (e.bbox[0] + dx >= 0 && e.bbox[2] + dx <= W && e.bbox[1] + dy >= 0 && e.bbox[3] + dy <= H)
+      e.bbox = e.bbox.map((v, i) => round1(v + (i % 2 ? dy : dx))); const t = tableOf(e.id); if (t) t.bbox = [...e.bbox]; });
+  }
+});
+window.addEventListener("beforeunload", evt => { if (dirty) { evt.preventDefault(); evt.returnValue = ""; } });
+window.addEventListener("resize", () => { if (LAB) { fitZoom(); renderCanvas(); } });
+
+(async () => {
+  META = (await api("/api/meta")).body;
+  await loadPages();
+  const first = PAGES.find(p => p.status !== "verified") || PAGES[0];
+  if (first) openPage(first.page_id);
+  showTab("tHelp");
+})();
+</script>
+</body>
+</html>

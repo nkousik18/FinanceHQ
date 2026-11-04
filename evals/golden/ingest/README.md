@@ -12,6 +12,19 @@ form fields and layout (scope v2 §5.4, §8.1). About 6 hours in total.
 | `images/<page_id>.png` | Clean page image (100 dpi) |
 | `data/golden_overlays/<page_id>.png` | Page + 50-point grid + your current boxes (regenerate after edits) |
 
+## The labelling app (recommended)
+
+```bash
+venv/bin/python -m evals.golden.ingest.app.server     # then open http://127.0.0.1:8765
+```
+
+Runs only on this Mac. Pages are listed on the left (from-scratch pages first). Click a box to
+select it, drag to move, drag a corner to resize; **D** then drag to draw a new box; keys **1–9**
+set the type; the Table tab edits cells; the Fields tab holds form label → value pairs; the Order
+tab sets reading order. Problems show at the bottom right; **Save** (Cmd+S) keeps a draft,
+**Mark verified** only works when there are no problems. The Help tab lists every shortcut.
+It reads and writes the same JSON files described below, so the CLI still works too.
+
 ## Order of work
 
 1. **From-scratch pages first** (`"from_scratch": true`, 5 pages). Their files start empty.
@@ -19,7 +32,7 @@ form fields and layout (scope v2 §5.4, §8.1). About 6 hours in total.
    pre-filling biases the labels (§5.4 step 3).
 2. Then the 25 pre-filled pages: correct what Docling got wrong, add what it missed.
 
-For each page:
+Without the app, for each page:
 
 ```bash
 venv/bin/python -m evals.golden.ingest.labeling render <page_id>   # refresh the overlay
