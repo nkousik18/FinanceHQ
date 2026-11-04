@@ -612,3 +612,13 @@ Numbers can be quoted only after the stage that produces them has run on its fin
 
 ## Decision Log
 *(The agent adds entries here for D10 choices: date, choice, one-line reason.)*
+
+| Date | Choice | Reason |
+|---|---|---|
+| 2026-11-04 | **EDGAR deal discovery:** full-text search for amendment titles in EX-10 exhibits (2019–2025); amendments grouped by the date of the agreement they amend; original = same company's EX-10 filed within 100 days of that date, titled "Credit Agreement" and showing that date in its opening text (`evals/corpus/edgar_discover.py`) | Ties each amendment to its exact agreement without hand-checking; the date check rejected 5 of 37 first-pass matches |
+| 2026-11-04 | **Duplicate / ambiguous amendments:** same amendment number + same own date = one document filed twice; keep the copy with fewest `[***]` redactions, then the longest. Same number + different dates = two agreements share a date, so the deal is dropped | Companies refile amendments (8-K then 10-Q; redacted then full). FirstEnergy and Omega were dropped as ambiguous |
+| 2026-11-04 | **Rendering:** headless Chrome 156, US Letter, 0.5in margins, no header/footer; scripts and images stripped; a Content-Security-Policy blocks all network loads | No new dependency; nothing is fetched from EDGAR without our User-Agent. 356 images removed (page backgrounds, logos, signatures); PDFs keep 95.7–100% of the HTML's words (median 98%) |
+| 2026-11-04 | **Page fidelity:** render at zoom 1.0 / 0.9 / 0.8 / 0.7, keeping the first whose page count ≤ the source's page breaks + 1; zoom recorded per document in the manifest | At a fixed 0.75in/1.0 setting, original pages spilled onto extra PDF pages (deal_12: 297 PDF pages for 176 originals), which breaks page-level evidence labels. Result: 23 docs at 1.0, 14 at 0.9, 3 at 0.8, 1 at 0.7 |
+| 2026-11-04 | **Checksums on source HTML, not PDFs** | Chrome embeds timestamps, so PDFs are not byte-stable; PDFs are identified by page count |
+| 2026-11-04 | **Approved deals (12):** Lincoln Educational, EQT, Raymond James, IFF, SigmaTron, SWK, Harmonic, PureCycle, United Therapeutics, RPM, TrueBlue, Tactile Systems (`evals/corpus/edgar_selection.json`) | Approved by Kousik. 23 industries in the candidate pool; picks favour smaller agreements and industry spread. Corpus: 41 documents, 1,836 pages |
+

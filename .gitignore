@@ -70,3 +70,9 @@ brag-output/composition/snapshots/
 
 # Local Airflow home for the placeholder DAG
 orchestration/.airflow/
+
+# Evals: local data — downloaded corpus PDFs, parser/chunk/embedding caches,
+# local MLflow store, spend ledger (scope v2 D11). Re-created by scripts.
+data/
+evals/**/*.pdf
+!evals/fixtures/ci/**/*.pdf

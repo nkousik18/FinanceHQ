@@ -1,0 +1,1253 @@
+{
+  "generated_on": "2026-11-04",
+  "method": "evals/corpus/edgar_discover.py (see module docstring)",
+  "sec_requests": 0,
+  "candidates": [
+    {
+      "company": "B. Riley Financial, Inc.  (RILY, RILYG, RILYK, RILYL, RILYM, RILYN, RILYP, RILYT, RILYZ)  (CIK 0001464790)",
+      "cik": "0001464790",
+      "sic": "7389",
+      "agreement_date": "2018-12-19",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/1464790/000161577418015051/s114865_ex10-1.htm",
+        "accession": "0001615774-18-015051",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2018-12-27",
+        "est_pages": 142,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1464790/000161577419002063/s115947_ex10-1.htm",
+          "accession": "0001615774-19-002063",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2019-02-07",
+          "est_pages": 4,
+          "opening": "EX-10.1 2 s115947_ex10-1.htm EXHIBIT 10.1 Exhibit 10.1 FIRST AMENDMENT TO CREDIT AGREEMENT AND joinder THIS FIRST AMENDMENT TO CREDIT AGREEMENT AND JOINDER (this \u201c Amendment \u201d), dated as of February 1, 2019, is entered into by and among BRPI Acquisition Co LLC, a Delaware limited liability company, United Online, Inc., a Delaware corporation, YMax Corporation, a Delaware corporation (collectively, the \u201c Borrowers \u201d), the Affiliates of the Borrowers identified on the signature pages hereto (collectively, the \u201c Secured Guarantors \u201d), the financial institutions identified on the signature pages hereto (collectively, the \u201c Lenders \u201d), and Banc of California, N.A., as Administrative Agent, with reference to the following facts: RECITALS A. The Borrowers, the Secured Guarantors, the financial in"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1464790/000121390021000554/ea132671ex10-1_brileyfin.htm",
+          "accession": "0001213900-21-000554",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2021-01-06",
+          "est_pages": 12,
+          "opening": "EX-10.1 2 ea132671ex10-1_brileyfin.htm SECOND AMENDMENT TO CREDIT AGREEMENT, DATED DECEMBER 31, 2020 Exhibit 10.1 This Exhibit omits certain confidential information. SECOND AMENDMENT TO CREDIT AGREEMENT THIS SECOND AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of December 31, 2020 (the \u201c Second Amendment Effective Date \u201d), is entered into by and among BRPI Acquisition Co LLC, a Delaware limited liability company, United Online, Inc., a Delaware corporation, YMax Corporation, a Delaware corporation (collectively, the \u201c Borrowers \u201d), the Affiliates of the Borrowers identified on the signature pages hereto (collectively, the \u201c Secured Guarantors \u201d), the financial institutions identified on the signature pages hereto (collectively, the \u201c Lenders \u201d), and Banc of California, N.A."
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1464790/000121390022009539/f10k2021ex10-44_brileyfinan.htm",
+          "accession": "0001213900-22-009539",
+          "file_type": "EX-10.44",
+          "form": "10-K",
+          "file_date": "2022-02-28",
+          "est_pages": 11,
+          "opening": "EX-10.44 3 f10k2021ex10-44_brileyfinan.htm THIRD AMENDMENT TO CREDIT AGREEMENT, DATED AS OF DECEMBER 16, 2021 Exhibit 10.44 THIRD AMENDMENT TO CREDIT AGREEMENT THIS THIRD AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of December 16, 2021 (the \u201c Third Amendment Effective Date \u201d), is entered into by and among BRPI Acquisition Co LLC, a Delaware limited liability company, United Online, Inc., a Delaware corporation, YMax Corporation, a Delaware corporation (collectively, the \u201c Borrowers \u201d), the Affiliates of the Borrowers identified on the signature pages hereto (collectively, the \u201c Secured Guarantors \u201d), the financial institutions identified on the signature pages hereto (collectively, the \u201c Lenders \u201d), and Banc of California, N.A., as Administrative Agent (the \u201c Administrativ"
+        }
+      ]
+    },
+    {
+      "company": "RPM INTERNATIONAL INC/DE/  (RPM)  (CIK 0000110621)",
+      "cik": "0000110621",
+      "sic": "2851",
+      "agreement_date": "2018-10-31",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/110621/000119312518319622/d646824dex101.htm",
+        "accession": "0001193125-18-319622",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2018-11-06",
+        "est_pages": 152,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/110621/000156459020033611/exhibit10_11.htm",
+          "accession": "0001564590-20-033611",
+          "file_type": "EX-10.1.1",
+          "form": "10-K",
+          "file_date": "2020-07-27",
+          "est_pages": 17,
+          "opening": "EX-10.1.1 2 exhibit10_11.htm EX-10.1.1 EX-10.1.1 Exhibit 10.1.1 Execution Version FIRST AMENDMENT TO CREDIT AGREEMENT THIS FIRST AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of April 30, 2020, is made by and among RPM INTERNATIONAL INC., a Delaware corporation (the \u201c Company \u201d), RPM ENTERPRISES, INC., a Delaware corporation (\u201c Enterprises \u201d) RPM LUX HOLDCO S.\u00c0R.L., a limited liability company formed under the laws of Luxembourg (\u201c RPM Lux \u201d), RPOW UK LIMITED, a limited company incorporated under the laws of England and Wales (\u201c RPOW-UK \u201d), RPM EUROPE HOLDCO B.V., a private company with limited liability formed under the laws of the Netherlands (\u201c RPM-Europe \u201d), RPM CANADA, a general partnership registered under the laws of the Province of Ontario (\u201c RPM Canada \u201d), TREMCO IL"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/110621/000095017022012972/rpm-ex10_102.htm",
+          "accession": "0000950170-22-012972",
+          "file_type": "EX-10.102",
+          "form": "10-K",
+          "file_date": "2022-07-25",
+          "est_pages": 5,
+          "opening": "EX-10.102 5 rpm-ex10_102.htm EX-10.102 EX-10.102 Execution Version Exhibit 10.102 SECOND AMENDMENT TO CREDIT AGREEMENT THIS SECOND AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of December 16, 2021, is made by and among RPM INTERNATIONAL INC., a Delaware corporation (the \u201c Company \u201d), RPM ENTERPRISES, INC., a Delaware corporation (\u201c Enterprises \u201d) RPM LUX HOLDCO S.\u00c0R.L., a limited liability company formed under the laws of Luxembourg (\u201c RPM Lux \u201d), RPOW UK LIMITED, a limited company incorporated under the laws of England and Wales (\u201c RPOW-UK \u201d), RPM EUROPE HOLDCO B.V., a private company with limited liability formed under the laws of the Netherlands (\u201c RPM-Europe \u201d), RPM CANADA, a general partnership registered under the laws of the Province of Ontario (\u201c RPM Canada \u201d), TREM"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/110621/000095017022012972/rpm-ex10_103.htm",
+          "accession": "0000950170-22-012972",
+          "file_type": "EX-10.103",
+          "form": "10-K",
+          "file_date": "2022-07-25",
+          "est_pages": 5,
+          "opening": "EX-10.103 6 rpm-ex10_103.htm EX-10.103 EX-10.103 Execution Version Exhibit 10.103 THIRD AMENDMENT TO CREDIT AGREEMENT THIS THIRD AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of December 16, 2021, is made by and among RPM INTERNATIONAL INC., a Delaware corporation (the \u201c Company \u201d) and RPM EUROPE HOLDCO B.V., a corporation incorporated under the laws of the Netherlands (\u201c RPM Europe \u201d) (each of the foregoing referred to herein as a \u201c Borrower \u201d and collectively referred to as the \u201c Borrowers \u201d), the LENDERS (as defined in the Credit Agreement) and PNC BANK, NATIONAL ASSOCIATION, in its capacity as administrative agent for the Lenders (hereinafter referred to in such capacity as the \u201c Administrative Agent \u201d). W I T N E S S E T H: WHEREAS, the Borrowers, the Lenders and the Ad"
+        }
+      ]
+    },
+    {
+      "company": "PureCycle Technologies, Inc.  (PCT, PCTTU, PCTTW)  (CIK 0001830033)",
+      "cik": "0001830033",
+      "sic": "2821",
+      "agreement_date": "2023-03-15",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/1830033/000183003323000021/pct-form8xk3152023ex102xsy.htm",
+        "accession": "0001830033-23-000021",
+        "file_type": "EX-10.2",
+        "form": "8-K",
+        "file_date": "2023-03-15",
+        "est_pages": 134,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1830033/000183003323000034/pctq12023ex102sylebrapurec.htm",
+          "accession": "0001830033-23-000034",
+          "file_type": "EX-10.2",
+          "form": "8-K",
+          "file_date": "2023-05-09",
+          "est_pages": 4,
+          "opening": "EX-10.2 3 pctq12023ex102sylebrapurec.htm EX-10.2 Document Exhibit 10.2 Execution Version FIRST AMENDMENT TO CREDIT AGREEMENT This FIRST AMENDMENT TO CREDIT AGREEMENT , dated as of May 8, 2023 (this \u201c Amendment \u201d), is entered into by and among PURECYCLE TECHNOLOGIES, INC. , a Delaware corporation (the \u201c Borrower \u201d), (b) the Guarantors (as defined herein), (c) the Lenders (as defined herein), (d) MADISON PACIFIC TRUST LIMITED , as Administrative Agent (in such capacity, the \u201c Administrative Agent \u201d), and (e) MADISON PACIFIC TRUST LIMITED , as Security Agent (in such capacity, the \u201c Security Agent \u201d). PRELIMINARY STATEMENTS: WHEREAS , the Borrower, the Guarantors, the Lenders, the Administrative Agent and the Security Agent are party to that certain Credit Agreement, dated as of March 15, 202"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1830033/000183003323000061/pct-form10xqq22023ex103xsy.htm",
+          "accession": "0001830033-23-000061",
+          "file_type": "EX-10.3",
+          "form": "10-Q",
+          "file_date": "2023-08-08",
+          "est_pages": 4,
+          "opening": "EX-10.3 2 pct-form10xqq22023ex103xsy.htm EX-10.3 Document Exhibit 10.3 SECOND AMENDMENT TO CREDIT AGREEMENT This SECOND AMENDMENT TO CREDIT AGREEMENT , dated as of August 4, 2023 (this \u201c Amendment \u201d), is entered into by and among (a) PURECYCLE TECHNOLOGIES, INC. , a Delaware corporation (the \u201c Borrower \u201d), (b) the Guarantors (as defined herein), (c) the Lenders (as defined herein), (d) MADISON PACIFIC TRUST LIMITED , as Administrative Agent (in such capacity, the \u201c Administrative Agent \u201d), and (e) MADISON PACIFIC TRUST LIMITED , as Security Agent (in such capacity, the \u201c Security Agent \u201d). PRELIMINARY STATEMENTS: WHEREAS , the Borrower, the Guarantors, the Lenders, the Administrative Agent and the Security Agent are party to that certain Credit Agreement, dated as of March 15, 2023, as ame"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1830033/000183003323000064/pctform8212023ex102sylebra.htm",
+          "accession": "0001830033-23-000064",
+          "file_type": "EX-10.2",
+          "form": "8-K",
+          "file_date": "2023-08-21",
+          "est_pages": 5,
+          "opening": "EX-10.2 3 pctform8212023ex102sylebra.htm EX-10.2 Document Exhibit 10.2 THIRD AMENDMENT TO CREDIT AGREEMENT This THIRD AMENDMENT TO CREDIT AGREEMENT , dated as of August 21, 2023 (this \u201c Amendment \u201d), is entered into by and among (a) PURECYCLE TECHNOLOGIES, INC. , a Delaware corporation (the \u201c Borrower \u201d), (b) the Guarantors (as defined herein), (c) the Lenders (as defined herein), (d) MADISON PACIFIC TRUST LIMITED , as Administrative Agent (in such capacity, the \u201c Administrative Agent \u201d), and (e) MADISON PACIFIC TRUST LIMITED , as Security Agent (in such capacity, the \u201c Security Agent \u201d). PRELIMINARY STATEMENTS: WHEREAS , the Borrower, the Guarantors, the Lenders, the Administrative Agent and the Security Agent are party to that certain Credit Agreement, dated as of March 15, 2023, as amen"
+        }
+      ]
+    },
+    {
+      "company": "OMEGA HEALTHCARE INVESTORS INC  (OHI)  (CIK 0000888491)",
+      "cik": "0000888491",
+      "sic": "6798",
+      "agreement_date": "2017-05-25",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/888491/000157104917005525/t1701734_ex10-1.htm",
+        "accession": "0001571049-17-005525",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2017-05-31",
+        "est_pages": 185,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/888491/000114420419005342/tv512544_ex10-1.htm",
+          "accession": "0001144204-19-005342",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2019-02-06",
+          "est_pages": 7,
+          "opening": "EX-10.1 2 tv512544_ex10-1.htm EXHIBIT 10.1 Exhibit 10.1 Execution Version FIRST AMENDMENT TO CREDIT AGREEMENT THIS FIRST AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of the First Amendment Effective Date, is by and among OMEGA HEALTHCARE INVESTORS, INC. , a Maryland corporation (the \u201c Borrower \u201d), OHI HEALTHCARE PROPERTIES LIMITED PARTNERSHIP , a Delaware limited partnership, as a Guarantor, the lenders identified on the signature pages hereto and BANK OF AMERICA, N.A. , as Administrative Agent. WITNESSETH WHEREAS, the Borrower, each Guarantor, the lenders party thereto from time to time (the \u201c Lenders \u201d) and the Administrative Agent have entered into that certain Credit Agreement dated as of May 25, 2017 as amended, supplemented or otherwise modified prior to the date here"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/888491/000088849120000034/ohi-20200331ex1018ed175.htm",
+          "accession": "0000888491-20-000034",
+          "file_type": "EX-10.1",
+          "form": "10-Q",
+          "file_date": "2020-05-08",
+          "est_pages": 5,
+          "opening": "EX-10.1 2 ohi-20200331ex1018ed175.htm EX-10.1 ohi_Ex10_1 Exhibit 10.1 SECOND AMENDMENT TO CREDIT AGREEMENT THIS SECOND AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of the Second Amendment Effective Date, is by and among OMEGA HEALTHCARE INVESTORS, INC. , a Maryland corporation (the \u201c Borrower \u201d), OHI HEALTHCARE PROPERTIES LIMITED PARTNERSHIP , a Delaware limited partnership, as a Guarantor, the lenders identified on the signature pages hereto and BANK OF AMERICA, N.A. , as Administrative Agent. W I T N E S S E T H WHEREAS, the Borrower, each Guarantor, the lenders party thereto from time to time (the \u201c Lenders \u201d) and the Administrative Agent have entered into that certain Credit Agreement dated as of May 25, 2017 as amended, supplemented or otherwise modified prior to the d"
+        }
+      ]
+    },
+    {
+      "company": "Berry Corp (bry)  (BRY)  (CIK 0001705873)",
+      "cik": "0001705873",
+      "sic": "1311",
+      "agreement_date": "2024-11-06",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/1705873/000170587324000070/ex101seniorsecuredtermloan.htm",
+        "accession": "0001705873-24-000070",
+        "file_type": "EX-10.1",
+        "form": "10-Q",
+        "file_date": "2024-11-08",
+        "est_pages": 197,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1705873/000170587325000057/exhibit106-secondamendment.htm",
+          "accession": "0001705873-25-000057",
+          "file_type": "EX-10.6",
+          "form": "10-Q",
+          "file_date": "2025-08-07",
+          "est_pages": 8,
+          "opening": "EX-10.6 7 exhibit106-secondamendment.htm EX-10.6 Document Execution Version Exhibit 10.6 SECOND AMENDMENT TO CREDIT AGREEMENT THIS SECOND AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of April 4, 2025 (the \u201c Second Amendment Effective Date \u201d), is by and among Berry Corporation (bry), a Delaware corporation (the \u201c Borrower \u201d), each of the Guarantors, each of the Lenders that is a signatory hereto and Breakwall Credit Management LLC, as administrative agent for the Lenders (in such capacity, together with its successors in such capacity, the \u201c Administrative Agent \u201d). RECITALS A. The Borrower, the Guarantors, the Administrative Agent and the Lenders are parties to that certain Credit Agreement dated as of November 6, 2024 (as in effect immediately prior to the execution hereof"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1705873/000170587325000057/exhibit102-thirdamendmentt.htm",
+          "accession": "0001705873-25-000057",
+          "file_type": "EX-10.2",
+          "form": "10-Q",
+          "file_date": "2025-08-07",
+          "est_pages": 6,
+          "opening": "EX-10.2 3 exhibit102-thirdamendmentt.htm EX-10.2 Document Execution Version Exhibit 10.2 THIRD AMENDMENT TO CREDIT AGREEMENT THIS THIRD AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of July 18, 2025 (the \u201c Third Amendment Effective Date \u201d), is by and among Berry Corporation (bry), a Delaware corporation (the \u201c Borrower \u201d), each of the Guarantors, each of the Lenders that is a signatory hereto and Breakwall Credit Management LLC, as administrative agent for the Lenders (in such capacity, together with its successors in such capacity, the \u201c Administrative Agent \u201d). RECITALS A. The Borrower, the Guarantors, the Administrative Agent and the Lenders are parties to that certain Credit Agreement dated as of November 6, 2024 (as in effect immediately prior to the execution hereof, i"
+        }
+      ]
+    },
+    {
+      "company": "New Fortress Energy Inc.  (NFE)  (CIK 0001749723)",
+      "cik": "0001749723",
+      "sic": "4924",
+      "agreement_date": "2024-07-19",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/1749723/000174972324000072/a001-nfexflng2creditagre.htm",
+        "accession": "0001749723-24-000072",
+        "file_type": "EX-10.50",
+        "form": "10-Q",
+        "file_date": "2024-08-09",
+        "est_pages": 268,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1749723/000174972325000029/chisr02a-1256466xv4xnfe_xx.htm",
+          "accession": "0001749723-25-000029",
+          "file_type": "EX-10.52",
+          "form": "10-K",
+          "file_date": "2025-03-10",
+          "est_pages": 7,
+          "opening": "EX-10.52 10 chisr02a-1256466xv4xnfe_xx.htm EX-10.52 Document Execution Version AMENDED AND RESTATED FIRST AMENDMENT TO CREDIT AGREEMENT This AMENDED AND RESTATED FIRST AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of September 30, 2024, is among NEW FORTRESS ENERGY INC. , a Delaware corporation (the \u201c Borrower \u201d), each of the undersigned guarantors (the \u201c Guarantors \u201d), the Lenders party hereto and MORGAN STANLEY SENIOR FUNDING, INC. , as administrative agent for the Lenders (in such capacity, together with its successors and assigns in such capacity, the \u201c Administrative Agent \u201d). R E C I T A L S A. The Borrower, the Guarantors, the Administrative Agent, the Collateral Agent and the Lenders are parties to that certain Credit Agreement, dated as of July 19, 2024 (as amended,"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1749723/000174972325000029/nfe-tlaamendmentno2.htm",
+          "accession": "0001749723-25-000029",
+          "file_type": "EX-10.53",
+          "form": "10-K",
+          "file_date": "2025-03-10",
+          "est_pages": 9,
+          "opening": "EX-10.53 11 nfe-tlaamendmentno2.htm EX-10.53 Document Execution Version SECOND AMENDMENT TO CREDIT AGREEMENT This SECOND AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of November 14, 2024 (the \u201c Second Amendment Signing Date \u201d), is among NEW FORTRESS ENERGY INC. , a Delaware corporation (the \u201c Borrower \u201d), each of the undersigned guarantors (the \u201c Guarantors \u201d), the Lenders party hereto and MORGAN STANLEY SENIOR FUNDING, INC. , as administrative agent for the Lenders (in such capacity, together with its successors and assigns in such capacity, the \u201c Administrative Agent \u201d) and as collateral agent for the Secured Parties (in such capacity, together with its successors and assigns in such capacity, the \u201c Collateral Agent \u201d). R E C I T A L S A. The Borrower, the Guarantors, the"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1749723/000174972325000029/nfe-tlaamendmentno3.htm",
+          "accession": "0001749723-25-000029",
+          "file_type": "EX-10.54",
+          "form": "10-K",
+          "file_date": "2025-03-10",
+          "est_pages": 6,
+          "opening": "EX-10.54 12 nfe-tlaamendmentno3.htm EX-10.54 nfe-tlaamendmentno3 Execution Version THIRD AMENDMENT TO CREDIT AGREEMENT This THIRD AMENDMENT TO CREDIT AGREEMENT (this \u201cAmendment\u201d), dated as of November 22, 2024, is among NEW FORTRESS ENERGY INC., a Delaware corporation (the \u201cBorrower\u201d), each of the undersigned guarantors (the \u201cGuarantors\u201d), the Lenders party hereto and MORGAN STANLEY SENIOR FUNDING, INC., as administrative agent for the Lenders (in such capacity, together with its successors and assigns in such capacity, the \u201cAdministrative Agent\u201d) and as collateral agent for the Secured Parties (in such capacity, together with its successors and assigns in such capacity, the \u201cCollateral Agent\u201d). R E C I T A L S A. The Borrower, the Guarantors, the Administrative Agent, the Collateral Agent"
+        }
+      ]
+    },
+    {
+      "company": "RUSH ENTERPRISES INC \\TX\\  (RUSHA, RUSHB)  (CIK 0001012019)",
+      "cik": "0001012019",
+      "sic": "5500",
+      "agreement_date": "2021-09-14",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/1012019/000143774921022435/ex_285040.htm",
+        "accession": "0001437749-21-022435",
+        "file_type": "EX-10.2",
+        "form": "8-K",
+        "file_date": "2021-09-20",
+        "est_pages": 173,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1012019/000143774922028345/ex_452566.htm",
+          "accession": "0001437749-22-028345",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2022-12-02",
+          "est_pages": 4,
+          "opening": "EX-10.1 2 ex_452566.htm EXHIBIT 10.1 ex_452566.htm Exhibit 10.1 Execution Version FIRST AMENDMENT TO CREDIT AGREEMENT THIS FIRST AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of November 30, 2022 (the \u201c Effective Date \u201d), is entered into by and among RUSH ENTERPRISES, INC. , a Texas corporation (\u201c Holdings \u201d), each of the Borrowers party hereto (the \u201c Borrowers \u201d), each of the Lenders party hereto and WELLS FARGO BANK, N.A. , as Administrative Agent for the Lenders (the \u201c Administrative Agent \u201d). PRELIMINARY STATEMENT WHEREAS , Holdings, the Borrowers, the lenders party thereto (the \u201c Lenders \u201d) and the Administrative Agent entered into that certain Credit Agreement dated as of September 14, 2021 (as from time to time amended, modified, supplemented, restated or amended and "
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1012019/000143774923035261/ex_609471.htm",
+          "accession": "0001437749-23-035261",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2023-12-22",
+          "est_pages": 2,
+          "opening": "EX-10.1 2 ex_609471.htm EXHIBIT 10.1 ex_609471.htm Exhibit 10.1 SECOND AMENDMENT TO CREDIT AGREEMENT THIS SECOND AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of December 22, 2023 (the \u201c Effective Date \u201d), is entered into by and among RUSH ENTERPRISES, INC. , a Texas corporation (\u201c Holdings \u201d), each of the Borrowers party hereto (the \u201c Borrowers \u201d), each of the Lenders party hereto and WELLS FARGO BANK, N.A. , as Administrative Agent for the Lenders (the \u201c Administrative Agent \u201d). PRELIMINARY STATEMENT WHEREAS , Holdings, the Borrowers, the lenders party thereto (the \u201c Lenders \u201d) and the Administrative Agent entered into that certain Credit Agreement dated as of September 14, 2021 (as from time to time amended, modified, supplemented, restated or amended and restated, the \u201c "
+        }
+      ]
+    },
+    {
+      "company": "ALBEMARLE CORP  (ALB, ALB-PA)  (CIK 0000915913)",
+      "cik": "0000915913",
+      "sic": "2821",
+      "agreement_date": "2022-10-28",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/915913/000091591322000167/exhibit1010930202210q.htm",
+        "accession": "0000915913-22-000167",
+        "file_type": "EX-10.1",
+        "form": "10-Q",
+        "file_date": "2022-11-02",
+        "est_pages": 185,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/915913/000091591324000016/exhibit10521231202310-k.htm",
+          "accession": "0000915913-24-000016",
+          "file_type": "EX-10.52",
+          "form": "10-K",
+          "file_date": "2024-02-15",
+          "est_pages": 15,
+          "opening": "EX-10.52 2 exhibit10521231202310-k.htm EX-10.52 Document Exhibit 10.52 FIRST AMENDMENT TO CREDIT AGREEMENT THIS FIRST AMENDMENT TO CREDIT AGREEMENT, dated as of February 9, 2024 (this \u201c Amendment \u201d), is entered into among ALBEMARLE CORPORATION, a Virginia corporation (the \u201c Company \u201d), ALBEMARLE EUROPE SRL, a soci\u00e9t\u00e9 \u00e0 responsabilit\u00e9 limit\u00e9e organized under the laws of Belgium (\u201c Belgian Borrower \u201d and, together with the Company and any other Subsidiary of the Company party thereto pursuant to Section 2.14 thereof, collectively, the \u201c Borrowers \u201d), the Lenders party hereto, and BANK OF AMERICA, N.A., as Administrative Agent for the Lenders (in such capacity, the \u201c Administrative Agent \u201d). Capitalized terms used herein and not otherwise defined shall have the meanings ascribed thereto in th"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/915913/000091591324000158/exhibit1010930202410-q.htm",
+          "accession": "0000915913-24-000158",
+          "file_type": "EX-10.1",
+          "form": "10-Q",
+          "file_date": "2024-11-06",
+          "est_pages": 5,
+          "opening": "EX-10.1 2 exhibit1010930202410-q.htm EX-10.1 Document Exhibit 10.1 SECOND AMENDMENT TO CREDIT AGREEMENT THIS SECOND AMENDMENT TO CREDIT AGREEMENT, dated as of October 31, 2024 (this \u201c Amendment \u201d), is entered into among ALBEMARLE CORPORATION, a Virginia corporation (the \u201c Company \u201d), ALBEMARLE EUROPE SRL, a soci\u00e9t\u00e9 \u00e0 responsabilit\u00e9 limit\u00e9e organized under the laws of Belgium (\u201c Belgian Borrower \u201d and, together with the Company and any other Subsidiary of the Company party thereto pursuant to Section 2.14 thereof, collectively, the \u201c Borrowers \u201d), the Lenders party hereto, and BANK OF AMERICA, N.A., as Administrative Agent for the Lenders (in such capacity, the \u201c Administrative Agent \u201d). Capitalized terms used herein and not otherwise defined shall have the meanings ascribed thereto in the "
+        }
+      ]
+    },
+    {
+      "company": "LINCOLN EDUCATIONAL SERVICES CORP  (LINC)  (CIK 0001286613)",
+      "cik": "0001286613",
+      "sic": "8200",
+      "agreement_date": "2019-11-14",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/1286613/000114036119020643/ex10_3.htm",
+        "accession": "0001140361-19-020643",
+        "file_type": "EX-10.3",
+        "form": "10-Q",
+        "file_date": "2019-11-14",
+        "est_pages": 84,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1286613/000114036120025288/brhc10016798_ex10-1.htm",
+          "accession": "0001140361-20-025288",
+          "file_type": "EX-10.1",
+          "form": "10-Q",
+          "file_date": "2020-11-12",
+          "est_pages": 3,
+          "opening": "EX-10.1 2 brhc10016798_ex10-1.htm EXHIBIT 10.1 Exhibit 10.1 FIRST AMENDMENT TO CREDIT AGREEMENT THIS FIRST AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d) is made as of this 10th day of November, 2020 by and between LINCOLN EDUCATIONAL SERVICES CORPORATION, a New Jersey corporation (the \u201c Parent \u201d); LINCOLN TECHNICAL INSTITUTE, INC., a New Jersey corporation; NASHVILLE ACQUISITION, L.L.C., a Delaware limited liability company; NEW ENGLAND ACQUISITION, LLC, a Delaware limited liability company; EUPHORIA ACQUISITION, LLC, a Delaware limited liability company; LCT ACQUISITION, LLC, a Delaware limited liability company; NN ACQUISITION, LLC, a Delaware limited liability company; and LTI HOLDINGS, LLC, a Colorado limited liability company (individually and collectively, \u201c Borrower \u201d), and STE"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1286613/000114036122020367/brhc10038031_ex10-1.htm",
+          "accession": "0001140361-22-020367",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2022-05-24",
+          "est_pages": 4,
+          "opening": "EX-10.1 2 brhc10038031_ex10-1.htm EXHIBIT 10.1 Exhibit 10.1 SECOND AMENDMENT TO CREDIT AGREEMENT THIS SECOND AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d) is made as of this 23 rd day of May, 2022, by and among LINCOLN EDUCATIONAL SERVICES CORPORATION , a New Jersey corporation (the \u201c Parent \u201d), LINCOLN TECHNICAL INSTITUTE, INC. , a New Jersey corporation, NASHVILLE ACQUISITION, L.L.C. , a Delaware limited liability company, NEW ENGLAND ACQUISITION, LLC , a Delaware limited liability company, EUPHORIA ACQUISITION, LLC , a Delaware limited liability company; LCT ACQUISITION, LLC , a Delaware limited liability company, NN ACQUISITION, LLC , a Delaware limited liability company, and LTI HOLDINGS, LLC , a Colorado limited liability company (individually and collectively, the \u201c Borrower \u201d)"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1286613/000114036122028688/brhc10040441_ex10-2.htm",
+          "accession": "0001140361-22-028688",
+          "file_type": "EX-10.2",
+          "form": "10-Q",
+          "file_date": "2022-08-08",
+          "est_pages": 3,
+          "opening": "EX-10.2 2 brhc10040441_ex10-2.htm EXHIBIT 10.2 Exhibit 10.2 THIRD AMENDMENT TO CREDIT AGREEMENT THIS THIRD AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d) is made as of this ___ day of August, 2022, by and among LINCOLN EDUCATIONAL SERVICES CORPORATION , a New Jersey corporation (the \u201c Parent \u201d), LINCOLN TECHNICAL INSTITUTE, INC. , a New Jersey corporation, NASHVILLE ACQUISITION, L.L.C. , a Delaware limited liability company, NEW ENGLAND ACQUISITION, LLC , a Delaware limited liability company, EUPHORIA ACQUISITION, LLC , a Delaware limited liability company; LCT ACQUISITION, LLC , a Delaware limited liability company, NN ACQUISITION, LLC , a Delaware limited liability company, and LTI HOLDINGS, LLC , a Colorado limited liability company (individually and collectively, the \u201c Borrower \u201d),"
+        }
+      ]
+    },
+    {
+      "company": "SIGMATRON INTERNATIONAL INC  (SGMA)  (CIK 0000915358)",
+      "cik": "0000915358",
+      "sic": "3672",
+      "agreement_date": "2021-01-29",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/915358/000091535821000003/sgma-20210204xex10_1.htm",
+        "accession": "0000915358-21-000003",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2021-02-04",
+        "est_pages": 123,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/915358/000091535821000017/sgma-20210430xex10_73.htm",
+          "accession": "0000915358-21-000017",
+          "file_type": "EX-10.73",
+          "form": "10-K",
+          "file_date": "2021-07-23",
+          "est_pages": 5,
+          "opening": "EX-10.73 6 sgma-20210430xex10_73.htm EX-10.73 Exhibit 1073 Exhibit 10.73 EXECUTION VERSION \ufeff Second Amendment to Credit Agreement This SEcOND Amendment to Credit Agreement (this \u201c Amendment \u201d ) is made as of June 21 , 20 21 , by and among SIGMATRON INTERNATIONAL, INC., a Delaware corporation (\u201c Borrower \u201d), the other Lo an Parties party hereto (if any) , and JPMorgan Chase Bank, N.A. (\u201c Lender \u201d). Recitals : A. Borrower and Lender have heretofore entered into a Credit Agreement dated as of January 29, 2021 (as amended, restated, supplemented or otherwise modified from time to time, the \u201c Credit Agreement \u201d). All capitalized terms used herein and not otherwise defined shall have the meanings assigned to such terms in the Credit Agreement. B. Borr ower and Lender have agreed to make certain "
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/915358/000091535821000029/sgma-20211031xex10_1.htm",
+          "accession": "0000915358-21-000029",
+          "file_type": "EX-10.1",
+          "form": "10-Q",
+          "file_date": "2021-12-13",
+          "est_pages": 5,
+          "opening": "EX-10.1 2 sgma-20211031xex10_1.htm EX-10.1 Exhibit 101 Third Amendment to Credit Agreement Exhibit 10.1 EXECUTION VERSION \ufeff THIRD AMENDMENT TO CREDIT AGREEMENT \ufeff This THIRD AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d) is made as of September 30, 2021, by and among SIGMATRON INTERNATIONAL, INC., a Delaware corporation (\u201c Borrower \u201d), the other Loan Parties party hereto (if any), and JPMORGAN CHASE BANK, N.A. (\u201c Lender \u201d). \ufeff RECITALS : \ufeff A. Borrower and Lender have heretofore entered into a Credit Agreement dated as of January 29, 2021 (as amended, restated, supplemented or otherwise modified from time to time, the \u201c Credit Agreement \u201d). All capitalized terms used herein and not otherwise defined shall have the meanings assigned to such terms in the Credit Agreement. \ufeff B. Borrower and "
+        }
+      ]
+    },
+    {
+      "company": "INTERNATIONAL FLAVORS & FRAGRANCES INC  (IFF)  (CIK 0000051253)",
+      "cik": "0000051253",
+      "sic": "2860",
+      "agreement_date": "2021-07-28",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/51253/000119312521227550/d206865dex101.htm",
+        "accession": "0001193125-21-227550",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2021-07-28",
+        "est_pages": 117,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/51253/000005125322000022/iff063022exhibit102.htm",
+          "accession": "0000051253-22-000022",
+          "file_type": "EX-10.2",
+          "form": "8-K",
+          "file_date": "2022-08-08",
+          "est_pages": 4,
+          "opening": "EX-10.2 3 iff063022exhibit102.htm EX-10.2 Document EXECUTION VERSION AMENDMENT NO. 1 TO CREDIT AGREEMENT This AMENDMENT NO. 1 TO CREDIT AGREEMENT, dated as of August 4, 2022 (this \u201c Amendment \u201d), is entered into among INTERNATIONAL FLAVORS & FRAGRANCES INC., INTERNATIONAL FLAVORS & FRAGRANCES (NEDERLAND) HOLDING B.V. and INTERNATIONAL FLAVORS & FRAGRANCES I.F.F. (NEDERLAND) B.V. (collectively, the \u201c Borrowers \u201d), the Lenders signatory hereto and CITIBANK, N.A., as administrative agent (in such capacity, the \u201c Agent \u201d). WHEREAS, the Borrowers, the Lenders from time to time party thereto and the Agent have entered into that certain Third Amended and Restated Credit Agreement, dated as of July 28, 2021 (as amended, amended and restated, supplemented or otherwise modified prior to the date her"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/51253/000119312523079779/d489877dex103.htm",
+          "accession": "0001193125-23-079779",
+          "file_type": "EX-10.3",
+          "form": "8-K",
+          "file_date": "2023-03-27",
+          "est_pages": 5,
+          "opening": "EX-10.3 4 d489877dex103.htm EX-10.3 EX-10.3 Exhibit 10.3 EXECUTION VERSION AMENDMENT NO. 2 TO CREDIT AGREEMENT This AMENDMENT NO. 2 TO CREDIT AGREEMENT, dated as of March 23, 2023 (this \u201c Amendment \u201d), is entered into among INTERNATIONAL FLAVORS & FRAGRANCES INC., INTERNATIONAL FLAVORS & FRAGRANCES (NEDERLAND) HOLDING B.V. and INTERNATIONAL FLAVORS & FRAGRANCES I.F.F. (NEDERLAND) B.V. (collectively, the \u201c Borrowers \u201d), the Lenders signatory hereto and CITIBANK, N.A., as administrative agent (in such capacity, the \u201c Agent \u201d). WHEREAS, the Borrowers, the Lenders from time to time party thereto and the Agent have entered into that certain Third Amended and Restated Credit Agreement, dated as of July 28, 2021 (as amended by that certain Amendment No. 1 to Credit Agreement, dated as of August 4"
+        }
+      ]
+    },
+    {
+      "company": "FLEX LTD.  (FLEX)  (CIK 0000866374)",
+      "cik": "0000866374",
+      "sic": "3672",
+      "agreement_date": "2017-06-30",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/866374/000110465917042960/a17-15867_2ex10d01.htm",
+        "accession": "0001104659-17-042960",
+        "file_type": "EX-10.01",
+        "form": "8-K",
+        "file_date": "2017-06-30",
+        "est_pages": 244,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/866374/000086637420000009/flex-exx10023312020.htm",
+          "accession": "0000866374-20-000009",
+          "file_type": "EX-10.02",
+          "form": "10-K",
+          "file_date": "2020-05-28",
+          "est_pages": 4,
+          "opening": "EX-10.02 3 flex-exx10023312020.htm EXHIBIT 10.02 Exhibit EXHIBIT 10.02 FIRST AMENDMENT TO CREDIT AGREEMENT THIS FIRST AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of January 28, 2020 (the \u201c First Amendment Effective Date \u201d), is entered into among FLEX LTD., a Singapore registered public company limited by shares and having company registration no. 199002645H, acting (subject to Section 10.20 of the Credit Agreement (as defined below)) through its Bermuda branch, having a principal place of business from which it conducts operations in accordance with its permit located at 16 Par-la-Ville Road, Hamilton HM08 Bermuda (the \u201c Company \u201d), the Lenders party hereto, and BANK OF AMERICA, N.A., as Administrative Agent (the \u201c Administrative Agent \u201d). Capitalized terms used herein and"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/866374/000086637420000012/flex-exx1001x6262020.htm",
+          "accession": "0000866374-20-000012",
+          "file_type": "EX-10.01",
+          "form": "10-Q",
+          "file_date": "2020-08-05",
+          "est_pages": 4,
+          "opening": "EX-10.01 2 flex-exx1001x6262020.htm EX-10.01 Document EXHIBIT 10.01 SECOND AMENDMENT TO CREDIT AGREEMENT THIS SECOND AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of April 7, 2020 (the \u201c Second Amendment Effective Date \u201d), is entered into among FLEX LTD., a Singapore registered public company limited by shares and having company registration no. 199002645H, acting (subject to Section 10.20 of the Credit Agreement (as defined below)) through its Bermuda branch, having a principal place of business from which it conducts operations in accordance with its permit located at 16 Par-la-Ville Road, Hamilton HM08 Bermuda (the \u201c Company \u201d), the Lenders party hereto, and BANK OF AMERICA, N.A., as Administrative Agent (the \u201c Administrative Agent \u201d). Capitalized terms used herein and no"
+        }
+      ]
+    },
+    {
+      "company": "EQT Corp  (EQT)  (CIK 0000033213)",
+      "cik": "0000033213",
+      "sic": "1311",
+      "agreement_date": "2022-11-09",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/33213/000110465922116543/tm2230127d1_ex10-1.htm",
+        "accession": "0001104659-22-116543",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2022-11-09",
+        "est_pages": 113,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/33213/000110465922129998/tm2233358d1_ex10-1.htm",
+          "accession": "0001104659-22-129998",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2022-12-27",
+          "est_pages": 5,
+          "opening": "EX-10.1 3 tm2233358d1_ex10-1.htm EXHIBIT 10.1 Exhibit 10.1 Execution Version FIRST AMENDMENT TO CREDIT AGREEMENT This FIRST AMENDMENT TO CREDIT AGREEMENT (this \u201c Agreement \u201d) is made and entered into as of December 23, 2022 (the \u201c First Amendment Effective Date \u201d), by and among EQT CORPORATION, a Pennsylvania corporation (\u201c Borrower \u201d), each Lender under the Existing Credit Agreement party hereto (collectively, the \u201c Consenting Lenders \u201d and individually, a \u201c Consenting Lender \u201d), and PNC BANK, NATIONAL ASSOCIATION, as administrative agent for the Lenders (in such capacity, the \u201c Administrative Agent \u201d). A. Borrower, Administrative Agent and the Lenders entered into that certain Credit Agreement dated as of November 9, 2022 (as amended, restated, amended and restated, supplemented or other"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/33213/000110465923050378/tm2313621d1_ex10-1.htm",
+          "accession": "0001104659-23-050378",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2023-04-26",
+          "est_pages": 5,
+          "opening": "EX-10.1 2 tm2313621d1_ex10-1.htm EXHIBIT 10.1 Exhibit 10.1 Execution Version SECOND AMENDMENT TO CREDIT AGREEMENT This SECOND AMENDMENT TO CREDIT AGREEMENT (this \u201c Agreement \u201d) is made and entered into as of April 25, 2023 (the \u201c Second Amendment Effective Date \u201d), by and among EQT CORPORATION, a Pennsylvania corporation (\u201c Borrower \u201d), each Lender under the Existing Credit Agreement party hereto (collectively, the \u201c Second Amendment Consenting Lenders \u201d and individually, a \u201c Second Amendment Consenting Lender \u201d), and PNC BANK, NATIONAL ASSOCIATION, as administrative agent for the Lenders (in such capacity, the \u201c Administrative Agent \u201d). A. Borrower, Administrative Agent and the Lenders entered into that certain Credit Agreement dated as of November 9, 2022 (as amended by that certain Firs"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/33213/000110465924004320/tm243319d1_ex10-1.htm",
+          "accession": "0001104659-24-004320",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2024-01-17",
+          "est_pages": 7,
+          "opening": "EX-10.1 2 tm243319d1_ex10-1.htm EXHIBIT 10.1 Exhibit 10.1 Execution Version THIRD AMENDMENT TO CREDIT AGREEMENT This THIRD AMENDMENT TO CREDIT AGREEMENT (this \u201c Agreement \u201d) is made and entered into as of January 16, 2024, by and among EQT CORPORATION, a Pennsylvania corporation (\u201c Borrower \u201d), each Lender under the Existing Credit Agreement party hereto (collectively, the \u201c Third Amendment Consenting Lenders \u201d and individually, a \u201c Third Amendment Consenting Lender \u201d), and PNC BANK, NATIONAL ASSOCIATION, as administrative agent for the Lenders (in such capacity, the \u201c Administrative Agent \u201d). A. Borrower, Administrative Agent and the Lenders entered into that certain Credit Agreement dated as of November 9, 2022 (as amended by that certain First Amendment to Credit Agreement dated as of D"
+        }
+      ]
+    },
+    {
+      "company": "JBG SMITH Properties  (JBGS)  (CIK 0001689796)",
+      "cik": "0001689796",
+      "sic": "6798",
+      "agreement_date": "2017-07-18",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/1689796/000110465917046321/a17-17912_1ex10d4.htm",
+        "accession": "0001104659-17-046321",
+        "file_type": "EX-10.4",
+        "form": "8-K",
+        "file_date": "2017-07-21",
+        "est_pages": 200,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1689796/000168979619000021/jbgs-10q63019exhibit101.htm",
+          "accession": "0001689796-19-000021",
+          "file_type": "EX-10.1",
+          "form": "10-Q",
+          "file_date": "2019-08-06",
+          "est_pages": 13,
+          "opening": "EX-10.1 2 jbgs-10q63019exhibit101.htm EXHIBIT 10.1 Exhibit Exhibit 10.1 FIRST AMENDMENT TO CREDIT AGREEMENT THIS FIRST AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of May 8, 2019, is made by and between JBG SMITH PROPERTIES LP, a limited partnership formed under the laws of the State of Delaware (\u201c Borrower \u201d), the Banks party hereto (the \u201c Banks \u201d), and WELLS FARGO BANK, NATIONAL ASSOCIATION, as Administrative Agent (\u201c Administrative Agent \u201d). WHEREAS, Borrower, Administrative Agent and the financial institutions initially a signatory to the Existing Credit Agreement (as defined below) together with their successors and assigns under Section 12.05 of the Existing Credit Agreement have entered into that certain Credit Agreement dated as of July 18, 2017 (as amended, restate"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1689796/000110465922004415/tm222833d1_ex10-2.htm",
+          "accession": "0001104659-22-004415",
+          "file_type": "EX-10.2",
+          "form": "8-K",
+          "file_date": "2022-01-14",
+          "est_pages": 8,
+          "opening": "EX-10.2 3 tm222833d1_ex10-2.htm EXHIBIT 10.2 Exhibit 10.2 THIRD AMENDMENT TO CREDIT AGREEMENT THIS THIRD AMENDMENT TO CREDIT AGREEMENT ( this \u201c Amendment \u201d), dated as of January 14, 2022, is made by and between JBG SMITH PROPERTIES LP, a limited partnership formed under the laws of the State of Delaware (\u201c Borrower \u201d), the Banks party hereto (the \u201c Banks \u201d), and WELLS FARGO BANK, NATIONAL ASSOCIATION, as Administrative Agent (\u201c Administrative Agent \u201d). WHEREAS, Borrower, Administrative Agent and the financial institutions initially a signatory to the Existing Credit Agreement (as defined below) together with their successors and assigns under Section 12.05 of the Existing Credit Agreement have entered into that certain Credit Agreement dated as of July 18, 2017 (as amended, restated, suppl"
+        }
+      ]
+    },
+    {
+      "company": "SMART Global Holdings, Inc.  (SGH)  (CIK 0001616533)",
+      "cik": "0001616533",
+      "sic": "3674",
+      "agreement_date": "2022-02-07",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/1616533/000119312522029964/d310711dex101.htm",
+        "accession": "0001193125-22-029964",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2022-02-08",
+        "est_pages": 267,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1616533/000119312522232772/d395339dex101.htm",
+          "accession": "0001193125-22-232772",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2022-08-29",
+          "est_pages": 9,
+          "opening": "EX-10.1 3 d395339dex101.htm EX-10.1 EX-10.1 Exhibit 10.1 FIRST AMENDMENT TO CREDIT AGREEMENT THIS FIRST AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of August 29, 2022, is by and among SMART GLOBAL HOLDINGS, INC., a Cayman Islands exempted company (the \u201c Parent Borrower \u201d), SMART MODULAR TECHNOLOGIES, INC., a California corporation (the \u201c Co-Borrower \u201d and, together with the Parent Borrower, the \u201c Borrowers \u201d and each a \u201c Borrower \u201d), the Lenders (as defined below) party hereto and CITIZENS BANK, N.A., as administrative agent (the \u201c Agent \u201d), and acknowledged and agreed to by the Subsidiary Loan Parties. Capitalized terms used herein and not otherwise defined herein shall have the meanings ascribed thereto in the Credit Agreement (as defined below). W I T N E S S E T H WHER"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1616533/000162828024043646/pengq4-24form10xkex1026.htm",
+          "accession": "0001628280-24-043646",
+          "file_type": "EX-10.26",
+          "form": "10-K",
+          "file_date": "2024-10-24",
+          "est_pages": 5,
+          "opening": "EX-10.26 4 pengq4-24form10xkex1026.htm EX-10.26 Document Exhibit 10.26 EXECUTION VERSION SECOND AMENDMENT TO CREDIT AGREEMENT THIS SECOND AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of July 30, 2024, is by and among SMART GLOBAL HOLDINGS, INC., a Cayman Islands exempted company (the \u201c Parent Borrower \u201d), SMART MODULAR TECHNOLOGIES, INC., a California corporation (the \u201c Co-Borrower \u201d and, together with the Parent Borrower, the \u201c Borrowers \u201d and each a \u201c Borrower \u201d), the Lenders (as defined below) party hereto and CITIZENS BANK, N.A., as administrative agent (the \u201c Agent \u201d), and acknowledged and agreed to by the Subsidiary Loan Parties. Capitalized terms used herein and not otherwise defined herein shall have the meanings ascribed thereto in the Credit Agreement (as defined "
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1616533/000162828024043646/pengq4-24form10xkex1027.htm",
+          "accession": "0001628280-24-043646",
+          "file_type": "EX-10.27",
+          "form": "10-K",
+          "file_date": "2024-10-24",
+          "est_pages": 5,
+          "opening": "EX-10.27 5 pengq4-24form10xkex1027.htm EX-10.27 Document Exhibit 10.27 EXECUTION VERSION THIRD AMENDMENT TO CREDIT AGREEMENT THIS THIRD AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of August 21, 2024, is by and among SMART GLOBAL HOLDINGS, INC., a Cayman Islands exempted company (the \u201c Parent Borrower \u201d), SMART MODULAR TECHNOLOGIES, INC., a California corporation (the \u201c Co-Borrower \u201d and, together with the Parent Borrower, the \u201c Borrowers \u201d and each a \u201c Borrower \u201d), the Lenders (as defined below) party hereto and CITIZENS BANK, N.A., as administrative agent (the \u201c Agent \u201d), and acknowledged and agreed to by the Subsidiary Loan Parties. Capitalized terms used herein and not otherwise defined herein shall have the meanings ascribed thereto in the Credit Agreement (as defined "
+        }
+      ]
+    },
+    {
+      "company": "Kayne Anderson Acquisition Corp  (KNTK)  (CIK 0001692787)",
+      "cik": "0001692787",
+      "sic": "1311",
+      "agreement_date": "2018-11-09",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/1692787/000119312518324997/d651529dex101.htm",
+        "accession": "0001193125-18-324997",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2018-11-13",
+        "est_pages": 122,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1692787/000119312519145046/d745128dex102.htm",
+          "accession": "0001193125-19-145046",
+          "file_type": "EX-10.2",
+          "form": "8-K",
+          "file_date": "2019-05-13",
+          "est_pages": 6,
+          "opening": "EX-10.2 3 d745128dex102.htm EX-10.2 EX-10.2 Exhibit 10.2 [EXECUTION COPY] FIRST AMENDMENT TO CREDIT AGREEMENT THIS FIRST AMENDMENT TO CREDIT AGREEMENT, dated as of April 17, 2019 (the \u201c Amendment \u201d), among ALTUS MIDSTREAM LP , a Delaware limited partnership (\u201c Borrower \u201d), the Lenders party hereto, Swingline Lender party hereto, Issuing Banks party hereto, JPMORGAN CHASE BANK, N.A. , as Administrative Agent (the \u201c Administrative Agent \u201d), and the other Agents party hereto. W I T N E S S E T H : 1. Borrower, the Lenders (including the Swingline Lender), the Issuing Banks, the Administrative Agent, and the other Agents party thereto are parties to that certain Credit Agreement, dated as of November 9, 2018 (the \u201c Credit Agreement \u201d), pursuant to which the Lenders (including the Swingline Len"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1692787/000119312520030780/d881515dex101.htm",
+          "accession": "0001193125-20-030780",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2020-02-11",
+          "est_pages": 4,
+          "opening": "EX-10.1 2 d881515dex101.htm EX-10.1 EX-10.1 Exhibit 10.1 [EXECUTION COPY] SECOND AMENDMENT TO CREDIT AGREEMENT THIS SECOND AMENDMENT TO CREDIT AGREEMENT, dated as of February 7, 2020 (the \u201c Amendment \u201d), among ALTUS MIDSTREAM LP , a Delaware limited partnership (\u201c Borrower \u201d), the Lenders party hereto, Swingline Lender party hereto, Issuing Banks party hereto, JPMORGAN CHASE BANK, N.A. , as Administrative Agent (the \u201c Administrative Agent \u201d), and the other Agents party hereto. W I T N E S S E T H : 1. Borrower, the Lenders (including the Swingline Lender), the Issuing Banks, the Administrative Agent, and the other Agents party thereto are parties to that certain Credit Agreement, dated as of November 9, 2018, as previously amended (the \u201c Credit Agreement \u201d), pursuant to which the Lenders ("
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1692787/000119312522058156/d242119dex107.htm",
+          "accession": "0001193125-22-058156",
+          "file_type": "EX-10.7",
+          "form": "8-K",
+          "file_date": "2022-02-28",
+          "est_pages": 6,
+          "opening": "EX-10.7 12 d242119dex107.htm EX-10.7 EX-10.7 Exhibit 10.7 LIMITED WAIVER AND THIRD AMENDMENT TO CREDIT AGREEMENT THIS LIMITED WAIVER AND THIRD AMENDMENT TO CREDIT AGREEMENT, dated as of October 15, 2021 (the \u201c Amendment \u201d), among ALTUS MIDSTREAM LP , a Delaware limited partnership (\u201c Borrower \u201d), the Lenders party hereto, Swingline Lender party hereto, Issuing Banks party hereto, JPMORGAN CHASE BANK, N.A. , as Administrative Agent (the \u201c Administrative Agent \u201d), and the other Agents party hereto. W I T N E S S E T H : 1. Borrower, the Lenders (including the Swingline Lender), the Issuing Banks, the Administrative Agent, and the other Agents party thereto are parties to that certain Credit Agreement, dated as of November 9, 2018, as previously amended (the \u201c Credit Agreement \u201d), pursuant to"
+        }
+      ]
+    },
+    {
+      "company": "CrossAmerica Partners LP  (CAPL)  (CIK 0001538849)",
+      "cik": "0001538849",
+      "sic": "5172",
+      "agreement_date": "2019-04-01",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/1538849/000156459019010610/capl-ex101_6.htm",
+        "accession": "0001564590-19-010610",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2019-04-02",
+        "est_pages": 178,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1538849/000156459019044000/capl-ex101_8.htm",
+          "accession": "0001564590-19-044000",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2019-11-21",
+          "est_pages": 5,
+          "opening": "EX-10.1 2 capl-ex101_8.htm EX-10.1 AMENDMENT TO CREDIT AGREEMENT capl-ex101_8.htm Exhibit 10.1 EXECUTION VERSION First AMENDMENT TO CREDIT AGREEMENT THIS First AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d) is entered into as of November 19, 2019, by and among CrossAmerica Partners LP, a Delaware limited partnership (the \u201c Partnership \u201d) and Lehigh Gas Wholesale Services, Inc., a Delaware corporation (\u201c Services \u201d, and, together with the Partnership, the \u201c Borrowers \u201d), the Guarantors party hereto, Citizens Bank, N.A., as Administrative Agent (in such capacity, the \u201c Administrative Agent \u201d), and each of the Lenders party hereto. W I T N E S S E T H: WHEREAS, the Borrowers, the Guarantors, the Administrative Agent, the Lenders from time to time party thereto and the other parties theret"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1538849/000156459021055331/capl-ex101_84.htm",
+          "accession": "0001564590-21-055331",
+          "file_type": "EX-10.1",
+          "form": "10-Q",
+          "file_date": "2021-11-09",
+          "est_pages": 13,
+          "opening": "EX-10.1 2 capl-ex101_84.htm EX-10.1 SECOND AMENDMENT TO CAPL CREDIT FACILITY capl-ex101_84.htm Exhibit 10.1 Execution Version SECOND AMENDMENT TO CREDIT AGREEMENT THIS SECOND AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d) is entered into as of July 28, 2021, by and among CrossAmerica Partners LP, a Delaware limited partnership (the \u201c Partnership \u201d), and Lehigh Gas Wholesale Services, Inc., a Delaware corporation (\u201c Services \u201d, and, together with the Partnership, the \u201c Borrowers \u201d), the Guarantors party hereto, Citizens Bank, N.A., as Administrative Agent (in such capacity, the \u201c Administrative Agent \u201d), and each of the Lenders party hereto. W I T N E S S E T H: WHEREAS, the Borrowers, the Guarantors, the Administrative Agent, the Lenders from time to time party thereto and the other pa"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1538849/000095017023004794/capl-ex10_10.htm",
+          "accession": "0000950170-23-004794",
+          "file_type": "EX-10",
+          "form": "10-K",
+          "file_date": "2023-02-28",
+          "est_pages": 9,
+          "opening": "EX-10 2 capl-ex10_10.htm EX-10.10 THIRD AMENDMENT TO CAPL CREDIT FACILITY EX-10 Exhibit 10.10 THIRD AMENDMENT TO CREDIT AGREEMENT THIS THIRD AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d) is entered into as of November 9, 2022, by and among CrossAmerica Partners LP, a Delaware limited partnership (the \u201c Partnership \u201d), and Lehigh Gas Wholesale Services, Inc., a Delaware corporation (\u201c Services \u201d, and, together with the Partnership, the \u201c Borrowers \u201d), the Guarantors party hereto, Citizens Bank, N.A., as Administrative Agent (in such capacity, the \u201c Administrative Agent \u201d), and each of the Lenders party hereto. W I T N E S S E T H: WHEREAS, the Borrowers, the Guarantors, the Administrative Agent, the Lenders from time to time party thereto and the other parties thereto are parties to th"
+        }
+      ]
+    },
+    {
+      "company": "EARTHSTONE ENERGY INC  (CIK 0000010254)",
+      "cik": "0000010254",
+      "sic": "1311",
+      "agreement_date": "2019-11-21",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/10254/000001025419000107/exhibit101creditagreement.htm",
+        "accession": "0000010254-19-000107",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2019-11-22",
+        "est_pages": 214,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/10254/000001025420000105/ex101firstamendmenttoc.htm",
+          "accession": "0000010254-20-000105",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2020-10-01",
+          "est_pages": 15,
+          "opening": "EX-10.1 2 ex101firstamendmenttoc.htm EXHIBIT 10.1 Exhibit Execution Version FIRST AMENDMENT TO CREDIT AGREEMENT Dated as of September 28, 2020 Among EARTHSTONE ENERGY HOLDINGS, LLC, as Borrower, EARTHSTONE ENERGY, INC., as Parent, WELLS FARGO BANK, NATIONAL ASSOCIATION, as Administrative Agent and Issuing Bank, ROYAL BANK OF CANADA, as Syndication Agent, TRUIST BANK, as Documentation Agent, and The Lenders Party Thereto ________________________________ WELLS FARGO SECURITIES, LLC RBC CAPITAL MARKETS Joint Lead Arrangers and Joint Bookrunners ________________________________ FIRST AMENDMENT TO CREDIT AGREEMENT THIS FIRST AMENDMENT TO CREDIT AGREEMENT (this \u201c First Amendment \u201d) dated as of September 28, 2020, is among Earthstone Energy Holdings, LLC, a Delaware limited liability company (the"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/10254/000001025420000122/ex1012ndamenddateddec172020.htm",
+          "accession": "0000010254-20-000122",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2020-12-22",
+          "est_pages": 11,
+          "opening": "EX-10.1 3 ex1012ndamenddateddec172020.htm EX-10.1 Document Exhibit 10.1 SECOND AMENDMENT TO CREDIT AGREEMENT Dated as of December 17, 2020 Among EARTHSTONE ENERGY HOLDINGS, LLC, as Borrower, EARTHSTONE ENERGY, INC., as Parent, Wells Fargo Bank, National Association, as Administrative Agent and Issuing Bank, Royal Bank of CAnada, as Syndication Agent, TRUIST bank, as Documentation Agent, and The Lenders Party Thereto ________________________________ Wells Fargo Securities, LLC RBC CAPITAL MARKETS Joint Lead Arrangers and Joint Bookrunners ________________________________ 1 SECOND AMENDMENT TO CREDIT AGREEMENT THIS SECOND AMENDMENT TO CREDIT AGREEMENT (this \u201c Second Amendment \u201d) dated as of December 17, 2020, is among Earthstone Energy Holdings, LLC, a Delaware limited liability company (the"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/10254/000001025421000087/ex101thirdamendmenttocredi.htm",
+          "accession": "0000010254-21-000087",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2021-04-20",
+          "est_pages": 12,
+          "opening": "EX-10.1 2 ex101thirdamendmenttocredi.htm EX-10.1 Document Exhibit 10.1 THIRD AMENDMENT TO CREDIT AGREEMENT Dated as of April 20, 2021 Among EARTHSTONE ENERGY HOLDINGS, LLC, as Borrower, EARTHSTONE ENERGY, INC., as Parent, WELLS FARGO BANK, NATIONAL ASSOCIATION, as Administrative Agent and Issuing Bank, ROYAL BANK OF CANADA, as Syndication Agent, TRUIST BANK, as Documentation Agent, and The Lenders Party Thereto ________________________________ WELLS FARGO SECURITIES, LLC RBC CAPITAL MARKETS Joint Lead Arrangers and Joint Bookrunners ________________________________ THIRD AMENDMENT TO CREDIT AGREEMENT THIS THIRD AMENDMENT TO CREDIT AGREEMENT (this \u201c Third Amendment \u201d) dated as of April 20, 2021, is among Earthstone Energy Holdings, LLC, a Delaware limited liability company (the \u201c Borrower \u201d"
+        }
+      ]
+    },
+    {
+      "company": "PHX MINERALS INC.  (PHX)  (CIK 0000315131)",
+      "cik": "0000315131",
+      "sic": "1311",
+      "agreement_date": "2021-09-01",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/315131/000156459021047052/phx-ex101_78.htm",
+        "accession": "0001564590-21-047052",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2021-09-03",
+        "est_pages": 95,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/315131/000156459021059896/phx-ex103_17.htm",
+          "accession": "0001564590-21-059896",
+          "file_type": "EX-10.3",
+          "form": "8-K",
+          "file_date": "2021-12-09",
+          "est_pages": 4,
+          "opening": "EX-10.3 4 phx-ex103_17.htm EX-10.3 phx-ex103_17.htm Exhibit 10.3 FIRST AMENDMENT TO CREDIT AGREEMENT THIS FIRST AMENDMENT TO CREDIT AGREEMENT is dated and effective as of December 6, 2021, by and among PHX MINERALS INC., an Oklahoma corporation (referred to herein as the \u201cBorrower\u201d), each lender party hereto (collectively, the \u201cLenders\u201d and individually, a \u201cLender\u201d), and INDEPENDENT BANK, as Administrative Agent and L/C Issuer. RECITALS: A. Borrower, Administrative Agent, and Lenders entered into the Credit Agreement dated as of September 1, 2021 (as amended and as further amended, restated, supplemented and/or otherwise modified prior to the date hereof, the \u201c Existing Credit Agreement \u201d ), for the purpose and consideration therein expressed, whereby Lenders made loans to Borrower as ther"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/315131/000156459022020756/phx-ex101_8.htm",
+          "accession": "0001564590-22-020756",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2022-05-19",
+          "est_pages": 15,
+          "opening": "EX-10.1 2 phx-ex101_8.htm EX-10.1 phx-ex101_8.htm Exhibit 10.1 SECOND AMENDMENT TO CREDIT AGREEMENT THIS SECOND AMENDMENT TO CREDIT AGREEMENT is dated May 18, 2022, by and among PHX MINERALS INC., a Delaware corporation (referred to herein as the \u201c Borrower \u201d), successor by merger to PHX Minerals Inc., an Oklahoma corporation, each lender party hereto as set forth in Schedule 2.1 attached (collectively, the \u201c Lenders \u201d and individually, a \u201c Lender \u201d), and INDEPENDENT BANK, as Administrative Agent and L/C Issuer. RECITALS: A. Borrower, Administrative Agent, and Lenders entered into the Credit Agreement dated as of September 1, 2021, as amended by the First Amendment dated December 6, 2021 (as amended and as further amended, restated, supplemented and/or otherwise modified prior to the date "
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/315131/000095017022026464/phx-ex10_8.htm",
+          "accession": "0000950170-22-026464",
+          "file_type": "EX-10.8",
+          "form": "10-K",
+          "file_date": "2022-12-13",
+          "est_pages": 5,
+          "opening": "EX-10.8 3 phx-ex10_8.htm EX-10.8 EX-10.8 Exhibit 10.8 THIRD AMENDMENT TO CREDIT AGREEMENT THIS THIRD AMENDMENT TO CREDIT AGREEMENT is dated December 7, 2022, by and among PHX MINERALS INC., a Delaware corporation (referred to herein as the \u201c Borrower \u201d), successor by merger to PHX Minerals Inc., an Oklahoma corporation, each lender party hereto as set forth in Schedule 2.1 attached (collectively, the \u201c Lenders \u201d and individually, a \u201c Lender \u201d), and INDEPENDENT BANK, as Administrative Agent and L/C Issuer. RECITALS: A. Borrower, Administrative Agent, and Lenders entered into the Credit Agreement dated as of September 1, 2021, as amended by the First Amendment dated December 6, 2021, and the Second Amendment dated May 18, 2022 (as amended and as further amended, restated, supplemented and/or"
+        }
+      ]
+    },
+    {
+      "company": "Equitrans Midstream Corp  (EQTNP)  (CIK 0001747009)",
+      "cik": "0001747009",
+      "sic": "4922",
+      "agreement_date": "2018-10-31",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/1747009/000110465918065135/a18-38239_1ex10d1.htm",
+        "accession": "0001104659-18-065135",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2018-10-31",
+        "est_pages": 138,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1747009/000110465920040567/tm2014090d1_ex10-1.htm",
+          "accession": "0001104659-20-040567",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2020-03-30",
+          "est_pages": 25,
+          "opening": "EX-10.1 2 tm2014090d1_ex10-1.htm EXHIBIT 10.1 Exhibit 10.1 FIRST AMENDMENT TO THIRD AMENDED AND RESTATED CREDIT AGREEMENT March 30, 2020 THIS FIRST AMENDMENT TO THIRD AMENDED AND RESTATED CREDIT AGREEMENT (this \u201c Amendment \u201d) is by and among EQM Midstream Partners, LP, a Delaware limited partnership (the \u201c Borrower \u201d), the Lenders party hereto (collectively, the \u201c Approving Lenders \u201d) and Wells Fargo Bank, National Association, in its capacity as Administrative Agent (the \u201cAdministrative Agent\u201d), Swing Line Lender, and an L/C Issuer under that certain Third Amended and Restated Credit Agreement, dated as of October 31, 2018 (the \u201c Credit Agreement \u201d), by and among the Borrower, the Approving Lenders, any other Lenders from time to time party thereto, the Administrative Agent and any other "
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1747009/000110465921051605/tm2113090d1_ex10-1.htm",
+          "accession": "0001104659-21-051605",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2021-04-19",
+          "est_pages": 13,
+          "opening": "EX-10.1 2 tm2113090d1_ex10-1.htm EXHIBIT 10.1 Exhibit 10.1 SECOND AMENDMENT TO THIRD AMENDED AND RESTATED CREDIT AGREEMENT April 16, 2021 THIS SECOND AMENDMENT TO THIRD AMENDED AND RESTATED CREDIT AGREEMENT (this \u201c Amendment \u201d) is by and among EQM Midstream Partners, LP, a Delaware limited partnership (the \u201c Borrower \u201d), the Lenders party hereto (collectively, the \u201c Approving Lenders \u201d) and Wells Fargo Bank, National Association, in its capacity as Administrative Agent (the \u201cAdministrative Agent\u201d), Swing Line Lender, and an L/C Issuer under that certain Third Amended and Restated Credit Agreement, dated as of October 31, 2018, by and among the Borrower, the Approving Lenders, any other Lenders from time to time party thereto, the Administrative Agent and any other Persons named therein (as"
+        }
+      ]
+    },
+    {
+      "company": "Green Plains Inc.  (GPRE)  (CIK 0001309402)",
+      "cik": "0001309402",
+      "sic": "2860",
+      "agreement_date": "2015-07-01",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/1309402/000119312515245565/d74444dex106.htm",
+        "accession": "0001193125-15-245565",
+        "file_type": "EX-10.6",
+        "form": "8-K",
+        "file_date": "2015-07-06",
+        "est_pages": 155,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1309402/000130940219000024/gpre-20181231xex10_22b.htm",
+          "accession": "0001309402-19-000024",
+          "file_type": "EX-10.22(B)",
+          "form": "10-K",
+          "file_date": "2019-02-20",
+          "est_pages": 8,
+          "opening": "EX-10.22(B) 5 gpre-20181231xex10_22b.htm EX-10.22(B) Exhibit 10.22(b) - First Amendment to Credit Agreement Exhibit 10.22(b ) FIRST AMENDMENT TO CREDIT AGREEMENT THIS FIRST AMENDMENT TO CREDIT AGREEMENT (this \u201cAgreement\u201d) is entered into as of September 16, 2016 among GREEN PLAINS OPERATING COMPANY LLC, a Delaware limited partnership (the \u201c Borrower \u201d), the Guarantors from time to time party thereto, the Lenders from time to time party thereto, and Bank of America, N.A., as Administrative Agent. All capitalized terms used herein and not otherwise defined herein shall have the meanings ascribed thereto in the Credit Agreement (as defined below). RECITALS WHEREAS, the Borrower, the Guarantors, the Administrative Agent and the Lenders are parties to that certain Credit Agreement, dated as of "
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1309402/000130940219000024/gpre-20181231xex10_22d.htm",
+          "accession": "0001309402-19-000024",
+          "file_type": "EX-10.22(D)",
+          "form": "10-K",
+          "file_date": "2019-02-20",
+          "est_pages": 7,
+          "opening": "EX-10.22(D) 6 gpre-20181231xex10_22d.htm EX-10.22(D) Exhibit 10.22(d) - Second Amendment to Credit Agreement Exhibit 10.22(d) SECOND AMENDMENT TO CREDIT AGREEMENT THIS SECOND AMENDMENT TO CREDIT AGREEMENT (this \u201c Agreement \u201d) is entered into as of February 16, 2018 among GREEN PLAINS OPERATING COMPANY LLC, a Delaware limited liability company (the \u201c Borrower \u201d), the Guarantors party hereto, the Lenders party hereto, and Bank of America, N.A., as Administrative Agent, Swing Line Lender and L/C Issuer. All capitalized terms used herein and not otherwise defined herein shall have the meanings ascribed thereto in the Credit Agreement (as defined below). RECITALS WHEREAS, the Borrower, the Guarantors, the Administrative Agent and the Lenders are parties to that certain Credit Agreement, dated a"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1309402/000130940219000024/gpre-20181231xex10_22f.htm",
+          "accession": "0001309402-19-000024",
+          "file_type": "EX-10.22(F)",
+          "form": "10-K",
+          "file_date": "2019-02-20",
+          "est_pages": 4,
+          "opening": "EX-10.22(F) 8 gpre-20181231xex10_22f.htm EX-10.22(F) Exhibit 10.22(f) - Third Amendment to Credit Agreement Exhibit 10 .22 (f) THIRD AMENDMENT TO CREDIT AGREEMENT THIS THIRD AMENDMENT TO CREDIT AGREEMENT (this \u201c Agreement \u201d) is entered into as of October 12 , 2018 among GREEN PLAINS OPERATING COMPANY LLC, a Delaware limited liability company (the \u201c Borrower \u201d), the Guarantors party hereto, the Lenders party hereto, and Bank of America, N.A., as Administrative Agent, Swing Line Lender and L/C Issuer. All capitalized terms used herein and not otherwise defined herein shall have the meanings ascribed thereto in the Credit Agreement (as defined below). \ufeff RECITALS WHEREAS, the Borrower, the Guarantors, the Administrative Agent and the Lenders are parties to that certain Credit Agreement, dated "
+        }
+      ]
+    },
+    {
+      "company": "AVIAT NETWORKS, INC.  (AVNW)  (CIK 0001377789)",
+      "cik": "0001377789",
+      "sic": "3663",
+      "agreement_date": "2023-05-09",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/1377789/000119312523138929/d312982dex101.htm",
+        "accession": "0001193125-23-138929",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2023-05-09",
+        "est_pages": 209,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1377789/000137778923000050/firstamendmenttocreditagre.htm",
+          "accession": "0001377789-23-000050",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2023-11-29",
+          "est_pages": 5,
+          "opening": "EX-10.1 2 firstamendmenttocreditagre.htm EX-10.1 Document Exhibit 10.1 EXECUTION VERSION FIRST AMENDMENT TO CREDIT AGREEMENT FIRST AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of November 22, 2023, among, AVIAT NETWORKS, INC., a Delaware corporation (the \u201c Parent \u201d), AVIAT U.S., INC., a Delaware corporation (\u201c Aviat US \u201d), AVIAT NETWORKS (S) PTE. LTD., a company incorporated and validly existing under the laws of Singapore (\u201c Aviat Singapore \u201d, together with Parent and Aviat US, the \u201c Borrowers \u201d and each a \u201c Borrower \u201d), the Lenders (as defined below) and WELLS FARGO BANK, NATIONAL ASSOCIATION, as administrative agent (the \u201c Administrative Agent \u201d). Unless otherwise indicated, all capitalized terms used herein and not otherwise defined herein shall have the respective mean"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1377789/000137778924000052/secondamendmenttocreditagr.htm",
+          "accession": "0001377789-24-000052",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2024-10-22",
+          "est_pages": 5,
+          "opening": "EX-10.1 2 secondamendmenttocreditagr.htm EX-10.1 Document Exhibit 10.1 SECOND AMENDMENT TO CREDIT AGREEMENT AND FIRST AMENDMENT TO COLLATERAL AGREEMENT SECOND AMENDMENT TO CREDIT AGREEMENT AND FIRST AMENDMENT TO COLLATERAL AGREEMENT (this \u201c Amendment \u201d), dated as of October 18, 2024, among AVIAT NETWORKS, INC., a Delaware corporation (the \u201c Parent \u201d), AVIAT U.S., INC., a Delaware corporation (\u201c Aviat US \u201d), AVIAT NETWORKS (S) PTE. LTD., a company incorporated and validly existing under the laws of Singapore (\u201c Aviat Singapore \u201d, together with Parent and Aviat US, the \u201c Borrowers \u201d and each a \u201c Borrower \u201d), the Lenders (as defined below) and WELLS FARGO BANK, NATIONAL ASSOCIATION, as administrative agent (the \u201c Administrative Agent \u201d). Unless otherwise indicated, all capitalized terms used "
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1377789/000137778925000040/thirdamendmentincremental-.htm",
+          "accession": "0001377789-25-000040",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2025-09-02",
+          "est_pages": 9,
+          "opening": "EX-10.1 2 thirdamendmentincremental-.htm EX-10.1 Document Execution Version THIRD AMENDMENT TO CREDIT AGREEMENT THIRD AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of August [28], 2025, among AVIAT NETWORKS, INC., a Delaware corporation (the \u201c Parent \u201d), AVIAT U.S., INC., a Delaware corporation (\u201c Aviat US \u201d), AVIAT NETWORKS (S) PTE. LTD., a company incorporated and validly existing under the laws of Singapore (\u201c Aviat Singapore \u201d, together with Parent and Aviat US, the \u201c Borrowers \u201d and each a \u201c Borrower \u201d), the Lenders party hereto and WELLS FARGO BANK, NATIONAL ASSOCIATION, as administrative agent (the \u201c Administrative Agent \u201d). Unless otherwise indicated, all capitalized terms used herein and not otherwise defined herein shall have the respective meanings provided such t"
+        }
+      ]
+    },
+    {
+      "company": "TACTILE SYSTEMS TECHNOLOGY INC  (TCMD)  (CIK 0001027838)",
+      "cik": "0001027838",
+      "sic": "3841",
+      "agreement_date": "2018-08-03",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/1027838/000155837018006459/tcmd-20180630ex10182d3c0.htm",
+        "accession": "0001558370-18-006459",
+        "file_type": "EX-10.1",
+        "form": "10-Q",
+        "file_date": "2018-08-06",
+        "est_pages": 166,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1027838/000155837019001320/tcmd-20181231ex1033c32f7.htm",
+          "accession": "0001558370-19-001320",
+          "file_type": "EX-10.33",
+          "form": "10-K",
+          "file_date": "2019-02-28",
+          "est_pages": 3,
+          "opening": "EX-10.33 3 tcmd-20181231ex1033c32f7.htm EX-10.33 TCMD EX 10-33 Exhibit 10.33 Execution Version FIRST AMENDMENT TO CREDIT AGREEMENT This First Amendment to Credit Agreement (this \u201c Amendment \u201d) is entered into as of February 12, 2019, by and among (a) Tactile Systems Technology, Inc., a Delaware corporation (dba Tactile Medical) (\u201c Borrower \u201d), (b) the Lenders who are party to this Amendment and the Lenders who may become a party to this Amendment pursuant to the terms of the Credit Agreement (defined below) (collectively, the \u201c Lenders \u201d), and (c) Wells Fargo Bank, National Association, a national banking association, as Administrative Agent for the Lenders (\u201c Agent \u201d). This Amendment is consented and agreed to by the Guarantors. RECITALS A. Borrower, Lenders and Agent are parties to that "
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1027838/000155837019004072/tcmd-20190331ex102b7e5da.htm",
+          "accession": "0001558370-19-004072",
+          "file_type": "EX-10.2",
+          "form": "10-Q",
+          "file_date": "2019-05-06",
+          "est_pages": 4,
+          "opening": "EX-10.2 2 tcmd-20190331ex102b7e5da.htm EX-10.2 TCMD EX 10-2 Exhibit 10.2 Execution Version WAIVER AND SECOND AMENDMENT TO CREDIT AGREEMENT This Waiver and Second Amendment to Credit Agreement (this \u201c Amendment \u201d) is entered into as of March 25, 2019, by and among (a) Tactile Systems Technology, Inc., a Delaware corporation (dba Tactile Medical) (\u201c Borrower \u201d), (b) the Lenders who are party to this Amendment and the Lenders who may become a party to this Amendment pursuant to the terms of the Credit Agreement (defined below) (collectively, the \u201c Lenders \u201d), and (c) Wells Fargo Bank, National Association, a national banking association, as Administrative Agent for the Lenders (\u201c Agent \u201d). This Amendment is consented and agreed to by the Guarantors. RECITALS A. Borrower, Lenders and Agent are"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1027838/000155837019009809/ex-10d1.htm",
+          "accession": "0001558370-19-009809",
+          "file_type": "EX-10.1",
+          "form": "10-Q",
+          "file_date": "2019-11-04",
+          "est_pages": 3,
+          "opening": "EX-10.1 2 ex-10d1.htm EX-10.1 TCMD EX 10-1 Exhibit 10.1 Execution Copy THIRD AMENDMENT TO CREDIT AGREEMENT This Third Amendment to Credit Agreement (this \u201c Amendment \u201d) is entered into as of August 2, 2019, by and among (a) Tactile Systems Technology, Inc., a Delaware corporation (dba Tactile Medical) (\u201c Borrower \u201d), (b) the Lenders who are party to this Amendment and the Lenders who may become a party to this Amendment pursuant to the terms of the Credit Agreement (defined below) (collectively, the \u201c Lenders \u201d), and (c) Wells Fargo Bank, National Association, a national banking association, as Administrative Agent for the Lenders (\u201c Agent \u201d). This Amendment is consented and agreed to by the Guarantors. RECITALS A. Borrower, Lenders and Agent are parties to that certain Credit Agreement da"
+        }
+      ]
+    },
+    {
+      "company": "HAIN CELESTIAL GROUP INC  (HAIN)  (CIK 0000910406)",
+      "cik": "0000910406",
+      "sic": "2000",
+      "agreement_date": "2021-12-22",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/910406/000119312521367938/d135642dex101.htm",
+        "accession": "0001193125-21-367938",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2021-12-28",
+        "est_pages": 199,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/910406/000091040623000114/exh101-secondamendmentto4t.htm",
+          "accession": "0000910406-23-000114",
+          "file_type": "EX-10.1",
+          "form": "10-Q",
+          "file_date": "2023-11-07",
+          "est_pages": 7,
+          "opening": "EX-10.1 2 exh101-secondamendmentto4t.htm EX-10.1 Document Exhibit 10.1 Execution Copy SECOND AMENDMENT TO CREDIT AGREEMENT This SECOND AMENDMENT TO CREDIT AGREEMENT , dated as of August 22, 2023 (this \u201c Amendment \u201d), is by and among THE HAIN CELESTIAL GROUP, INC. , a Delaware corporation (the \u201c Company \u201d), each Lender party hereto and BANK OF AMERICA, N.A., as Administrative Agent. Capitalized terms used herein and not otherwise defined herein shall have the meanings ascribed thereto in the Credit Agreement. W I T N E S S E T H WHEREAS , the Company, each Subsidiary of the Company from time to time party thereto as a Designated Borrower, each lender from time to time party thereto (collectively, the \u201c Lenders \u201d and individually, a \u201c Lender \u201d) and the Administrative Agent are parties to tha"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/910406/000119312525203534/hain-ex10_1-4.htm",
+          "accession": "0001193125-25-203534",
+          "file_type": "EX-10.1-4",
+          "form": "10-K",
+          "file_date": "2025-09-15",
+          "est_pages": 6,
+          "opening": "EX-10.1-4 5 hain-ex10_1-4.htm EX-10.1-4 EX-10.1-4 EXHIBIT 10.1 EXECUTION VERSION THIRD AMENDMENT TO CREDIT AGREEMENT This THIRD AMENDMENT TO CREDIT AGREEMENT , dated as of May 5, 2025 (this \u201c Amendment \u201d), is by and among THE HAIN CELESTIAL GROUP, INC. , a Delaware corporation (the \u201c Company \u201d), each Lender party hereto and BANK OF AMERICA, N.A. , as Administrative Agent. Capitalized terms used herein and not otherwise defined herein shall have the meanings ascribed thereto in the Credit Agreement. W I T N E S S E T H WHEREAS , the Company, each Subsidiary of the Company from time to time party thereto as a Designated Borrower, each lender from time to time party thereto (collectively, the \u201c Lenders \u201d and individually, a \u201c Lender \u201d) and the Administrative Agent are parties to that certain "
+        }
+      ]
+    },
+    {
+      "company": "FUELCELL ENERGY INC  (FCEL, FCELB)  (CIK 0000886128)",
+      "cik": "0000886128",
+      "sic": "3690",
+      "agreement_date": "2019-10-31",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/886128/000156459019040696/fcel-ex102_11.htm",
+        "accession": "0001564590-19-040696",
+        "file_type": "EX-10.2",
+        "form": "8-K",
+        "file_date": "2019-11-06",
+        "est_pages": 149,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/886128/000156459020001558/fcel-ex10117_786.htm",
+          "accession": "0001564590-20-001558",
+          "file_type": "EX-10.117",
+          "form": "10-K",
+          "file_date": "2020-01-22",
+          "est_pages": 7,
+          "opening": "EX-10.117 6 fcel-ex10117_786.htm EX-10.117 fcel-ex10117_786.htm EXHIBIT 10.117 SECOND AMENDMENT TO CREDIT AGREEMENT This SECOND AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of January 20, 2020, is entered into by and among FuelCell Energy, Inc. , a Delaware corporation (the \u201c Borrower \u201d), each of the Guarantors party to the Credit Agreement , the lenders party to the Credit Agreement referred to below (collectively, the \u201c Lenders \u201d and each individually a \u201c Lender \u201d) that are signatories hereto, and Orion Energy Partners Investment Agent, LLC, as administrative and collateral agent for the Lenders (in such capacity, the \u201c Administrative Agent \u201d) . Capitalized terms used but not otherwise defined herein shall have the respective meanings ascribed thereto in the Credit Agreem"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/886128/000156459020004587/fcel-ex107_20.htm",
+          "accession": "0001564590-20-004587",
+          "file_type": "EX-10.7",
+          "form": "8-K",
+          "file_date": "2020-02-13",
+          "est_pages": 10,
+          "opening": "EX-10.7 8 fcel-ex107_20.htm EX-10.7 fcel-ex107_20.htm EXHIBIT 10.7 THIRD AMENDMENT TO CREDIT AGREEMENT This THIRD AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d), dated as of February 11, 2020, is entered into by and among FuelCell Energy, Inc., a Delaware corporation (the \u201c Borrower \u201d), each of the Guarantors party to the Credit Agreement, the lenders party to the Credit Agreement referred to below (collectively, the \u201c Lenders \u201d and each individually a \u201c Lender \u201d) that are signatories hereto, and Orion Energy Partners Investment Agent, LLC, as administrative and collateral agent for the Lenders (in such capacity, the \u201c Administrative Agent \u201d). Capitalized terms used but not otherwise defined herein shall have the respective meanings ascribed thereto in the Credit Agreement (as defined "
+        }
+      ]
+    },
+    {
+      "company": "HARMONIC INC  (HLIT)  (CIK 0000851310)",
+      "cik": "0000851310",
+      "sic": "3663",
+      "agreement_date": "2019-12-19",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/851310/000085131019000049/jpmcreditagreementfinal1.htm",
+        "accession": "0000851310-19-000049",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2019-12-26",
+        "est_pages": 124,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/851310/000085131020000024/secondamendmenttocredi.htm",
+          "accession": "0000851310-20-000024",
+          "file_type": "EX-10.1",
+          "form": "10-Q",
+          "file_date": "2020-11-02",
+          "est_pages": 10,
+          "opening": "EX-10.1 2 secondamendmenttocredi.htm EXHIBIT 10.1 Exhibit EXECUTION VERSION SECOND AMENDMENT TO CREDIT AGREEMENT THIS SECOND AMENDMENT TO CREDIT AGREEMENT (the \u201c Amendment \u201d), dated as of October 30, 2020 (the \u201c Second Amendment Effective Date \u201d), is among HARMONIC INC. and HARMONIC INTERNATIONAL GmbH, as Borrowers, the other Loan Parties party hereto, and JPMORGAN CHASE BANK, N.A., as Lender. RECITALS: Borrowers and Lender have entered into that certain Credit Agreement dated as of December 19, 2019 (as amended by the First Amendment to Credit Agreement, dated as of May 28, 2020, as further amended by the Limited Consent to Credit Agreement, dated as of June 25, 2020, and as the same may hereafter be amended or otherwise modified, the \u201c Agreement \u201d). Borrowers and Lender now desire to ame"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/851310/000085131020000028/exhibit101-thirdamendm.htm",
+          "accession": "0000851310-20-000028",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2020-11-17",
+          "est_pages": 6,
+          "opening": "EX-10.1 2 exhibit101-thirdamendm.htm EX-10.1 Document EXECUTION VERSION THIRD AMENDMENT TO CREDIT AGREEMENT THIS THIRD AMENDMENT TO CREDIT AGREEMENT (the \u201c Amendment \u201d), dated as of November 10, 2020 (the \u201c Third Amendment Effective Date \u201d), is among HARMONIC INC. and HARMONIC INTERNATIONAL GmbH, as Borrowers, the other Loan Parties party hereto, and JPMORGAN CHASE BANK, N.A., as Lender. RECITALS: Borrowers and Lender have entered into that certain Credit Agreement dated as of December 19, 2019 (as amended by the First Amendment to Credit Agreement, dated as of May 28, 2020 and the Second Amendment to Credit Agreement, dated as of October 30, 2020, and as further amended by the Limited Consent to Credit Agreement, dated as of June 25, 2020, and as the same may hereafter be amended or other"
+        }
+      ]
+    },
+    {
+      "company": "TrueBlue, Inc.  (TBI)  (CIK 0000768899)",
+      "cik": "0000768899",
+      "sic": "7363",
+      "agreement_date": "2018-07-13",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/768899/000076889918000025/executedcreditagreementt.htm",
+        "accession": "0000768899-18-000025",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2018-07-16",
+        "est_pages": 161,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/768899/000076889920000109/secondamendmenttocredi.htm",
+          "accession": "0000768899-20-000109",
+          "file_type": "EX-10.1",
+          "form": "10-Q",
+          "file_date": "2020-07-27",
+          "est_pages": 8,
+          "opening": "EX-10.1 2 secondamendmenttocredi.htm EXHIBIT 10.1 Exhibit SECOND AMENDMENT TO CREDIT AGREEMENT This SECOND AMENDMENT TO CREDIT AGREEMENT (this \u201c Agreement \u201d) is entered into as of June 24, 2020 (the \u201c Second Amendment Effective Date \u201d) among TRUEBLUE, INC., a Washington corporation (the \u201c Borrower \u201d), the Guarantors party hereto, the Lenders party hereto and BANK OF AMERICA, N.A., as Administrative Agent. Capitalized terms used herein and not otherwise defined shall have the meanings set forth in the Credit Agreement (as defined below). RECITALS WHEREAS, the Borrower, the Guarantors, the Lenders and the Administrative Agent are parties to that certain Credit Agreement dated as of July 13, 2018 (as amended or modified from time to time, the \u201c Credit Agreement \u201d); WHEREAS, the Borrower has r"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/768899/000076889921000085/tbi10k122720ex1026.htm",
+          "accession": "0000768899-21-000085",
+          "file_type": "EX-10.26",
+          "form": "10-K",
+          "file_date": "2021-02-22",
+          "est_pages": 1,
+          "opening": "EX-10.26 4 tbi10k122720ex1026.htm THIRD AMENDMENT TO CREDIT AGREEMENT Document January 28, 2021 TrueBlue, Inc. 1015 A Street Tacoma, Washington 98402 Re: Third Amendment to Credit Agreement Ladies and Gentlemen: Reference is made to that certain Credit Agreement dated as of July 13, 2018 (as amended and otherwise modified from time to time, the \u201c Credit Agreement \u201d), by and among TRUEBLUE, INC., a Washington corporation (the \u201c Borrower \u201d), the Guarantors party thereto, the Lenders party thereto, and BANK OF AMERICA, N.A., as Administrative Agent (the \u201c Administrative Agent \u201d). Capitalized terms used herein and not otherwise defined shall have the meanings ascribed to such terms in the Credit Agreement. Pursuant to the last paragraph of Section 11.01 of the Credit Agreement, the Administrat"
+        }
+      ]
+    },
+    {
+      "company": "SWK Holdings Corp  (SWKH, SWKHL)  (CIK 0001089907)",
+      "cik": "0001089907",
+      "sic": "6159",
+      "agreement_date": "2023-06-28",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/1089907/000155278123000317/e23295_ex10-1.htm",
+        "accession": "0001552781-23-000317",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2023-06-30",
+        "est_pages": 123,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1089907/000162828025013989/swksecondamendmenttocredit.htm",
+          "accession": "0001628280-25-013989",
+          "file_type": "EX-10.21",
+          "form": "10-K",
+          "file_date": "2025-03-20",
+          "est_pages": 3,
+          "opening": "EX-10.21 2 swksecondamendmenttocredit.htm EX-10.21 Document SECOND AMENDMENT TO CREDIT AGREEMENT This Second Amendment to Credit Agreement (\u201c Amendment \u201d) is dated as of December 13, 2023 by and among SWK HOLDINGS CORPORATION (\u201c SWK Holdings \u201d), a Delaware corporation, and SWK FUNDING LLC (\u201c SWK Funding \u201d), a Delaware limited liability company (collectively and individually, the \u201c Borrower \u201d), FIRST HORIZON BANK, as agent for Lenders (in such capacity, \u201c Agent \u201d), and the financial institutions party hereto as lenders (collectively, the \u201c Lenders \u201d and each a \u201c Lender \u201d). BACKGROUND A. Borrower, Lenders and Agent are parties to a certain Credit Agreement dated as of June 28, 2023, as amended by that certain First Amendment to Credit Agreement dated as of October 10, 2023 (as amended or mod"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1089907/000162828025013989/swkthirdamendmenttocredita.htm",
+          "accession": "0001628280-25-013989",
+          "file_type": "EX-10.24",
+          "form": "10-K",
+          "file_date": "2025-03-20",
+          "est_pages": 4,
+          "opening": "EX-10.24 3 swkthirdamendmenttocredita.htm EX-10.24 Document Execution Version THIRD AMENDMENT TO CREDIT AGREEMENT This Third Amendment to Credit Agreement (\u201c Amendment \u201d) is dated as of May 17, 2024 by and among SWK HOLDINGS CORPORATION (\u201c SWK Holdings \u201d), a Delaware corporation, and SWK FUNDING LLC (\u201c SWK Funding \u201d), a Delaware limited liability company (collectively and individually, the \u201c Borrower \u201d), FIRST HORIZON BANK, as agent for Lenders (in such capacity, \u201c Agent \u201d), and the financial institutions party hereto as lenders (collectively, the \u201c Lenders \u201d and each a \u201c Lender \u201d). BACKGROUND A. Borrower, Lenders and Agent are parties to a certain Credit Agreement dated as of June 28, 2023 (as amended or modified from time to time, the \u201c Credit Agreement \u201d). Capitalized terms used but not"
+        }
+      ]
+    },
+    {
+      "company": "FS Energy & Power Fund  (FSEN)  (CIK 0001501729)",
+      "cik": "0001501729",
+      "sic": "",
+      "agreement_date": "2017-04-19",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/1501729/000138713117002232/ex10-1.htm",
+        "accession": "0001387131-17-002232",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2017-04-25",
+        "est_pages": 145,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1501729/000138713119006852/ex10-1.htm",
+          "accession": "0001387131-19-006852",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2019-09-10",
+          "est_pages": 2,
+          "opening": "EX-10.1 2 ex10-1.htm AMENDMENT NO. 1 TO CREDIT AGREEMENT FS Energy & Power Fund 8-K Exhibit 10.1 EXECUTION VERSION AMENDMENT NO. 1 TO CREDIT AGREEMENT AMENDMENT NO. 1 TO CREDIT AGREEMENT (this \" Amendment \") dated as of September 6, 2019, by and among GLAWDYNE FUNDING, LLC, as borrower (the \" Borrower \"); GOLDMAN SACHS BANK USA (\" GS Bank \"), as sole lead arranger (the \" Arranger \"), as sole lender (the \" Lender \") and as administrative agent (the \" Administrative Agent \"); FS ENERGY AND POWER FUND, as equity holder and investment manager (the \" Investment Manager \"); VIRTUS GROUP, LP, as collateral administrator (the \" Collateral Administrator \"); and CITIBANK, N.A., as collateral agent (the \" Collateral Agent \"). The Borrower, the Arranger, the Lenders, the Administrative Agent, the Coll"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1501729/000138713119007677/ex10-1.htm",
+          "accession": "0001387131-19-007677",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2019-10-17",
+          "est_pages": 2,
+          "opening": "EX-10.1 2 ex10-1.htm AMENDMENT NO. 2 TO CREDIT AGREEMENT FS Energy & Power Fund 8-K Exhibit 10.1 EXECUTION VERSION AMENDMENT NO. 2 TO CREDIT AGREEMENT AMENDMENT NO. 2 TO CREDIT AGREEMENT (this \u201c Amendment \u201d) dated as of October 15, 2019, by and among GLAWDYNE FUNDING, LLC, as borrower (the \u201c Borrower \u201d); GOLDMAN SACHS BANK USA (\u201c GS Bank \u201d), as sole lead arranger (the \u201c Arranger \u201d), as sole lender (the \u201c Lender \u201d) and as administrative agent (the \u201c Administrative Agent \u201d); FS ENERGY AND POWER FUND, as equity holder and investment manager (the \u201c Investment Manager \u201d); VIRTUS GROUP, LP, as collateral administrator (the \u201c Collateral Administrator \u201d); and CITIBANK, N.A., as collateral agent (the \u201c Collateral Agent \u201d). The Borrower, the Arranger, the Lenders, the Administrative Agent, the Colla"
+        }
+      ]
+    },
+    {
+      "company": "UNITED THERAPEUTICS Corp  (UTHR)  (CIK 0001082554)",
+      "cik": "0001082554",
+      "sic": "2834",
+      "agreement_date": "2018-06-27",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/1082554/000110465918042653/a18-16093_1ex10d2.htm",
+        "accession": "0001104659-18-042653",
+        "file_type": "EX-10.2",
+        "form": "8-K",
+        "file_date": "2018-06-28",
+        "est_pages": 148,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1082554/000110465920131240/tm2037326d1_ex10-1.htm",
+          "accession": "0001104659-20-131240",
+          "file_type": "EX-10.1",
+          "form": "8-K",
+          "file_date": "2020-12-02",
+          "est_pages": 3,
+          "opening": "EX-10.1 2 tm2037326d1_ex10-1.htm EXHIBIT 10.1 Exhibit 10.1 FIRST AMENDMENT TO CREDIT AGREEMENT THIS FIRST AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d) dated as of November 2, 2018 is by and among UNITED THERAPEUTICS CORPORATION, a Delaware corporation (the \u201c Borrower \u201d), the Guarantors, the Lenders party hereto and WELLS FARGO BANK, NATIONAL ASSOCIATION, a national banking association, as the Administrative Agent (in such capacity, \u201c Administrative Agent \u201d). W I T N E S S E T H WHEREAS, the Borrower, the Guarantors party thereto, the Lenders from time to time party thereto and the Administrative Agent are party to that certain Credit Agreement, dated as of June 27, 2018 (as amended, restated, extended, supplemented or otherwise modified from time to time, the \u201c Credit Agreement \u201d; ca"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1082554/000110465920131240/tm2037326d1_ex10-2.htm",
+          "accession": "0001104659-20-131240",
+          "file_type": "EX-10.2",
+          "form": "8-K",
+          "file_date": "2020-12-02",
+          "est_pages": 10,
+          "opening": "EX-10.2 3 tm2037326d1_ex10-2.htm EXHIBIT 10.2 Exhibit 10.2 EXECUTION VERSION SECOND AMENDMENT TO CREDIT AGREEMENT THIS SECOND AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d) dated as of December 1, 2020 is by and among UNITED THERAPEUTICS CORPORATION, a Delaware corporation (the \u201c Borrower \u201d), the Guarantors party hereto, the Lenders party hereto and WELLS FARGO BANK, NATIONAL ASSOCIATION, a national banking association, in its capacities as the Administrative Agent and the Swingline Lender. W I T N E S S E T H WHEREAS, the Borrower, the Guarantors party thereto, the Lenders from time to time party thereto and Wells Fargo Bank, National Association, a national banking association, in its capacities as the Administrative Agent and the Swingline Lender, are party to that certain Credit Ag"
+        }
+      ]
+    },
+    {
+      "company": "PERKINELMER INC  (RVTY)  (CIK 0000031791)",
+      "cik": "0000031791",
+      "sic": "3826",
+      "agreement_date": "2019-09-17",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/31791/000119312519246865/d804222dex101.htm",
+        "accession": "0001193125-19-246865",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2019-09-17",
+        "est_pages": 209,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/31791/000003179120000003/a2019exhibit102.htm",
+          "accession": "0000031791-20-000003",
+          "file_type": "EX-10.2",
+          "form": "10-K",
+          "file_date": "2020-02-25",
+          "est_pages": 4,
+          "opening": "EX-10.2 3 a2019exhibit102.htm FIRST AMENDMENT TO CREDIT AGREEMENT, DATED AS OF OCTOBER 21, 2019 Exhibit Exhibit 10.2 EXECUTION VERSION FIRST AMENDMENT TO CREDIT AGREEMENT THIS FIRST AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d) is entered into as of October 21, 2019 among PERKINELMER, INC., a Massachusetts corporation (the \u201c Company \u201d), PERKINELMER HEALTH SCIENCES, INC., a Delaware corporation (\u201c Health Sciences \u201d), PERKINELMER LIFE SCIENCES INTERNATIONAL HOLDINGS, a company incorporated and registered under the laws of England and Wales with registered number 04418157 (the \u201c UK Borrower \u201d), PERKINELMER GLOBAL HOLDINGS S.\u00c0 R.L., a private limited liability company ( soci\u00e9t\u00e9 \u00e0 responsabilit\u00e9 limit\u00e9e ) incorporated under the laws of Luxembourg, having its registered office at 9, all\u00e9e S"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/31791/000003179120000006/pki-04052020xex101.htm",
+          "accession": "0000031791-20-000006",
+          "file_type": "EX-10.1",
+          "form": "10-Q",
+          "file_date": "2020-05-12",
+          "est_pages": 3,
+          "opening": "EX-10.1 2 pki-04052020xex101.htm SECOND AMENDMENT TO CREDIT AGREEMENT, DATED AS OF FEBRUARY 27, 2020 Exhibit EXHIBIT 10.1 EXECUTION VERSION SECOND AMENDMENT TO CREDIT AGREEMENT THIS SECOND AMENDMENT TO CREDIT AGREEMENT (this \u201c Amendment \u201d) is entered into as of February 27, 2020 among PERKINELMER, INC., a Massachusetts corporation (the \u201c Company \u201d), PERKINELMER HEALTH SCIENCES, INC., a Delaware corporation (\u201c Health Sciences \u201d), PERKINELMER LIFE SCIENCES INTERNATIONAL HOLDINGS, a company incorporated and registered under the laws of England and Wales with registered number 04418157 (the \u201c UK Borrower \u201d), PERKINELMER GLOBAL HOLDINGS S.\u00c0 R.L., a private limited liability company ( soci\u00e9t\u00e9 \u00e0 responsabilit\u00e9 limit\u00e9e ) incorporated under the laws of Luxembourg, having its registered office at 9,"
+        }
+      ]
+    },
+    {
+      "company": "RAYMOND JAMES FINANCIAL INC  (RJF, RJF-PB)  (CIK 0000720005)",
+      "cik": "0000720005",
+      "sic": "6211",
+      "agreement_date": "2019-02-19",
+      "original": {
+        "url": "https://www.sec.gov/Archives/edgar/data/720005/000072000519000019/ex101creditagreementraym.htm",
+        "accession": "0000720005-19-000019",
+        "file_type": "EX-10.1",
+        "form": "8-K",
+        "file_date": "2019-02-22",
+        "est_pages": 114,
+        "has_pdf_in_filing": false
+      },
+      "amendments": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/720005/000072000519000063/ex101_firstamendmenttoc.htm",
+          "accession": "0000720005-19-000063",
+          "file_type": "EX-10.1",
+          "form": "10-Q",
+          "file_date": "2019-08-08",
+          "est_pages": 4,
+          "opening": "EX-10.1 2 ex101_firstamendmenttoc.htm EXHIBIT 10.1 FIRST AMENDMENT TO CREDIT AGREEMENT Exhibit Exhibit 10.1 First Amendment to the Credit Agreement FIRST AMENDMENT TO CREDIT AGREEMENT THIS FIRST AMENDMENT TO CREDIT AGREEMENT (this \u201c Agreement \u201d), dated as of May 23, 2019, is entered into among Raymond James Financial, Inc., a Florida corporation (the \u201c RJF \u201d), Raymond James & Associates, Inc., a Florida corporation (\u201c RJA \u201d and together with RJF, each a \u201c Borrower \u201d and collectively the \u201c Borrowers \u201d), the Lenders party hereto and Bank of America, N.A., as Administrative Agent (the \u201c Administrative Agent \u201d). All capitalized terms used herein and not otherwise defined herein shall have the meanings given to such terms in the Credit Agreement (as defined below). RECITALS WHEREAS, the Borrowe"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/720005/000072000520000041/ex10120200630-10qrjf.htm",
+          "accession": "0000720005-20-000041",
+          "file_type": "EX-10.1",
+          "form": "10-Q",
+          "file_date": "2020-08-07",
+          "est_pages": 7,
+          "opening": "EX-10.1 2 ex10120200630-10qrjf.htm EX-10.1 SECOND AMENDMENT TO CREDIT AGREEMENT Document Exhibit 10.1 Second Amendment to Credit Agreement SECOND AMENDMENT TO CREDIT AGREEMENT THIS SECOND AMENDMENT TO CREDIT AGREEMENT (this \u201c Agreement \u201d), dated as of May 27, 2020, is entered into among Raymond James Financial, Inc., a Florida corporation (the \u201c RJF \u201d), Raymond James & Associates, Inc., a Florida corporation (\u201c RJA \u201d and together with RJF, each a \u201c Borrower \u201d and collectively the \u201c Borrowers \u201d), the Lenders party hereto and Bank of America, N.A., as Administrative Agent (the \u201c Administrative Agent \u201d). All capitalized terms used herein and not otherwise defined herein shall have the meanings given to such terms in the Credit Agreement (as defined below). RECITALS WHEREAS, the Borrowers, the"
+        }
+      ]
+    }
+  ]
+}

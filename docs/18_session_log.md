@@ -7,6 +7,36 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-04 (cont.) — R1 step 1–2: data rules and EDGAR corpus
+
+**Branch:** `feature/r1-corpus-parsing`
+
+### Decisions
+
+| ID | Decision | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-04-13 | `SEC_USER_AGENT` uses a real but secondary email | SEC fair-access rules want a reachable contact; a fake one risks an IP block mid-download | `.env` (untracked) |
+| S-2026-11-04-14 | **12 EDGAR deals approved** (list in scope v2 Decision Log) | Industry spread, smaller agreements, every deal has 2–3 amendments | `evals/corpus/edgar_selection.json` |
+| S-2026-11-04-15 | Discovery, de-duplication, rendering and page-fidelity rules | See scope v2 Decision Log (2026-11-04 rows) | `loandoc-retrieval-evals-scope-v2.md` |
+
+### Changes
+- `.gitignore`: `data/` and evals PDFs (except `evals/fixtures/ci/`); **F9 test** `evals/tests/test_data_rules.py`.
+- `evals/corpus/`: SEC client (rate-limited, User-Agent from env, on-disk cache), deal discovery, manifest, Chrome renderer with page fitting, fetch CLI.
+- `evals/corpus/edgar_candidates.json` (32 checked candidates), `edgar_selection.json` (approved 12 + 4 reserves), `manifest.csv` (41 docs, checksums and page counts frozen).
+- Corpus built locally: 41 PDFs, **1,836 pages** under `data/corpus/pdf/` (gitignored).
+- 37 evals tests pass.
+
+### Findings
+- First-pass rendering inflated page counts (2,215 pages) because original pages spilled over; fixed by per-document zoom (now 1,836).
+- `deal_09_ca` (United Therapeutics): Chrome ignores some of its 157 page breaks, so it renders as 108 pages; text is intact (97%). PDF page numbers, not original page numbers, are the reference for evidence labels.
+- 56 near-empty pages across the corpus, mostly signature pages at the end of agreements.
+- Three agreements (Raymond James, Harmonic, TrueBlue) were filed as page images plus text; the text layer is complete.
+
+### Open items
+- Next in R1: CFPB consumer forms, scan simulator, parser interface + Docling, ingestion labeling, §8.1 metrics, S0.
+
+---
+
 ## 2026-11-04 — Retrieval & Evals initiative: scope v2 and R0
 
 **Branch:** `feature/r0-baseline-fixes` → merged to `main`
