@@ -76,3 +76,6 @@ orchestration/.airflow/
 data/
 evals/**/*.pdf
 !evals/fixtures/ci/**/*.pdf
+
+# Separate env for Docling (its numpy/torch/httpx versions conflict with the app venv)
+venv-docling/
