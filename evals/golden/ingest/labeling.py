@@ -310,6 +310,9 @@ def render(page_ids: list[str] | None = None) -> int:
             tmp = fitz.open()
             tmp.insert_pdf(d, from_page=s["page"] - 1, to_page=s["page"] - 1)
             p = tmp[0]
+            # Chrome-rendered pages leave a scaling transform active at the end of
+            # their content stream; wrap it so our drawing uses plain page coordinates.
+            p.wrap_contents()
             w, h = p.rect.width, p.rect.height
             for x in range(0, int(w) + 1, 50):
                 p.draw_line((x, 0), (x, h), color=(0.75, 0.75, 0.75), width=0.3)
