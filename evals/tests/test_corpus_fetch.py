@@ -72,3 +72,34 @@ def test_edgar_rows_ids_from_amendment_titles():
     }]}
     ids = [r.doc_id for r in edgar_rows(selection, candidates)]
     assert ids == ["deal_01_ca", "deal_01_am2", "deal_01_am3"]
+
+
+def test_import_consumer_copies_verifies_and_reports_missing(tmp_path, monkeypatch):
+    import fitz
+    from evals.corpus import cfpb, fetch
+
+    inbox, data = tmp_path / "inbox", tmp_path / "data"
+    inbox.mkdir()
+    monkeypatch.setattr(cfpb, "INBOX", inbox)
+    monkeypatch.setattr(fetch, "DATA", data)
+
+    rows = cfpb.consumer_rows()
+    present = rows[0]
+    doc = fitz.open()
+    doc.new_page()
+    doc.new_page()
+    doc.save(inbox / present.source_url.rsplit("/", 1)[1])
+
+    stats = fetch.import_consumer(rows, freeze=True)
+
+    assert stats["imported"] == 1
+    assert len(stats["missing"]) == len(rows) - 1
+    assert present.pdf_pages == "2" and len(present.source_sha256) == 64
+    assert (data / "pdf" / f"{present.doc_id}.pdf").exists()
+
+
+def test_consumer_rows_cover_both_form_types():
+    from evals.corpus.cfpb import consumer_rows
+    forms = {r.form[:4] for r in consumer_rows()}
+    assert forms == {"H-24", "H-25"}
+    assert len({r.doc_id for r in consumer_rows()}) == 11

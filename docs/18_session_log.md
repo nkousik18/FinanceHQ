@@ -32,8 +32,17 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 - 56 near-empty pages across the corpus, mostly signature pages at the end of agreements.
 - Three agreements (Raymond James, Harmonic, TrueBlue) were filed as page images plus text; the text layer is complete.
 
+### CFPB consumer forms (later the same day)
+| ID | Decision | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-04-16 | Use all 11 completed English CFPB TRID samples (5 Loan Estimates, 6 Closing Disclosures) | Dense fee tables and form layouts the credit agreements lack; public domain | `evals/corpus/cfpb.py` |
+| S-2026-11-04-17 | Kousik downloads the PDFs by hand; the script imports and checksums them | consumerfinance.gov blocks scripts (403); no bot-protection workarounds | Scope v2 Decision Log |
+| S-2026-11-04-18 | 7 sessions, grouped by matching borrower/property/loan amount | Avoids contradictory figures inside one session | Scope v2 Decision Log |
+
+Result: corpus = 41 EDGAR docs (1,836 pages) + 11 CFPB forms (40 pages). 39 evals tests pass.
+
 ### Open items
-- Next in R1: CFPB consumer forms, scan simulator, parser interface + Docling, ingestion labeling, §8.1 metrics, S0.
+- Next in R1: scan simulator, parser interface + Docling, ingestion labeling, §8.1 metrics, S0.
 
 ---
 

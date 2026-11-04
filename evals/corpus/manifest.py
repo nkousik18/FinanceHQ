@@ -90,18 +90,24 @@ def edgar_rows(selection: dict, candidates: dict) -> list[DocRow]:
     return rows
 
 
-def build_edgar(path: Path = MANIFEST) -> list[DocRow]:
-    """Replace the manifest's EDGAR rows from the selection; keep other parts and frozen values."""
+def build_manifest(path: Path = MANIFEST) -> list[DocRow]:
+    """
+    Rebuild the EDGAR and consumer rows (from the approved selection and the
+    CFPB form list), keeping frozen values for unchanged documents and any
+    other parts (e.g. simulated scans) as they are.
+    """
+    from evals.corpus.cfpb import consumer_rows
+
     selection = json.loads(SELECTION.read_text())
     candidates = json.loads(CANDIDATES.read_text())
     existing = {r.doc_id: r for r in read_manifest(path)}
-    new = edgar_rows(selection, candidates)
+    new = edgar_rows(selection, candidates) + consumer_rows()
     for r in new:
         old = existing.get(r.doc_id)
         if old and old.source_url == r.source_url:
             for f in ("source_sha256", "pdf_pages", "renderer", "render_zoom", "source_pages"):
                 setattr(r, f, getattr(old, f))
-    others = [r for r in existing.values() if r.part != "edgar"]
+    others = [r for r in existing.values() if r.part not in ("edgar", "consumer")]
     rows = others + new
     write_manifest(rows, path)
     return rows

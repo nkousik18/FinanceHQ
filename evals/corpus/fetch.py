@@ -1,12 +1,15 @@
 """
 Fetch the corpus from the manifest (scope v2 §5.0, F9, F11).
 
-    # 1. (Re)build the EDGAR rows of the manifest from the approved selection
+    # 1. (Re)build the manifest from the approved EDGAR selection + CFPB form list
     venv/bin/python -m evals.corpus.fetch build-manifest
     # 2. Download, verify, render. --freeze records checksums + page counts the first time.
     venv/bin/python -m evals.corpus.fetch fetch --freeze
 
 Outputs (gitignored): data/corpus/source/<doc_id>.html, data/corpus/pdf/<doc_id>.pdf
+
+CFPB forms can't be downloaded by script (consumerfinance.gov returns 403);
+put the PDFs in data/corpus/inbox/cfpb/ by hand. `fetch` lists any missing.
 Idempotent: an existing PDF is kept unless --force. A source whose sha256
 differs from the frozen value is an error (the filing changed or the
 download is corrupt).
@@ -20,7 +23,10 @@ import logging
 import sys
 from pathlib import Path
 
-from evals.corpus.manifest import DocRow, build_edgar, read_manifest, write_manifest
+import shutil
+
+from evals.corpus import cfpb
+from evals.corpus.manifest import DocRow, build_manifest, read_manifest, write_manifest
 from evals.corpus.render import chrome_version, pdf_page_count, render_fitted
 from evals.corpus.sec_client import SECClient
 
@@ -87,6 +93,30 @@ def fetch_edgar(rows: list[DocRow], sec: SECClient, freeze: bool, force: bool) -
     return stats
 
 
+def import_consumer(rows: list[DocRow], freeze: bool) -> dict:
+    """Copy hand-downloaded CFPB PDFs from the inbox, verifying their checksums."""
+    stats = {"imported": 0, "missing": []}
+    for row in rows:
+        if row.part != "consumer":
+            continue
+        src = cfpb.inbox_path(row)
+        if not src.exists():
+            stats["missing"].append(row.source_url)
+            continue
+        data = src.read_bytes()
+        verify_or_freeze(row, data, freeze)
+        pdf = DATA / "pdf" / f"{row.doc_id}.pdf"
+        pdf.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(src, pdf)
+        if freeze and not row.pdf_pages:
+            row.pdf_pages = str(pdf_page_count(pdf))
+        stats["imported"] += 1
+    if stats["missing"]:
+        log.warning("%d CFPB PDFs missing; download them into %s:\n  %s",
+                    len(stats["missing"]), cfpb.INBOX, "\n  ".join(stats["missing"]))
+    return stats
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -98,7 +128,7 @@ def main(argv: list[str] | None = None) -> int:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
     if args.cmd == "build-manifest":
-        rows = build_edgar()
+        rows = build_manifest()
         log.info("manifest rows=%d", len(rows))
         return 0
 
@@ -107,10 +137,12 @@ def main(argv: list[str] | None = None) -> int:
         log.error("empty manifest; run build-manifest first")
         return 1
     stats = fetch_edgar(rows, SECClient(), freeze=args.freeze, force=args.force)
+    stats["consumer"] = import_consumer(rows, freeze=args.freeze)
     if args.freeze:
         write_manifest(rows)
-    pages = sum(int(r.pdf_pages or 0) for r in rows if r.part == "edgar")
-    print(json.dumps({**stats, "edgar_pages": pages}, indent=2))
+    pages = {part: sum(int(r.pdf_pages or 0) for r in rows if r.part == part)
+             for part in ("edgar", "consumer")}
+    print(json.dumps({**stats, "pages": pages}, indent=2))
     return 0
 
 
