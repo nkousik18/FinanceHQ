@@ -25,6 +25,6 @@ def test_is_cached_requires_matching_key(tmp_path):
 
 
 def test_configs_differ_only_in_table_mode():
-    a, b = P1.as_dict(), P2.as_dict()
+    a, b = P1.as_dict(), P2.as_dict()   # P1V is a scans-only OCR diagnostic, compared separately
     diff = {k for k in a if a[k] != b[k]}
     assert diff == {"name", "table_mode"}

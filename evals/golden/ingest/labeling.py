@@ -18,7 +18,6 @@ import argparse
 import json
 import logging
 import random
-import re
 import sys
 from pathlib import Path
 
@@ -27,7 +26,8 @@ import fitz  # PyMuPDF
 from evals.corpus.cfpb import is_cover_page
 from evals.corpus.manifest import read_manifest
 from evals.corpus.scans import is_signature_page
-from evals.golden.ingest.schema import map_docling_label, validate_labels
+from evals.golden.ingest.schema import validate_labels
+from evals.parsers.docling_doc import page_view
 from evals.parsers.config import P1, load_cached
 
 log = logging.getLogger("evals.golden.ingest")
@@ -155,101 +155,15 @@ def select(seed: int = SEED) -> list[dict]:
 
 
 # ------------------------------------------------------------------
-# Docling -> label pre-fill
+# Docling -> label pre-fill (shared reader: evals/parsers/docling_doc.py)
 # ------------------------------------------------------------------
 
-def _resolve(doc: dict, ref: str) -> dict:
-    _, coll, idx = ref.split("/")
-    return doc[coll][int(idx)]
-
-
-def reading_order_refs(doc: dict) -> list[str]:
-    """Leaf item refs (texts/tables/pictures) in Docling's body order, then any left over."""
-    out: list[str] = []
-    seen: set[str] = set()
-
-    def walk(node: dict) -> None:
-        for child in node.get("children", []):
-            ref = child["$ref"]
-            if ref in seen:
-                continue
-            seen.add(ref)
-            item = _resolve(doc, ref)
-            if ref.startswith("#/groups/"):
-                walk(item)
-            else:
-                out.append(ref)
-                if ref.startswith("#/tables/") or ref.startswith("#/pictures/"):
-                    walk(item)          # skip children texts of tables/pictures below
-
-    walk(doc["body"])
-    walk(doc.get("furniture", {}))
-    for coll in ("texts", "tables", "pictures"):
-        for item in doc.get(coll, []):
-            if item["self_ref"] not in seen:
-                out.append(item["self_ref"])
-    # drop texts that are children of a table/picture (their content is in the parent)
-    parents = {}
-    for coll in ("tables", "pictures"):
-        for item in doc.get(coll, []):
-            for ch in item.get("children", []):
-                parents[ch["$ref"]] = item["self_ref"]
-    return [r for r in out if r not in parents]
-
-
-def to_topleft(bbox: dict, page_h: float) -> list[float]:
-    l, t, r, b = bbox["l"], bbox["t"], bbox["r"], bbox["b"]
-    if bbox.get("coord_origin", "BOTTOMLEFT") == "BOTTOMLEFT":
-        t, b = page_h - t, page_h - b
-    y0, y1 = min(t, b), max(t, b)
-    return [round(min(l, r), 1), round(y0, 1), round(max(l, r), 1), round(y1, 1)]
-
-
-_PAGE_NUM_RE = re.compile(r"^\s*(?:page\s+)?[-–]?\s*[0-9ivxlc]+\s*[-–]?(?:\s+of\s+\d+)?\s*$", re.IGNORECASE)
-
-
-def _table_from_docling(item: dict, tid: str, eid: str, bbox: list[float], page_h: float) -> dict:
-    data = item["data"]
-    nr, nc = data["num_rows"], data["num_cols"]
-    cells, covered, header_rows = [], set(), set()
-    for c in data["table_cells"]:
-        r, col = c["start_row_offset_idx"], c["start_col_offset_idx"]
-        rs = max(1, c["end_row_offset_idx"] - r)
-        cs = max(1, c["end_col_offset_idx"] - col)
-        cells.append({"row": r, "col": col, "row_span": rs, "col_span": cs, "text": c.get("text", "")})
-        covered |= {(rr, cc) for rr in range(r, r + rs) for cc in range(col, col + cs)}
-        if c.get("column_header"):
-            header_rows.add(r)
-    for r in range(nr):                 # Docling omits empty cells; the schema wants a full grid
-        for col in range(nc):
-            if (r, col) not in covered:
-                cells.append({"row": r, "col": col, "row_span": 1, "col_span": 1, "text": ""})
-    cells.sort(key=lambda c: (c["row"], c["col"]))
-    return {"id": tid, "element_id": eid, "bbox": bbox, "num_rows": nr, "num_cols": nc,
-            "header_rows": sorted(header_rows), "cells": cells}
-
-
 def prefill_from_docling(doc: dict, page: int) -> dict:
-    page_h = doc["pages"][str(page)]["size"]["height"]
-    elements, tables, hf_lines = [], [], []
-    for ref in reading_order_refs(doc):
-        item = _resolve(doc, ref)
-        provs = [p for p in item.get("prov", []) if p["page_no"] == page]
-        if not provs:
-            continue
-        bbox = to_topleft(provs[0]["bbox"], page_h)
-        cls = map_docling_label(item.get("label", ""))
-        text = item.get("text", "") or ""
-        if cls == "page_footer" and _PAGE_NUM_RE.match(text):
-            cls = "page_number"
-        eid = f"e{len(elements) + 1}"
-        elements.append({"id": eid, "class": cls, "bbox": bbox, "text": text[:300]})
-        if cls in ("page_header", "page_footer", "page_number") and text.strip():
-            hf_lines.append(text.strip())
-        if ref.startswith("#/tables/"):
-            tables.append(_table_from_docling(item, f"t{len(tables) + 1}", eid, bbox, page_h))
-    return {"layout_elements": elements, "reading_order": [e["id"] for e in elements],
-            "tables": tables, "header_footer_lines": hf_lines}
+    view = page_view(doc, page)
+    elements = [{"id": e["id"], "class": e["class"], "bbox": e["bbox"], "text": e["text"][:300]}
+                for e in view.elements]
+    return {"layout_elements": elements, "reading_order": view.reading_order,
+            "tables": view.tables, "header_footer_lines": view.header_footer_lines}
 
 
 def blank_labels(sel: dict, page_size: list[float]) -> dict:

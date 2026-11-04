@@ -63,12 +63,17 @@ def build_converter(cfg: ParserConfig):
     )
     from docling.document_converter import DocumentConverter, PdfFormatOption
 
-    if cfg.ocr_engine != "tesseract_cli":
+    if cfg.ocr_engine == "tesseract_cli":
+        ocr = TesseractCliOcrOptions(lang=[cfg.ocr_lang])
+    elif cfg.ocr_engine == "ocrmac":
+        from docling.datamodel.pipeline_options import OcrMacOptions
+        ocr = OcrMacOptions(lang=[cfg.ocr_lang])
+    else:
         raise ValueError(f"unsupported ocr_engine {cfg.ocr_engine}")
     opts = PdfPipelineOptions(
         do_ocr=True,
         do_table_structure=True,
-        ocr_options=TesseractCliOcrOptions(lang=[cfg.ocr_lang]),
+        ocr_options=ocr,
         generate_parsed_pages=True,          # keeps OCR cells with confidence
     )
     opts.table_structure_options.mode = TableFormerMode(cfg.table_mode)

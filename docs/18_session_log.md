@@ -68,7 +68,17 @@ Findings so far: Docling found no key-value pairs (flat PDFs); it missed a table
 
 Also fixed: overlay images drew boxes in the wrong place on Chrome-rendered pages (inherited scaling transform).
 
+### S0 metrics drafted (later the same day)
+§8.1 metrics implemented in `evals/ingest_metrics/` (normalize, text, geometry, tables, layout, confidence), `evals/stats.py` (bootstrap, paired diff, Holm), S0 runner `run_s0.py` (golden + full corpus, decision rule, optional MLflow). 126 evals tests pass. Dry run (unverified labels, so golden numbers are not results) runs end to end in ~35 s.
+
+Corpus findings (Auto metrics; real, not dependent on labels):
+- SEC agreements: 38 of 41 documents read almost perfectly (numeric fidelity 99.9%, median CER 0.1%). The 3 filed as page images + text (Raymond James, Harmonic, TrueBlue) lose doubled letters ("11.02" → "1 .02", "Borrower" → "Bor ower"): numeric fidelity 80.4%.
+- Docling drops some page-footer text entirely (e.g. "77 CHAR1\1635542v6").
+- CER against the text layer is dominated by reading order on CFPB forms (31% CER, 99.7% order-free word recall).
+- OCR on heavy scans: Tesseract numbers right 41%, Apple Vision 73%; Tesseract confidence is informative, Vision's is not (mean 0.99).
+
 ### Open items
+- **Decision needed (Kousik):** OCR engine for the text used downstream (Tesseract vs Apple Vision); see the trade-off above.
 - **Kousik:** label the 30 pages in the app (`venv/bin/python -m evals.golden.ingest.app.server`, open http://127.0.0.1:8765), from-scratch pages first; guide in `evals/golden/ingest/README.md`.
 - Next in R1 (agent, can proceed in parallel): §8.1 metric implementations with F8 tests; then S0 once labels are verified.
 

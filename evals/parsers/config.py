@@ -35,7 +35,10 @@ class ParserConfig:
 
 P1 = ParserConfig(name="P1", table_mode="fast")
 P2 = ParserConfig(name="P2", table_mode="accurate")
-CONFIGS = {c.name: c for c in (P1, P2)}
+# Diagnostic only (Decision Log 2026-11-04): P1 with Apple Vision OCR, run on the simulated
+# scans to report the accuracy given up by choosing Tesseract. Never used downstream.
+P1V = ParserConfig(name="P1V", table_mode="fast", ocr_engine="ocrmac", ocr_lang="en-US")
+CONFIGS = {c.name: c for c in (P1, P2, P1V)}
 
 
 def cache_key(doc_sha256: str, parser_version: str, config: ParserConfig) -> str:

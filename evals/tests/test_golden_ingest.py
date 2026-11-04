@@ -3,9 +3,8 @@ import copy
 
 import pytest
 
-from evals.golden.ingest.labeling import (
-    _table_from_docling, prefill_from_docling, reading_order_refs, to_topleft,
-)
+from evals.golden.ingest.labeling import prefill_from_docling
+from evals.parsers.docling_doc import page_view, reading_order_refs, to_topleft
 from evals.golden.ingest.schema import map_docling_label, validate_labels
 
 
@@ -120,3 +119,15 @@ def test_prefill_builds_valid_labels():
     assert len(t["cells"]) == 3          # header span + "$5" + filled empty (1,0)
     lab = _labels(**out)
     assert validate_labels(lab) == []
+
+
+def test_page_view_text_reads_tables_row_by_row():
+    v = page_view(_doc(), page=1)
+    assert v.text().splitlines() == ["Fees", "Fees", "$5", "12", "ACME CREDIT AGREEMENT"]
+
+
+def test_list_marker_kept_in_text():
+    d = _doc()
+    d["texts"][1].update(label="list_item", marker="3.", text="Conditions Precedent.")
+    v = page_view(d, page=1)
+    assert v.elements[0]["text"] == "3. Conditions Precedent."
