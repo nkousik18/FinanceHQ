@@ -79,7 +79,8 @@ class TestValidateExtraction:
         assert "LOW_OVERALL_CONFIDENCE" in codes
 
     def test_warning_on_moderate_confidence(self):
-        cleaned = _make_cleaned(overall_conf=80.0)
+        # Needs some structured data, else NO_STRUCTURED_DATA (an error) fails it
+        cleaned = _make_cleaned(overall_conf=80.0, form_fields=[_make_field("First Name", "ARJUN")])
         report = validate_extraction(cleaned)
         assert report.passed is True   # warning, not error
         codes = [i.code for i in report.issues]

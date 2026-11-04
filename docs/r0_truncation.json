@@ -1,0 +1,176 @@
+{
+  "document": "loan1_raw.json",
+  "pages": 7,
+  "chunker": {
+    "id": "C1",
+    "chunk_size": 400,
+    "overlap": 60,
+    "size_unit": "words / 0.75"
+  },
+  "embedder": {
+    "model": "all-MiniLM-L6-v2",
+    "max_seq_length": 256,
+    "content_tokens_after_special": 254
+  },
+  "chunks": 16,
+  "minilm_tokens_per_chunk": {
+    "p5": 365,
+    "p50": 426,
+    "p95": 565,
+    "max": 600,
+    "mean": 445.2
+  },
+  "tokens_per_word_ratio": 1.473,
+  "truncation_rate_pct": 100.0,
+  "tokens_never_embedded_pct": 42.95,
+  "words_never_embedded_pct": 31.94,
+  "unique_words_in_document": 4245,
+  "unique_words_never_embedded_pct": 22.45,
+  "note": "*_never_embedded_pct count each chunk copy separately (overlap double-counted). unique_words_never_embedded_pct de-duplicates overlap: it is the share of the document's words that no chunk embeds at all.",
+  "per_chunk": [
+    {
+      "chunk_id": "r0-truncation-0",
+      "words": 304,
+      "est_tokens_chunker": 405,
+      "minilm_tokens": 565,
+      "truncated": true,
+      "tokens_dropped": 311,
+      "words_dropped": 139
+    },
+    {
+      "chunk_id": "r0-truncation-1",
+      "words": 300,
+      "est_tokens_chunker": 400,
+      "minilm_tokens": 425,
+      "truncated": true,
+      "tokens_dropped": 171,
+      "words_dropped": 82
+    },
+    {
+      "chunk_id": "r0-truncation-2",
+      "words": 308,
+      "est_tokens_chunker": 410,
+      "minilm_tokens": 508,
+      "truncated": true,
+      "tokens_dropped": 254,
+      "words_dropped": 131
+    },
+    {
+      "chunk_id": "r0-truncation-3",
+      "words": 310,
+      "est_tokens_chunker": 413,
+      "minilm_tokens": 461,
+      "truncated": true,
+      "tokens_dropped": 207,
+      "words_dropped": 114
+    },
+    {
+      "chunk_id": "r0-truncation-4",
+      "words": 302,
+      "est_tokens_chunker": 402,
+      "minilm_tokens": 419,
+      "truncated": true,
+      "tokens_dropped": 165,
+      "words_dropped": 93
+    },
+    {
+      "chunk_id": "r0-truncation-5",
+      "words": 318,
+      "est_tokens_chunker": 424,
+      "minilm_tokens": 415,
+      "truncated": true,
+      "tokens_dropped": 161,
+      "words_dropped": 95
+    },
+    {
+      "chunk_id": "r0-truncation-6",
+      "words": 300,
+      "est_tokens_chunker": 400,
+      "minilm_tokens": 396,
+      "truncated": true,
+      "tokens_dropped": 142,
+      "words_dropped": 72
+    },
+    {
+      "chunk_id": "r0-truncation-7",
+      "words": 302,
+      "est_tokens_chunker": 402,
+      "minilm_tokens": 461,
+      "truncated": true,
+      "tokens_dropped": 207,
+      "words_dropped": 110
+    },
+    {
+      "chunk_id": "r0-truncation-8",
+      "words": 312,
+      "est_tokens_chunker": 416,
+      "minilm_tokens": 360,
+      "truncated": true,
+      "tokens_dropped": 106,
+      "words_dropped": 79
+    },
+    {
+      "chunk_id": "r0-truncation-9",
+      "words": 329,
+      "est_tokens_chunker": 438,
+      "minilm_tokens": 389,
+      "truncated": true,
+      "tokens_dropped": 135,
+      "words_dropped": 104
+    },
+    {
+      "chunk_id": "r0-truncation-10",
+      "words": 306,
+      "est_tokens_chunker": 408,
+      "minilm_tokens": 426,
+      "truncated": true,
+      "tokens_dropped": 172,
+      "words_dropped": 91
+    },
+    {
+      "chunk_id": "r0-truncation-11",
+      "words": 300,
+      "est_tokens_chunker": 400,
+      "minilm_tokens": 416,
+      "truncated": true,
+      "tokens_dropped": 162,
+      "words_dropped": 81
+    },
+    {
+      "chunk_id": "r0-truncation-12",
+      "words": 300,
+      "est_tokens_chunker": 400,
+      "minilm_tokens": 365,
+      "truncated": true,
+      "tokens_dropped": 111,
+      "words_dropped": 83
+    },
+    {
+      "chunk_id": "r0-truncation-13",
+      "words": 307,
+      "est_tokens_chunker": 409,
+      "minilm_tokens": 480,
+      "truncated": true,
+      "tokens_dropped": 226,
+      "words_dropped": 99
+    },
+    {
+      "chunk_id": "r0-truncation-14",
+      "words": 302,
+      "est_tokens_chunker": 402,
+      "minilm_tokens": 600,
+      "truncated": true,
+      "tokens_dropped": 346,
+      "words_dropped": 134
+    },
+    {
+      "chunk_id": "r0-truncation-15",
+      "words": 237,
+      "est_tokens_chunker": 316,
+      "minilm_tokens": 438,
+      "truncated": true,
+      "tokens_dropped": 184,
+      "words_dropped": 38
+    }
+  ]
+}

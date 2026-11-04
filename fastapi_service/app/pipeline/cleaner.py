@@ -52,7 +52,9 @@ _CHECKBOX_KEYS = {
 # Patterns that suggest a value is truncated
 _TRUNCATED_PATTERNS = [
     re.compile(r"\d{1,2}/\d{1,2}/\d{2,3}$"),   # date missing last digit: 15/02/200
-    re.compile(r"[a-zA-Z]$"),                    # URL cut off mid-word
+    # URL cut off mid-domain: last dot-segment is a single letter (".c" for ".com").
+    # Was r"[a-zA-Z]$", which flagged every value ending in a letter ("FLOATING").
+    re.compile(r"^(?:https?://|www\.)\S*\.[a-zA-Z]$", re.IGNORECASE),
 ]
 
 

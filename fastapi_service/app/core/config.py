@@ -14,7 +14,7 @@ class Settings(BaseSettings):
 
     # Groq
     groq_api_key: str = ""
-    groq_model: str = "c4ai-aya-expanse-32b"
+    groq_model: str = "qwen/qwen3.8-27b"   # llama-3.3-70b-versatile retired by Groq (2026-11)
     groq_max_tokens: int = 1024
     groq_temperature: float = 0.1
 

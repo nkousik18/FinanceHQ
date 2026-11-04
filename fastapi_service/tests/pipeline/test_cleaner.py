@@ -208,3 +208,17 @@ class TestCleanExtraction:
         ex = _make_extraction(pages=[page], form_fields=fields)
         result = clean_extraction(ex)
         assert len(result.cleaning_notes) > 0
+
+
+class TestIsTruncatedEdgeCases:
+    """Added in R0 with the _is_truncated URL-pattern fix."""
+
+    def test_complete_url_not_truncated(self):
+        assert _is_truncated("https://in.shinanglobal.com") is False
+
+    def test_www_url_cut_off_detected(self):
+        assert _is_truncated("www.example.c") is True
+
+    def test_plain_words_not_truncated(self):
+        for value in ("FIXED", "Monthly", "ARJUN IYER", "Bangalore"):
+            assert _is_truncated(value) is False

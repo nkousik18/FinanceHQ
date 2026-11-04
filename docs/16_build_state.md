@@ -4,6 +4,12 @@
 **Branch:** `feature/rag-query-pipeline`  
 **Last commit:** `7fceabb` — multi-doc sessions (Django frontend added locally, not yet committed)
 
+> **Status update 2026-11-04 — read this first.** Much of this document describes the AWS-era system (April 2026).
+> - The AWS backend (EC2, S3, Textract) was **deleted** when the free tier ended. The deployed app is down; `deploy.yml` is manual-only.
+> - LLM: `llama-3.3-70b-versatile` was retired by Groq; production now uses **`qwen/qwen3.8-27b`**. The Bytez client described below was replaced by `GroqClient` earlier.
+> - The retriever cache-eviction bug (§12) is **fixed**. Tests: 169 passed, 2 stale modules skipped.
+> - Active work: the Retrieval & Evals initiative (`loandoc-retrieval-evals-scope-v2.md`). Session-by-session decisions: [`18_session_log.md`](18_session_log.md).
+
 This document is the single source of truth for what has been built, how every component works, what has been tested, and exactly where to continue next session.
 
 ---
@@ -908,7 +914,7 @@ Remaining items from `docs/14_roadmap.md`:
 - [ ] GitHub Actions CI/CD
 
 ### Bug Fix Needed
-- [ ] **Retriever cache eviction**: after a new doc is added to a session, `evict_session(session_id)` is not called in `run_pipeline()`. Queries after adding a second doc will search the old index until process restart. Fix: add `evict_session(session_id)` call at end of `run_pipeline()` stage 6.
+- [x] *(fixed 2026-11-04, R0)* **Retriever cache eviction**: after a new doc is added to a session, `evict_session(session_id)` is not called in `run_pipeline()`. Queries after adding a second doc will search the old index until process restart. Fix: add `evict_session(session_id)` call at end of `run_pipeline()` stage 6.
 
 ### Chat Tab Issues (deferred)
 - [ ] Issues noted by user during testing — details TBD

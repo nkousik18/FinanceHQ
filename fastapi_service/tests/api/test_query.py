@@ -297,15 +297,28 @@ def _parse_sse(raw: str) -> list[dict]:
     return events
 
 
+def _fake_stream(tokens=("Hello", " world"), error=None):
+    """
+    Stand-in for app.api.query.stream_tokens (an async generator over Groq's
+    native stream). Yields the given tokens, then raises `error` if set.
+    Keeps the stream tests offline.
+    """
+    async def _gen(prompt):
+        for t in tokens:
+            yield t
+        if error is not None:
+            raise error
+    return _gen
+
+
 class TestQueryStreamEndpoint:
 
     def test_returns_200_with_sse_content_type(self, client):
         with patch("app.api.query.retrieve", return_value=_make_retrieved()), \
              patch("app.api.query.get_intent_classifier") as mock_clf, \
              patch("app.api.query.route", return_value=_make_routed()), \
-             patch("app.api.query.get_llm_client") as mock_llm:
+             patch("app.api.query.stream_tokens", _fake_stream()):
             mock_clf.return_value.classify.return_value = _make_intents()
-            mock_llm.return_value.complete.return_value = _make_llm_response("Hello world")
 
             resp = client.post("/query/stream", json={
                 "session_id": "sess-001",
@@ -318,9 +331,8 @@ class TestQueryStreamEndpoint:
         with patch("app.api.query.retrieve", return_value=_make_retrieved()), \
              patch("app.api.query.get_intent_classifier") as mock_clf, \
              patch("app.api.query.route", return_value=_make_routed()), \
-             patch("app.api.query.get_llm_client") as mock_llm:
+             patch("app.api.query.stream_tokens", _fake_stream()):
             mock_clf.return_value.classify.return_value = _make_intents()
-            mock_llm.return_value.complete.return_value = _make_llm_response("Hello world")
 
             resp = client.post("/query/stream", json={
                 "session_id": "sess-001",
@@ -334,9 +346,8 @@ class TestQueryStreamEndpoint:
         with patch("app.api.query.retrieve", return_value=_make_retrieved()), \
              patch("app.api.query.get_intent_classifier") as mock_clf, \
              patch("app.api.query.route", return_value=_make_routed()), \
-             patch("app.api.query.get_llm_client") as mock_llm:
+             patch("app.api.query.stream_tokens", _fake_stream()):
             mock_clf.return_value.classify.return_value = _make_intents()
-            mock_llm.return_value.complete.return_value = _make_llm_response("Hello world")
 
             resp = client.post("/query/stream", json={
                 "session_id": "sess-001",
@@ -349,9 +360,8 @@ class TestQueryStreamEndpoint:
         with patch("app.api.query.retrieve", return_value=_make_retrieved()), \
              patch("app.api.query.get_intent_classifier") as mock_clf, \
              patch("app.api.query.route", return_value=_make_routed(Intent.LOOKUP)), \
-             patch("app.api.query.get_llm_client") as mock_llm:
+             patch("app.api.query.stream_tokens", _fake_stream()):
             mock_clf.return_value.classify.return_value = _make_intents(Intent.LOOKUP)
-            mock_llm.return_value.complete.return_value = _make_llm_response("Hello world")
 
             resp = client.post("/query/stream", json={
                 "session_id": "sess-001",
@@ -373,19 +383,24 @@ class TestQueryStreamEndpoint:
             })
         assert resp.status_code == 404
 
-    def test_stream_502_when_llm_fails(self, client):
+    def test_stream_error_event_when_llm_fails(self, client):
+        # The SSE response has already started (HTTP 200) when Groq fails, so the
+        # endpoint reports the failure as a final {"error": ...} event, not a 502.
+        failing = _fake_stream(tokens=("Hel",), error=BytezInferenceError("out of capacity"))
         with patch("app.api.query.retrieve", return_value=_make_retrieved()), \
              patch("app.api.query.get_intent_classifier") as mock_clf, \
              patch("app.api.query.route", return_value=_make_routed()), \
-             patch("app.api.query.get_llm_client") as mock_llm:
+             patch("app.api.query.stream_tokens", failing):
             mock_clf.return_value.classify.return_value = _make_intents()
-            mock_llm.return_value.complete.side_effect = BytezInferenceError("out of capacity")
 
             resp = client.post("/query/stream", json={
                 "session_id": "sess-001",
                 "question": "What is the rate?",
             })
-        assert resp.status_code == 502
+        assert resp.status_code == 200
+        events = _parse_sse(resp.text)
+        assert "out of capacity" in events[-1]["error"]
+        assert not any(e.get("done") for e in events)
 
     def test_stream_422_on_empty_question(self, client):
         resp = client.post("/query/stream", json={

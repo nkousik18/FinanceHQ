@@ -1,8 +1,10 @@
 name: Deploy to EC2
 
+# DISABLED (2026-11-04): the EC2 instances were deleted when the AWS free tier
+# ended. Auto-deploy on push to main would fail every merge. Kept for reference;
+# run manually only if the instances are recreated.
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
   deploy-react-ui:
