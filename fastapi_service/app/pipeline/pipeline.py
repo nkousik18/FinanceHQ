@@ -43,6 +43,7 @@ from app.pipeline.cleaner import clean_extraction
 from app.pipeline.validator import validate_extraction
 from app.pipeline.chunker import chunk_document
 from app.pipeline.indexer import merge_into_session_index, IndexingError
+from app.retrieval.retriever import evict_session
 from app.storage.s3_client import get_s3_client, S3Error
 from app.storage.keys import S3Keys
 from app.core.logging import get_logger
@@ -319,6 +320,11 @@ def run_pipeline(
         _set_doc_status(DocStatus.INDEXING)
         total = merge_into_session_index(session_id, chunks)
         doc.chunks = len(chunks)
+
+        # The retriever caches each session's index in memory. The merged
+        # index on S3 is now newer, so drop the cached copy; the next query
+        # reloads it and sees this document's chunks.
+        evict_session(session_id)
 
         # ----------------------------------------------------------
         # Done

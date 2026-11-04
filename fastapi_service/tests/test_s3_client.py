@@ -31,7 +31,7 @@ def _make_env_patch():
 
 @mock_aws
 class TestS3Client:
-    def setup_method(self):
+    def setup_method(self, method=None):  # pytest passes the test method; @mock_aws forwards it
         """Create real mocked S3 bucket before each test."""
         conn = boto3.client(
             "s3",

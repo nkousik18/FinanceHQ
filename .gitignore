@@ -67,3 +67,6 @@ scripts/iam_policy.json
 **/.thumbnails/
 **/.waveform-cache/
 brag-output/composition/snapshots/
+
+# Local Airflow home for the placeholder DAG
+orchestration/.airflow/

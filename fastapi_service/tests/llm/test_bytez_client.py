@@ -2,6 +2,14 @@
 Tests for app/llm/bytez_client.py
 Run: pytest tests/llm/test_bytez_client.py -v
 """
+
+import pytest
+
+pytest.skip(
+    "STALE (R0): Targets the removed Bytez SDK client (BytezClient, RETRY_DELAYS). Production now uses GroqClient in the same module; replacement tests are tracked as debt in docs/r0_findings.md.",
+    allow_module_level=True,
+)
+
 import pytest
 from unittest.mock import MagicMock, patch, call
 

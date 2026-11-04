@@ -158,6 +158,20 @@ The old folders (`llm-microservice/`, `scripts/`, `airflow/`, `evaluation/`, `ho
 
 ---
 
+## Retrieval & Evals Initiative (R0–R8) — started 2026-11-04
+
+Separate from Phases 1–6 above; milestones are numbered R0–R8 to avoid clashes. Full scope: `loandoc-retrieval-evals-scope-v2.md`. Decisions: [`18_session_log.md`](18_session_log.md).
+
+| # | Milestone | Status |
+|---|---|---|
+| R0 | Cache-eviction fix, test repair, MiniLM truncation check, model switch, placeholder PII + Airflow | **Done** 2026-11-04 |
+| R1 | Public corpus (EDGAR + CFPB), Docling parser, ingestion golden set + metrics, run S0 | Next |
+| R2 | Chunker interface, C1–C5, chunk metrics | — |
+| R3 | QA golden set (120 questions) | — |
+| R4 | Retrieval metrics, runner, local MLflow, run S1 | — |
+| — | *Stop for review (D9)* | — |
+| R5–R8 | Retrievers + rerank, generation + judge, load test, analyses + README results | — |
+
 ## Decision Log
 
 Decisions made in the architecture phase, not to be revisited during build:
@@ -173,3 +187,5 @@ Decisions made in the architecture phase, not to be revisited during build:
 | Render over Railway/Fly.io | Docker-native free tier, auto-deploy from GitHub |
 | Sliding window chunking over semantic | Deterministic, fast, sufficient for structured loan docs |
 | MiniLM over API embeddings | $0 cost, 384-dim is enough for this domain |
+
+*Decisions from 2026-11 onward (Docling instead of Textract, public corpus, Qwen generator, no AWS) are in [`18_session_log.md`](18_session_log.md). Several rows above (Bytez, Render, PyMuPDF) were superseded during the build.*
