@@ -1,0 +1,847 @@
+{
+  "page_id": "cfpb_cd_h25b_p003",
+  "doc_id": "cfpb_cd_h25b",
+  "page": 3,
+  "stratum": "table_heavy",
+  "source_format": "pdf",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612.0,
+    792.0
+  ],
+  "status": "prefilled",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": null,
+  "verified_on": null,
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "section_header",
+      "bbox": [
+        36.0,
+        27.1,
+        159.0,
+        38.9
+      ],
+      "text": "Closing Cost Details"
+    },
+    {
+      "id": "e2",
+      "class": "table",
+      "bbox": [
+        34.5,
+        41.0,
+        576.8,
+        759.1
+      ],
+      "text": ""
+    },
+    {
+      "id": "e3",
+      "class": "page_footer",
+      "bbox": [
+        36.0,
+        768.6,
+        113.2,
+        775.4
+      ],
+      "text": "CLOSING DISCLOSURE"
+    },
+    {
+      "id": "e4",
+      "class": "page_footer",
+      "bbox": [
+        454.2,
+        768.6,
+        576.0,
+        775.4
+      ],
+      "text": "PAGE 2 OF 5 · LOAN ID # 123456789"
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4"
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "element_id": "e2",
+      "bbox": [
+        34.5,
+        41.0,
+        576.8,
+        759.1
+      ],
+      "num_rows": 16,
+      "num_cols": 7,
+      "header_rows": [
+        0,
+        1
+      ],
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "Loan Costs"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "Borrower-Paid Before Closing"
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "Seller-Paid Closing Before Closing"
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Paid by Others"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "A. Origination Charges 01 0.25 % of Loan Amount (Points) 02 Application Fee"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "At Closing $1,802.00"
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "03 Underwriting Fee 04 05 06 07 08"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Not Shop"
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$405.00 $300.00 $1,097.00"
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$29.80"
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "At"
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "01 Pest Inspection Fee 02 Survey Fee"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "to Pests Co. to Surveys Co."
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$120.50 $85.00 $650.00 $500.00"
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 3,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "03 Title - Insurance Binder 04 Title - Lender's Title Insurance 05 Title - Settlement Agent Fee 06 Title - Title Search 07"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "to Epsilon Title Co. to Epsilon Title Co. to Epsilon Title Co."
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$800.00"
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Fees 01 Recording Fees Deed: 02 Transfer Tax to Any F. Prepaids 01 Homeowner's Insurance Premium ( 12 02 Mortgage Insurance Premium ( mo.) 03 Prepaid Interest ( $17.44 per day from 4/15/13 to 5/1/13 ) 04 Property Taxes ( 6 mo.) to Any County USA 05 G. Initial Escrow Payment at Closing"
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "to Epsilon Title Co. (Borrower-Paid) $40.00 Mortgage: $45.00 State mo.) to Insurance Co."
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$500.00 $85.00 $85.00 $2,120.80 $1,209.96 $279.04 $631.80 $412.25"
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$950.00"
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "01 Homeowner's Insurance $100.83 02 Mortgage Insurance 03 Property Taxes $105.30 04 05 06 07 08 Aggregate Adjustment Other Costs Subtotals (E + F + G + H)"
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "per month for 2 mo. per month for per month for 2"
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$9,682.30 $201.66 $210.60 - 0.01 $2,400.00 $500.00 $150.00 $750.00"
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$750.00"
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Closing Costs Subtotals (D + I) 06 Real Estate Commission to Omega 07 Title - Owner's Title Insurance (optional) 08 I. TOTAL OTHER COSTS (Borrower-Paid)"
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "mo. mo. Real Estate Broker to Epsilon Title Co."
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$1,000.00 $5,018.05 $5,018.05"
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$29.80"
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$450.00 $5,700.00 $5,700.00"
+        },
+        {
+          "row": 7,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "08 D. TOTAL LOAN COSTS Loan Costs Subtotals (A + B + C) H. Other 01 HOA Capital Contribution 02 HOA Processing Fee 03 Home Inspection Fee 04 Home Warranty Fee 05 Real Estate Commission"
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "to HOA Acre Inc. to HOA Acre Inc. to Engineers Inc. to XYZ Warranty Inc. to Alpha Real Estate Broker"
+        },
+        {
+          "row": 8,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$236.55 $4,694.05 $4,664.25"
+        },
+        {
+          "row": 8,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$29.80"
+        },
+        {
+          "row": 8,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Appraisal Fee"
+        },
+        {
+          "row": 9,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "For to John Smith Appraisers Inc."
+        },
+        {
+          "row": 9,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$405.00"
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Credit Report Flood Fee Flood"
+        },
+        {
+          "row": 10,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "to Information Inc. to Info Co. to Info Co. to Info Co."
+        },
+        {
+          "row": 10,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$20.00"
+        },
+        {
+          "row": 10,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "B. Services Borrower Did 01 02 Fee 03 Determination 04 Monitoring Fee 05 Tax Monitoring Fee 06 Tax Status Research Fee to Info 07 08 09 10"
+        },
+        {
+          "row": 11,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Co."
+        },
+        {
+          "row": 11,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$75.00 $80.00"
+        },
+        {
+          "row": 11,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 11,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 11,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 11,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "C. Services Borrower Did Shop For Other Costs E. Taxes and Other Government"
+        },
+        {
+          "row": 12,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 12,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$31.75 $2,655.50"
+        },
+        {
+          "row": 12,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 12,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 12,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 12,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 13,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "J. TOTAL CLOSING COSTS (Borrower-Paid) Lender Credits"
+        },
+        {
+          "row": 13,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 13,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 13,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 13,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 13,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 13,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 14,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 14,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 14,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$9,712.10"
+        },
+        {
+          "row": 14,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 14,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$12,800.00"
+        },
+        {
+          "row": 14,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 14,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$750.00"
+        },
+        {
+          "row": 15,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$405.00"
+        }
+      ]
+    }
+  ],
+  "key_values": [],
+  "header_footer_lines": [
+    "CLOSING DISCLOSURE",
+    "PAGE 2 OF 5 · LOAN ID # 123456789"
+  ],
+  "notes": ""
+}

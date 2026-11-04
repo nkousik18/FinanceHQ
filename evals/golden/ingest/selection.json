@@ -1,0 +1,272 @@
+{
+  "seed": 20261105,
+  "quotas": {
+    "digital_prose": 10,
+    "table_heavy_edgar": 5,
+    "table_heavy_consumer": 3,
+    "scanned": 6,
+    "complex_layout": 6
+  },
+  "from_scratch": {
+    "digital_prose": 2,
+    "table_heavy": 1,
+    "scanned": 1,
+    "complex_layout": 1
+  },
+  "min_words": 80,
+  "quota_shortfall": {},
+  "pages": [
+    {
+      "doc_id": "cfpb_cd_h25b",
+      "page": 6,
+      "stratum": "complex_layout",
+      "from_scratch": false,
+      "page_id": "cfpb_cd_h25b_p006",
+      "source_format": "pdf"
+    },
+    {
+      "doc_id": "cfpb_cd_h25c",
+      "page": 2,
+      "stratum": "complex_layout",
+      "from_scratch": false,
+      "page_id": "cfpb_cd_h25c_p002",
+      "source_format": "pdf"
+    },
+    {
+      "doc_id": "cfpb_cd_h25d1",
+      "page": 2,
+      "stratum": "complex_layout",
+      "from_scratch": false,
+      "page_id": "cfpb_cd_h25d1_p002",
+      "source_format": "pdf"
+    },
+    {
+      "doc_id": "cfpb_cd_h25e",
+      "page": 5,
+      "stratum": "complex_layout",
+      "from_scratch": false,
+      "page_id": "cfpb_cd_h25e_p005",
+      "source_format": "pdf"
+    },
+    {
+      "doc_id": "cfpb_cd_h25g",
+      "page": 5,
+      "stratum": "complex_layout",
+      "from_scratch": false,
+      "page_id": "cfpb_cd_h25g_p005",
+      "source_format": "pdf"
+    },
+    {
+      "doc_id": "cfpb_le_h24b",
+      "page": 3,
+      "stratum": "complex_layout",
+      "from_scratch": true,
+      "page_id": "cfpb_le_h24b_p003",
+      "source_format": "pdf"
+    },
+    {
+      "doc_id": "deal_01_ca",
+      "page": 33,
+      "stratum": "digital_prose",
+      "from_scratch": false,
+      "page_id": "deal_01_ca_p033",
+      "source_format": "html_rendered"
+    },
+    {
+      "doc_id": "deal_02_am1",
+      "page": 4,
+      "stratum": "digital_prose",
+      "from_scratch": false,
+      "page_id": "deal_02_am1_p004",
+      "source_format": "html_rendered"
+    },
+    {
+      "doc_id": "deal_04_ca",
+      "page": 87,
+      "stratum": "digital_prose",
+      "from_scratch": false,
+      "page_id": "deal_04_ca_p087",
+      "source_format": "html_rendered"
+    },
+    {
+      "doc_id": "deal_05_ca",
+      "page": 70,
+      "stratum": "digital_prose",
+      "from_scratch": false,
+      "page_id": "deal_05_ca_p070",
+      "source_format": "html_rendered"
+    },
+    {
+      "doc_id": "deal_06_ca",
+      "page": 46,
+      "stratum": "digital_prose",
+      "from_scratch": false,
+      "page_id": "deal_06_ca_p046",
+      "source_format": "html_rendered"
+    },
+    {
+      "doc_id": "deal_07_ca",
+      "page": 55,
+      "stratum": "digital_prose",
+      "from_scratch": false,
+      "page_id": "deal_07_ca_p055",
+      "source_format": "html_rendered"
+    },
+    {
+      "doc_id": "deal_09_ca",
+      "page": 9,
+      "stratum": "digital_prose",
+      "from_scratch": true,
+      "page_id": "deal_09_ca_p009",
+      "source_format": "html_rendered"
+    },
+    {
+      "doc_id": "deal_10_ca",
+      "page": 106,
+      "stratum": "digital_prose",
+      "from_scratch": false,
+      "page_id": "deal_10_ca_p106",
+      "source_format": "html_rendered"
+    },
+    {
+      "doc_id": "deal_11_ca",
+      "page": 22,
+      "stratum": "digital_prose",
+      "from_scratch": false,
+      "page_id": "deal_11_ca_p022",
+      "source_format": "html_rendered"
+    },
+    {
+      "doc_id": "deal_12_ca",
+      "page": 101,
+      "stratum": "digital_prose",
+      "from_scratch": true,
+      "page_id": "deal_12_ca_p101",
+      "source_format": "html_rendered"
+    },
+    {
+      "doc_id": "scan_01",
+      "page": 1,
+      "stratum": "scanned",
+      "scan_of": "cfpb_cd_h25b:p2",
+      "scan_level": "light",
+      "from_scratch": false,
+      "page_id": "scan_01_p001",
+      "source_format": "image_pdf"
+    },
+    {
+      "doc_id": "scan_11",
+      "page": 1,
+      "stratum": "scanned",
+      "scan_of": "cfpb_le_h24c:p4",
+      "scan_level": "medium",
+      "from_scratch": true,
+      "page_id": "scan_11_p001",
+      "source_format": "image_pdf"
+    },
+    {
+      "doc_id": "scan_18",
+      "page": 1,
+      "stratum": "scanned",
+      "scan_of": "deal_10_am3:p4",
+      "scan_level": "heavy",
+      "from_scratch": false,
+      "page_id": "scan_18_p001",
+      "source_format": "image_pdf"
+    },
+    {
+      "doc_id": "scan_25",
+      "page": 1,
+      "stratum": "scanned",
+      "scan_of": "deal_06_ca:p8",
+      "scan_level": "medium",
+      "from_scratch": false,
+      "page_id": "scan_25_p001",
+      "source_format": "image_pdf"
+    },
+    {
+      "doc_id": "scan_29",
+      "page": 1,
+      "stratum": "scanned",
+      "scan_of": "deal_10_ca:p148",
+      "scan_level": "heavy",
+      "from_scratch": false,
+      "page_id": "scan_29_p001",
+      "source_format": "image_pdf"
+    },
+    {
+      "doc_id": "scan_33",
+      "page": 1,
+      "stratum": "scanned",
+      "scan_of": "deal_01_ca:p3",
+      "scan_level": "light",
+      "from_scratch": false,
+      "page_id": "scan_33_p001",
+      "source_format": "image_pdf"
+    },
+    {
+      "doc_id": "cfpb_cd_h25b",
+      "page": 3,
+      "stratum": "table_heavy",
+      "from_scratch": false,
+      "page_id": "cfpb_cd_h25b_p003",
+      "source_format": "pdf"
+    },
+    {
+      "doc_id": "cfpb_cd_h25e",
+      "page": 4,
+      "stratum": "table_heavy",
+      "from_scratch": false,
+      "page_id": "cfpb_cd_h25e_p004",
+      "source_format": "pdf"
+    },
+    {
+      "doc_id": "cfpb_cd_h25g",
+      "page": 3,
+      "stratum": "table_heavy",
+      "from_scratch": false,
+      "page_id": "cfpb_cd_h25g_p003",
+      "source_format": "pdf"
+    },
+    {
+      "doc_id": "deal_01_ca",
+      "page": 2,
+      "stratum": "table_heavy",
+      "from_scratch": false,
+      "page_id": "deal_01_ca_p002",
+      "source_format": "html_rendered"
+    },
+    {
+      "doc_id": "deal_02_am3",
+      "page": 27,
+      "stratum": "table_heavy",
+      "from_scratch": false,
+      "page_id": "deal_02_am3_p027",
+      "source_format": "html_rendered"
+    },
+    {
+      "doc_id": "deal_02_ca",
+      "page": 21,
+      "stratum": "table_heavy",
+      "from_scratch": false,
+      "page_id": "deal_02_ca_p021",
+      "source_format": "html_rendered"
+    },
+    {
+      "doc_id": "deal_10_ca",
+      "page": 133,
+      "stratum": "table_heavy",
+      "from_scratch": true,
+      "page_id": "deal_10_ca_p133",
+      "source_format": "html_rendered"
+    },
+    {
+      "doc_id": "deal_12_ca",
+      "page": 148,
+      "stratum": "table_heavy",
+      "from_scratch": false,
+      "page_id": "deal_12_ca_p148",
+      "source_format": "html_rendered"
+    }
+  ]
+}

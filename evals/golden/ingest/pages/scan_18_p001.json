@@ -1,0 +1,124 @@
+{
+  "page_id": "scan_18_p001",
+  "doc_id": "scan_18",
+  "page": 1,
+  "stratum": "scanned",
+  "source_format": "image_pdf",
+  "scan_of": "deal_10_am3:p4",
+  "scan_level": "heavy",
+  "page_size": [
+    612.0,
+    792.0
+  ],
+  "status": "prefilled",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": null,
+  "verified_on": null,
+  "reference_text_source": "source_page_text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "list",
+      "bbox": [
+        38.0,
+        63.0,
+        569.3,
+        86.7
+      ],
+      "text": "6, Goverming Law. This Amendment shall be deemed to be 4 contract under the Laws of the State of Ohio without regard to its conflict of laws principles."
+    },
+    {
+      "id": "e2",
+      "class": "list",
+      "bbox": [
+        36.3,
+        91.0,
+        577.7,
+        184.7
+      ],
+      "text": "7, Counterparts. Effective Date Electronic Signatures. This Amendment may be executed in counterparts (and by different partics hereto in different counterparts), cach of which shall constitute an original, but all of which when taken together shall constitute a single contract. This Amendment shall"
+    },
+    {
+      "id": "e3",
+      "class": "list",
+      "bbox": [
+        35.7,
+        189.7,
+        573.0,
+        238.0
+      ],
+      "text": "§. Severability. The provisions of this Amendment are intended to be severable. If any provision of this Amendment shall be held invalid or unenforceable in whole or in part in any jurisdiction. such provision shall, as to such jurisdiction, be ineffective to the extent of such invalidity or enforce"
+    },
+    {
+      "id": "e4",
+      "class": "list",
+      "bbox": [
+        37.3,
+        240.7,
+        555.0,
+        266.3
+      ],
+      "text": "Notices. Any notices with respect to this Amendment shall be given in the manner provided for in Section 12.5 [Notices; Effectiveness; Electronic Communication] of the Credit Agreement,"
+    },
+    {
+      "id": "e5",
+      "class": "list",
+      "bbox": [
+        35.0,
+        270.3,
+        559.0,
+        305.7
+      ],
+      "text": "Survival. All representations and warranties contained herein shall survive Payment In Full. All covenants, agreements, undertakings, waivers and releases of the Borrowers contained herein shall continue in full force and effect from and after the date hereof and until Payment In Full."
+    },
+    {
+      "id": "e6",
+      "class": "list",
+      "bbox": [
+        36.3,
+        311.0,
+        546.3,
+        336.0
+      ],
+      "text": "tl. Amendment. No amendment, modification, rescission, waiver or release of any provision of this Amendment shall be effective unless the same shall be in writing and signed by the parties hereto,"
+    },
+    {
+      "id": "e7",
+      "class": "list",
+      "bbox": [
+        35.7,
+        339.0,
+        573.3,
+        408.0
+      ],
+      "text": "Entire Agreement. THIS AMENDMENT, THE CREDIT AGREEMENT AND THE LOAN DOCUMENTS EMBODY THE FINAL, ENTIRE AGREEMENT AMONG THE PARTIES HERETO AND SUPERSEDE ANY AND ALL PRIOR COMMITMENTS, AGREEMENTS, REPRESENTATIONS, AND UNDERSTANDINGS, WHETHER WRITTEN OR ORAL, RELATING TO THE SUBJECT MATTER HEREOF AND M"
+    },
+    {
+      "id": "e8",
+      "class": "list",
+      "bbox": [
+        33.3,
+        425.7,
+        558.7,
+        450.7
+      ],
+      "text": "Amendment constitutes a Loan Document. This Amendment shalt be incorporated into the Credit Agreement by this reference and each reference"
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6",
+    "e7",
+    "e8"
+  ],
+  "tables": [],
+  "key_values": [],
+  "header_footer_lines": [],
+  "notes": ""
+}

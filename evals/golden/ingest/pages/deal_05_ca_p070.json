@@ -1,0 +1,184 @@
+{
+  "page_id": "deal_05_ca_p070",
+  "doc_id": "deal_05_ca",
+  "page": 70,
+  "stratum": "digital_prose",
+  "source_format": "html_rendered",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612.0,
+    792.0
+  ],
+  "status": "prefilled",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": null,
+  "verified_on": null,
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "section_header",
+      "bbox": [
+        262.3,
+        43.9,
+        349.7,
+        52.7
+      ],
+      "text": "Borrowing Base Schedule"
+    },
+    {
+      "id": "e2",
+      "class": "text",
+      "bbox": [
+        64.8,
+        60.4,
+        547.2,
+        176.5
+      ],
+      "text": "\"Borrowing Base\" means, at any time, the sum of (a) 90% of Eligible Accounts at such time, plus (b) the lesser of (i) 85% of Eligible Foreign Accounts at such time and (ii) $4,000,000, plus (c) the lesser of (i) 70% of Eligible Inventory, valued at the lower of cost or market value, determined on a "
+    },
+    {
+      "id": "e3",
+      "class": "text",
+      "bbox": [
+        64.8,
+        175.9,
+        547.2,
+        201.2
+      ],
+      "text": "third unrelated an to consignor, as Party, Loan a by consigned are that Goods Finished time, any at means, Goods\" Finished \"Consigned ﻿ party."
+    },
+    {
+      "id": "e4",
+      "class": "text",
+      "bbox": [
+        64.8,
+        200.6,
+        547.2,
+        242.5
+      ],
+      "text": "the and in, established relationship the mean thereof derivations other and \"consignment\" \"consignee\", \"consignor\", \"consigned\", ﻿ obligations, rights and remedies of the parties with respect to that relationship as provided in, a written bailment, consignment or other form of inventory management a"
+    },
+    {
+      "id": "e5",
+      "class": "text",
+      "bbox": [
+        64.8,
+        241.9,
+        547.2,
+        267.2
+      ],
+      "text": "to AB Electrolux by Borrower the to owing Accounts of sale non-recourse the means Program\" Purchase Receivable Trade \"Electrolux ﻿ Deutsche Bank AG or its successor in the ordinary course of business consistent with past practice."
+    },
+    {
+      "id": "e6",
+      "class": "text",
+      "bbox": [
+        64.8,
+        266.6,
+        547.2,
+        300.2
+      ],
+      "text": "its in determines Lender the which Party Loan a of Accounts) Foreign than (other Accounts the time, any at means, Accounts\" \"Eligible ﻿ Permitted Discretion are eligible as the basis for the extension of Revolving Loans and the issuance of Letters of Credit hereunder. Without limiting the Lender's P"
+    },
+    {
+      "id": "e7",
+      "class": "list",
+      "bbox": [
+        122.4,
+        307.9,
+        416.6,
+        316.7
+      ],
+      "text": "(a) which is not subject to a first priority perfected security interest in favor of the Lender;"
+    },
+    {
+      "id": "e8",
+      "class": "list",
+      "bbox": [
+        93.6,
+        316.1,
+        547.2,
+        341.5
+      ],
+      "text": "this of 6.02 Section under permitted Lien a (ii) and Lender the of favor in Lien a (i) than other Lien any to subject is which (b) ﻿ Agreement which does not have priority over the Lien in such Account in favor of the Lender;"
+    },
+    {
+      "id": "e9",
+      "class": "text",
+      "bbox": [
+        93.6,
+        340.9,
+        547.2,
+        391.0
+      ],
+      "text": "(c) ﻿ (i) with respect to which the scheduled due date is more than one hundred twenty (120) days after the date of the original invoice therefor, (ii) which is unpaid more than ninety (90) days after the date of the original invoice therefor or more than sixty (60) days after the original due date "
+    },
+    {
+      "id": "e10",
+      "class": "list",
+      "bbox": [
+        93.6,
+        390.4,
+        547.2,
+        415.7
+      ],
+      "text": "its and Debtor Account such from owing Accounts the of 50% than more which for Debtor Account an by owing is which (d) ﻿ Affiliates are ineligible hereunder;"
+    },
+    {
+      "id": "e11",
+      "class": "text",
+      "bbox": [
+        93.6,
+        415.1,
+        95.6,
+        424.0
+      ],
+      "text": "﻿"
+    },
+    {
+      "id": "e12",
+      "class": "list",
+      "bbox": [
+        93.6,
+        423.4,
+        547.2,
+        440.5
+      ],
+      "text": "(e) which is owing by an Account Debtor to the extent the aggregate amount of Accounts owing from such Account Debtor and its Affiliates to a Loan Party exceeds 25% of the aggregate Eligible Accounts;"
+    },
+    {
+      "id": "e13",
+      "class": "text",
+      "bbox": [
+        79.2,
+        299.6,
+        81.2,
+        308.5
+      ],
+      "text": "﻿"
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6",
+    "e7",
+    "e8",
+    "e9",
+    "e10",
+    "e11",
+    "e12",
+    "e13"
+  ],
+  "tables": [],
+  "key_values": [],
+  "header_footer_lines": [],
+  "notes": ""
+}

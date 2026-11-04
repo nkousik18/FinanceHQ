@@ -49,8 +49,21 @@ Result: corpus = 41 EDGAR docs (1,836 pages) + 11 CFPB forms (40 pages). 39 eval
 
 Result: corpus = 41 EDGAR docs (1,836 pages) + 11 CFPB forms (40 pages) + 40 simulated-scan pages (from 24 source docs). Builds are reproducible (byte-identical images). 46 evals tests pass.
 
+### Docling parsing and the labeling tool (later the same day)
+| ID | Decision | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-04-21 | Run Docling on the Apple GPU (MPS) | Kousik's request; measured ~10% faster than CPU | Scope v2 Decision Log |
+| S-2026-11-04-22 | Docling in a separate venv; Tesseract OCR; parse cache as the interface | Protects the app venv; Tesseract is the only engine with both usable accuracy and meaningful confidence | Scope v2 Decision Log |
+| S-2026-11-04-23 | Exclude CFPB cover sheets from scan and golden-set selection | They're covers, not forms | Scope v2 Decision Log |
+| S-2026-11-04-24 | Golden-set selection rules and label conventions | See Decision Log | `evals/golden/ingest/` |
+
+Results: full parse of 92 docs × 2 configs in ~40 minutes, 0 failures. 30 labeling pages selected and pre-filled (25 from Docling P1, 5 empty for from-scratch labeling), images committed. 62 evals + 169 app tests pass.
+
+Findings so far: Docling found no key-value pairs (flat PDFs); it missed a table PyMuPDF detected (`deal_02_ca_p021`); one Docling table on `scan_01` has overlapping cells.
+
 ### Open items
-- Next in R1: parser interface + Docling, ingestion labeling, §8.1 metrics, S0.
+- **Kousik:** label the 30 pages (~6 h), from-scratch pages first; guide in `evals/golden/ingest/README.md`.
+- Next in R1 (agent, can proceed in parallel): §8.1 metric implementations with F8 tests; then S0 once labels are verified.
 
 ---
 

@@ -1,0 +1,26 @@
+{
+  "page_id": "cfpb_le_h24b_p003",
+  "doc_id": "cfpb_le_h24b",
+  "page": 3,
+  "stratum": "complex_layout",
+  "source_format": "pdf",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612.0,
+    792.0
+  ],
+  "status": "prefilled",
+  "from_scratch": true,
+  "prefill_source": null,
+  "labeled_by": null,
+  "verified_on": null,
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [],
+  "reading_order": [],
+  "tables": [],
+  "key_values": [],
+  "header_footer_lines": [],
+  "notes": ""
+}

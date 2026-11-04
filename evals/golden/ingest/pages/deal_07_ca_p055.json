@@ -1,0 +1,64 @@
+{
+  "page_id": "deal_07_ca_p055",
+  "doc_id": "deal_07_ca",
+  "page": 55,
+  "stratum": "digital_prose",
+  "source_format": "html_rendered",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612.0,
+    792.0
+  ],
+  "status": "prefilled",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": null,
+  "verified_on": null,
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "text",
+      "bbox": [
+        45.4,
+        61.2,
+        575.1,
+        61.9
+      ],
+      "text": "authorized Equity Interest , of which al of such is ued Equity Interest are validly is ued, outs anding, ful y paid and non-as es able, and owned beneficial y and of record by the Persons identified on Schedule 3.16 to the Disclosure Let er, and (c) the type of enti y of the Company and each Subsidi"
+    },
+    {
+      "id": "e2",
+      "class": "text",
+      "bbox": [
+        44.4,
+        61.7,
+        576.2,
+        62.4
+      ],
+      "text": "federal, sta e, local or foreign law dealing with such mat ers. Al payments due from any Loan Party or any Subsidiary, or for which any claim may be made against any Loan Party or any Subsidiary, on ac ount of wages and employe health and welfare insurance and other benefits, have be n paid or ac ru"
+    },
+    {
+      "id": "e3",
+      "class": "text",
+      "bbox": [
+        262.5,
+        62.2,
+        358.0,
+        62.9
+      ],
+      "text": "in compliance with Anti-Cor uption Laws and ap licable Sanctions in al material respects and are not knowingly engaged in any activity that would reasonably be xpected to result in any Loan Party being designated as a Sanctioned Person. None of (a) any Loan Party, any Subsidiary, any of their espect"
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3"
+  ],
+  "tables": [],
+  "key_values": [],
+  "header_footer_lines": [],
+  "notes": ""
+}

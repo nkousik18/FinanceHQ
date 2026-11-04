@@ -1,0 +1,64 @@
+{
+  "page_id": "deal_11_ca_p022",
+  "doc_id": "deal_11_ca",
+  "page": 22,
+  "stratum": "digital_prose",
+  "source_format": "html_rendered",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612.0,
+    792.0
+  ],
+  "status": "prefilled",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": null,
+  "verified_on": null,
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "text",
+      "bbox": [
+        47.5,
+        69.5,
+        575.8,
+        70.3
+      ],
+      "text": "rede mable prefer ed interest, at he greater of its voluntary or involuntary liquidation preference plus ac rued and unpaid dividends; (h) al Guarante s of such Person in respect of any of the foregoing; and (i) al Indebtednes of the types refer ed to in clauses (a) through (h) above of any partners"
+    },
+    {
+      "id": "e2",
+      "class": "text",
+      "bbox": [
+        48.7,
+        70.1,
+        574.6,
+        71.0
+      ],
+      "text": "(b) as to any Base Rate Loan (including a Swingline Loan), the last Busines Day of each March, June, September and December and the Maturity Date. \"Interest Period\" means, as to each Eurodol ar Rate Loan, the period commencing on the date such Eurodol ar Rate Loan is disbursed or converted to or con"
+    },
+    {
+      "id": "e3",
+      "class": "text",
+      "bbox": [
+        244.5,
+        70.8,
+        378.9,
+        71.7
+      ],
+      "text": "acquisit on of Equity Interests of another Person, (b) a loan, advance or capital contribution to, Guarante or as umption of debt of, or purchase or other acquisit on of any other debt or equity participation or interest in, another Person, including any partnership or joint venture interest in such"
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3"
+  ],
+  "tables": [],
+  "key_values": [],
+  "header_footer_lines": [],
+  "notes": ""
+}

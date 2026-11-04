@@ -95,11 +95,11 @@
     },
     {
       "scan_id": "scan_04",
-      "source_doc": "cfpb_cd_h25f1",
-      "page": 2,
+      "source_doc": "cfpb_cd_h25e",
+      "page": 5,
       "stratum": "consumer",
       "session": "cfpb_refinance",
-      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_closing-disclosure_cover-H25F1.pdf",
+      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_closing-disclosure_cover-H25E.pdf",
       "level": "light",
       "params": {
         "dpi": 300,
@@ -110,15 +110,15 @@
         "paper_grey": 250,
         "skew_deg": -0.189
       },
-      "image_sha256": "4b46f08c15c076440fd94302f472eadf9c38a4af076577b8ec921e07ff46129b"
+      "image_sha256": "db37e3866be7620ec9795154720d50751b7126e30f967497f691ba6e2be67d70"
     },
     {
       "scan_id": "scan_05",
-      "source_doc": "cfpb_cd_h25g",
+      "source_doc": "cfpb_cd_h25f1",
       "page": 2,
       "stratum": "consumer",
       "session": "cfpb_refinance",
-      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_closing-disclosure_cover-H25G.pdf",
+      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_closing-disclosure_cover-H25F1.pdf",
       "level": "medium",
       "params": {
         "dpi": 200,
@@ -129,12 +129,12 @@
         "paper_grey": 242,
         "skew_deg": -0.463
       },
-      "image_sha256": "ff59c176ddd166b4d5c682ea751f7f2ce42b675ece0632673e66917296b26d3d"
+      "image_sha256": "a90319841987f80f5b525cd188b08f097cbf64e45c0594873f1fe58530496e82"
     },
     {
       "scan_id": "scan_06",
       "source_doc": "cfpb_cd_h25g",
-      "page": 6,
+      "page": 2,
       "stratum": "consumer",
       "session": "cfpb_refinance",
       "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_closing-disclosure_cover-H25G.pdf",
@@ -148,15 +148,15 @@
         "paper_grey": 232,
         "skew_deg": 1.484
       },
-      "image_sha256": "abb263706cc95e7a64c4623a8486144263f6b45aa1b769b3aec02cacff30d2cd"
+      "image_sha256": "8dbb9320454eafacedc77ab40aece49f6f3a0aeb6ec803c681ce04662da7aac8"
     },
     {
       "scan_id": "scan_07",
-      "source_doc": "cfpb_le_h24b",
-      "page": 3,
+      "source_doc": "cfpb_cd_h25g",
+      "page": 6,
       "stratum": "consumer",
-      "session": "cfpb_purchase_fixed",
-      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_loan-estimate_fixed-rate-loan-sample-H24B.pdf",
+      "session": "cfpb_refinance",
+      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_closing-disclosure_cover-H25G.pdf",
       "level": "light",
       "params": {
         "dpi": 300,
@@ -167,12 +167,12 @@
         "paper_grey": 250,
         "skew_deg": 0.038
       },
-      "image_sha256": "9b98b72a441f863c5bffd8680af7a4ce9e3dbea69dde655ea56e991300a05019"
+      "image_sha256": "eb96880c2ed3e4e443219c7f01151830d355160038890ef53e198cece642e97a"
     },
     {
       "scan_id": "scan_08",
       "source_doc": "cfpb_le_h24b",
-      "page": 4,
+      "page": 3,
       "stratum": "consumer",
       "session": "cfpb_purchase_fixed",
       "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_loan-estimate_fixed-rate-loan-sample-H24B.pdf",
@@ -186,15 +186,15 @@
         "paper_grey": 242,
         "skew_deg": -0.04
       },
-      "image_sha256": "06985d5d7cb7a054920399c027ad64e72452dddbb7c179f5364e6c7d44571469"
+      "image_sha256": "e655bd24bcb64c88aa47d3fe9fb0bc89b5d2ab2ef062babb614b058204819a01"
     },
     {
       "scan_id": "scan_09",
-      "source_doc": "cfpb_le_h24c",
-      "page": 2,
+      "source_doc": "cfpb_le_h24b",
+      "page": 4,
       "stratum": "consumer",
-      "session": "cfpb_le_io_arm",
-      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_loan-estimate_interest-only-adjustable-rate-loan-sample-H24C.pdf",
+      "session": "cfpb_purchase_fixed",
+      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_loan-estimate_fixed-rate-loan-sample-H24B.pdf",
       "level": "heavy",
       "params": {
         "dpi": 150,
@@ -205,12 +205,12 @@
         "paper_grey": 232,
         "skew_deg": -0.009
       },
-      "image_sha256": "d4bedf50a69cb8c246c27aa7271e4f261f11cd6f485fa1615ebe686527a831eb"
+      "image_sha256": "2de4bfd18af0f03ac9a13719f06c9c4883ed734005b5f4fcba9e2673ff627b3c"
     },
     {
       "scan_id": "scan_10",
       "source_doc": "cfpb_le_h24c",
-      "page": 4,
+      "page": 2,
       "stratum": "consumer",
       "session": "cfpb_le_io_arm",
       "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_loan-estimate_interest-only-adjustable-rate-loan-sample-H24C.pdf",
@@ -224,15 +224,15 @@
         "paper_grey": 250,
         "skew_deg": -0.272
       },
-      "image_sha256": "e01729d4f8927f9eca02feddf0f9fd15c51558977054b0d127b29304ee0e3faf"
+      "image_sha256": "14fe32859df3f605ce9fbceed5ccec24bf90d6e209510277adc3f83d87212a27"
     },
     {
       "scan_id": "scan_11",
-      "source_doc": "cfpb_le_h24d",
-      "page": 1,
+      "source_doc": "cfpb_le_h24c",
+      "page": 4,
       "stratum": "consumer",
-      "session": "cfpb_refinance",
-      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_loan-estimate_refinance-sample-H24D.pdf",
+      "session": "cfpb_le_io_arm",
+      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_loan-estimate_interest-only-adjustable-rate-loan-sample-H24C.pdf",
       "level": "medium",
       "params": {
         "dpi": 200,
@@ -243,7 +243,7 @@
         "paper_grey": 242,
         "skew_deg": -0.105
       },
-      "image_sha256": "9ca048bb64e79ce9e58983c0cb090b4bb0f30c78fe96e3fc4c14dae6d38c5995"
+      "image_sha256": "4e884ce3281e7c3651a059923e211d01b2391ddb741e7cacc0412ad94c116df6"
     },
     {
       "scan_id": "scan_12",

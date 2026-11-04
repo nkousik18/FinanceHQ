@@ -1,0 +1,126 @@
+{
+  "page_id": "deal_10_ca_p106",
+  "doc_id": "deal_10_ca",
+  "page": 106,
+  "stratum": "digital_prose",
+  "source_format": "html_rendered",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612.0,
+    792.0
+  ],
+  "status": "prefilled",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": null,
+  "verified_on": null,
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "text",
+      "bbox": [
+        36.3,
+        53.7,
+        573.2,
+        65.4
+      ],
+      "text": "obligation of the assignee to participate in exposure under one or more Letters of Credit (whether or not then outstanding); and"
+    },
+    {
+      "id": "e2",
+      "class": "list",
+      "bbox": [
+        128.1,
+        76.2,
+        480.6,
+        87.9
+      ],
+      "text": "(C) the consent of each Issuing Lender and Swing Loan Lender shall be required."
+    },
+    {
+      "id": "e3",
+      "class": "list",
+      "bbox": [
+        36.3,
+        98.7,
+        576.3,
+        146.2
+      ],
+      "text": "(iv) Assignment and Assumption Agreement. The parties to each assignment shall execute and deliver to the Administrative Agent an Assignment and Assumption Agreement, together with a processing and recordation fee of $3,500.00, and the assignee, if it is not a Lender, shall deliver to the Administra"
+    },
+    {
+      "id": "e4",
+      "class": "list",
+      "bbox": [
+        36.3,
+        156.9,
+        576.3,
+        192.5
+      ],
+      "text": "(v) No Assignment to Certain Persons. No such assignment shall be made to (A) a Borrower or any Borrower's Affiliates or Subsidiaries, or (B) any Defaulting Lender or any of its Subsidiaries, or any Person who, upon becoming a Lender hereunder, would constitute a Defaulting Lender or a Subsidiary th"
+    },
+    {
+      "id": "e5",
+      "class": "list",
+      "bbox": [
+        36.3,
+        203.2,
+        576.3,
+        226.9
+      ],
+      "text": "(vi) No Assignment to Natural Persons. No such assignment shall be made to a natural Person (or a holding company, investment vehicle or trust for, or owned and operated for the primary benefit of, a natural Person)."
+    },
+    {
+      "id": "e6",
+      "class": "list",
+      "bbox": [
+        36.3,
+        237.7,
+        576.3,
+        392.3
+      ],
+      "text": "(vii) Certain Additional Payments. In connection with any assignment of rights and obligations of any Defaulting Lender hereunder, no such assignment shall be effective unless and until, in addition to the other conditions thereto set forth herein, the parties to the assignment shall make such addit"
+    },
+    {
+      "id": "e7",
+      "class": "text",
+      "bbox": [
+        36.3,
+        403.1,
+        576.3,
+        474.4
+      ],
+      "text": "Subject to acceptance and recording thereof by the Administrative Agent pursuant to Section 12.8.3 [Register], from and after the effective date specified in each Assignment and Assumption Agreement, the assignee thereunder shall be a party to this Agreement and, to the extent of the interest assign"
+    },
+    {
+      "id": "e8",
+      "class": "page_number",
+      "bbox": [
+        298.4,
+        483.2,
+        314.3,
+        494.9
+      ],
+      "text": "101"
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6",
+    "e7",
+    "e8"
+  ],
+  "tables": [],
+  "key_values": [],
+  "header_footer_lines": [
+    "101"
+  ],
+  "notes": ""
+}

@@ -1,0 +1,611 @@
+{
+  "page_id": "cfpb_cd_h25e_p004",
+  "doc_id": "cfpb_cd_h25e",
+  "page": 4,
+  "stratum": "table_heavy",
+  "source_format": "pdf",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612.0,
+    792.0
+  ],
+  "status": "prefilled",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": null,
+  "verified_on": null,
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "page_header",
+      "bbox": [
+        195.4,
+        43.5,
+        575.6,
+        51.1
+      ],
+      "text": "Use this table to see a summary of your payoffs and payments to others from your loan amount."
+    },
+    {
+      "id": "e2",
+      "class": "section_header",
+      "bbox": [
+        40.0,
+        43.3,
+        139.1,
+        51.7
+      ],
+      "text": "Payoffs and Payments"
+    },
+    {
+      "id": "e3",
+      "class": "table",
+      "bbox": [
+        34.7,
+        51.3,
+        576.7,
+        535.1
+      ],
+      "text": ""
+    },
+    {
+      "id": "e4",
+      "class": "section_header",
+      "bbox": [
+        40.0,
+        577.3,
+        157.1,
+        585.7
+      ],
+      "text": "Calculating Cash to Close"
+    },
+    {
+      "id": "e5",
+      "class": "section_header",
+      "bbox": [
+        195.0,
+        577.9,
+        450.6,
+        585.5
+      ],
+      "text": "Use this table to see what has changed from your Loan Estimate."
+    },
+    {
+      "id": "e6",
+      "class": "table",
+      "bbox": [
+        35.4,
+        585.8,
+        576.4,
+        702.1
+      ],
+      "text": ""
+    },
+    {
+      "id": "e7",
+      "class": "page_footer",
+      "bbox": [
+        36.0,
+        768.6,
+        113.2,
+        775.4
+      ],
+      "text": "CLOSING DISCLOSURE"
+    },
+    {
+      "id": "e8",
+      "class": "page_footer",
+      "bbox": [
+        454.2,
+        768.6,
+        576.0,
+        775.4
+      ],
+      "text": "PAGE 3 OF 5 · LOAN ID # 123456789"
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6",
+    "e7",
+    "e8"
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "element_id": "e3",
+      "bbox": [
+        34.7,
+        51.3,
+        576.7,
+        535.1
+      ],
+      "num_rows": 17,
+      "num_cols": 2,
+      "header_rows": [
+        0
+      ],
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "TO"
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "AMOUNT"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "01 Rho Servicing to pay off existing loan"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$115,000.00"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "02"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "03"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "04"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "05"
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "06"
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "07"
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "08"
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "09"
+        },
+        {
+          "row": 9,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "10"
+        },
+        {
+          "row": 10,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "11"
+        },
+        {
+          "row": 11,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "12"
+        },
+        {
+          "row": 12,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 13,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "13"
+        },
+        {
+          "row": 13,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 14,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "14"
+        },
+        {
+          "row": 14,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "15"
+        },
+        {
+          "row": 15,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 16,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "K. TOTAL PAYOFFS AND PAYMENTS"
+        },
+        {
+          "row": 16,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$115,000.00"
+        }
+      ]
+    },
+    {
+      "id": "t2",
+      "element_id": "e6",
+      "bbox": [
+        35.4,
+        585.8,
+        576.4,
+        702.1
+      ],
+      "num_rows": 6,
+      "num_cols": 5,
+      "header_rows": [
+        0
+      ],
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Loan Estimate"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Final"
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "this"
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Did change?"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Loan Amount"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$150,000.00"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$150,000.00"
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "NO"
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Total Closing Costs (J)"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "- $5,099.00"
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "- $5,757.57"
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "YES"
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "· See Total Loan Costs (D) and Total Other Costs (I)"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Closing Costs Paid Before Closing"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$0"
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$435.00"
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "YES"
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "· You paid these Closing Costs before closing"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Total Payoffs and Payments (K)"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "- $120,000.00"
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "- $115,000.00"
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "YES"
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "· \u0007See Payoffs and Payments (K)"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Cash to Close"
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$24,901.00 From To Borrower x oO"
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$29,677.43 From To Borrower x oO"
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Closing Costs"
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Financed (Paid from your Loan Amount) $5,322.57"
+        }
+      ]
+    }
+  ],
+  "key_values": [],
+  "header_footer_lines": [
+    "Use this table to see a summary of your payoffs and payments to others from your loan amount.",
+    "CLOSING DISCLOSURE",
+    "PAGE 3 OF 5 · LOAN ID # 123456789"
+  ],
+  "notes": ""
+}

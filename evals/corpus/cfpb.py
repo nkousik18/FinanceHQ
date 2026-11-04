@@ -68,3 +68,12 @@ def inbox_path(row: DocRow) -> Path:
 
 def missing_files() -> list[DocRow]:
     return [r for r in consumer_rows() if not inbox_path(r).exists()]
+
+
+def is_cover_page(part: str, page_no: int, text: str) -> bool:
+    """
+    Every CFPB sample PDF opens with a cover sheet ("TILA RESPA Integrated
+    Disclosure ... This is a sample of ..."), not the form itself. Covers stay
+    in the corpus but are excluded when choosing pages to scan or label.
+    """
+    return part == "consumer" and page_no == 1 and "TILA RESPA Integrated" in text and "This is a sample" in text

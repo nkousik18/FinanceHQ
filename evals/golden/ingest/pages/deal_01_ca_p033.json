@@ -1,0 +1,138 @@
+{
+  "page_id": "deal_01_ca_p033",
+  "doc_id": "deal_01_ca",
+  "page": 33,
+  "stratum": "digital_prose",
+  "source_format": "html_rendered",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612.0,
+    792.0
+  ],
+  "status": "prefilled",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": null,
+  "verified_on": null,
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "list",
+      "bbox": [
+        36.0,
+        36.1,
+        576.7,
+        95.2
+      ],
+      "text": "(d) Notwithstanding the foregoing, if an Event of Default has occurred and is continuing, then, so long as such Event of Default is continuing, the aggregate amount of all outstanding draws on the Letters of Credit and each fee and other amount then due and payable by the Borrower hereunder shall be"
+    },
+    {
+      "id": "e2",
+      "class": "text",
+      "bbox": [
+        36.0,
+        108.1,
+        576.7,
+        131.2
+      ],
+      "text": "(e) All interest hereunder shall be computed on the basis of a year of 360 days, and in each case shall be payable for the actual number of days elapsed (including the first day but excluding the last day)."
+    },
+    {
+      "id": "e3",
+      "class": "section_header",
+      "bbox": [
+        72.0,
+        144.1,
+        181.7,
+        155.2
+      ],
+      "text": "Section 3.2 Late Fee."
+    },
+    {
+      "id": "e4",
+      "class": "text",
+      "bbox": [
+        36.0,
+        168.1,
+        576.7,
+        215.2
+      ],
+      "text": "If the Bank has not received the full amount of any monthly payment on or before the date it is due (including as a result of funds not available to be automatically debited on the date on which any such payment is due), the Borrower shall pay a late fee to the Bank in an amount equal to six percent"
+    },
+    {
+      "id": "e5",
+      "class": "section_header",
+      "bbox": [
+        72.0,
+        228.1,
+        217.5,
+        239.2
+      ],
+      "text": "Section 3.3 Unused Loan Fee."
+    },
+    {
+      "id": "e6",
+      "class": "text",
+      "bbox": [
+        36.0,
+        252.1,
+        576.7,
+        311.2
+      ],
+      "text": "The Borrowers agree to pay to the Bank an unused facility fee (\"Unused Loan Fee\") on the average daily unused balance of the Revolving Loan and the Line of Credit Loan from and including the Effective Date to but excluding the Revolving Maturity Date and the Line of Credit Maturity Date, as applicab"
+    },
+    {
+      "id": "e7",
+      "class": "section_header",
+      "bbox": [
+        72.0,
+        324.1,
+        213.2,
+        335.1
+      ],
+      "text": "Section 3.4 Yield Protections"
+    },
+    {
+      "id": "e8",
+      "class": "text",
+      "bbox": [
+        36.0,
+        348.1,
+        576.7,
+        491.1
+      ],
+      "text": "(a) In addition to the payment of principal, interest and fees as stated in this Agreement, if there shall be any increase in the direct or indirect costs to the Bank of lending, funding or maintaining any Loan based on a One-Month LIBOR Rate or the One Month LIBOR Rate (Swap) or any reduction in an"
+    },
+    {
+      "id": "e9",
+      "class": "page_number",
+      "bbox": [
+        36.0,
+        513.4,
+        44.0,
+        522.2
+      ],
+      "text": "28"
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6",
+    "e7",
+    "e8",
+    "e9"
+  ],
+  "tables": [],
+  "key_values": [],
+  "header_footer_lines": [
+    "28"
+  ],
+  "notes": ""
+}

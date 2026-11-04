@@ -75,3 +75,12 @@ def test_select_pages_respects_quotas_caps_and_min_words(tmp_path):
         per_doc[p["source_doc"]] = per_doc.get(p["source_doc"], 0) + 1
     assert max(per_doc.values()) <= scans.MAX_PER_DOC_STRATUM
     assert {p["level"] for p in picked} == {"light", "medium", "heavy"}
+
+
+def test_cfpb_cover_pages_detected():
+    from evals.corpus.cfpb import is_cover_page
+    cover = "FEBRUARY 7, 2014 TILA RESPA Integrated Disclosure ... This is a sample of a completed Loan Estimate"
+    assert is_cover_page("consumer", 1, cover)
+    assert not is_cover_page("consumer", 2, cover)          # only page 1
+    assert not is_cover_page("edgar", 1, cover)             # only CFPB forms
+    assert not is_cover_page("consumer", 1, "Loan Estimate  LOAN TERM 30 years")

@@ -1,0 +1,532 @@
+{
+  "page_id": "scan_33_p001",
+  "doc_id": "scan_33",
+  "page": 1,
+  "stratum": "scanned",
+  "source_format": "image_pdf",
+  "scan_of": "deal_01_ca:p3",
+  "scan_level": "light",
+  "page_size": [
+    612.0,
+    792.0
+  ],
+  "status": "prefilled",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": null,
+  "verified_on": null,
+  "reference_text_source": "source_page_text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "table",
+      "bbox": [
+        35.2,
+        34.5,
+        580.4,
+        516.0
+      ],
+      "text": ""
+    }
+  ],
+  "reading_order": [
+    "e1"
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "element_id": "e1",
+      "bbox": [
+        35.2,
+        34.5,
+        580.4,
+        516.0
+      ],
+      "num_rows": 35,
+      "num_cols": 2,
+      "header_rows": [],
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.12 Financial Statements."
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "33"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.13 Property."
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "33"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.14 Authorizations."
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "BS"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.15 Environmental Matters."
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "34"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.16 Intellectual Property."
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "34"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.17 Labor Matters."
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "34"
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.18 No Misrepresentation."
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "BS"
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.19 Security Documents."
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "35"
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.20 OFAC."
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "B5"
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.21 Solvency."
+        },
+        {
+          "row": 9,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "36"
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.22 Anti-Money Laundering."
+        },
+        {
+          "row": 10,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "36"
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.23 Educational Approvals; Compliance with Educational Laws."
+        },
+        {
+          "row": 11,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "36"
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.24 Preferred Stock Transaction."
+        },
+        {
+          "row": 12,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "40"
+        },
+        {
+          "row": 13,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "CONDITIONS TO THE LOANS. 40"
+        },
+        {
+          "row": 14,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 5.1 Effective Date."
+        },
+        {
+          "row": 14,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "40"
+        },
+        {
+          "row": 15,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 5.2 Each Advance under the Revolving Loan (or Letter of Credit) and"
+        },
+        {
+          "row": 15,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "the Line of Credit Loan. 42"
+        },
+        {
+          "row": 16,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "AFFIRMATIVE COVENANTS"
+        },
+        {
+          "row": 17,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 6.1 Financial Statements and Other Information."
+        },
+        {
+          "row": 17,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "43 B"
+        },
+        {
+          "row": 18,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 6.2 Notice of Material Events."
+        },
+        {
+          "row": 18,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "45"
+        },
+        {
+          "row": 19,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 6.3 Existence; Conduct of Business."
+        },
+        {
+          "row": 19,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "45"
+        },
+        {
+          "row": 20,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 6.4 Payment of Obligations"
+        },
+        {
+          "row": 20,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "46"
+        },
+        {
+          "row": 21,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 6.5 Maintenance of Properties."
+        },
+        {
+          "row": 21,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "46"
+        },
+        {
+          "row": 22,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 6.6 Books and Records; Inspection Rights; Collateral Monitoring."
+        },
+        {
+          "row": 22,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "46"
+        },
+        {
+          "row": 23,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 6.7 Compliance with Laws."
+        },
+        {
+          "row": 23,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "46"
+        },
+        {
+          "row": 24,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 6.8 Use of Proceeds."
+        },
+        {
+          "row": 24,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "47"
+        },
+        {
+          "row": 25,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 6.9 Information Regarding Collateral."
+        },
+        {
+          "row": 25,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "47"
+        },
+        {
+          "row": 26,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 6.10 Insurance."
+        },
+        {
+          "row": 26,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "47"
+        },
+        {
+          "row": 27,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 6.11 Governmental Consents and Approvals."
+        },
+        {
+          "row": 27,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "47"
+        },
+        {
+          "row": 28,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 6.12 Environmental Matters."
+        },
+        {
+          "row": 28,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "47"
+        },
+        {
+          "row": 29,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 6.13 Employee Benefit Matters."
+        },
+        {
+          "row": 29,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "48"
+        },
+        {
+          "row": 30,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 6.14 Subsidiaries."
+        },
+        {
+          "row": 30,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "48"
+        },
+        {
+          "row": 31,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 6.15 Further Assurances."
+        },
+        {
+          "row": 31,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "48"
+        },
+        {
+          "row": 32,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 6.16 Compensating Balances."
+        },
+        {
+          "row": 32,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "49"
+        },
+        {
+          "row": 33,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 6.17 Operating Account."
+        },
+        {
+          "row": 33,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "49"
+        },
+        {
+          "row": 34,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 6.18 Section 6.19 Reappraisal. Post-Closing Obligations."
+        },
+        {
+          "row": 34,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "49 49"
+        }
+      ]
+    }
+  ],
+  "key_values": [],
+  "header_footer_lines": [],
+  "notes": ""
+}

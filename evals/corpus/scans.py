@@ -9,6 +9,7 @@ numeric fidelity can be measured exactly (H6). They are labelled
 
 Selection (deterministic, seed recorded):
   edgar_prose 12 · edgar_table 8 · edgar_amendment 8 · consumer 12
+  - no CFPB cover sheets (page 1 of every sample PDF)
   - only pages with >= MIN_WORDS words of text, and no signature pages
     (>= 4 "By:" / "Name:" / "Title:" markers): they are mostly blank and say
     little about reading accuracy
@@ -41,6 +42,7 @@ import fitz  # PyMuPDF
 import numpy as np
 from PIL import Image, ImageFilter
 
+from evals.corpus.cfpb import is_cover_page
 from evals.corpus.manifest import DocRow, read_manifest, write_manifest
 
 log = logging.getLogger("evals.corpus.scans")
@@ -164,7 +166,8 @@ def select_pages(rows: list[DocRow], seed: int = SEED, quotas: dict[str, int] = 
             doc = open_docs.setdefault(row.doc_id, fitz.open(pdf_dir / f"{row.doc_id}.pdf"))
             page = doc[idx]
             text = page.get_text()
-            if len(text.split()) < MIN_WORDS or is_signature_page(text):
+            if len(text.split()) < MIN_WORDS or is_signature_page(text) \
+                    or is_cover_page(row.part, idx + 1, text):
                 continue
             stratum = stratum_of(row, page)
             if need.get(stratum, 0) <= 0:

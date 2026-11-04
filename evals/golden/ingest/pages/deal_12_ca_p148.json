@@ -1,0 +1,265 @@
+{
+  "page_id": "deal_12_ca_p148",
+  "doc_id": "deal_12_ca",
+  "page": 148,
+  "stratum": "table_heavy",
+  "source_format": "html_rendered",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612.0,
+    792.0
+  ],
+  "status": "prefilled",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": null,
+  "verified_on": null,
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "table",
+      "bbox": [
+        59.6,
+        47.6,
+        551.8,
+        131.4
+      ],
+      "text": ""
+    },
+    {
+      "id": "e2",
+      "class": "text",
+      "bbox": [
+        60.5,
+        159.4,
+        551.5,
+        188.7
+      ],
+      "text": "Pro Forma Basis\" means, for purposes of calculating Consolidated EBITDA for any period during which one or more Specified Transactions occurs, that such Specified Transaction (and all other Specified Transactions that have been consummated during the applicable period) shall be deemed to have occurr"
+    },
+    {
+      "id": "e3",
+      "class": "list",
+      "bbox": [
+        60.5,
+        198.4,
+        551.5,
+        266.7
+      ],
+      "text": "(a) all income statement items (whether positive or negative) attributable to the Property or Person disposed of in a Specified Disposition shall be excluded, and all income statement items (whether positive or negative) as estimated by the Borrower in good faith by a Responsible Officer and which m"
+    },
+    {
+      "id": "e4",
+      "class": "list",
+      "bbox": [
+        60.5,
+        276.4,
+        551.5,
+        364.2
+      ],
+      "text": "(b) in the event that any Credit Party or any Subsidiary thereof incurs (including by assumption or guarantees) or repays (including by redemption, repayment, retirement, discharge, defeasance or extinguishment) any Indebtedness included in the calculations of any financial ratio or test (in each ca"
+    },
+    {
+      "id": "e5",
+      "class": "text",
+      "bbox": [
+        89.3,
+        373.2,
+        464.2,
+        382.9
+      ],
+      "text": "\"Specified Disposition\" means any Asset Disposition having gross sales proceeds in excess of $1,000,000."
+    },
+    {
+      "id": "e6",
+      "class": "text",
+      "bbox": [
+        89.3,
+        392.7,
+        504.2,
+        402.4
+      ],
+      "text": "\"Specified Transactions\" means (a) any Specified Disposition, (b) any Permitted Acquisition and (c) the Transactions."
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6"
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "element_id": "e1",
+      "bbox": [
+        59.6,
+        47.6,
+        551.8,
+        131.4
+      ],
+      "num_rows": 3,
+      "num_cols": 7,
+      "header_rows": [
+        0
+      ],
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Consolidated EBITDA"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Quarter 1 ended __/__/__"
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Quarter 2 ended __/__/__"
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Quarter 3 ended __/__/__"
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Quarter 4 ended __/__/__"
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Total (Quarters 1-4)"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "(6)"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Pro Forma Basis Adjustments to Consolidated EBITDA, if applicable 1"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "(7)"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Totals (Line (1) plus Line (3) less Line (5) plus or minus, as applicable, Line (6))"
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        }
+      ]
+    }
+  ],
+  "key_values": [],
+  "header_footer_lines": [],
+  "notes": ""
+}

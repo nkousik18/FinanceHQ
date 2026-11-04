@@ -1,0 +1,26 @@
+{
+  "page_id": "scan_11_p001",
+  "doc_id": "scan_11",
+  "page": 1,
+  "stratum": "scanned",
+  "source_format": "image_pdf",
+  "scan_of": "cfpb_le_h24c:p4",
+  "scan_level": "medium",
+  "page_size": [
+    612.0,
+    792.0
+  ],
+  "status": "prefilled",
+  "from_scratch": true,
+  "prefill_source": null,
+  "labeled_by": null,
+  "verified_on": null,
+  "reference_text_source": "source_page_text_layer",
+  "reference_text": null,
+  "layout_elements": [],
+  "reading_order": [],
+  "tables": [],
+  "key_values": [],
+  "header_footer_lines": [],
+  "notes": ""
+}

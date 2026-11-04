@@ -1,0 +1,90 @@
+{
+  "page_id": "deal_02_am1_p004",
+  "doc_id": "deal_02_am1",
+  "page": 4,
+  "stratum": "digital_prose",
+  "source_format": "html_rendered",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612.0,
+    792.0
+  ],
+  "status": "prefilled",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": null,
+  "verified_on": null,
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "text",
+      "bbox": [
+        72.0,
+        60.1,
+        576.7,
+        131.2
+      ],
+      "text": "(h) Severability. If any provision of this Agreement is held to be illegal, invalid or unenforceable, (a) the legality, validity and enforceability of the remaining provisions of this Agreement shall not be affected or impaired thereby and (b) the parties shall endeavor in good faith negotiations to"
+    },
+    {
+      "id": "e2",
+      "class": "list",
+      "bbox": [
+        72.0,
+        144.1,
+        576.7,
+        167.2
+      ],
+      "text": "(i) Loan Document. This Agreement shall constitute a \"Loan Document\" under and as defined in Section 1.01 of the Amended Credit Agreement."
+    },
+    {
+      "id": "e3",
+      "class": "text",
+      "bbox": [
+        72.0,
+        180.1,
+        576.7,
+        203.2
+      ],
+      "text": "(j) Successors and Assigns. The provisions of this Agreement shall be binding upon and inure to the benefit of the parties hereto and their respective successors and assigns."
+    },
+    {
+      "id": "e4",
+      "class": "text",
+      "bbox": [
+        216.1,
+        216.1,
+        396.6,
+        239.2
+      ],
+      "text": "[Remainder of Page Intentionally Left Blank. Signature Pages Follow.]"
+    },
+    {
+      "id": "e5",
+      "class": "page_number",
+      "bbox": [
+        303.9,
+        264.1,
+        308.9,
+        275.2
+      ],
+      "text": "4"
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5"
+  ],
+  "tables": [],
+  "key_values": [],
+  "header_footer_lines": [
+    "4"
+  ],
+  "notes": ""
+}
