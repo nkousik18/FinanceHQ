@@ -77,6 +77,12 @@ Corpus findings (Auto metrics; real, not dependent on labels):
 - CER against the text layer is dominated by reading order on CFPB forms (31% CER, 99.7% order-free word recall).
 - OCR on heavy scans: Tesseract numbers right 41%, Apple Vision 73%; Tesseract confidence is informative, Vision's is not (mean 0.99).
 
+Other changes and notes from this block:
+- New dependencies (app venv, `requirements-dev.txt`): `rapidfuzz` 3.14.6 (fast edit distance for CER/WER), `apted` 1.0.3 (tree edit distance for TEDS). Installed without changing any existing package.
+- The pre-fill and the metrics now share one Docling reader (`evals/parsers/docling_doc.py`). Checked: on the 23 pre-filled pages not yet edited, it reproduces the committed labels exactly.
+- Incident: end-to-end testing of the labelling app edited one real label file (`cfpb_le_h24b_p003`); restored from git right after. No labels were lost.
+- Kousik started labelling in the app (7 files edited so far). Those files are deliberately left out of agent commits until Kousik commits them.
+
 ### Open items
 - **Decision needed (Kousik):** OCR engine for the text used downstream (Tesseract vs Apple Vision); see the trade-off above.
 - **Kousik:** label the 30 pages in the app (`venv/bin/python -m evals.golden.ingest.app.server`, open http://127.0.0.1:8765), from-scratch pages first; guide in `evals/golden/ingest/README.md`.
