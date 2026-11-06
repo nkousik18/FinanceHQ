@@ -75,6 +75,16 @@ ol.order li button { padding: 0 6px; font-size: 11px; }
 .dirty { color: var(--warn); }
 kbd { font: 11px ui-monospace, monospace; background: #eef0f3; border-radius: 3px; padding: 0 4px; border: 1px solid #d6dae0; }
 .legend span { display: inline-block; margin: 2px 6px 2px 0; font-size: 11px; }
+.chip.review { background: #ffedd5; color: var(--warn); }
+body.wide { grid-template-columns: 230px 1fr 58vw; }
+.cmp { border: 1px solid var(--line); border-radius: 6px; padding: 8px; margin: 10px 0; }
+.cmp h3 { margin: 0 0 4px; font-size: 13px; display: flex; gap: 8px; align-items: center; }
+.cmpgrids { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.cmpgrids > div { overflow: auto; max-height: 60vh; }
+table.ro { border-collapse: collapse; }
+table.ro td { border: 1px solid #cfd5dd; padding: 2px 4px; font-size: 11px; vertical-align: top; white-space: pre-wrap; max-width: 220px; }
+table.ro td.diff { background: #fff1b8; }
+table.ro tr.hdr td { font-weight: 600; }
 .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 3px; vertical-align: -1px; }
 </style>
 </head>
@@ -99,6 +109,7 @@ kbd { font: 11px ui-monospace, monospace; background: #eef0f3; border-radius: 3p
   <div class="tabs">
     <button data-tab="tElement" class="on">Box</button>
     <button data-tab="tTable">Table</button>
+    <button data-tab="tCompare">Compare</button>
     <button data-tab="tOrder">Order</button>
     <button data-tab="tKV">Fields</button>
     <button data-tab="tPage">Page</button>
@@ -107,6 +118,7 @@ kbd { font: 11px ui-monospace, monospace; background: #eef0f3; border-radius: 3p
 
   <section id="tElement" class="tab on"></section>
   <section id="tTable" class="tab"></section>
+  <section id="tCompare" class="tab"></section>
   <section id="tOrder" class="tab"></section>
   <section id="tKV" class="tab"></section>
   <section id="tPage" class="tab"></section>
@@ -156,6 +168,7 @@ const round1 = v => Math.round(v * 10) / 10;
 
 let META = null, PAGES = [], PID = null, LAB = null;
 let selId = null, selCell = null, drawMode = false, zoom = 1, lastClass = "text";
+let CMP = null;
 let dirty = false, history = [], drag = null, validateTimer = null, problems = [];
 
 async function api(path, opts = {}) {
@@ -180,6 +193,8 @@ function renderPageList() {
     const chips = [];
     if (p.status === "verified") chips.push(el("span", { class: "chip verified" }, "✓"));
     else if (p.problems) chips.push(el("span", { class: "chip bad" }, p.problems));
+    if (p.review) chips.push(el("span", { class: "chip " + (p.review === "done" ? "verified" : "review"), title: "P1 vs P2 tables to settle (Compare tab)" },
+      p.review === "done" ? "⚖ ✓" : "⚖"));
     nav.append(el("div", { class: "item" + (p.page_id === PID ? " cur" : ""), on: { click: () => openPage(p.page_id) } },
       el("span", {}, p.page_id), el("span", {}, chips)));
   }
@@ -192,7 +207,13 @@ async function openPage(pid) {
   PID = pid; LAB = r.body; selId = null; selCell = null; history = []; setDirty(false);
   $("#pageTitle").textContent = `${pid} · ${LAB.stratum.replace("_", " ")}${LAB.from_scratch ? " · FROM SCRATCH" : ""} · ${LAB.status}`;
   fitZoom();
-  renderAll(); renderPageList(); validateSoon(0);
+  renderAll(); renderPageList(); validateSoon(0); loadCompare();
+}
+async function loadCompare() {
+  CMP = null; renderCompareTab();
+  const pid = PID, r = await api(`/api/compare/${pid}`);
+  if (pid !== PID) return;                     // user moved to another page meanwhile
+  CMP = r.ok ? r.body : { error: true }; renderCompareTab();
 }
 
 // ---------------------------------------------------------------- state helpers
@@ -333,7 +354,7 @@ function setClass(id, cls) {
 
 // ---------------------------------------------------------------- side panels
 function renderAll() {
-  renderCanvas(); renderElementTab(); renderTableTab(); renderOrderTab(); renderKVTab(); renderPageTab();
+  renderCanvas(); renderElementTab(); renderTableTab(); renderCompareTab(); renderOrderTab(); renderKVTab(); renderPageTab();
   $("#btnVerify").textContent = LAB && LAB.status === "verified" ? "Verified ✓ (undo)" : "Mark verified";
 }
 
@@ -479,6 +500,62 @@ function renderTableTab() {
 }
 function focusCell(r, k) { const ta = document.querySelector(`#tTable textarea[data-rc="${r},${k}"]`); if (ta) ta.focus(); }
 
+// ------------------------------- P1 vs P2 comparison (settling tables where the parsers disagree)
+function roGrid(t, diff) {
+  const d = new Set(diff.map(([r, k]) => r + "," + k));
+  const anchors = new Map(t.cells.map(c => [c.row + "," + c.col, c]));
+  const tbl = el("table", { class: "ro" });
+  for (let r = 0; r < t.num_rows; r++) {
+    const tr = el("tr", { class: (t.header_rows || []).includes(r) ? "hdr" : "" });
+    for (let k = 0; k < t.num_cols; k++) {
+      const c = anchors.get(r + "," + k);
+      if (c) tr.append(el("td", { class: d.has(r + "," + k) ? "diff" : "", rowspan: c.row_span, colspan: c.col_span }, c.text));
+    }
+    tbl.append(tr);
+  }
+  return tbl;
+}
+function useGrid(t, pt, cfg) {
+  if (!confirm(`Replace ${t.id}'s cells with ${cfg}'s grid? You can still fix text afterwards in the Table tab.`)) return;
+  mutate(() => {
+    t.num_rows = pt.num_rows; t.num_cols = pt.num_cols; t.header_rows = [...(pt.header_rows || [])];
+    t.cells = JSON.parse(JSON.stringify(pt.cells)); normalizeGrid(t); t.adjudication = cfg;
+  });
+}
+function renderCompareTab() {
+  const tab = $("#tCompare"); tab.innerHTML = "";
+  if (!LAB) return;
+  if (LAB.from_scratch) { tab.append(el("p", { class: "hint" }, "From-scratch page: type its tables from the image in the Table tab, without looking at Docling's output.")); return; }
+  if (!CMP) { tab.append(el("p", { class: "hint" }, "Loading P1 / P2 tables…")); return; }
+  if (CMP.error) { tab.append(el("p", { class: "hint" }, "Comparison not available (parse caches missing?).")); return; }
+  const items = CMP.tables.filter(x => x.disagree);
+  if (!items.length) { tab.append(el("p", { class: "hint" }, "P1 and P2 read every table on this page the same way. Nothing to settle.")); return; }
+  tab.append(el("p", { class: "hint" },
+    "P1 and P2 read these tables differently. Check the page image, start from the grid that matches it (or keep yours), ",
+    "then fix any wrong text or structure in the Table tab. Yellow = cells where P1 and P2 differ. Save when done."));
+  for (const x of items) {
+    const t = LAB.tables.find(t => t.id === x.table_id);
+    if (!t) continue;
+    const box = el("div", { class: "cmp" });
+    box.append(el("h3", {}, t.id,
+      el("span", { class: "chip " + (t.adjudication ? "verified" : "review") }, t.adjudication ? `started from: ${t.adjudication}` : "to decide"),
+      el("button", { on: { click: () => { selId = t.element_id; selCell = null; renderAll(); } } }, "Show on page"),
+      el("button", { on: { click: () => mutate(() => { t.adjudication = "own"; }) } }, "Keep my grid"),
+      el("button", { on: { click: () => { selId = t.element_id; selCell = null; renderAll(); showTab("tTable"); } } }, "Edit in Table tab")));
+    const grids = el("div", { class: "cmpgrids" });
+    for (const cfg of ["P1", "P2"]) {
+      const pt = x[cfg];
+      grids.append(el("div", {},
+        el("div", { class: "row" }, el("b", {}, cfg === "P1" ? "P1 (fast tables)" : "P2 (accurate tables)"),
+          el("span", { class: "muted" }, pt ? `${pt.num_rows} × ${pt.num_cols}` : "no matching table"),
+          pt ? el("button", { on: { click: () => useGrid(t, pt, cfg) } }, `Use ${cfg} grid`) : null),
+        pt ? roGrid(pt, x[cfg + "_diff"]) : null));
+    }
+    box.append(grids);
+    tab.append(box);
+  }
+}
+
 // ------------------------------- reading order
 function renderOrderTab() {
   const tab = $("#tOrder"); tab.innerHTML = "";
@@ -539,6 +616,8 @@ function renderPageTab() {
 function showTab(id) {
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === id));
   document.querySelectorAll(".tab").forEach(s => s.classList.toggle("on", s.id === id));
+  document.body.classList.toggle("wide", id === "tCompare");
+  if (LAB) { fitZoom(); renderCanvas(); }
 }
 document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => showTab(b.dataset.tab)));
 
@@ -565,7 +644,7 @@ async function save(status) {
   const r = await api(`/api/labels/${PID}`, { method: "PUT", body: JSON.stringify(body) });
   if (!r.ok) { problems = r.body.errors || [r.body.error || "save failed"]; renderProblems(); alert("Not saved: fix the problems listed at the bottom right."); return false; }
   LAB = (await api(`/api/labels/${PID}`)).body;
-  setDirty(false); problems = r.body.errors || []; renderProblems(); renderAll();
+  setDirty(false); problems = r.body.errors || []; renderProblems(); renderAll(); loadCompare();
   $("#pageTitle").textContent = `${PID} · ${LAB.stratum.replace("_", " ")}${LAB.from_scratch ? " · FROM SCRATCH" : ""} · ${LAB.status}`;
   await loadPages();
   return true;

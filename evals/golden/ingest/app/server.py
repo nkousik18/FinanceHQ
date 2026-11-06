@@ -15,6 +15,7 @@ API
   POST /api/validate          body = labels JSON -> {"errors": [...]}  (no write)
   PUT  /api/labels/<page_id>  body = labels JSON -> saves; refuses "verified" with errors
   GET  /img/<page_id>.png     page image
+  GET  /api/compare/<page_id> P1 vs P2 tables matched to each label table (adjudication; compare.py)
 """
 from __future__ import annotations
 
@@ -29,6 +30,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 from evals.golden.ingest import labeling
+from evals.golden.ingest.app.compare import compare_page, review_state
 from evals.golden.ingest.schema import CLASSES, STRATA, validate_labels
 
 log = logging.getLogger("evals.golden.ingest.app")
@@ -41,8 +43,10 @@ MAX_BODY = 5_000_000
 class LabelStore:
     """File access for the app; kept separate from HTTP so it can be unit-tested."""
 
-    def __init__(self, pages_dir: Path, images_dir: Path, selection: Path, labeller: str):
+    def __init__(self, pages_dir: Path, images_dir: Path, selection: Path, labeller: str, views=None):
+        """`views(doc_id, page) -> {"P1": PageView|None, "P2": ...}` enables P1/P2 comparison."""
         self.pages_dir, self.images_dir, self.selection, self.labeller = pages_dir, images_dir, selection, labeller
+        self.views = views
 
     def page_ids(self) -> list[str]:
         return [p["page_id"] for p in json.loads(self.selection.read_text())["pages"]]
@@ -61,6 +65,7 @@ class LabelStore:
                 "status": lab["status"] if lab else "missing",
                 "problems": len(validate_labels(lab)) if lab else None,
                 "elements": len(lab["layout_elements"]) if lab else 0,
+                "review": review_state(self._compare(lab)) if lab and self.views else None,
             })
         # from-scratch pages first (label them before seeing Docling output), then by stratum
         out.sort(key=lambda p: (not p["from_scratch"], p["stratum"], p["page_id"]))
@@ -87,6 +92,14 @@ class LabelStore:
         tmp.write_text(json.dumps(labels, indent=2, ensure_ascii=False))
         tmp.replace(path)
         return True, errors
+
+    def _compare(self, lab: dict) -> dict:
+        return compare_page(lab, self.views(lab["doc_id"], lab["page"]))
+
+    def compare(self, page_id: str) -> dict:
+        if self.views is None:
+            raise KeyError("comparison not enabled")
+        return self._compare(self.load(page_id))
 
     def image_path(self, page_id: str) -> Path:
         self._check_id(page_id)
@@ -128,6 +141,8 @@ def make_handler(store: LabelStore):
                     self._json(200, store.list_pages())
                 elif self.path.startswith("/api/labels/"):
                     self._json(200, store.load(self.path.rsplit("/", 1)[1]))
+                elif self.path.startswith("/api/compare/"):
+                    self._json(200, store.compare(self.path.rsplit("/", 1)[1]))
                 elif self.path.startswith("/img/") and self.path.endswith(".png"):
                     pid = self.path[len("/img/"):-len(".png")]
                     self._send(200, store.image_path(pid).read_bytes(), "image/png")
@@ -165,7 +180,10 @@ def main() -> int:
     ap.add_argument("--name", default="kousik", help="labeller name recorded on verified pages")
     args = ap.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
-    store = LabelStore(labeling.PAGES, labeling.IMAGES, labeling.SELECTION, args.name)
+    from evals.ingest_metrics.run_s0 import Docs   # parse caches; only needed for the P1/P2 comparison
+    docs = Docs()
+    views = lambda doc_id, page: {cfg: docs.view(cfg, doc_id, page) for cfg in ("P1", "P2")}
+    store = LabelStore(labeling.PAGES, labeling.IMAGES, labeling.SELECTION, args.name, views=views)
     httpd = ThreadingHTTPServer(("127.0.0.1", args.port), make_handler(store))
     print(f"Labelling app: http://127.0.0.1:{args.port}   (Ctrl+C to stop)", flush=True)
     try:

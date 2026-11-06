@@ -22,6 +22,15 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 Later: 132 evals tests pass. Golden set 30/30 verified.
 
+### S0 first run: P1-vs-P2 comparison invalid (pre-fill bias)
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-06-7 | **Finding:** first S0 run on verified labels said P1 beats P2 on cell accuracy by 39 pts (CI −57…−23, 20 tables); H10 "not supported". **Not reported as a result:** 0 of 608 pre-filled cell texts were changed in verification, so labels = P1 output and P1 scores 1.0 on every table by construction. The 3 from-scratch tables have empty cells, so they score nothing | Pre-fill bias (scope §13) happened | `docs/20_s0_results.md` (after re-run) |
+| S-2026-11-06-8 | **Settle the 9 pages / 13 tables where P1 and P2 disagree** (Kousik's choice of 3 options; others: re-label all ~600 cells, or call S0 inconclusive → P1 by tie rule). Kousik picks the grid that matches the image (P1 / P2 / own) and fixes text; fills the 3 empty from-scratch tables without Docling output. Choice stored per table as `adjudication`. Cells both parsers read identically stay as pre-filled: residual bias, stated in the report | Cheapest fix that removes the by-construction P1 advantage | Scope Decision Log |
+| S-2026-11-06-9 | Labelling app: **Compare tab** (P1 and P2 grids side by side, differing cells in yellow, "Use P1/P2 grid", "Keep my grid"); ⚖ chip on pages to settle; `GET /api/compare/<page>`; `evals/golden/ingest/app/compare.py` + 6 tests. Hidden on from-scratch pages | Tool for S-2026-11-06-8. Tested in headless Chrome (render, use-grid, undo; nothing saved) | `evals/golden/ingest/app/` |
+
+138 evals tests pass. S0 decision and H10 wait for the re-run after settling.
+
 Changes: `P2V` config added (accurate tables + Apple Vision), parsed on the 40 scans (103 s, 0 failures); `downstream_config()` + tests (128 evals tests pass).
 
 State: Kousik has verified 29 of 30 golden-set pages in the labelling app (files not yet committed by Kousik).
