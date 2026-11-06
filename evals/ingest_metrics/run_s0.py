@@ -192,6 +192,7 @@ def golden(configs: list[str], include_unverified: bool, rows: dict, docs: Docs)
     out["records"] = per_cfg_recs
     if {"P1", "P2"} <= set(configs):
         out["decision"] = decide(per_cfg_recs["P1"], per_cfg_recs["P2"])
+        out["h10"] = h10(per_cfg_recs["P1"], per_cfg_recs["P2"])
     return out
 
 
@@ -206,6 +207,16 @@ def decide(p1: list[dict], p2: list[dict]) -> dict:
     winner = {"a": "P1", "b": "P2"}.get(res["better"])
     return {"metric": "cell_accuracy (P2 - P1), paired over labelled tables", **res,
             "winner": winner, "rule": "CI excludes 0" if winner else "tie: pick the faster config"}
+
+
+def h10(p1: list[dict], p2: list[dict], stratum: str = "table_heavy") -> dict:
+    """
+    H10: P2 beats P1 on cell accuracy for the table-heavy stratum. Same paired test as the
+    decision, restricted to that stratum (rule fixed in docs/20_s0_results.md §2).
+    """
+    res = decide([r for r in p1 if r["stratum"] == stratum], [r for r in p2 if r["stratum"] == stratum])
+    verdict = {"P2": "supported", "P1": "not supported"}.get(res["winner"], "inconclusive")
+    return {"stratum": stratum, **res, "verdict": verdict}
 
 
 # ---------------------------------------------------------------- part 2: full corpus

@@ -15,6 +15,12 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 |---|---|---|---|
 | S-2026-11-06-1 | **Apple Vision OCR text downstream; Tesseract for confidence metrics and H7** | Vision reads heavy scans far better (numbers 73% vs 41%); Tesseract's confidence is the meaningful one | Scope v2 Decision Log; `evals/parsers/config.py` (`downstream_config`) |
 | S-2026-11-06-2 | Hand off to a fresh agent; handoff brief in `docs/19_handoff.md` | Conversation context was getting large | `docs/19_handoff.md` |
+| S-2026-11-06-3 | `scan_01_p001` table t3: deleted stray cell (6,1) `"a"` that overlapped merged cell 20 | OCR junk inside a 3-row merged cell; Kousik asked for the fix, then verified the page (30/30) | label file (Kousik's) |
+| S-2026-11-06-4 | **S0 pre-registration** written before the run: `docs/20_s0_results.md` (H1–H10 verbatim, S0 tests H6 + H10, decision/H6/H10 rules) | Scope §11 rule | `docs/20_s0_results.md`; scope Decision Log |
+| S-2026-11-06-5 | **H6 disclosed as not cleanly pre-registered**: Auto-only, outcome already seen in dry runs, pairing rule set after a first version | Honesty; reported with the result | `docs/20_s0_results.md` §2 |
+| S-2026-11-06-6 | **H10 test** = decision's paired bootstrap restricted to `table_heavy` tables; CI > 0 supported, < 0 not, else inconclusive. `run_s0.h10()` + 4 known-answer tests | H10 had no computation in the runner | `evals/ingest_metrics/run_s0.py`, `evals/tests/test_run_s0.py` |
+
+Later: 132 evals tests pass. Golden set 30/30 verified.
 
 Changes: `P2V` config added (accurate tables + Apple Vision), parsed on the 40 scans (103 s, 0 failures); `downstream_config()` + tests (128 evals tests pass).
 
