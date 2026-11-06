@@ -7,14 +7,14 @@
   "scan_of": null,
   "scan_level": null,
   "page_size": [
-    612.0,
-    792.0
+    612,
+    792
   ],
-  "status": "prefilled",
+  "status": "verified",
   "from_scratch": false,
   "prefill_source": "docling 2.147.0 P1",
-  "labeled_by": null,
-  "verified_on": null,
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-06",
   "reference_text_source": "text_layer",
   "reference_text": null,
   "layout_elements": [
@@ -66,10 +66,10 @@
       "id": "e5",
       "class": "text",
       "bbox": [
-        95.0,
+        95.2,
         306.7,
-        271.2,
-        359.0
+        271.4,
+        359
       ],
       "text": "Questions? If you have questions about the loan terms or costs on this form, use the contact information below. To get more information or make a complaint, contact the Consumer Financial Protection Bureau at"
     },
@@ -77,19 +77,19 @@
       "id": "e6",
       "class": "text",
       "bbox": [
-        95.0,
+        95,
         362.4,
         280.1,
-        370.0
+        370
       ],
       "text": "www.consumerfinance.gov/mortgage-closing"
     },
     {
       "id": "e7",
-      "class": "text",
+      "class": "section_header",
       "bbox": [
-        40.0,
-        426.0,
+        40,
+        426,
         131.9,
         434.5
       ],
@@ -121,7 +121,7 @@
       "id": "e10",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         690.7,
         576.1,
         709.4
@@ -132,7 +132,7 @@
       "id": "e11",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         747.7,
         111.9,
         755.3
@@ -143,7 +143,7 @@
       "id": "e12",
       "class": "section_header",
       "bbox": [
-        318.0,
+        318,
         43.2,
         398.2,
         51.6
@@ -154,9 +154,9 @@
       "id": "e13",
       "class": "section_header",
       "bbox": [
-        312.0,
+        312,
         64.3,
-        351.0,
+        351,
         71.9
       ],
       "text": "Appraisal"
@@ -165,10 +165,10 @@
       "id": "e14",
       "class": "text",
       "bbox": [
-        312.0,
+        312,
         74.8,
         575.4,
-        114.0
+        114
       ],
       "text": "If the property was appraised for your loan, your lender is required to give you a copy at no additional cost at least 3 days before closing. If you have not yet received it, please contact your lender at the information listed below."
     },
@@ -176,7 +176,7 @@
       "id": "e15",
       "class": "section_header",
       "bbox": [
-        312.0,
+        312,
         127.3,
         377.6,
         134.9
@@ -187,7 +187,7 @@
       "id": "e16",
       "class": "text",
       "bbox": [
-        312.0,
+        312,
         137.8,
         542.8,
         145.5
@@ -198,10 +198,10 @@
       "id": "e17",
       "class": "list",
       "bbox": [
-        322.0,
+        322,
         148.3,
         511.9,
-        156.0
+        156
       ],
       "text": "what happens if you fail to make your payments,"
     },
@@ -209,7 +209,7 @@
       "id": "e18",
       "class": "list",
       "bbox": [
-        322.0,
+        322,
         158.8,
         436.9,
         166.5
@@ -220,7 +220,7 @@
       "id": "e19",
       "class": "list",
       "bbox": [
-        322.0,
+        322,
         169.3,
         568.4,
         187.5
@@ -231,10 +231,10 @@
       "id": "e20",
       "class": "list",
       "bbox": [
-        322.0,
+        322,
         190.3,
         521.9,
-        198.0
+        198
       ],
       "text": "the rules for making payments before they are due."
     },
@@ -242,7 +242,7 @@
       "id": "e21",
       "class": "section_header",
       "bbox": [
-        312.0,
+        312,
         211.3,
         416.8,
         218.9
@@ -253,10 +253,10 @@
       "id": "e22",
       "class": "text",
       "bbox": [
-        312.0,
-        221.8,
+        312,
+        221.7,
         572.8,
-        240.0
+        239.9
       ],
       "text": "If your lender forecloses on this property and the foreclosure does not cover the amount of unpaid balance on this loan,"
     },
@@ -265,9 +265,9 @@
       "class": "list",
       "bbox": [
         313.2,
-        242.0,
-        576.0,
-        284.0
+        242,
+        576,
+        284
       ],
       "text": "\u0007state law may protect you from liability for the unpaid balance. If you refinance or take on any additional debt on this property, you may lose this protection and have to pay any debt remaining even after foreclosure. You may want to consult a lawyer for more information. x"
     },
@@ -275,7 +275,7 @@
       "id": "e24",
       "class": "other",
       "bbox": [
-        311.0,
+        311,
         286.5,
         574.4,
         296.9
@@ -286,7 +286,7 @@
       "id": "e25",
       "class": "section_header",
       "bbox": [
-        312.0,
+        312,
         311.8,
         351.4,
         319.4
@@ -297,10 +297,10 @@
       "id": "e26",
       "class": "text",
       "bbox": [
-        312.0,
+        312,
         322.3,
         568.3,
-        351.0
+        351
       ],
       "text": "Refinancing this loan will depend on your future financial situation, the property value, and market conditions. You may not be able to refinance this loan."
     },
@@ -308,7 +308,7 @@
       "id": "e27",
       "class": "section_header",
       "bbox": [
-        312.0,
+        312,
         364.3,
         374.7,
         371.9
@@ -319,10 +319,10 @@
       "id": "e28",
       "class": "text",
       "bbox": [
-        312.0,
+        312,
         374.8,
         574.7,
-        414.0
+        414
       ],
       "text": "If you borrow more than this property is worth, the interest on the loan amount above this property's fair market value is not deductible from your federal income taxes. You should consult a tax advisor for more information."
     },
@@ -330,7 +330,7 @@
       "id": "e29",
       "class": "page_footer",
       "bbox": [
-        36.0,
+        36,
         768.6,
         113.2,
         775.4
@@ -343,10 +343,21 @@
       "bbox": [
         454.2,
         768.6,
-        576.0,
+        576,
         775.4
       ],
       "text": "PAGE 5 OF 5 · LOAN ID # 123456789"
+    },
+    {
+      "id": "e31",
+      "class": "text",
+      "bbox": [
+        208.7,
+        747.1,
+        421.5,
+        757.9
+      ],
+      "text": ""
     }
   ],
   "reading_order": [
@@ -379,7 +390,8 @@
     "e27",
     "e28",
     "e29",
-    "e30"
+    "e30",
+    "e31"
   ],
   "tables": [
     {

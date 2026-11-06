@@ -7,14 +7,14 @@
   "scan_of": null,
   "scan_level": null,
   "page_size": [
-    612.0,
-    792.0
+    612,
+    792
   ],
-  "status": "prefilled",
+  "status": "verified",
   "from_scratch": false,
   "prefill_source": "docling 2.147.0 P1",
-  "labeled_by": null,
-  "verified_on": null,
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-04",
   "reference_text_source": "text_layer",
   "reference_text": null,
   "layout_elements": [
@@ -22,9 +22,9 @@
       "id": "e1",
       "class": "section_header",
       "bbox": [
-        36.0,
+        36,
         27.1,
-        159.0,
+        159,
         38.9
       ],
       "text": "Closing Cost Details"
@@ -33,10 +33,10 @@
       "id": "e2",
       "class": "table",
       "bbox": [
-        35.0,
+        35,
         39.9,
         576.4,
-        386.0
+        386
       ],
       "text": ""
     },
@@ -44,8 +44,8 @@
       "id": "e3",
       "class": "text",
       "bbox": [
-        41.0,
-        401.0,
+        41,
+        401,
         93.8,
         409.5
       ],
@@ -58,7 +58,7 @@
         35.1,
         405.9,
         576.2,
-        757.0
+        757
       ],
       "text": ""
     },
@@ -66,7 +66,7 @@
       "id": "e5",
       "class": "page_footer",
       "bbox": [
-        36.0,
+        36,
         768.6,
         113.2,
         775.4
@@ -79,7 +79,7 @@
       "bbox": [
         454.2,
         768.6,
-        576.0,
+        576,
         775.4
       ],
       "text": "PAGE 2 OF 5 · LOAN ID # 123456789"
@@ -98,10 +98,10 @@
       "id": "t1",
       "element_id": "e2",
       "bbox": [
-        35.0,
+        35,
         39.9,
         576.4,
-        386.0
+        386
       ],
       "num_rows": 29,
       "num_cols": 5,
@@ -987,7 +987,7 @@
         35.1,
         405.9,
         576.2,
-        757.0
+        757
       ],
       "num_rows": 26,
       "num_cols": 4,

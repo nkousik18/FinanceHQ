@@ -7,14 +7,14 @@
   "scan_of": null,
   "scan_level": null,
   "page_size": [
-    612.0,
-    792.0
+    612,
+    792
   ],
-  "status": "prefilled",
+  "status": "verified",
   "from_scratch": false,
   "prefill_source": "docling 2.147.0 P1",
-  "labeled_by": null,
-  "verified_on": null,
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-04",
   "reference_text_source": "text_layer",
   "reference_text": null,
   "layout_elements": [
@@ -22,7 +22,7 @@
       "id": "e1",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         66.1,
         576.7,
         137.2
@@ -33,7 +33,7 @@
       "id": "e2",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         147.8,
         576.7,
         254.9
@@ -44,7 +44,7 @@
       "id": "e3",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         266.3,
         576.7,
         289.4
@@ -55,7 +55,7 @@
       "id": "e4",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         300.1,
         576.7,
         335.1
@@ -66,7 +66,7 @@
       "id": "e5",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         345.8,
         576.7,
         416.9
@@ -77,7 +77,7 @@
       "id": "e6",
       "class": "section_header",
       "bbox": [
-        36.0,
+        36,
         428.3,
         173.2,
         439.4
@@ -88,7 +88,7 @@
       "id": "e7",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         450.1,
         576.7,
         545.1

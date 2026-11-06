@@ -7,14 +7,14 @@
   "scan_of": null,
   "scan_level": null,
   "page_size": [
-    612.0,
-    792.0
+    612,
+    792
   ],
-  "status": "prefilled",
+  "status": "verified",
   "from_scratch": false,
   "prefill_source": "docling 2.147.0 P1",
-  "labeled_by": null,
-  "verified_on": null,
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-06",
   "reference_text_source": "text_layer",
   "reference_text": null,
   "layout_elements": [
@@ -22,7 +22,7 @@
       "id": "e1",
       "class": "section_header",
       "bbox": [
-        36.0,
+        36,
         37.1,
         282.8,
         48.9
@@ -33,7 +33,7 @@
       "id": "e2",
       "class": "section_header",
       "bbox": [
-        42.0,
+        42,
         72.8,
         118.1,
         81.2
@@ -44,7 +44,7 @@
       "id": "e3",
       "class": "section_header",
       "bbox": [
-        36.0,
+        36,
         92.3,
         85.1,
         99.9
@@ -52,43 +52,10 @@
       "text": "Assumption"
     },
     {
-      "id": "e4",
-      "class": "text",
-      "bbox": [
-        36.0,
-        102.8,
-        284.2,
-        110.5
-      ],
-      "text": "If you sell or transfer this property to another person, your lender"
-    },
-    {
-      "id": "e5",
-      "class": "other",
-      "bbox": [
-        35.1,
-        112.6,
-        284.7,
-        133.7
-      ],
-      "text": "\u0007will allow, under certain conditions, this person to assume this loan on the original terms. 0"
-    },
-    {
-      "id": "e6",
-      "class": "other",
-      "bbox": [
-        34.8,
-        136.3,
-        274.1,
-        146.2
-      ],
-      "text": "\u0007will not allow assumption of this loan on the original terms. x"
-    },
-    {
       "id": "e7",
       "class": "section_header",
       "bbox": [
-        36.0,
+        36,
         159.3,
         102.6,
         166.9
@@ -99,7 +66,7 @@
       "id": "e8",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         171.8,
         71.3,
         179.5
@@ -110,7 +77,7 @@
       "id": "e9",
       "class": "other",
       "bbox": [
-        35.0,
+        35,
         181.9,
         289.3,
         203.2
@@ -124,7 +91,7 @@
         34.8,
         204.8,
         173.1,
-        215.0
+        215
       ],
       "text": "does not have a demand feature. x"
     },
@@ -132,7 +99,7 @@
       "id": "e11",
       "class": "section_header",
       "bbox": [
-        36.0,
+        36,
         228.3,
         91.6,
         235.9
@@ -143,10 +110,10 @@
       "id": "e12",
       "class": "text",
       "bbox": [
-        36.0,
-        238.8,
+        36,
+        239,
         290.9,
-        257.0
+        257.2
       ],
       "text": "If your payment is more than 15 days late, your lender will charge a late fee of 5% of the monthly principal and interest payment."
     },
@@ -154,10 +121,10 @@
       "id": "e13",
       "class": "section_header",
       "bbox": [
-        36.0,
+        36,
         270.3,
         231.3,
-        278.0
+        278
       ],
       "text": "Negative Amortization (Increase in Loan Amount)"
     },
@@ -165,7 +132,7 @@
       "id": "e14",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         280.8,
         139.9,
         288.5
@@ -174,23 +141,23 @@
     },
     {
       "id": "e15",
-      "class": "other",
+      "class": "text",
       "bbox": [
-        35.0,
-        291.1,
+        35,
+        291.3,
         292.2,
-        343.6
+        343.8
       ],
       "text": "\u0007are scheduled to make monthly payments that do not pay all of the interest due that month. As a result, your loan amount will increase (negatively amortize), and your loan amount will likely become larger than your original loan amount. Increases in your loan amount lower the equity you have in thi"
     },
     {
       "id": "e16",
-      "class": "other",
+      "class": "text",
       "bbox": [
-        34.9,
-        345.5,
-        292.2,
-        397.9
+        34.7,
+        345.7,
+        292,
+        398.1
       ],
       "text": "\u0007may have monthly payments that do not pay all of the interest due that month. If you do, your loan amount will increase (negatively amortize), and, as a result, your loan amount may become larger than your original loan amount. Increases in your loan amount lower the equity you have in this propert"
     },
@@ -201,7 +168,7 @@
         37.2,
         400.4,
         217.4,
-        410.0
+        410
       ],
       "text": "do not have a negative amortization feature. x"
     },
@@ -209,7 +176,7 @@
       "id": "e18",
       "class": "section_header",
       "bbox": [
-        36.0,
+        36,
         425.3,
         103.6,
         432.9
@@ -220,7 +187,7 @@
       "id": "e19",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         437.8,
         79.1,
         445.5
@@ -229,29 +196,29 @@
     },
     {
       "id": "e20",
-      "class": "other",
+      "class": "list",
       "bbox": [
         34.6,
-        447.7,
+        447.6,
         276.1,
-        468.9
+        468.8
       ],
       "text": "\u0007may accept payments that are less than the full amount due (partial payments) and apply them to your loan. x"
     },
     {
       "id": "e21",
-      "class": "other",
+      "class": "list",
       "bbox": [
-        35.0,
+        35,
         470.7,
-        296.0,
+        296,
         492.4
       ],
       "text": "\u0007may hold them in a separate account until you pay the rest of the payment, and then apply the full payment to your loan. U1"
     },
     {
       "id": "e22",
-      "class": "other",
+      "class": "list",
       "bbox": [
         34.8,
         494.3,
@@ -264,7 +231,7 @@
       "id": "e23",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         508.8,
         268.9,
         516.5
@@ -275,7 +242,7 @@
       "id": "e24",
       "class": "section_header",
       "bbox": [
-        315.0,
+        315,
         91.7,
         378.7,
         99.3
@@ -286,7 +253,7 @@
       "id": "e25",
       "class": "text",
       "bbox": [
-        315.0,
+        315,
         102.2,
         386.7,
         109.9
@@ -295,11 +262,11 @@
     },
     {
       "id": "e26",
-      "class": "other",
+      "class": "text",
       "bbox": [
-        313.6,
-        112.0,
-        575.6,
+        313.7,
+        112,
+        575.7,
         164.8
       ],
       "text": "\u0007will have an escrow account (also called an \"impound\" or \"trust\" account) to pay the property costs listed below. Without an escrow account, you would pay them directly, possibly in one or two large payments a year. Your lender may be liable for penalties and interest for failing to make a payment."
@@ -317,7 +284,7 @@
     },
     {
       "id": "e28",
-      "class": "other",
+      "class": "text",
       "bbox": [
         314.1,
         371.1,
@@ -363,7 +330,7 @@
       "id": "e32",
       "class": "section_header",
       "bbox": [
-        36.0,
+        36,
         531.8,
         101.9,
         539.4
@@ -374,10 +341,10 @@
       "id": "e33",
       "class": "text",
       "bbox": [
-        36.0,
-        542.3,
+        36,
+        542.4,
         181.3,
-        562.0
+        562.1
       ],
       "text": "You are granting a security interest in 123 Anywhere Street, Anytown, ST 12345"
     },
@@ -385,10 +352,10 @@
       "id": "e34",
       "class": "text",
       "bbox": [
-        36.0,
-        584.8,
+        36,
+        584.7,
         276.3,
-        603.0
+        602.9
       ],
       "text": "You may lose this property if you do not make your payments or satisfy other obligations for this loan."
     },
@@ -407,7 +374,7 @@
       "id": "e36",
       "class": "page_footer",
       "bbox": [
-        36.0,
+        36,
         768.6,
         113.2,
         775.4
@@ -420,19 +387,27 @@
       "bbox": [
         450.1,
         768.6,
-        576.0,
+        576,
         775.4
       ],
       "text": "PAGE 4 OF 5 · LOAN ID # 1234567890"
+    },
+    {
+      "id": "e38",
+      "class": "list",
+      "bbox": [
+        33.6,
+        103.1,
+        292.8,
+        149.2
+      ],
+      "text": ""
     }
   ],
   "reading_order": [
     "e1",
     "e2",
     "e3",
-    "e4",
-    "e5",
-    "e6",
     "e7",
     "e8",
     "e9",
@@ -463,7 +438,8 @@
     "e34",
     "e35",
     "e36",
-    "e37"
+    "e37",
+    "e38"
   ],
   "tables": [
     {

@@ -7,14 +7,14 @@
   "scan_of": "deal_10_am3:p4",
   "scan_level": "heavy",
   "page_size": [
-    612.0,
-    792.0
+    612,
+    792
   ],
-  "status": "prefilled",
+  "status": "verified",
   "from_scratch": false,
   "prefill_source": "docling 2.147.0 P1",
-  "labeled_by": null,
-  "verified_on": null,
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-04",
   "reference_text_source": "source_page_text_layer",
   "reference_text": null,
   "layout_elements": [
@@ -22,8 +22,8 @@
       "id": "e1",
       "class": "list",
       "bbox": [
-        38.0,
-        63.0,
+        38,
+        63,
         569.3,
         86.7
       ],
@@ -34,7 +34,7 @@
       "class": "list",
       "bbox": [
         36.3,
-        91.0,
+        91,
         577.7,
         184.7
       ],
@@ -46,8 +46,8 @@
       "bbox": [
         35.7,
         189.7,
-        573.0,
-        238.0
+        573,
+        238
       ],
       "text": "§. Severability. The provisions of this Amendment are intended to be severable. If any provision of this Amendment shall be held invalid or unenforceable in whole or in part in any jurisdiction. such provision shall, as to such jurisdiction, be ineffective to the extent of such invalidity or enforce"
     },
@@ -57,7 +57,7 @@
       "bbox": [
         37.3,
         240.7,
-        555.0,
+        555,
         266.3
       ],
       "text": "Notices. Any notices with respect to this Amendment shall be given in the manner provided for in Section 12.5 [Notices; Effectiveness; Electronic Communication] of the Credit Agreement,"
@@ -66,9 +66,9 @@
       "id": "e5",
       "class": "list",
       "bbox": [
-        35.0,
+        35,
         270.3,
-        559.0,
+        559,
         305.7
       ],
       "text": "Survival. All representations and warranties contained herein shall survive Payment In Full. All covenants, agreements, undertakings, waivers and releases of the Borrowers contained herein shall continue in full force and effect from and after the date hereof and until Payment In Full."
@@ -78,9 +78,9 @@
       "class": "list",
       "bbox": [
         36.3,
-        311.0,
+        311,
         546.3,
-        336.0
+        336
       ],
       "text": "tl. Amendment. No amendment, modification, rescission, waiver or release of any provision of this Amendment shall be effective unless the same shall be in writing and signed by the parties hereto,"
     },
@@ -89,9 +89,9 @@
       "class": "list",
       "bbox": [
         35.7,
-        339.0,
+        339,
         573.3,
-        408.0
+        408
       ],
       "text": "Entire Agreement. THIS AMENDMENT, THE CREDIT AGREEMENT AND THE LOAN DOCUMENTS EMBODY THE FINAL, ENTIRE AGREEMENT AMONG THE PARTIES HERETO AND SUPERSEDE ANY AND ALL PRIOR COMMITMENTS, AGREEMENTS, REPRESENTATIONS, AND UNDERSTANDINGS, WHETHER WRITTEN OR ORAL, RELATING TO THE SUBJECT MATTER HEREOF AND M"
     },
@@ -105,6 +105,17 @@
         450.7
       ],
       "text": "Amendment constitutes a Loan Document. This Amendment shalt be incorporated into the Credit Agreement by this reference and each reference"
+    },
+    {
+      "id": "e9",
+      "class": "page_footer",
+      "bbox": [
+        289,
+        467.7,
+        331.6,
+        479.8
+      ],
+      "text": ""
     }
   ],
   "reading_order": [
@@ -115,7 +126,8 @@
     "e5",
     "e6",
     "e7",
-    "e8"
+    "e8",
+    "e9"
   ],
   "tables": [],
   "key_values": [],

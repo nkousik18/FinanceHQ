@@ -7,19 +7,80 @@
   "scan_of": null,
   "scan_level": null,
   "page_size": [
-    612.0,
-    792.0
+    612,
+    792
   ],
-  "status": "prefilled",
+  "status": "verified",
   "from_scratch": true,
   "prefill_source": null,
-  "labeled_by": null,
-  "verified_on": null,
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-04",
   "reference_text_source": "text_layer",
   "reference_text": null,
-  "layout_elements": [],
-  "reading_order": [],
-  "tables": [],
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "title",
+      "bbox": [
+        254.7,
+        50.8,
+        370,
+        92.2
+      ],
+      "text": ""
+    },
+    {
+      "id": "e2",
+      "class": "table",
+      "bbox": [
+        29.9,
+        90,
+        595,
+        268
+      ],
+      "text": ""
+    },
+    {
+      "id": "e3",
+      "class": "text",
+      "bbox": [
+        30.8,
+        269.8,
+        594.4,
+        332
+      ],
+      "text": ""
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3"
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "element_id": "e2",
+      "bbox": [
+        29.9,
+        90,
+        595,
+        268
+      ],
+      "num_rows": 1,
+      "num_cols": 1,
+      "header_rows": [],
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        }
+      ]
+    }
+  ],
   "key_values": [],
   "header_footer_lines": [],
   "notes": ""

@@ -7,19 +7,149 @@
   "scan_of": "cfpb_le_h24c:p4",
   "scan_level": "medium",
   "page_size": [
-    612.0,
-    792.0
+    612,
+    792
   ],
-  "status": "prefilled",
+  "status": "verified",
   "from_scratch": true,
   "prefill_source": null,
-  "labeled_by": null,
-  "verified_on": null,
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-04",
   "reference_text_source": "source_page_text_layer",
   "reference_text": null,
-  "layout_elements": [],
-  "reading_order": [],
-  "tables": [],
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "title",
+      "bbox": [
+        37,
+        41.2,
+        361.4,
+        71.6
+      ],
+      "text": ""
+    },
+    {
+      "id": "e2",
+      "class": "text",
+      "bbox": [
+        32.9,
+        77,
+        479.3,
+        168.4
+      ],
+      "text": ""
+    },
+    {
+      "id": "e3",
+      "class": "table",
+      "bbox": [
+        32.8,
+        195.1,
+        597.8,
+        337.1
+      ],
+      "text": ""
+    },
+    {
+      "id": "e4",
+      "class": "table",
+      "bbox": [
+        29,
+        343.3,
+        600.5,
+        633.9
+      ],
+      "text": ""
+    },
+    {
+      "id": "e5",
+      "class": "text",
+      "bbox": [
+        34,
+        653.2,
+        594.3,
+        717.7
+      ],
+      "text": ""
+    },
+    {
+      "id": "e6",
+      "class": "text",
+      "bbox": [
+        33,
+        722.7,
+        596.8,
+        757.3
+      ],
+      "text": ""
+    },
+    {
+      "id": "e7",
+      "class": "page_footer",
+      "bbox": [
+        34.4,
+        761,
+        592,
+        784.7
+      ],
+      "text": ""
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6",
+    "e7"
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "element_id": "e3",
+      "bbox": [
+        32.8,
+        195.1,
+        597.8,
+        337.1
+      ],
+      "num_rows": 2,
+      "num_cols": 2,
+      "header_rows": [],
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        }
+      ]
+    }
+  ],
   "key_values": [],
   "header_footer_lines": [],
   "notes": ""

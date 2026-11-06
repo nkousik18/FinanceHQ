@@ -7,14 +7,14 @@
   "scan_of": null,
   "scan_level": null,
   "page_size": [
-    612.0,
-    792.0
+    612,
+    792
   ],
-  "status": "prefilled",
+  "status": "verified",
   "from_scratch": false,
   "prefill_source": "docling 2.147.0 P1",
-  "labeled_by": null,
-  "verified_on": null,
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-04",
   "reference_text_source": "text_layer",
   "reference_text": null,
   "layout_elements": [
@@ -30,19 +30,8 @@
       "text": "obligation of the assignee to participate in exposure under one or more Letters of Credit (whether or not then outstanding); and"
     },
     {
-      "id": "e2",
-      "class": "list",
-      "bbox": [
-        128.1,
-        76.2,
-        480.6,
-        87.9
-      ],
-      "text": "(C) the consent of each Issuing Lender and Swing Loan Lender shall be required."
-    },
-    {
       "id": "e3",
-      "class": "list",
+      "class": "text",
       "bbox": [
         36.3,
         98.7,
@@ -53,29 +42,29 @@
     },
     {
       "id": "e4",
-      "class": "list",
+      "class": "text",
       "bbox": [
-        36.3,
-        156.9,
-        576.3,
-        192.5
+        36.5,
+        156.7,
+        576.5,
+        192.3
       ],
       "text": "(v) No Assignment to Certain Persons. No such assignment shall be made to (A) a Borrower or any Borrower's Affiliates or Subsidiaries, or (B) any Defaulting Lender or any of its Subsidiaries, or any Person who, upon becoming a Lender hereunder, would constitute a Defaulting Lender or a Subsidiary th"
     },
     {
       "id": "e5",
-      "class": "list",
+      "class": "text",
       "bbox": [
-        36.3,
-        203.2,
-        576.3,
-        226.9
+        36.5,
+        203.5,
+        576.5,
+        227.2
       ],
       "text": "(vi) No Assignment to Natural Persons. No such assignment shall be made to a natural Person (or a holding company, investment vehicle or trust for, or owned and operated for the primary benefit of, a natural Person)."
     },
     {
       "id": "e6",
-      "class": "list",
+      "class": "text",
       "bbox": [
         36.3,
         237.7,
@@ -105,17 +94,28 @@
         494.9
       ],
       "text": "101"
+    },
+    {
+      "id": "e9",
+      "class": "section_header",
+      "bbox": [
+        122.8,
+        73.9,
+        505.3,
+        94.4
+      ],
+      "text": ""
     }
   ],
   "reading_order": [
     "e1",
-    "e2",
     "e3",
     "e4",
     "e5",
     "e6",
     "e7",
-    "e8"
+    "e8",
+    "e9"
   ],
   "tables": [],
   "key_values": [],

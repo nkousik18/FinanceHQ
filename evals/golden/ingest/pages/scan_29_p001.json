@@ -7,14 +7,14 @@
   "scan_of": "deal_10_ca:p148",
   "scan_level": "heavy",
   "page_size": [
-    612.0,
-    792.0
+    612,
+    792
   ],
-  "status": "prefilled",
+  "status": "verified",
   "from_scratch": false,
   "prefill_source": "docling 2.147.0 P1",
-  "labeled_by": null,
-  "verified_on": null,
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-04",
   "reference_text_source": "source_page_text_layer",
   "reference_text": null,
   "layout_elements": [
@@ -23,7 +23,7 @@
       "class": "section_header",
       "bbox": [
         266.3,
-        46.0,
+        46,
         348.3,
         68.3
       ],
@@ -44,8 +44,8 @@
       "id": "e3",
       "class": "text",
       "bbox": [
-        34.0,
-        98.0,
+        34,
+        98,
         573.7,
         184.3
       ],
@@ -56,8 +56,8 @@
       "class": "text",
       "bbox": [
         34.3,
-        192.0,
-        577.0,
+        192,
+        577,
         373.3
       ],
       "text": "For an agreed consideration, the Assignor hereby irrevocably sells and assigns to the Assignee, and the Assignee hereby irrevocably purchases and assumes from the Assignor, subject to and in accordance with the Standard Terms and Conditions and the Credit Agreement, as of the Effective Date inserted"
@@ -67,9 +67,9 @@
       "class": "list",
       "bbox": [
         66.3,
-        404.7,
-        137.0,
-        414.7
+        404.8,
+        137,
+        414.8
       ],
       "text": "Assignee:"
     },
@@ -80,7 +80,7 @@
         66.7,
         433.3,
         142.7,
-        447.0
+        447
       ],
       "text": "3; Borrowers:"
     },
@@ -90,7 +90,7 @@
       "bbox": [
         66.3,
         464.3,
-        190.0,
+        190,
         474.7
       ],
       "text": "Administrative Agent:"
@@ -99,10 +99,10 @@
       "id": "e8",
       "class": "text",
       "bbox": [
-        231.0,
-        417.0,
+        231,
+        417,
         398.7,
-        428.0
+        428
       ],
       "text": "{and is an Affiliate of [identifi Lender]}"
     },
@@ -110,8 +110,8 @@
       "id": "e9",
       "class": "text",
       "bbox": [
-        231.0,
-        434.0,
+        231,
+        434,
         523.3,
         456.7
       ],
@@ -121,10 +121,10 @@
       "id": "e10",
       "class": "text",
       "bbox": [
-        230.0,
-        463.0,
-        507.0,
-        488.0
+        230,
+        463,
+        507,
+        488
       ],
       "text": "PNC BANK, NATIONAL ASSOCIATION, as the administrative agent under the Credit Agreement"
     }

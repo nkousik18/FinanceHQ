@@ -7,18 +7,152 @@
   "scan_of": null,
   "scan_level": null,
   "page_size": [
-    612.0,
-    792.0
+    612,
+    792
   ],
-  "status": "prefilled",
+  "status": "verified",
   "from_scratch": true,
   "prefill_source": null,
-  "labeled_by": null,
-  "verified_on": null,
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-04",
   "reference_text_source": "text_layer",
   "reference_text": null,
-  "layout_elements": [],
-  "reading_order": [],
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "text",
+      "bbox": [
+        32.2,
+        33.6,
+        586.1,
+        68.5
+      ],
+      "text": ""
+    },
+    {
+      "id": "e2",
+      "class": "text",
+      "bbox": [
+        27.3,
+        73.4,
+        584,
+        109
+      ],
+      "text": ""
+    },
+    {
+      "id": "e3",
+      "class": "text",
+      "bbox": [
+        32.3,
+        116.3,
+        581.4,
+        183.8
+      ],
+      "text": ""
+    },
+    {
+      "id": "e4",
+      "class": "text",
+      "bbox": [
+        29,
+        191.5,
+        570.3,
+        248.3
+      ],
+      "text": ""
+    },
+    {
+      "id": "e5",
+      "class": "page_number",
+      "bbox": [
+        298,
+        254.3,
+        316.6,
+        265
+      ],
+      "text": ""
+    },
+    {
+      "id": "e6",
+      "class": "text",
+      "bbox": [
+        33.5,
+        300,
+        579.3,
+        359
+      ],
+      "text": ""
+    },
+    {
+      "id": "e7",
+      "class": "text",
+      "bbox": [
+        32.5,
+        362,
+        575.1,
+        476.5
+      ],
+      "text": ""
+    },
+    {
+      "id": "e8",
+      "class": "text",
+      "bbox": [
+        34.9,
+        481.5,
+        581.3,
+        529.3
+      ],
+      "text": ""
+    },
+    {
+      "id": "e9",
+      "class": "text",
+      "bbox": [
+        28,
+        526.9,
+        580.9,
+        550.6
+      ],
+      "text": ""
+    },
+    {
+      "id": "e10",
+      "class": "text",
+      "bbox": [
+        27.3,
+        555.2,
+        577.3,
+        648.7
+      ],
+      "text": ""
+    },
+    {
+      "id": "e11",
+      "class": "text",
+      "bbox": [
+        26.7,
+        647.8,
+        570.6,
+        739.6
+      ],
+      "text": ""
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6",
+    "e7",
+    "e8",
+    "e9",
+    "e10",
+    "e11"
+  ],
   "tables": [],
   "key_values": [],
   "header_footer_lines": [],

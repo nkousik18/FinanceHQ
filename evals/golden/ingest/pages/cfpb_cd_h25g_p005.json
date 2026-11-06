@@ -7,14 +7,14 @@
   "scan_of": null,
   "scan_level": null,
   "page_size": [
-    612.0,
-    792.0
+    612,
+    792
   ],
-  "status": "prefilled",
+  "status": "verified",
   "from_scratch": false,
   "prefill_source": "docling 2.147.0 P1",
-  "labeled_by": null,
-  "verified_on": null,
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-06",
   "reference_text_source": "text_layer",
   "reference_text": null,
   "layout_elements": [
@@ -22,7 +22,7 @@
       "id": "e1",
       "class": "section_header",
       "bbox": [
-        36.0,
+        36,
         37.1,
         282.8,
         48.9
@@ -33,7 +33,7 @@
       "id": "e2",
       "class": "section_header",
       "bbox": [
-        42.0,
+        42,
         72.8,
         118.1,
         81.2
@@ -44,7 +44,7 @@
       "id": "e3",
       "class": "section_header",
       "bbox": [
-        36.0,
+        36,
         92.3,
         85.1,
         99.9
@@ -55,7 +55,7 @@
       "id": "e4",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         102.8,
         284.2,
         110.5
@@ -88,7 +88,7 @@
       "id": "e7",
       "class": "section_header",
       "bbox": [
-        36.0,
+        36,
         159.3,
         102.6,
         166.9
@@ -99,7 +99,7 @@
       "id": "e8",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         171.8,
         71.3,
         179.5
@@ -110,8 +110,8 @@
       "id": "e9",
       "class": "other",
       "bbox": [
-        35.0,
-        182.0,
+        35,
+        182,
         289.3,
         203.2
       ],
@@ -124,7 +124,7 @@
         34.8,
         204.8,
         173.1,
-        215.0
+        215
       ],
       "text": "does not have a demand feature. x"
     },
@@ -132,7 +132,7 @@
       "id": "e11",
       "class": "section_header",
       "bbox": [
-        36.0,
+        36,
         228.3,
         91.6,
         235.9
@@ -143,10 +143,10 @@
       "id": "e12",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         238.8,
         290.9,
-        257.0
+        257
       ],
       "text": "If your payment is more than 15 days late, your lender will charge a late fee of 5% of the monthly principal and interest payment."
     },
@@ -154,10 +154,10 @@
       "id": "e13",
       "class": "section_header",
       "bbox": [
-        36.0,
+        36,
         270.3,
         231.3,
-        278.0
+        278
       ],
       "text": "Negative Amortization (Increase in Loan Amount)"
     },
@@ -165,7 +165,7 @@
       "id": "e14",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         280.8,
         139.9,
         288.5
@@ -176,7 +176,7 @@
       "id": "e15",
       "class": "other",
       "bbox": [
-        35.0,
+        35,
         291.1,
         292.2,
         343.5
@@ -201,7 +201,7 @@
         37.2,
         400.4,
         217.4,
-        410.0
+        410
       ],
       "text": "do not have a negative amortization feature. x"
     },
@@ -209,7 +209,7 @@
       "id": "e18",
       "class": "section_header",
       "bbox": [
-        36.0,
+        36,
         425.3,
         103.6,
         432.9
@@ -220,7 +220,7 @@
       "id": "e19",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         437.8,
         79.1,
         445.5
@@ -242,9 +242,9 @@
       "id": "e21",
       "class": "other",
       "bbox": [
-        35.0,
+        35,
         470.6,
-        296.0,
+        296,
         492.2
       ],
       "text": "\u0007may hold them in a separate account until you pay the rest of the payment, and then apply the full payment to your loan. U1"
@@ -264,7 +264,7 @@
       "id": "e23",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         508.8,
         268.9,
         516.5
@@ -275,7 +275,7 @@
       "id": "e24",
       "class": "section_header",
       "bbox": [
-        36.0,
+        36,
         529.8,
         101.9,
         537.4
@@ -286,10 +286,10 @@
       "id": "e25",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         540.3,
         181.3,
-        560.0
+        560
       ],
       "text": "You are granting a security interest in 123 Anywhere Street, Anytown, ST 12345"
     },
@@ -297,10 +297,10 @@
       "id": "e26",
       "class": "text",
       "bbox": [
-        36.0,
+        36,
         584.8,
         276.3,
-        603.0
+        603
       ],
       "text": "You may lose this property if you do not make your payments or satisfy other obligations for this loan."
     },
@@ -308,7 +308,7 @@
       "id": "e27",
       "class": "section_header",
       "bbox": [
-        315.0,
+        315,
         91.7,
         378.7,
         99.3
@@ -319,7 +319,7 @@
       "id": "e28",
       "class": "text",
       "bbox": [
-        315.0,
+        315,
         102.2,
         386.7,
         109.9
@@ -331,7 +331,7 @@
       "class": "other",
       "bbox": [
         313.6,
-        112.0,
+        112,
         575.6,
         164.8
       ],
@@ -407,7 +407,7 @@
       "id": "e36",
       "class": "page_footer",
       "bbox": [
-        36.0,
+        36,
         768.6,
         113.2,
         775.4
@@ -420,7 +420,7 @@
       "bbox": [
         450.1,
         768.6,
-        576.0,
+        576,
         775.4
       ],
       "text": "PAGE 4 OF 5 · LOAN ID # 1234567890"
