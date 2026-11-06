@@ -1,7 +1,9 @@
 """Tests for evals/parsers/config.py (cache keys and lookup). Stdlib only."""
 import json
 
-from evals.parsers.config import P1, P2, cache_key, cache_path, is_cached, load_cached
+import pytest
+
+from evals.parsers.config import P1, P2, P1V, P2V, cache_key, cache_path, downstream_config, is_cached, load_cached
 
 
 def test_cache_key_stable_and_sensitive():
@@ -28,3 +30,17 @@ def test_configs_differ_only_in_table_mode():
     a, b = P1.as_dict(), P2.as_dict()   # P1V is a scans-only OCR diagnostic, compared separately
     diff = {k for k in a if a[k] != b[k]}
     assert diff == {"name", "table_mode"}
+
+
+def test_downstream_uses_vision_text_for_scans_only():
+    assert downstream_config("P1", "simulated_scan") == "P1V"
+    assert downstream_config("P2", "simulated_scan") == "P2V"
+    assert downstream_config("P2", "edgar") == "P2"
+    assert downstream_config("P1", "consumer") == "P1"
+    with pytest.raises(ValueError):
+        downstream_config("P1V", "edgar")
+
+
+def test_vision_variants_match_their_table_mode():
+    assert (P1V.table_mode, P2V.table_mode) == (P1.table_mode, P2.table_mode)
+    assert P1V.ocr_engine == P2V.ocr_engine == "ocrmac"

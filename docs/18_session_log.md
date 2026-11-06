@@ -7,6 +7,25 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-06 — OCR decision and agent handoff
+
+**Branch:** `feature/r1-corpus-parsing`
+
+| ID | Decision | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-06-1 | **Apple Vision OCR text downstream; Tesseract for confidence metrics and H7** | Vision reads heavy scans far better (numbers 73% vs 41%); Tesseract's confidence is the meaningful one | Scope v2 Decision Log; `evals/parsers/config.py` (`downstream_config`) |
+| S-2026-11-06-2 | Hand off to a fresh agent; handoff brief in `docs/19_handoff.md` | Conversation context was getting large | `docs/19_handoff.md` |
+
+Changes: `P2V` config added (accurate tables + Apple Vision), parsed on the 40 scans (103 s, 0 failures); `downstream_config()` + tests (128 evals tests pass).
+
+State: Kousik has verified 29 of 30 golden-set pages in the labelling app (files not yet committed by Kousik).
+
+### Open items
+- Kousik: verify the last golden page; commit the label files.
+- Next agent: run S0 on verified labels, write the S0 results doc, finish R1 (see `docs/19_handoff.md`).
+
+---
+
 ## 2026-11-04 (cont.) — R1 step 1–2: data rules and EDGAR corpus
 
 **Branch:** `feature/r1-corpus-parsing`

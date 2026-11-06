@@ -35,10 +35,24 @@ class ParserConfig:
 
 P1 = ParserConfig(name="P1", table_mode="fast")
 P2 = ParserConfig(name="P2", table_mode="accurate")
-# Diagnostic only (Decision Log 2026-11-04): P1 with Apple Vision OCR, run on the simulated
-# scans to report the accuracy given up by choosing Tesseract. Never used downstream.
+# Apple Vision OCR variants, parsed on the simulated scans only. Decision 2026-11-06
+# (S-2026-11-06-1): OCR'd text used DOWNSTREAM (chunks, retrieval, answers) comes from these;
+# confidence metrics and H7 keep using the Tesseract run (P1/P2), whose scores are informative.
 P1V = ParserConfig(name="P1V", table_mode="fast", ocr_engine="ocrmac", ocr_lang="en-US")
-CONFIGS = {c.name: c for c in (P1, P2, P1V)}
+P2V = ParserConfig(name="P2V", table_mode="accurate", ocr_engine="ocrmac", ocr_lang="en-US")
+CONFIGS = {c.name: c for c in (P1, P2, P1V, P2V)}
+VISION_VARIANT = {"P1": "P1V", "P2": "P2V"}
+
+
+def downstream_config(table_config: str, part: str) -> str:
+    """
+    Which parse cache feeds chunking/retrieval for a document. Simulated scans use the
+    Apple Vision variant of the chosen table config; digital documents use the config
+    itself (their text comes from the PDF text layer, so the OCR engine barely matters).
+    """
+    if table_config not in VISION_VARIANT:
+        raise ValueError(f"downstream table config must be one of {sorted(VISION_VARIANT)}")
+    return VISION_VARIANT[table_config] if part == "simulated_scan" else table_config
 
 
 def cache_key(doc_sha256: str, parser_version: str, config: ParserConfig) -> str:
