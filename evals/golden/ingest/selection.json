@@ -81,11 +81,27 @@
       "source_format": "html_rendered"
     },
     {
+      "doc_id": "deal_02_ca",
+      "page": 58,
+      "stratum": "digital_prose",
+      "from_scratch": false,
+      "page_id": "deal_02_ca_p058",
+      "source_format": "html_rendered"
+    },
+    {
       "doc_id": "deal_04_ca",
       "page": 87,
       "stratum": "digital_prose",
       "from_scratch": false,
       "page_id": "deal_04_ca_p087",
+      "source_format": "html_rendered"
+    },
+    {
+      "doc_id": "deal_05_am2",
+      "page": 1,
+      "stratum": "digital_prose",
+      "from_scratch": false,
+      "page_id": "deal_05_am2_p001",
       "source_format": "html_rendered"
     },
     {
@@ -105,14 +121,6 @@
       "source_format": "html_rendered"
     },
     {
-      "doc_id": "deal_07_ca",
-      "page": 55,
-      "stratum": "digital_prose",
-      "from_scratch": false,
-      "page_id": "deal_07_ca_p055",
-      "source_format": "html_rendered"
-    },
-    {
       "doc_id": "deal_09_ca",
       "page": 9,
       "stratum": "digital_prose",
@@ -126,14 +134,6 @@
       "stratum": "digital_prose",
       "from_scratch": false,
       "page_id": "deal_10_ca_p106",
-      "source_format": "html_rendered"
-    },
-    {
-      "doc_id": "deal_11_ca",
-      "page": 22,
-      "stratum": "digital_prose",
-      "from_scratch": false,
-      "page_id": "deal_11_ca_p022",
       "source_format": "html_rendered"
     },
     {
@@ -267,6 +267,18 @@
       "from_scratch": false,
       "page_id": "deal_12_ca_p148",
       "source_format": "html_rendered"
+    }
+  ],
+  "replaced": [
+    {
+      "old": "deal_07_ca_p055",
+      "new": "deal_02_ca_p058",
+      "reason": "S-2026-11-12-13: source is an image filing; page image was blank when labelled"
+    },
+    {
+      "old": "deal_11_ca_p022",
+      "new": "deal_05_am2_p001",
+      "reason": "S-2026-11-12-13: source is an image filing; page image was blank when labelled"
     }
   ]
 }

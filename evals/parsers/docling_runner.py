@@ -65,6 +65,11 @@ def build_converter(cfg: ParserConfig):
 
     if cfg.ocr_engine == "tesseract_cli":
         ocr = TesseractCliOcrOptions(lang=[cfg.ocr_lang])
+        if cfg.ocr_orientation == "fixed_0":
+            from evals.parsers.config import TESSERACT_NO_OSD
+            ocr.tesseract_cmd = str(TESSERACT_NO_OSD)
+        elif cfg.ocr_orientation != "osd":
+            raise ValueError(f"unsupported ocr_orientation {cfg.ocr_orientation}")
     elif cfg.ocr_engine == "ocrmac":
         from docling.datamodel.pipeline_options import OcrMacOptions
         ocr = OcrMacOptions(lang=[cfg.ocr_lang])

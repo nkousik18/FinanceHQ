@@ -1,0 +1,15 @@
+#!/bin/sh
+# Tesseract wrapper for Docling (S-2026-11-12-14).
+# Docling 2.147 always runs orientation detection (`tesseract --psm 0 -l osd`) and rotates
+# the page by whatever it reports, with no confidence threshold. On heavy simulated scans
+# Tesseract wrongly reports 180/270 degrees (confidence 0.1-3), so the page was OCR'd upside
+# down. Our scans are never rotated (only skewed +-2 deg), so this wrapper answers the
+# orientation check with 0 degrees and passes every other call to the real tesseract.
+# Real binary: $TESSERACT_REAL, else `tesseract` on PATH.
+REAL="${TESSERACT_REAL:-tesseract}"
+case " $* " in
+  *" --psm 0 -l osd "*)
+    printf 'Page number: 0\nOrientation in degrees: 0\nRotate: 0\nOrientation confidence: 0.00\nScript: Latin\nScript confidence: 0.00\n'
+    exit 0 ;;
+esac
+exec "$REAL" "$@"

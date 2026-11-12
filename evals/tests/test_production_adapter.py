@@ -93,3 +93,24 @@ def test_aggregate_rates():
     assert a["documents"] == 2 and a["repairs"]["header:shinhan_bank"] == 2
     assert a["table_cell_corruption_rate"] == 2 / 8
     assert a["docs_with_code"]["warning:MISSING_REQUIRED_FIELD"] == 2
+
+
+def test_counters_match_real_cleaner_output_for_both_versions():
+    """The repair counters predict each cell's cleaned value; check them against the cleaner itself."""
+    from app.pipeline import cleaner as C
+    from evals.ingest_metrics.cleaning import _value_repairs
+    er = to_extraction_result(_cached(), "doc1")
+    for version in C.CLEANING_VERSIONS:
+        cleaned = C.clean_extraction(er, version=version)
+        raw = {(c.row, c.col): c.text for c in er.tables[0].cells}
+        for r, row in enumerate(cleaned.tables[0].data, 1):
+            for col, out in enumerate(row, 1):
+                changed = out != raw[(r, col)].strip()
+                predicted = _value_repairs(raw[(r, col)], repair_numbers=(version == "v1"))
+                assert changed == bool(predicted["number_space"] or predicted["digit_letter"]), (version, r, col)
+
+
+def test_run_doc_v2_leaves_table_numbers_alone():
+    m = run_doc(to_extraction_result(_cached(), "doc1"), version="v2")
+    assert m["cleaning_version"] == "v2"
+    assert m["repairs"]["table:number_space"] == 0 and m["repairs"]["table:number_corrupted"] == 0

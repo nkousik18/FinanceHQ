@@ -40,6 +40,7 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 2. ~~S0 run~~ (2026-11-12): **P2 wins**; H10 supported; H6 not supported. Disputed tables were settled by the agent at Kousik's request (S-2026-11-12-1, disclosed in §4.0). Re-render tables with `venv/bin/python -m evals.ingest_metrics.s0_report`.
 3. Downstream config from now on: `downstream_config("P2", part)` (P2 digital, P2V scans).
 4. ~~Cleaning / validation metrics~~ done 2026-11-12 via `evals/parsers/production_adapter.py` (Docling → `ExtractionResult`; R2's chunker can use the same adapter). Run `venv/bin/python -m evals.ingest_metrics.run_cleaning`. Split-table rate stays a recorded gap.
+   **Cleaner v2** (`clean_extraction(..., version="v2")`) is the downstream cleaning for evals; production default stays v1 (S-2026-11-12-12).
 5. Open the R1 PR to `main`; ask Kousik before starting R2.
 
 **After R1:** R2 (chunker interface with provenance; C1 = exact production chunker, N2 equality test; C2–C5), R3 (QA golden set, 120 questions), R4 (retrieval metrics, S1), then **stop for review** (D9).

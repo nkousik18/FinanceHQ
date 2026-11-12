@@ -41,11 +41,12 @@ def _header_hits(text: str) -> dict[str, int]:
     return hits
 
 
-def _value_repairs(raw: str) -> dict[str, int]:
+def _value_repairs(raw: str, repair_numbers: bool = True) -> dict[str, int]:
     """Which value fixes fire on one value. `number_corrupted`: the number-space repair changed
-    the value's numbers (e.g. "29 29" -> "2929"), not just its formatting ("1." -> "1")."""
+    the value's numbers (e.g. "29 29" -> "2929"), not just its formatting ("1." -> "1").
+    `repair_numbers=False` mirrors cleaner v2 on table cells (no number-space repair)."""
     v = raw.strip()
-    n = C._clean_number(v)
+    n = C._clean_number(v) if repair_numbers else v
     d = C._clean_digit_letter_concat(n)
     corrupted = n != v and sorted(numeric_tokens(n)) != sorted(numeric_tokens(v))
     return {"number_space": int(n != v), "number_corrupted": int(corrupted), "digit_letter": int(d != n)}
@@ -55,14 +56,15 @@ def _chars(extraction_pages, tables_text: list[str]) -> int:
     return sum(len(p.text) for p in extraction_pages) + sum(len(t) for t in tables_text)
 
 
-def run_doc(extraction, reference: Callable[[int], str | None] | None = None) -> dict:
+def run_doc(extraction, reference: Callable[[int], str | None] | None = None,
+            version: str = C.DEFAULT_CLEANING_VERSION) -> dict:
     """
     Clean + validate one document and measure it.
     `reference(page)` -> reference text or None (for over-cleaning). Only called for pages the
     cleaner changed; pages it left alone count as checked and not over-cleaned.
     """
     t0 = time.perf_counter()
-    cleaned = C.clean_extraction(extraction)
+    cleaned = C.clean_extraction(extraction, version=version)
     t1 = time.perf_counter()
     report = validate_extraction(cleaned)
     t2 = time.perf_counter()
@@ -77,7 +79,7 @@ def run_doc(extraction, reference: Callable[[int], str | None] | None = None) ->
             repairs[f"header:{k}"] += v
     for t in extraction.tables:
         for c in t.cells:
-            for k, v in _value_repairs(c.text).items():
+            for k, v in _value_repairs(c.text, repair_numbers=(version == "v1")).items():
                 repairs[f"table:{k}"] += v
     kept = [f for f in extraction.form_fields if f.value.strip() or f.key.strip() not in C._CHECKBOX_KEYS]
     repairs["field:checkbox_dropped"] = len(extraction.form_fields) - len(kept)
@@ -112,6 +114,7 @@ def run_doc(extraction, reference: Callable[[int], str | None] | None = None) ->
         key = f"{i.severity.value}:{i.code}"
         codes[key] = codes.get(key, 0) + 1
     return {
+        "cleaning_version": version,
         "pages": len(extraction.pages),
         "repairs": repairs,
         "chars_before": before,

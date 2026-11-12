@@ -28,13 +28,21 @@ class ParserConfig:
     ocr_lang: str = "eng"
     device: str = "mps"          # Apple GPU; cpu as fallback
     num_threads: int = 8
+    # "osd": Docling's default (Tesseract orientation detection decides rotation).
+    # "fixed_0": answer orientation detection with 0 deg via evals/parsers/bin/tesseract-no-osd
+    # (S-2026-11-12-14: OSD flipped heavy scans upside down). Tesseract configs only.
+    ocr_orientation: str = "osd"
 
     def as_dict(self) -> dict:
-        return asdict(self)
+        d = asdict(self)
+        if d["ocr_orientation"] == "osd":
+            del d["ocr_orientation"]   # default left out, so cache keys of untouched configs don't change
+        return d
 
 
-P1 = ParserConfig(name="P1", table_mode="fast")
-P2 = ParserConfig(name="P2", table_mode="accurate")
+P1 = ParserConfig(name="P1", table_mode="fast", ocr_orientation="fixed_0")
+P2 = ParserConfig(name="P2", table_mode="accurate", ocr_orientation="fixed_0")
+TESSERACT_NO_OSD = REPO / "evals" / "parsers" / "bin" / "tesseract-no-osd"
 # Apple Vision OCR variants, parsed on the simulated scans only. Decision 2026-11-06
 # (S-2026-11-06-1): OCR'd text used DOWNSTREAM (chunks, retrieval, answers) comes from these;
 # confidence metrics and H7 keep using the Tesseract run (P1/P2), whose scores are informative.

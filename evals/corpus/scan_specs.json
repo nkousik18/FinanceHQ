@@ -547,7 +547,7 @@
         "paper_grey": 250,
         "skew_deg": 0.057
       },
-      "image_sha256": "0f329d5930b9704c101fa879645fc77eaf1d99a854b2a00c2fd4a7e64a9b4e2c"
+      "image_sha256": "95722d44821e707cf7c25440380aa9e34b36b1f58d39b5ed51dc71149043680d"
     },
     {
       "scan_id": "scan_28",
@@ -623,7 +623,7 @@
         "paper_grey": 242,
         "skew_deg": -0.177
       },
-      "image_sha256": "e800a7a8179a36124a7193fb4901fd68bf7f1a39fb2237cd2dfbed4738d549f7"
+      "image_sha256": "f78d477ca09d02c80df2fb7fcc0ecabf9984fce9a8c34f9e81389c499e6d9138"
     },
     {
       "scan_id": "scan_32",
@@ -642,7 +642,7 @@
         "paper_grey": 232,
         "skew_deg": 0.927
       },
-      "image_sha256": "2d8fccd4ba43dfc7535055798877c2a113e835ee7ea327f6dfc336eafcdea8be"
+      "image_sha256": "a5f761f984a99a85023cb9d9d09e7873cf8c9b2f96ec0560e880069d683d41dd"
     },
     {
       "scan_id": "scan_33",

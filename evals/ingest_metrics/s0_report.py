@@ -94,7 +94,7 @@ def render_cleaning(c: dict) -> str:
     rows = [(cfg, part, a) for cfg, parts in c["configs"].items() for part, a in parts.items()
             if isinstance(a, dict) and a.get("documents")]
     out = ["### Cleaning (production cleaner on Docling output)", "",
-           "| Config | Part | docs | pages | chars removed % | over-cleaned pages | number-space fixes | "
+           "| Config / cleaner | Part | docs | pages | chars removed % | over-cleaned pages | number-space fixes | "
            "of which corrupted numbers | table cells | header lines removed |",
            "|---|---|---|---|---|---|---|---|---|---|"]
     for cfg, part, a in rows:
@@ -106,7 +106,7 @@ def render_cleaning(c: dict) -> str:
                    f"{r['table:number_space']} | {r['table:number_corrupted']} | {a['table_cells']} | {hdr} |")
     codes = sorted({k for _, _, a in rows for k in a["docs_with_code"]})
     out += ["", "### Validation (production validator; documents with each issue)", "",
-            "| Config | Part | docs | failed (ERROR) | " + " | ".join(codes) + " |",
+            "| Config / cleaner | Part | docs | failed (ERROR) | " + " | ".join(codes) + " |",
             "|---|---|---|---|" + "---|" * len(codes)]
     for cfg, part, a in rows:
         out.append(f"| {cfg} | {part} | {a['documents']} | {a['validation_failed_docs']} | "
