@@ -36,10 +36,9 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 - §8.1 metrics + S0 runner written and tested (128 evals tests); dry run works.
 
 **R1 remaining (in order):**
-1. Kousik verifies page 30 and commits his label files (`labeling status` shows progress).
-2. **Write the pre-registered hypotheses (§11) into the S0 results doc before running S0** (scope rule).
-3. Run S0 on verified labels: `venv/bin/python -m evals.ingest_metrics.run_s0 --configs P1 P2 P1V --mlflow`.
-   Report P1-vs-P2 decision (cell accuracy, paired bootstrap, tie → faster), ★ metrics with CIs, from-scratch (5) vs pre-filled (25) pages separately, per-stratum n, H6 and H10 outcomes, plus the corpus findings below. Numbers come from the run, never typed by hand (F7).
+1. ~~Golden set verified and committed~~ (30/30). ~~Pre-registration~~ (`docs/20_s0_results.md` §1–3).
+2. ~~S0 run~~ (2026-11-12): **P2 wins**; H10 supported; H6 not supported. Disputed tables were settled by the agent at Kousik's request (S-2026-11-12-1, disclosed in §4.0). Re-render tables with `venv/bin/python -m evals.ingest_metrics.s0_report`.
+3. Downstream config from now on: `downstream_config("P2", part)` (P2 digital, P2V scans).
 4. Not yet implemented from §8.1: cleaning metrics (repair counts, chars removed, over-cleaning rate), per-stage latency beyond parsing, validation warnings/errors per doc. They need an adapter from Docling's output into the production `CleanedResult`/cleaner/validator — the same adapter R2 needs. Split-table rate is a recorded gap (per-page labels can't show it).
 5. Open the R1 PR to `main`; ask Kousik before starting R2.
 

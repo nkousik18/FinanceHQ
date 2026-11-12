@@ -475,9 +475,11 @@
         575.6,
         354.5
       ],
-      "num_rows": 6,
+      "num_rows": 5,
       "num_cols": 3,
-      "header_rows": [],
+      "header_rows": [
+        0
+      ],
       "cells": [
         {
           "row": 0,
@@ -526,72 +528,54 @@
           "col": 2,
           "row_span": 1,
           "col_span": 1,
-          "text": "Estimated total amount over year 1 for your non-escrowed property costs:"
+          "text": "Estimated total amount over year 1 for your non-escrowed property costs: You may have other property costs."
         },
         {
           "row": 3,
-          "col": 0,
-          "row_span": 1,
-          "col_span": 1,
-          "text": ""
-        },
-        {
-          "row": 3,
-          "col": 1,
-          "row_span": 1,
-          "col_span": 1,
-          "text": ""
-        },
-        {
-          "row": 3,
-          "col": 2,
-          "row_span": 1,
-          "col_span": 1,
-          "text": "You may have other property costs."
-        },
-        {
-          "row": 4,
           "col": 0,
           "row_span": 1,
           "col_span": 1,
           "text": "Initial Escrow Payment"
         },
         {
-          "row": 4,
+          "row": 3,
           "col": 1,
           "row_span": 1,
           "col_span": 1,
           "text": "$576.95"
         },
         {
-          "row": 4,
+          "row": 3,
           "col": 2,
           "row_span": 1,
           "col_span": 1,
           "text": "A cushion for the escrow account you pay at closing. See Section G on page 2."
         },
         {
-          "row": 5,
+          "row": 4,
           "col": 0,
           "row_span": 1,
           "col_span": 1,
           "text": "Monthly Escrow Payment"
         },
         {
-          "row": 5,
+          "row": 4,
           "col": 1,
           "row_span": 1,
           "col_span": 1,
           "text": "$206.13"
         },
         {
-          "row": 5,
+          "row": 4,
           "col": 2,
           "row_span": 1,
           "col_span": 1,
           "text": "The amount included in your total monthly payment."
         }
-      ]
+      ],
+      "adjudication": "P2",
+      "settled_by": "agent",
+      "settle_note": "P2 rows; 'You may have other property costs.' moved to the Non-Escrowed row (both parsers misplaced it)"
     },
     {
       "id": "t2",
@@ -642,5 +626,5 @@
     "CLOSING DISCLOSURE",
     "PAGE 4 OF 5 · LOAN ID # 1234567890"
   ],
-  "notes": ""
+  "notes": "Disputed P1/P2 tables settled by the agent from the page image (2026-11-12, settle_tables_agent.py)."
 }

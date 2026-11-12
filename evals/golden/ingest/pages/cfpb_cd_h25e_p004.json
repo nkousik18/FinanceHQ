@@ -383,7 +383,7 @@
         702.1
       ],
       "num_rows": 6,
-      "num_cols": 5,
+      "num_cols": 4,
       "header_rows": [
         0
       ],
@@ -414,14 +414,7 @@
           "col": 3,
           "row_span": 1,
           "col_span": 1,
-          "text": "this"
-        },
-        {
-          "row": 0,
-          "col": 4,
-          "row_span": 1,
-          "col_span": 1,
-          "text": "Did change?"
+          "text": "Did this change?"
         },
         {
           "row": 1,
@@ -452,13 +445,6 @@
           "text": "NO"
         },
         {
-          "row": 1,
-          "col": 4,
-          "row_span": 1,
-          "col_span": 1,
-          "text": ""
-        },
-        {
           "row": 2,
           "col": 0,
           "row_span": 1,
@@ -484,14 +470,7 @@
           "col": 3,
           "row_span": 1,
           "col_span": 1,
-          "text": "YES"
-        },
-        {
-          "row": 2,
-          "col": 4,
-          "row_span": 1,
-          "col_span": 1,
-          "text": "· See Total Loan Costs (D) and Total Other Costs (I)"
+          "text": "YES · See Total Loan Costs (D) and Total Other Costs (I)"
         },
         {
           "row": 3,
@@ -519,14 +498,7 @@
           "col": 3,
           "row_span": 1,
           "col_span": 1,
-          "text": "YES"
-        },
-        {
-          "row": 3,
-          "col": 4,
-          "row_span": 1,
-          "col_span": 1,
-          "text": "· You paid these Closing Costs before closing"
+          "text": "YES · You paid these Closing Costs before closing"
         },
         {
           "row": 4,
@@ -554,14 +526,7 @@
           "col": 3,
           "row_span": 1,
           "col_span": 1,
-          "text": "YES"
-        },
-        {
-          "row": 4,
-          "col": 4,
-          "row_span": 1,
-          "col_span": 1,
-          "text": "· \u0007See Payoffs and Payments (K)"
+          "text": "YES · \u0007See Payoffs and Payments (K)"
         },
         {
           "row": 5,
@@ -575,30 +540,26 @@
           "col": 1,
           "row_span": 1,
           "col_span": 1,
-          "text": "$24,901.00 From To Borrower x oO"
+          "text": "$24,901.00 From To Borrower"
         },
         {
           "row": 5,
           "col": 2,
           "row_span": 1,
           "col_span": 1,
-          "text": "$29,677.43 From To Borrower x oO"
+          "text": "$29,677.43 From To Borrower"
         },
         {
           "row": 5,
           "col": 3,
           "row_span": 1,
           "col_span": 1,
-          "text": "Closing Costs"
-        },
-        {
-          "row": 5,
-          "col": 4,
-          "row_span": 1,
-          "col_span": 1,
-          "text": "Financed (Paid from your Loan Amount) $5,322.57"
+          "text": "Closing Costs Financed (Paid from your Loan Amount) $5,322.57"
         }
-      ]
+      ],
+      "adjudication": "P2",
+      "settled_by": "agent",
+      "settle_note": "'Did this change?' is one column (P2); checkbox OCR junk removed"
     }
   ],
   "key_values": [],
@@ -607,5 +568,5 @@
     "CLOSING DISCLOSURE",
     "PAGE 3 OF 5 · LOAN ID # 123456789"
   ],
-  "notes": ""
+  "notes": "Disputed P1/P2 tables settled by the agent from the page image (2026-11-12, settle_tables_agent.py)."
 }

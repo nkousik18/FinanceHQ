@@ -7,6 +7,26 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-12 — Golden-set tables settled by the agent; S0 run
+
+**Branch:** `feature/r1-corpus-parsing`
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-12-1 | **Agent (Claude) settles the 13 disputed P1/P2 tables and types the from-scratch tables from the page images**, instead of Kousik | Kousik's request (no time to check each table). Disclosed in the results; every touched table is marked `settled_by: "agent"` | `evals/golden/ingest/settle_tables_agent.py`; label files; `docs/20_s0_results.md` §4.0 |
+| S-2026-11-12-2 | Settling rules: grid follows the image; start from P1/P2 when one has the right structure (`adjudication` = P1/P2), else type it (`own`); fix text that differs from the image, including OCR misreads and text-layer content not visible on the page | Labels must match the image (README) | same |
+| S-2026-11-12-3 | `cfpb_le_h24b_p003`: the single table entry was on the page heading (e1). e1 reclassified as `section_header`; 10 tables (e2–e11) typed | Labelling error found while settling | label file notes |
+| S-2026-11-12-4 | **S0 decision: P2** (cell accuracy P2 − P1 = +13.0 pts, CI 2.0–24.2, n = 32 tables). **H10 supported** (+16.4, CI 3.6–33.6, n = 9). **H6 not supported** (with disclosure) | Pre-registered rules in `docs/20_s0_results.md` §2 | `docs/20_s0_results.md` §4 |
+| S-2026-11-12-5 | Results tables generated from `summary.json` by `evals/ingest_metrics/s0_report.py` | F7 (no hand-typed numbers) | `evals/ingest_metrics/s0_report.py` |
+
+Settled: P2 grid 7, P1 grid 3, typed 3. 141 evals tests pass (3 new: settle grid helper, report renderer).
+
+### Open items
+- Kousik (optional): spot-check the agent's grids in the app (Compare tab; `settled_by` in the label files).
+- R1 remaining: cleaning/validation metrics need the Docling → `CleanedResult` adapter (shared with R2); open the R1 PR; ask before R2.
+
+---
+
 ## 2026-11-06 — OCR decision and agent handoff
 
 **Branch:** `feature/r1-corpus-parsing`

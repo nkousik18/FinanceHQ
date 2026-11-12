@@ -489,7 +489,7 @@
         646.1
       ],
       "num_rows": 10,
-      "num_cols": 5,
+      "num_cols": 6,
       "header_rows": [
         0
       ],
@@ -499,32 +499,39 @@
           "col": 0,
           "row_span": 1,
           "col_span": 1,
-          "text": "Lender"
+          "text": ""
         },
         {
           "row": 0,
           "col": 1,
           "row_span": 1,
           "col_span": 1,
-          "text": "Mortgage Broker"
+          "text": "Lender"
         },
         {
           "row": 0,
           "col": 2,
           "row_span": 1,
           "col_span": 1,
-          "text": "Real Estate Broker (B)"
+          "text": "Mortgage Broker"
         },
         {
           "row": 0,
           "col": 3,
           "row_span": 1,
           "col_span": 1,
-          "text": "Real Estate Broker (S)"
+          "text": "Real Estate Broker (B)"
         },
         {
           "row": 0,
           "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Real Estate Broker (S)"
+        },
+        {
+          "row": 0,
+          "col": 5,
           "row_span": 1,
           "col_span": 1,
           "text": "Settlement Agent"
@@ -534,14 +541,14 @@
           "col": 0,
           "row_span": 1,
           "col_span": 1,
-          "text": "Ficus Bank"
+          "text": "Name"
         },
         {
           "row": 1,
           "col": 1,
           "row_span": 1,
           "col_span": 1,
-          "text": "FRIENDLY MORTGAGE BROKER INC. Omega Real Estate Broker Inc."
+          "text": "Ficus Bank"
         },
         {
           "row": 1,
@@ -555,49 +562,63 @@
           "col": 3,
           "row_span": 1,
           "col_span": 1,
-          "text": "Alpha Real Estate Broker Co. Epsilon Title Co."
+          "text": "Omega Real Estate Broker Inc."
         },
         {
           "row": 1,
           "col": 4,
           "row_span": 1,
           "col_span": 1,
-          "text": "Name"
+          "text": "Alpha Real Estate Broker Co."
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Epsilon Title Co."
         },
         {
           "row": 2,
           "col": 0,
           "row_span": 1,
           "col_span": 1,
-          "text": "4321 Random Blvd. Somecity, ST 12340"
+          "text": "Address"
         },
         {
           "row": 2,
           "col": 1,
           "row_span": 1,
           "col_span": 1,
-          "text": "1234 Terrapin Dr. Somecity, MD 54321 789 Local Lane Sometown, ST 12345"
+          "text": "4321 Random Blvd. Somecity, ST 12340"
         },
         {
           "row": 2,
           "col": 2,
           "row_span": 1,
           "col_span": 1,
-          "text": "987 Suburb Ct. Someplace, ST 12340"
+          "text": ""
         },
         {
           "row": 2,
           "col": 3,
           "row_span": 1,
           "col_span": 1,
-          "text": "123 Commerce Pl. Somecity, ST 12344"
+          "text": "789 Local Lane Sometown, ST 12345"
         },
         {
           "row": 2,
           "col": 4,
           "row_span": 1,
           "col_span": 1,
-          "text": "Address"
+          "text": "987 Suburb Ct. Someplace, ST 12340"
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "123 Commerce Pl. Somecity, ST 12344"
         },
         {
           "row": 3,
@@ -611,7 +632,7 @@
           "col": 1,
           "row_span": 1,
           "col_span": 1,
-          "text": "222222"
+          "text": ""
         },
         {
           "row": 3,
@@ -632,94 +653,115 @@
           "col": 4,
           "row_span": 1,
           "col_span": 1,
-          "text": "45"
+          "text": ""
         },
         {
-          "row": 4,
-          "col": 0,
+          "row": 3,
+          "col": 5,
           "row_span": 1,
           "col_span": 1,
           "text": ""
         },
         {
           "row": 4,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "ST License ID"
+        },
+        {
+          "row": 4,
           "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 3,
           "row_span": 1,
           "col_span": 1,
           "text": "Z765416"
         },
         {
           "row": 4,
-          "col": 2,
+          "col": 4,
           "row_span": 1,
           "col_span": 1,
           "text": "Z61456"
         },
         {
           "row": 4,
-          "col": 3,
+          "col": 5,
           "row_span": 1,
           "col_span": 1,
           "text": "Z61616"
         },
         {
-          "row": 4,
-          "col": 4,
+          "row": 5,
+          "col": 0,
           "row_span": 1,
           "col_span": 1,
-          "text": "ST License ID"
+          "text": "Contact"
         },
         {
           "row": 5,
-          "col": 0,
+          "col": 1,
           "row_span": 1,
           "col_span": 1,
           "text": "Joe Smith"
         },
         {
           "row": 5,
-          "col": 1,
+          "col": 2,
           "row_span": 1,
           "col_span": 1,
-          "text": "JIM TAYLOR Samuel Green"
+          "text": ""
         },
         {
           "row": 5,
-          "col": 2,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Samuel Green"
+        },
+        {
+          "row": 5,
+          "col": 4,
           "row_span": 1,
           "col_span": 1,
           "text": "Joseph Cain"
         },
         {
           "row": 5,
-          "col": 3,
+          "col": 5,
           "row_span": 1,
           "col_span": 1,
           "text": "Sarah Arnold"
         },
         {
-          "row": 5,
-          "col": 4,
+          "row": 6,
+          "col": 0,
           "row_span": 1,
           "col_span": 1,
-          "text": "Contact"
+          "text": "Contact NMLS ID"
         },
         {
           "row": 6,
-          "col": 0,
+          "col": 1,
           "row_span": 1,
           "col_span": 1,
           "text": "12345"
         },
         {
           "row": 6,
-          "col": 1,
-          "row_span": 1,
-          "col_span": 1,
-          "text": "394784"
-        },
-        {
-          "row": 6,
           "col": 2,
           "row_span": 1,
           "col_span": 1,
@@ -737,114 +779,145 @@
           "col": 4,
           "row_span": 1,
           "col_span": 1,
-          "text": "Contact NMLS ID"
+          "text": ""
         },
         {
-          "row": 7,
-          "col": 0,
+          "row": 6,
+          "col": 5,
           "row_span": 1,
           "col_span": 1,
           "text": ""
         },
         {
           "row": 7,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Contact ST License ID"
+        },
+        {
+          "row": 7,
           "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 3,
           "row_span": 1,
           "col_span": 1,
           "text": "P16415"
         },
         {
           "row": 7,
-          "col": 2,
+          "col": 4,
           "row_span": 1,
           "col_span": 1,
           "text": "P51461"
         },
         {
           "row": 7,
-          "col": 3,
+          "col": 5,
           "row_span": 1,
           "col_span": 1,
           "text": "PT1234"
         },
         {
-          "row": 7,
-          "col": 4,
+          "row": 8,
+          "col": 0,
           "row_span": 1,
           "col_span": 1,
-          "text": "Contact ST License ID"
+          "text": "Email"
         },
         {
           "row": 8,
-          "col": 0,
+          "col": 1,
           "row_span": 1,
           "col_span": 1,
           "text": "joesmith@ ficusbank.com"
         },
         {
           "row": 8,
-          "col": 1,
+          "col": 2,
           "row_span": 1,
           "col_span": 1,
-          "text": "JTAYLOR@ FRNDLYMTGBRKR.CM sam@omegare.biz"
+          "text": ""
         },
         {
           "row": 8,
-          "col": 2,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "sam@omegare.biz"
+        },
+        {
+          "row": 8,
+          "col": 4,
           "row_span": 1,
           "col_span": 1,
           "text": "joe@alphare.biz"
         },
         {
           "row": 8,
-          "col": 3,
+          "col": 5,
           "row_span": 1,
           "col_span": 1,
           "text": "sarah@ epsilontitle.com"
-        },
-        {
-          "row": 8,
-          "col": 4,
-          "row_span": 1,
-          "col_span": 1,
-          "text": "Email"
         },
         {
           "row": 9,
           "col": 0,
           "row_span": 1,
           "col_span": 1,
-          "text": "123-456-7890"
+          "text": "Phone"
         },
         {
           "row": 9,
           "col": 1,
           "row_span": 1,
           "col_span": 1,
-          "text": "333-444-5555 123-555-1717"
+          "text": "123-456-7890"
         },
         {
           "row": 9,
           "col": 2,
           "row_span": 1,
           "col_span": 1,
-          "text": "321-555-7171"
+          "text": ""
         },
         {
           "row": 9,
           "col": 3,
           "row_span": 1,
           "col_span": 1,
-          "text": "987-555-4321"
+          "text": "123-555-1717"
         },
         {
           "row": 9,
           "col": 4,
           "row_span": 1,
           "col_span": 1,
-          "text": "Phone"
+          "text": "321-555-7171"
+        },
+        {
+          "row": 9,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "987-555-4321"
         }
-      ]
+      ],
+      "adjudication": "P2",
+      "settled_by": "agent",
+      "settle_note": "P2 orientation matches the page; Mortgage Broker column and '45' are invisible text-layer content, blanked"
     }
   ],
   "key_values": [],
@@ -852,5 +925,5 @@
     "CLOSING DISCLOSURE",
     "PAGE 5 OF 5 · LOAN ID # 123456789"
   ],
-  "notes": ""
+  "notes": "Disputed P1/P2 tables settled by the agent from the page image (2026-11-12, settle_tables_agent.py)."
 }

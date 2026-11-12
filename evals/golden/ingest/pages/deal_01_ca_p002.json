@@ -727,21 +727,21 @@
           "col": 1,
           "row_span": 1,
           "col_span": 1,
-          "text": "Section 4.3 Section 4.4"
+          "text": "Section 4.3"
         },
         {
           "row": 24,
           "col": 2,
           "row_span": 1,
           "col_span": 1,
-          "text": "Binding Agreement. Litigation."
+          "text": "Binding Agreement."
         },
         {
           "row": 24,
           "col": 3,
           "row_span": 1,
           "col_span": 1,
-          "text": "30 30"
+          "text": "30"
         },
         {
           "row": 25,
@@ -752,38 +752,38 @@
         },
         {
           "row": 25,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.4"
+        },
+        {
+          "row": 25,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Litigation."
+        },
+        {
+          "row": 25,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "30"
+        },
+        {
+          "row": 26,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 26,
           "col": 1,
           "row_span": 1,
           "col_span": 1,
           "text": "Section 4.5"
-        },
-        {
-          "row": 25,
-          "col": 2,
-          "row_span": 1,
-          "col_span": 1,
-          "text": ""
-        },
-        {
-          "row": 25,
-          "col": 3,
-          "row_span": 1,
-          "col_span": 1,
-          "text": "31"
-        },
-        {
-          "row": 26,
-          "col": 0,
-          "row_span": 1,
-          "col_span": 1,
-          "text": ""
-        },
-        {
-          "row": 26,
-          "col": 1,
-          "row_span": 1,
-          "col_span": 1,
-          "text": ""
         },
         {
           "row": 26,
@@ -797,7 +797,7 @@
           "col": 3,
           "row_span": 1,
           "col_span": 1,
-          "text": ""
+          "text": "31"
         },
         {
           "row": 27,
@@ -811,21 +811,21 @@
           "col": 1,
           "row_span": 1,
           "col_span": 1,
-          "text": "Section 4.6 Section 4.7"
+          "text": "Section 4.6"
         },
         {
           "row": 27,
           "col": 2,
           "row_span": 1,
           "col_span": 1,
-          "text": "Absence of Defaults; No Conflicting Agreements. Compliance with Applicable Laws."
+          "text": "Absence of Defaults; No Conflicting Agreements."
         },
         {
           "row": 27,
           "col": 3,
           "row_span": 1,
           "col_span": 1,
-          "text": "31 31"
+          "text": "31"
         },
         {
           "row": 28,
@@ -836,45 +836,45 @@
         },
         {
           "row": 28,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.7"
+        },
+        {
+          "row": 28,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Compliance with Applicable Laws."
+        },
+        {
+          "row": 28,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "31"
+        },
+        {
+          "row": 29,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 29,
           "col": 1,
           "row_span": 1,
           "col_span": 1,
           "text": "Section 4.8"
         },
         {
-          "row": 28,
+          "row": 29,
           "col": 2,
           "row_span": 1,
           "col_span": 1,
           "text": "Taxes."
-        },
-        {
-          "row": 28,
-          "col": 3,
-          "row_span": 1,
-          "col_span": 1,
-          "text": ""
-        },
-        {
-          "row": 29,
-          "col": 0,
-          "row_span": 1,
-          "col_span": 1,
-          "text": ""
-        },
-        {
-          "row": 29,
-          "col": 1,
-          "row_span": 1,
-          "col_span": 1,
-          "text": ""
-        },
-        {
-          "row": 29,
-          "col": 2,
-          "row_span": 1,
-          "col_span": 1,
-          "text": ""
         },
         {
           "row": 29,
@@ -967,12 +967,15 @@
           "col_span": 1,
           "text": "32"
         }
-      ]
+      ],
+      "adjudication": "P2",
+      "settled_by": "agent",
+      "settle_note": "P2 keeps one TOC entry per row; P1 merged 4.3/4.4 and 4.6/4.7"
     }
   ],
   "key_values": [],
   "header_footer_lines": [
     "i"
   ],
-  "notes": ""
+  "notes": "Disputed P1/P2 tables settled by the agent from the page image (2026-11-12, settle_tables_agent.py)."
 }

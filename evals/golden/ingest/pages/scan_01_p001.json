@@ -192,7 +192,7 @@
           "col": 3,
           "row_span": 1,
           "col_span": 1,
-          "text": "—_ Michael Jones and Mary Stone"
+          "text": "Michael Jones and Mary Stone"
         },
         {
           "row": 1,
@@ -374,7 +374,7 @@
           "col": 5,
           "row_span": 1,
           "col_span": 1,
-          "text": "[& Conventional FHA"
+          "text": "Conventional FHA"
         },
         {
           "row": 6,
@@ -416,7 +416,7 @@
           "col": 5,
           "row_span": 1,
           "col_span": 1,
-          "text": "OVA O"
+          "text": "VA"
         },
         {
           "row": 7,
@@ -502,7 +502,10 @@
           "col_span": 1,
           "text": "000654321"
         }
-      ]
+      ],
+      "adjudication": "P1",
+      "settled_by": "agent",
+      "settle_note": "P1 keeps one line per row; P2 merged lines. OCR junk removed"
     },
     {
       "id": "t2",
@@ -517,11 +520,7 @@
       "num_cols": 3,
       "header_rows": [
         0,
-        1,
-        2,
-        4,
-        5,
-        6
+        4
       ],
       "cells": [
         {
@@ -529,13 +528,20 @@
           "col": 0,
           "row_span": 1,
           "col_span": 1,
-          "text": "oan Te"
+          "text": "Loan Terms"
         },
         {
           "row": 0,
           "col": 1,
           "row_span": 1,
-          "col_span": 2,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
           "text": "Can this amount increase after closing?"
         },
         {
@@ -612,7 +618,14 @@
           "row": 4,
           "col": 1,
           "row_span": 1,
-          "col_span": 2,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
           "text": "Does the loan have these features?"
         },
         {
@@ -634,7 +647,7 @@
           "col": 2,
           "row_span": 1,
           "col_span": 1,
-          "text": "YES -Ashigh as $3,240 if you pay off the loan during the first 2 years"
+          "text": "YES As high as $3,240 if you pay off the loan during the first 2 years"
         },
         {
           "row": 6,
@@ -657,7 +670,10 @@
           "col_span": 1,
           "text": "NO"
         }
-      ]
+      ],
+      "adjudication": "P1",
+      "settled_by": "agent",
+      "settle_note": "P1's 3 columns (YES and its note are one cell); headers sit over the answer column only; OCR fixes"
     },
     {
       "id": "t3",
@@ -668,11 +684,10 @@
         571.1,
         649.7
       ],
-      "num_rows": 8,
+      "num_rows": 7,
       "num_cols": 4,
       "header_rows": [
-        0,
-        4
+        0
       ],
       "cells": [
         {
@@ -686,15 +701,8 @@
           "row": 0,
           "col": 1,
           "row_span": 1,
-          "col_span": 1,
+          "col_span": 2,
           "text": "Years 1-7"
-        },
-        {
-          "row": 0,
-          "col": 2,
-          "row_span": 1,
-          "col_span": 1,
-          "text": ""
         },
         {
           "row": 0,
@@ -792,7 +800,7 @@
           "col": 0,
           "row_span": 1,
           "col_span": 1,
-          "text": "Estimated Total MOnGIE Ponniant"
+          "text": "Estimated Total Monthly Payment"
         },
         {
           "row": 4,
@@ -811,60 +819,35 @@
         {
           "row": 5,
           "col": 0,
-          "row_span": 1,
+          "row_span": 2,
           "col_span": 1,
-          "text": "Estimated Taxes, Insurance & peg ecsl nda"
+          "text": "Estimated Taxes, Insurance & Assessments Amount can increase over time See page 4 for details"
         },
         {
           "row": 5,
           "col": 1,
-          "row_span": 3,
+          "row_span": 2,
           "col_span": 1,
-          "text": "$356.13 month"
+          "text": "$356.13 a month"
         },
         {
           "row": 5,
           "col": 2,
           "row_span": 1,
           "col_span": 2,
-          "text": "This estimate includes In escrow? [x] Property Taxes YES [x] Homeowner's Insurance YES [x] Other: Homeowner's Association Dues NO"
+          "text": "This estimate includes In escrow? Property Taxes YES Homeowner's Insurance YES Other: Homeowner's Association Dues NO"
         },
         {
           "row": 6,
-          "col": 0,
-          "row_span": 1,
-          "col_span": 1,
-          "text": ": Amount can increase over time"
-        },
-        {
-          "row": 6,
-          "col": 2,
-          "row_span": 1,
-          "col_span": 1,
-          "text": ""
-        },
-        {
-          "row": 6,
-          "col": 3,
-          "row_span": 1,
-          "col_span": 1,
-          "text": ""
-        },
-        {
-          "row": 7,
-          "col": 0,
-          "row_span": 1,
-          "col_span": 1,
-          "text": "See page 4 for details"
-        },
-        {
-          "row": 7,
           "col": 2,
           "row_span": 1,
           "col_span": 2,
           "text": "See Escrow Account on page 4 for details. You must pay for other property costs separately."
         }
-      ]
+      ],
+      "adjudication": "P1",
+      "settled_by": "agent",
+      "settle_note": "P1's 4-column layout; taxes block rebuilt as merged cells; OCR fixes"
     },
     {
       "id": "t4",
@@ -884,44 +867,47 @@
           "col": 0,
           "row_span": 1,
           "col_span": 1,
-          "text": "$9,712.10"
+          "text": "Closing Costs"
         },
         {
           "row": 0,
           "col": 1,
           "row_span": 1,
           "col_span": 1,
-          "text": "includes $4,694.05 in Loan Costs + $5,018.05 in Other Costs - $0 in Lender Credits. See page 2 for details."
+          "text": "$9,712.10"
         },
         {
           "row": 0,
           "col": 2,
           "row_span": 1,
           "col_span": 1,
-          "text": "Closing Costs"
+          "text": "Includes $4,694.05 in Loan Costs + $5,018.05 in Other Costs - $0 in Lender Credits. See page 2 for details."
         },
         {
           "row": 1,
           "col": 0,
           "row_span": 1,
           "col_span": 1,
-          "text": "$ 14,147.26"
+          "text": "Cash to Close"
         },
         {
           "row": 1,
           "col": 1,
           "row_span": 1,
           "col_span": 1,
-          "text": "Includes Closing Costs. See Calculating Cash to Close on page 3 for details."
+          "text": "$14,147.26"
         },
         {
           "row": 1,
           "col": 2,
           "row_span": 1,
           "col_span": 1,
-          "text": "Cash to Close"
+          "text": "Includes Closing Costs. See Calculating Cash to Close on page 3 for details."
         }
-      ]
+      ],
+      "adjudication": "own",
+      "settled_by": "agent",
+      "settle_note": "Three columns: P1 put the label last, P2 merged amount and note"
     }
   ],
   "key_values": [],
@@ -929,5 +915,5 @@
     "CLOSING DISCLOSURE",
     "PAGE 1 OF 5+ LOAN ID # 123456789"
   ],
-  "notes": ""
+  "notes": "Disputed P1/P2 tables settled by the agent from the page image (2026-11-12, settle_tables_agent.py)."
 }

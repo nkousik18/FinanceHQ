@@ -115,42 +115,108 @@
         597.8,
         337.1
       ],
-      "num_rows": 2,
-      "num_cols": 2,
-      "header_rows": [],
+      "num_rows": 5,
+      "num_cols": 3,
+      "header_rows": [
+        0
+      ],
       "cells": [
         {
           "row": 0,
           "col": 0,
           "row_span": 1,
           "col_span": 1,
-          "text": ""
+          "text": "Comparisons"
         },
         {
           "row": 0,
           "col": 1,
           "row_span": 1,
-          "col_span": 1,
-          "text": ""
+          "col_span": 2,
+          "text": "Use these measures to compare this loan with other loans."
         },
         {
           "row": 1,
           "col": 0,
-          "row_span": 1,
+          "row_span": 2,
           "col_span": 1,
-          "text": ""
+          "text": "In 5 Years"
         },
         {
           "row": 1,
           "col": 1,
           "row_span": 1,
           "col_span": 1,
-          "text": ""
+          "text": "$54,944"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Total you will have paid in principal, interest, mortgage insurance, and loan costs."
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$0"
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Principal you will have paid off."
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Annual Percentage Rate (APR)"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "4.617%"
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Your costs over the loan term expressed as a rate. This is not your interest rate."
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Total Interest Percentage (TIP)"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "81.18%"
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "The total amount of interest that you will pay over the loan term as a percentage of your loan amount."
         }
-      ]
+      ],
+      "settled_by": "agent"
     }
   ],
   "key_values": [],
   "header_footer_lines": [],
-  "notes": ""
+  "notes": "Agent (2026-11-12): table grid typed from the image."
 }
