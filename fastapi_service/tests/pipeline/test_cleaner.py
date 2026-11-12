@@ -222,3 +222,39 @@ class TestIsTruncatedEdgeCases:
     def test_plain_words_not_truncated(self):
         for value in ("FIXED", "Monthly", "ARJUN IYER", "Bangalore"):
             assert _is_truncated(value) is False
+
+
+# ------------------------------------------------------------------
+# Cleaning versions (v2: no number-space repair on table cells)
+# ------------------------------------------------------------------
+
+def _result_with_table(cell_texts):
+    cells = [TableCell(row=1, col=i + 1, text=x, confidence=99.0) for i, x in enumerate(cell_texts)]
+    return ExtractionResult(
+        session_id="s1", full_text="", total_pages=1,
+        pages=[PageResult(page_number=1, text="x", word_count=1, avg_confidence=99.0,
+                          low_confidence_words=0, has_handwriting=False)],
+        tables=[Table(page=1, rows=1, cols=len(cells), cells=cells)],
+        form_fields=[FormField(key="Loan amount", value="110 000", key_confidence=99.0,
+                               value_confidence=99.0, page=1)],
+    )
+
+
+class TestCleaningVersions:
+    def test_default_is_v1_and_repairs_table_numbers(self):
+        out = clean_extraction(_result_with_table(["110 000", "29 29"]))
+        assert out.cleaning_version == "v1"
+        assert out.tables[0].data == [["110000", "2929"]]
+
+    def test_v2_keeps_table_cells_with_several_numbers(self):
+        out = clean_extraction(_result_with_table(["29 29", "82.35 206.13", "36MONTHS"]), version="v2")
+        assert out.cleaning_version == "v2"
+        assert out.tables[0].data == [["29 29", "82.35 206.13", "36 MONTHS"]]   # digit-letter split still applies
+
+    def test_v2_still_repairs_form_field_numbers(self):
+        out = clean_extraction(_result_with_table(["a"]), version="v2")
+        assert out.form_fields[0].value == "110000"
+
+    def test_unknown_version_rejected(self):
+        with pytest.raises(ValueError):
+            clean_extraction(_result_with_table(["a"]), version="v9")

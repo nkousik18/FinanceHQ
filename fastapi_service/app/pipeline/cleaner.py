@@ -12,6 +12,12 @@ Handles known artifacts from loan PDF extraction:
 
 Input:  ExtractionResult (from extractor.py)
 Output: CleanedResult
+
+Versions (passed as `clean_extraction(result, version=...)`; production uses the default):
+  v1 (default) — all fixes above, on form fields and table cells.
+  v2           — v1 without number-space repair on TABLE CELLS. The repair targets handwritten
+                 form values ("110 000"); parsers that put several values in one cell (Docling)
+                 get them merged ("29 29" -> "2929"). Added 2026-11-12, evals finding S-2026-11-12-9.
 """
 from __future__ import annotations
 
@@ -23,6 +29,9 @@ from app.pipeline.extractor import ExtractionResult, FormField, Table, PageResul
 from app.core.logging import get_logger
 
 logger = get_logger(__name__)
+
+CLEANING_VERSIONS = ("v1", "v2")
+DEFAULT_CLEANING_VERSION = "v1"
 
 # ------------------------------------------------------------------
 # Known page-level noise patterns (repeated headers/footers/artifacts)
@@ -113,6 +122,7 @@ class CleanedResult:
     overall_avg_confidence: float = 0.0
     has_handwriting: bool = False
     cleaning_notes: list[str] = field(default_factory=list)
+    cleaning_version: str = DEFAULT_CLEANING_VERSION
 
 
 # ------------------------------------------------------------------
@@ -255,11 +265,17 @@ def _clean_form_fields(fields: list[FormField]) -> list[CleanedFormField]:
 # Table cleaning
 # ------------------------------------------------------------------
 
-def _clean_tables(tables: list[Table]) -> list[CleanedTable]:
+def _clean_cell(text: str, repair_numbers: bool) -> str:
+    if repair_numbers:
+        return _clean_value(text)[0]
+    return _clean_digit_letter_concat(text.strip())
+
+
+def _clean_tables(tables: list[Table], repair_numbers: bool = True) -> list[CleanedTable]:
     cleaned = []
     for t in tables:
         grid: dict[tuple[int, int], str] = {
-            (c.row, c.col): _clean_value(c.text)[0]
+            (c.row, c.col): _clean_cell(c.text, repair_numbers)
             for c in t.cells
         }
         data = []
@@ -280,18 +296,20 @@ def _clean_tables(tables: list[Table]) -> list[CleanedTable]:
 # Public entry point
 # ------------------------------------------------------------------
 
-def clean_extraction(result: ExtractionResult) -> CleanedResult:
+def clean_extraction(result: ExtractionResult, version: str = DEFAULT_CLEANING_VERSION) -> CleanedResult:
     """
     Clean an ExtractionResult and return a CleanedResult.
-    Does not modify the input.
+    Does not modify the input. `version`: see module docstring (default v1 = original behaviour).
     """
+    if version not in CLEANING_VERSIONS:
+        raise ValueError(f"unknown cleaning version {version!r}; expected one of {CLEANING_VERSIONS}")
     logger.info("cleaning_start", session_id=result.session_id,
                 pages=result.total_pages, form_fields=len(result.form_fields),
-                tables=len(result.tables))
+                tables=len(result.tables), cleaning_version=version)
 
     cleaned_pages = [_clean_page_text(p) for p in result.pages]
     cleaned_fields = _clean_form_fields(result.form_fields)
-    cleaned_tables = _clean_tables(result.tables)
+    cleaned_tables = _clean_tables(result.tables, repair_numbers=(version == "v1"))
 
     notes: list[str] = []
     total_removed = sum(p.lines_removed for p in cleaned_pages)
@@ -328,4 +346,5 @@ def clean_extraction(result: ExtractionResult) -> CleanedResult:
         overall_avg_confidence=result.overall_avg_confidence,
         has_handwriting=result.has_handwriting,
         cleaning_notes=notes,
+        cleaning_version=version,
     )

@@ -154,6 +154,73 @@ def select(seed: int = SEED) -> list[dict]:
     return chosen
 
 
+def replace(drop: list[str], reason: str, seed: int = SEED) -> dict[str, str]:
+    """
+    Swap selected pages for new ones of the same stratum, leaving every other page (and its
+    from-scratch flag) untouched. Replays select()'s seeded candidate order and takes the next
+    eligible page: same filters as select(), one page per doc per stratum, and never an
+    image filing (its text layer is invisible white text; S-2026-11-12-13).
+    Records each swap under "replaced" in selection.json. Returns {old_page_id: new_page_id}.
+    """
+    sel = json.loads(SELECTION.read_text())
+    rows = {r.doc_id: r for r in read_manifest()}
+    image_filings = {d for d, r in rows.items() if "images_embedded" in (r.renderer or "")}
+    pages = sel["pages"]
+    by_id = {s["page_id"]: s for s in pages}
+    for pid in drop:
+        if pid not in by_id:
+            raise KeyError(pid)
+        if by_id[pid]["stratum"] != "digital_prose":
+            raise ValueError(f"{pid}: only digital_prose replacement is implemented")
+
+    # Same RNG sequence as select(): scanned pools first, then the candidate shuffle.
+    rng = random.Random(seed)
+    for level in ("light", "medium", "heavy"):
+        pool = [s for s in json.loads(SCAN_SPECS.read_text())["pages"] if s["level"] == level]
+        rng.shuffle(pool)
+    cands = [(r, i) for r in rows.values() if r.part in ("edgar", "consumer")
+             for i in range(int(r.pdf_pages or 0))]
+    rng.shuffle(cands)
+
+    keep = [s for s in pages if s["page_id"] not in drop]
+    taken = {(s["doc_id"], s["page"]) for s in keep}
+    scan_sources = {tuple(s["scan_of"].split(":p")) for s in keep if s.get("scan_of")}
+    used_docs = {s["doc_id"] for s in keep if s["stratum"] == "digital_prose"}
+    swaps: dict[str, str] = {}
+    todo = list(drop)
+    open_docs: dict[str, fitz.Document] = {}
+    try:
+        for row, idx in cands:
+            if not todo:
+                break
+            if row.part != "edgar" or row.doc_id in image_filings or row.doc_id in used_docs:
+                continue
+            if (row.doc_id, idx + 1) in taken or (row.doc_id, str(idx + 1)) in scan_sources:
+                continue
+            doc = open_docs.setdefault(row.doc_id, fitz.open(PDF_DIR / f"{row.doc_id}.pdf"))
+            page = doc[idx]
+            text = page.get_text()
+            if len(text.split()) < MIN_WORDS or is_signature_page(text) \
+                    or is_cover_page(row.part, idx + 1, text) or _has_table(page):
+                continue
+            old = todo.pop(0)
+            new = {"doc_id": row.doc_id, "page": idx + 1, "stratum": "digital_prose",
+                   "from_scratch": by_id[old]["from_scratch"], "page_id": page_id(row.doc_id, idx + 1),
+                   "source_format": row.source_format}
+            pages[pages.index(by_id[old])] = new
+            used_docs.add(row.doc_id)
+            swaps[old] = new["page_id"]
+    finally:
+        for d in open_docs.values():
+            d.close()
+    if todo:
+        raise RuntimeError(f"no replacement found for {todo}")
+    pages.sort(key=lambda c: (c["stratum"], c["page_id"]))
+    sel.setdefault("replaced", []).extend({"old": o, "new": n, "reason": reason} for o, n in swaps.items())
+    SELECTION.write_text(json.dumps(sel, indent=2))
+    return swaps
+
+
 # ------------------------------------------------------------------
 # Docling -> label pre-fill (shared reader: evals/parsers/docling_doc.py)
 # ------------------------------------------------------------------
@@ -280,6 +347,9 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("select")
+    rp = sub.add_parser("replace", help="swap selected pages for new ones of the same stratum")
+    rp.add_argument("page_ids", nargs="+")
+    rp.add_argument("--reason", required=True)
     pf = sub.add_parser("prefill")
     pf.add_argument("--overwrite", action="store_true", help="replace existing label files (loses edits!)")
     rd = sub.add_parser("render")
@@ -294,6 +364,13 @@ def main() -> int:
         chosen = select()
         print(json.dumps({"pages": len(chosen), "by_stratum": Counter(c["stratum"] for c in chosen),
                           "from_scratch": sum(c["from_scratch"] for c in chosen)}, indent=2))
+    elif args.cmd == "replace":
+        swaps = replace(args.page_ids, args.reason)
+        for old in swaps:
+            for path in (PAGES / f"{old}.json", IMAGES / f"{old}.png", OVERLAYS / f"{old}.png"):
+                path.unlink(missing_ok=True)      # old labels stay in git history
+        print(json.dumps(swaps, indent=2))
+        print("next: labeling prefill && labeling render <new page_ids>")
     elif args.cmd == "prefill":
         print(json.dumps(prefill(args.overwrite), indent=2))
     elif args.cmd == "render":

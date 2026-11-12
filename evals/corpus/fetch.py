@@ -27,7 +27,9 @@ import shutil
 
 from evals.corpus import cfpb
 from evals.corpus.manifest import DocRow, build_manifest, read_manifest, write_manifest
-from evals.corpus.render import chrome_version, pdf_page_count, render_fitted
+from urllib.parse import urljoin
+
+from evals.corpus.render import chrome_version, image_sources, is_image_filing, pdf_page_count, render_fitted
 from evals.corpus.sec_client import SECClient
 
 log = logging.getLogger("evals.corpus.fetch")
@@ -55,11 +57,17 @@ def verify_or_freeze(row: DocRow, data: bytes, freeze: bool) -> None:
         raise ChecksumError(f"{row.doc_id}: no frozen checksum; run with --freeze once")
 
 
-def fetch_edgar(rows: list[DocRow], sec: SECClient, freeze: bool, force: bool) -> dict:
+def fetch_images(row: DocRow, data: bytes, sec: SECClient) -> dict[str, bytes]:
+    """Page images of an image filing, fetched relative to the filing URL (cached, throttled)."""
+    return {src: sec.get_bytes(urljoin(row.source_url, src)) for src in image_sources(data)}
+
+
+def fetch_edgar(rows: list[DocRow], sec: SECClient, freeze: bool, force: bool,
+                only: set[str] | None = None) -> dict:
     renderer = chrome_version()
-    stats = {"fetched": 0, "rendered": 0, "skipped": 0, "images_removed": 0}
+    stats = {"fetched": 0, "rendered": 0, "skipped": 0, "images_removed": 0, "images_embedded": 0}
     for row in rows:
-        if row.part != "edgar":
+        if row.part != "edgar" or (only and row.doc_id not in only):
             continue
         src = DATA / "source" / f"{row.doc_id}.html"
         pdf = DATA / "pdf" / f"{row.doc_id}.pdf"
@@ -73,15 +81,17 @@ def fetch_edgar(rows: list[DocRow], sec: SECClient, freeze: bool, force: bool) -
         if pdf.exists() and not force:
             stats["skipped"] += 1
         else:
-            r = render_fitted(data, pdf)
+            images = fetch_images(row, data, sec) if is_image_filing(data) else None
+            r = render_fitted(data, pdf, images)
             stats["images_removed"] += r["images_removed"]
+            stats["images_embedded"] += r.get("images_embedded", 0)
             stats["rendered"] += 1
             if not r["fitted"]:
                 stats.setdefault("not_fitted", []).append(row.doc_id)
                 log.warning("doc=%s pages=%d > source_pages=%d even at zoom %s",
                             row.doc_id, r["pages"], r["source_pages"], r["zoom"])
             if freeze:
-                row.renderer = renderer
+                row.renderer = renderer + (f"; images_embedded={r['images_embedded']}" if images else "")
                 row.render_zoom = str(r["zoom"])
                 row.source_pages = str(r["source_pages"])
                 row.pdf_pages = ""            # re-frozen below from the new PDF
@@ -124,6 +134,7 @@ def main(argv: list[str] | None = None) -> int:
     f = sub.add_parser("fetch")
     f.add_argument("--freeze", action="store_true", help="record checksums/page counts not yet in the manifest")
     f.add_argument("--force", action="store_true", help="re-render PDFs that already exist")
+    f.add_argument("--only", nargs="*", help="EDGAR doc_ids to fetch/render (default: all)")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
@@ -136,7 +147,8 @@ def main(argv: list[str] | None = None) -> int:
     if not rows:
         log.error("empty manifest; run build-manifest first")
         return 1
-    stats = fetch_edgar(rows, SECClient(), freeze=args.freeze, force=args.force)
+    stats = fetch_edgar(rows, SECClient(), freeze=args.freeze, force=args.force,
+                        only=set(args.only) if args.only else None)
     stats["consumer"] = import_consumer(rows, freeze=args.freeze)
     if args.freeze:
         write_manifest(rows)

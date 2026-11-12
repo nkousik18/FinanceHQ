@@ -7,6 +7,49 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-12 (cont.) — Docling → production adapter; cleaning and validation metrics
+
+**Branch:** `feature/r1-docling-adapter` (from `main` after PR #3 merged)
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-12-6 | R1 merged to `main` via PR #3 (Kousik: "push to main"); leftovers continue on a new branch | Kousik's request; branch → PR → main rule kept | PR #3 |
+| S-2026-11-12-7 | Adapter mapping and confidence rule (see scope Decision Log 2026-11-12) | Lets cleaner/validator (and R2's chunker) run unchanged on Docling output | `evals/parsers/production_adapter.py` |
+| S-2026-11-12-8 | **Scope said the cleaner has 7 fixes; the code has different ones.** Scope corrected; metrics count the real fixes | Found while reading `cleaner.py` | scope §4 line; `evals/ingest_metrics/cleaning.py` |
+| S-2026-11-12-9 | **Finding:** number-space repair corrupts multi-value Docling table cells (23 cells P2, 4 P2V) | Textract-era assumption | `docs/20_s0_results.md` §4.2 |
+| S-2026-11-12-10 | **Finding:** validator fails every table-less document (`NO_STRUCTURED_DATA` ERROR): 27/41 EDGAR, 21/40 scans; required fields are for the Indian loan form | Textract-era assumption; recorded, not enforced | same |
+| S-2026-11-12-11 | **Finding:** 3 of 40 scans produce no text with Docling + Tesseract (`scan_27/32/38`); Vision recovers 1. Not investigated | Shows up as NO_PAGES | same |
+
+Changes: `evals/parsers/production_adapter.py`, `evals/ingest_metrics/cleaning.py`, `evals/ingest_metrics/run_cleaning.py`, cleaning tables in `s0_report.py`, `evals/tests/test_production_adapter.py` (7 tests). 148 evals tests pass. Run: 1.5 s for 92 docs × P2 + 40 × P2V.
+
+Committed and pushed as `c0d3022`.
+
+| ID | Decision | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-12-12 | **Cleaner v2** in production `cleaner.py`, opt-in via `version="v2"`: skips number-space repair on table cells. Default **v1** unchanged (production behaviour identical; `CleanedResult.cleaning_version` added). Evals run v1 and v2; **downstream evals use v2** | Kousik: "fix the cleaner". Scope rule: versioned config, not a silent edit. v2: 0 corrupted cells (v1: 27), nothing else changes | `fastapi_service/app/pipeline/cleaner.py`; scope Decision Log; `docs/20_s0_results.md` §4.2 |
+
+Tests: app 173 passed / 2 skipped (4 new version tests); evals 150 (2 new: counters vs real cleaner, v2).
+
+### Empty scans investigated (S-2026-11-12-13, -14)
+Two independent causes; 8 of 40 simulated scans are affected.
+
+| ID | Finding | Evidence |
+|---|---|---|
+| S-2026-11-12-13 | **3 EDGAR agreements render as blank pages.** `deal_03_ca` (Raymond James), `deal_07_ca` (Harmonic), `deal_11_ca` (TrueBlue) are filed on EDGAR as page images (`<IMG src="...001.jpg" title="slide1">`, 104–141 per doc) with an invisible **white** OCR text layer on top. Our renderer strips every `<img>` (D10), so all 353 pages are visually blank and keep only the white text (23% of all EDGAR characters). Consequences: scans `scan_27`, `scan_31`, `scan_32` are scans of blank pages; golden pages `deal_07_ca_p055` and `deal_11_ca_p022` have blank images (0 dark pixels) and were verified as near-empty; EDGAR digital metrics on these docs score Docling against invisible text | `evals/corpus/render.py` `sanitize_html`; source HTML img/white-style counts; rendered pixel check |
+| S-2026-11-12-14 | **Docling trusts Tesseract orientation detection without a confidence threshold.** On heavy scans Tesseract OSD wrongly reports 180°/270° (confidence 0.1–3.0); Docling rotates the page and OCRs it upside down → garbage or nothing. Hits `scan_03`, `scan_23`, `scan_26`, `scan_35` (word recall 0.01–0.04) and `scan_38` (0 words); `scan_15` partly. P1/P2 only — Apple Vision (P1V/P2V) doesn't use OSD. Docling 2.147 has no option to disable OSD | Docling `tesseract_ocr_cli_model.py` L354–378; manual `tesseract --psm 0 -l osd` per scan; S0 per-page recall |
+
+Not affected: the S0 P1-vs-P2 decision and H10 (no golden table page comes from these docs or scans). Affected: P1/P2 scan text metrics, H6 pairs, EDGAR text metrics on the 3 docs, 2 golden digital_prose pages, and any QA questions drawn from the 3 docs later.
+
+### Fixes (Kousik chose: re-render with images, 0° shim, replace golden pages) — see scope Decision Log 2026-11-12
+- Done: image filings rendered with their 350 page images (`evals/corpus/render.py`, `fetch.py --only`); scans rebuilt (only scan_27/31/32 changed); `tesseract-no-osd` shim + `ParserConfig.ocr_orientation`; golden pages replaced (`labeling replace`) → `deal_02_ca_p058`, `deal_05_am2_p001`; 5 tests (155 evals pass).
+- **In progress at commit time:** full P1/P2 re-parse (new cache keys). Until it finishes and the steps below run, `docs/20_s0_results.md` §4 numbers are from the **pre-fix** parse.
+
+### Open items
+- After re-parse: pre-fill + check the 2 new golden pages (they have no label files yet), re-run S0 + cleaning, update §4 with before/after.
+- Then: R1 leftovers done → PR; ask before R2.
+
+---
+
 ## 2026-11-12 — Golden-set tables settled by the agent; S0 run
 
 **Branch:** `feature/r1-corpus-parsing`
