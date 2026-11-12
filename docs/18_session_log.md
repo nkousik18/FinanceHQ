@@ -7,6 +7,143 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-12 — Golden-set tables settled by the agent; S0 run
+
+**Branch:** `feature/r1-corpus-parsing`
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-12-1 | **Agent (Claude) settles the 13 disputed P1/P2 tables and types the from-scratch tables from the page images**, instead of Kousik | Kousik's request (no time to check each table). Disclosed in the results; every touched table is marked `settled_by: "agent"` | `evals/golden/ingest/settle_tables_agent.py`; label files; `docs/20_s0_results.md` §4.0 |
+| S-2026-11-12-2 | Settling rules: grid follows the image; start from P1/P2 when one has the right structure (`adjudication` = P1/P2), else type it (`own`); fix text that differs from the image, including OCR misreads and text-layer content not visible on the page | Labels must match the image (README) | same |
+| S-2026-11-12-3 | `cfpb_le_h24b_p003`: the single table entry was on the page heading (e1). e1 reclassified as `section_header`; 10 tables (e2–e11) typed | Labelling error found while settling | label file notes |
+| S-2026-11-12-4 | **S0 decision: P2** (cell accuracy P2 − P1 = +13.0 pts, CI 2.0–24.2, n = 32 tables). **H10 supported** (+16.4, CI 3.6–33.6, n = 9). **H6 not supported** (with disclosure) | Pre-registered rules in `docs/20_s0_results.md` §2 | `docs/20_s0_results.md` §4 |
+| S-2026-11-12-5 | Results tables generated from `summary.json` by `evals/ingest_metrics/s0_report.py` | F7 (no hand-typed numbers) | `evals/ingest_metrics/s0_report.py` |
+
+Settled: P2 grid 7, P1 grid 3, typed 3. 141 evals tests pass (3 new: settle grid helper, report renderer).
+
+### Open items
+- Kousik (optional): spot-check the agent's grids in the app (Compare tab; `settled_by` in the label files).
+- R1 remaining: cleaning/validation metrics need the Docling → `CleanedResult` adapter (shared with R2); open the R1 PR; ask before R2.
+
+---
+
+## 2026-11-06 — OCR decision and agent handoff
+
+**Branch:** `feature/r1-corpus-parsing`
+
+| ID | Decision | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-06-1 | **Apple Vision OCR text downstream; Tesseract for confidence metrics and H7** | Vision reads heavy scans far better (numbers 73% vs 41%); Tesseract's confidence is the meaningful one | Scope v2 Decision Log; `evals/parsers/config.py` (`downstream_config`) |
+| S-2026-11-06-2 | Hand off to a fresh agent; handoff brief in `docs/19_handoff.md` | Conversation context was getting large | `docs/19_handoff.md` |
+| S-2026-11-06-3 | `scan_01_p001` table t3: deleted stray cell (6,1) `"a"` that overlapped merged cell 20 | OCR junk inside a 3-row merged cell; Kousik asked for the fix, then verified the page (30/30) | label file (Kousik's) |
+| S-2026-11-06-4 | **S0 pre-registration** written before the run: `docs/20_s0_results.md` (H1–H10 verbatim, S0 tests H6 + H10, decision/H6/H10 rules) | Scope §11 rule | `docs/20_s0_results.md`; scope Decision Log |
+| S-2026-11-06-5 | **H6 disclosed as not cleanly pre-registered**: Auto-only, outcome already seen in dry runs, pairing rule set after a first version | Honesty; reported with the result | `docs/20_s0_results.md` §2 |
+| S-2026-11-06-6 | **H10 test** = decision's paired bootstrap restricted to `table_heavy` tables; CI > 0 supported, < 0 not, else inconclusive. `run_s0.h10()` + 4 known-answer tests | H10 had no computation in the runner | `evals/ingest_metrics/run_s0.py`, `evals/tests/test_run_s0.py` |
+
+Later: 132 evals tests pass. Golden set 30/30 verified.
+
+### S0 first run: P1-vs-P2 comparison invalid (pre-fill bias)
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-06-7 | **Finding:** first S0 run on verified labels said P1 beats P2 on cell accuracy by 39 pts (CI −57…−23, 20 tables); H10 "not supported". **Not reported as a result:** 0 of 608 pre-filled cell texts were changed in verification, so labels = P1 output and P1 scores 1.0 on every table by construction. The 3 from-scratch tables have empty cells, so they score nothing | Pre-fill bias (scope §13) happened | `docs/20_s0_results.md` (after re-run) |
+| S-2026-11-06-8 | **Settle the 9 pages / 13 tables where P1 and P2 disagree** (Kousik's choice of 3 options; others: re-label all ~600 cells, or call S0 inconclusive → P1 by tie rule). Kousik picks the grid that matches the image (P1 / P2 / own) and fixes text; fills the 3 empty from-scratch tables without Docling output. Choice stored per table as `adjudication`. Cells both parsers read identically stay as pre-filled: residual bias, stated in the report | Cheapest fix that removes the by-construction P1 advantage | Scope Decision Log |
+| S-2026-11-06-9 | Labelling app: **Compare tab** (P1 and P2 grids side by side, differing cells in yellow, "Use P1/P2 grid", "Keep my grid"); ⚖ chip on pages to settle; `GET /api/compare/<page>`; `evals/golden/ingest/app/compare.py` + 6 tests. Hidden on from-scratch pages | Tool for S-2026-11-06-8. Tested in headless Chrome (render, use-grid, undo; nothing saved) | `evals/golden/ingest/app/` |
+
+138 evals tests pass. S0 decision and H10 wait for the re-run after settling.
+
+Changes: `P2V` config added (accurate tables + Apple Vision), parsed on the 40 scans (103 s, 0 failures); `downstream_config()` + tests (128 evals tests pass).
+
+State: Kousik has verified 29 of 30 golden-set pages in the labelling app (files not yet committed by Kousik).
+
+### Open items
+- Kousik: verify the last golden page; commit the label files.
+- Next agent: run S0 on verified labels, write the S0 results doc, finish R1 (see `docs/19_handoff.md`).
+
+---
+
+## 2026-11-04 (cont.) — R1 step 1–2: data rules and EDGAR corpus
+
+**Branch:** `feature/r1-corpus-parsing`
+
+### Decisions
+
+| ID | Decision | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-04-13 | `SEC_USER_AGENT` uses a real but secondary email | SEC fair-access rules want a reachable contact; a fake one risks an IP block mid-download | `.env` (untracked) |
+| S-2026-11-04-14 | **12 EDGAR deals approved** (list in scope v2 Decision Log) | Industry spread, smaller agreements, every deal has 2–3 amendments | `evals/corpus/edgar_selection.json` |
+| S-2026-11-04-15 | Discovery, de-duplication, rendering and page-fidelity rules | See scope v2 Decision Log (2026-11-04 rows) | `loandoc-retrieval-evals-scope-v2.md` |
+
+### Changes
+- `.gitignore`: `data/` and evals PDFs (except `evals/fixtures/ci/`); **F9 test** `evals/tests/test_data_rules.py`.
+- `evals/corpus/`: SEC client (rate-limited, User-Agent from env, on-disk cache), deal discovery, manifest, Chrome renderer with page fitting, fetch CLI.
+- `evals/corpus/edgar_candidates.json` (32 checked candidates), `edgar_selection.json` (approved 12 + 4 reserves), `manifest.csv` (41 docs, checksums and page counts frozen).
+- Corpus built locally: 41 PDFs, **1,836 pages** under `data/corpus/pdf/` (gitignored).
+- 37 evals tests pass.
+
+### Findings
+- First-pass rendering inflated page counts (2,215 pages) because original pages spilled over; fixed by per-document zoom (now 1,836).
+- `deal_09_ca` (United Therapeutics): Chrome ignores some of its 157 page breaks, so it renders as 108 pages; text is intact (97%). PDF page numbers, not original page numbers, are the reference for evidence labels.
+- 56 near-empty pages across the corpus, mostly signature pages at the end of agreements.
+- Three agreements (Raymond James, Harmonic, TrueBlue) were filed as page images plus text; the text layer is complete.
+
+### CFPB consumer forms (later the same day)
+| ID | Decision | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-04-16 | Use all 11 completed English CFPB TRID samples (5 Loan Estimates, 6 Closing Disclosures) | Dense fee tables and form layouts the credit agreements lack; public domain | `evals/corpus/cfpb.py` |
+| S-2026-11-04-17 | Kousik downloads the PDFs by hand; the script imports and checksums them | consumerfinance.gov blocks scripts (403); no bot-protection workarounds | Scope v2 Decision Log |
+| S-2026-11-04-18 | 7 sessions, grouped by matching borrower/property/loan amount | Avoids contradictory figures inside one session | Scope v2 Decision Log |
+
+Result: corpus = 41 EDGAR docs (1,836 pages) + 11 CFPB forms (40 pages). 39 evals tests pass.
+
+### Simulated scans (later the same day)
+| ID | Decision | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-04-19 | 40 simulated-scan pages at 3 degradation levels, with fixed quotas per stratum | Exact reference text for scanned-page accuracy (H6); real scans can't give that | Scope v2 Decision Log; `evals/corpus/scan_specs.json` |
+| S-2026-11-04-20 | Exclude signature pages; cap pages per document per stratum | Signature pages say little about reading accuracy; tables cluster in few documents | Scope v2 Decision Log |
+
+Result: corpus = 41 EDGAR docs (1,836 pages) + 11 CFPB forms (40 pages) + 40 simulated-scan pages (from 24 source docs). Builds are reproducible (byte-identical images). 46 evals tests pass.
+
+### Docling parsing and the labeling tool (later the same day)
+| ID | Decision | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-04-21 | Run Docling on the Apple GPU (MPS) | Kousik's request; measured ~10% faster than CPU | Scope v2 Decision Log |
+| S-2026-11-04-22 | Docling in a separate venv; Tesseract OCR; parse cache as the interface | Protects the app venv; Tesseract is the only engine with both usable accuracy and meaningful confidence | Scope v2 Decision Log |
+| S-2026-11-04-23 | Exclude CFPB cover sheets from scan and golden-set selection | They're covers, not forms | Scope v2 Decision Log |
+| S-2026-11-04-24 | Golden-set selection rules and label conventions | See Decision Log | `evals/golden/ingest/` |
+
+Results: full parse of 92 docs × 2 configs in ~40 minutes, 0 failures. 30 labeling pages selected and pre-filled (25 from Docling P1, 5 empty for from-scratch labeling), images committed. 62 evals + 169 app tests pass.
+
+Findings so far: Docling found no key-value pairs (flat PDFs); it missed a table PyMuPDF detected (`deal_02_ca_p021`); one Docling table on `scan_01` has overlapping cells.
+
+### Labelling app (later the same day)
+| ID | Decision | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-04-25 | Build a local click-and-drag labelling app instead of hand-editing JSON | Kousik found the JSON/coordinate workflow unclear; the app should cut labelling time | Scope v2 Decision Log; `evals/golden/ingest/app/` |
+
+Also fixed: overlay images drew boxes in the wrong place on Chrome-rendered pages (inherited scaling transform).
+
+### S0 metrics drafted (later the same day)
+§8.1 metrics implemented in `evals/ingest_metrics/` (normalize, text, geometry, tables, layout, confidence), `evals/stats.py` (bootstrap, paired diff, Holm), S0 runner `run_s0.py` (golden + full corpus, decision rule, optional MLflow). 126 evals tests pass. Dry run (unverified labels, so golden numbers are not results) runs end to end in ~35 s.
+
+Corpus findings (Auto metrics; real, not dependent on labels):
+- SEC agreements: 38 of 41 documents read almost perfectly (numeric fidelity 99.9%, median CER 0.1%). The 3 filed as page images + text (Raymond James, Harmonic, TrueBlue) lose doubled letters ("11.02" → "1 .02", "Borrower" → "Bor ower"): numeric fidelity 80.4%.
+- Docling drops some page-footer text entirely (e.g. "77 CHAR1\1635542v6").
+- CER against the text layer is dominated by reading order on CFPB forms (31% CER, 99.7% order-free word recall).
+- OCR on heavy scans: Tesseract numbers right 41%, Apple Vision 73%; Tesseract confidence is informative, Vision's is not (mean 0.99).
+
+Other changes and notes from this block:
+- New dependencies (app venv, `requirements-dev.txt`): `rapidfuzz` 3.14.6 (fast edit distance for CER/WER), `apted` 1.0.3 (tree edit distance for TEDS). Installed without changing any existing package.
+- The pre-fill and the metrics now share one Docling reader (`evals/parsers/docling_doc.py`). Checked: on the 23 pre-filled pages not yet edited, it reproduces the committed labels exactly.
+- Incident: end-to-end testing of the labelling app edited one real label file (`cfpb_le_h24b_p003`); restored from git right after. No labels were lost.
+- Kousik started labelling in the app (7 files edited so far). Those files are deliberately left out of agent commits until Kousik commits them.
+
+### Open items
+- **Decision needed (Kousik):** OCR engine for the text used downstream (Tesseract vs Apple Vision); see the trade-off above.
+- **Kousik:** label the 30 pages in the app (`venv/bin/python -m evals.golden.ingest.app.server`, open http://127.0.0.1:8765), from-scratch pages first; guide in `evals/golden/ingest/README.md`.
+- Next in R1 (agent, can proceed in parallel): §8.1 metric implementations with F8 tests; then S0 once labels are verified.
+
+---
+
 ## 2026-11-04 — Retrieval & Evals initiative: scope v2 and R0
 
 **Branch:** `feature/r0-baseline-fixes` → merged to `main`

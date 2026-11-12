@@ -1,0 +1,126 @@
+{
+  "page_id": "deal_06_ca_p046",
+  "doc_id": "deal_06_ca",
+  "page": 46,
+  "stratum": "digital_prose",
+  "source_format": "html_rendered",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612,
+    792
+  ],
+  "status": "verified",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-04",
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "text",
+      "bbox": [
+        36,
+        66.1,
+        576.7,
+        137.2
+      ],
+      "text": "(b) L/C Fees. The Borrower agrees to pay to the Agent for the account of each Lender a Letter of Credit fee with respect to its participations in each outstanding Letter of Credit (the \"L/C Fee\") on the daily maximum amount then available to be drawn under such Letter of Credit, which shall accrue a"
+    },
+    {
+      "id": "e2",
+      "class": "text",
+      "bbox": [
+        36,
+        147.8,
+        576.7,
+        254.9
+      ],
+      "text": "(c) L/C Fronting Fees. The Borrower agrees to pay to each Issuing Bank for its own account a fronting fee with respect to each Letter of Credit issued by such Issuing Bank at a rate per annum equal to the percentage separately agreed upon between the Borrower and such Issuing Bank on the daily maxim"
+    },
+    {
+      "id": "e3",
+      "class": "text",
+      "bbox": [
+        36,
+        266.3,
+        576.7,
+        289.4
+      ],
+      "text": "(d) Agent Fees. The Borrower agrees to pay to the Agent for its own account the fees payable in the amounts and at the times agreed pursuant to the Agent Fee Letter or otherwise in writing between the Borrower and the Agent."
+    },
+    {
+      "id": "e4",
+      "class": "text",
+      "bbox": [
+        36,
+        300.1,
+        576.7,
+        335.1
+      ],
+      "text": "(e) Fee Computation. All fees payable under this Section shall be computed on the basis of a year of three hundred sixty (360) days and in each case shall be payable for the actual number of days elapsed (including the first day but excluding the last day). Each determination by the Agent of a fee h"
+    },
+    {
+      "id": "e5",
+      "class": "text",
+      "bbox": [
+        36,
+        345.8,
+        576.7,
+        416.9
+      ],
+      "text": "(f) Prepayment Fee. In the event the Borrower repays the Obligations in full or the Obligations are accelerated following the occurrence of an Event of Default at any time prior to the Maturity Date, the Borrowers shall pay a sum equal to (i) one percent (1.0%) of the total Commitments if such repay"
+    },
+    {
+      "id": "e6",
+      "class": "section_header",
+      "bbox": [
+        36,
+        428.3,
+        173.2,
+        439.4
+      ],
+      "text": "SECTION 2.13 Evidence of Debt."
+    },
+    {
+      "id": "e7",
+      "class": "text",
+      "bbox": [
+        36,
+        450.1,
+        576.7,
+        545.1
+      ],
+      "text": "(a) Maintenance of Records. Each Lender shall maintain in accordance with its usual practice records evidencing the indebtedness of the Borrower to such Lender resulting from each Credit Extension made by such Lender. The Agent shall maintain the Register in accordance with Section 9.04(c). The entr"
+    },
+    {
+      "id": "e8",
+      "class": "page_number",
+      "bbox": [
+        301.4,
+        558.1,
+        311.4,
+        569.1
+      ],
+      "text": "40"
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6",
+    "e7",
+    "e8"
+  ],
+  "tables": [],
+  "key_values": [],
+  "header_footer_lines": [
+    "40"
+  ],
+  "notes": ""
+}

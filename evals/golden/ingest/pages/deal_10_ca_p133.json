@@ -1,0 +1,426 @@
+{
+  "page_id": "deal_10_ca_p133",
+  "doc_id": "deal_10_ca",
+  "page": 133,
+  "stratum": "table_heavy",
+  "source_format": "html_rendered",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612,
+    792
+  ],
+  "status": "verified",
+  "from_scratch": true,
+  "prefill_source": null,
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-04",
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "title",
+      "bbox": [
+        254.7,
+        50.8,
+        370,
+        92.2
+      ],
+      "text": ""
+    },
+    {
+      "id": "e2",
+      "class": "table",
+      "bbox": [
+        29.9,
+        90,
+        595,
+        268
+      ],
+      "text": ""
+    },
+    {
+      "id": "e3",
+      "class": "text",
+      "bbox": [
+        30.8,
+        269.8,
+        594.4,
+        332
+      ],
+      "text": ""
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3"
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "element_id": "e2",
+      "bbox": [
+        29.9,
+        90,
+        595,
+        268
+      ],
+      "num_rows": 7,
+      "num_cols": 7,
+      "header_rows": [
+        0
+      ],
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Debt Rating"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Euro-Rate Spread"
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Base Rate Spread"
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Commitment Fee"
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Standby Letter of Credit Fee"
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Commercial Letter of Credit Fee"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Tier I"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "A-/A3 or higher"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "100.0 bps"
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "0.0 bps"
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "10.0 bps"
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "100.0 bps"
+        },
+        {
+          "row": 1,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "50.00 bps"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Tier II"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "BBB+/Baa1"
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "112.5 bps"
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "12.5 bps"
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "12.5 bps"
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "112.5 bps"
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "56.25 bps"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Tier III"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "BBB/ Baa2"
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "125.0 bps"
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "25.0 bps"
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "15.0 bps"
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "125.0 bps"
+        },
+        {
+          "row": 3,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "62.50 bps"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Tier IV"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "BBB-/Baa3"
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "137.5 bps"
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "37.5 bps"
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "20.0 bps"
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "137.5 bps"
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "68.75 bps"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Tier V"
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "BB+/ Ba1"
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "150.0 bps"
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "50.0 bps"
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "25.0 bps"
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "150.0 bps"
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "75.00 bps"
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Tier VI"
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "<BB+/ Ba1"
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "175.0 bps"
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "75.0 bps"
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "30.0 bps"
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "175.0 bps"
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "87.50 bps"
+        }
+      ],
+      "settled_by": "agent"
+    }
+  ],
+  "key_values": [],
+  "header_footer_lines": [],
+  "notes": "Agent (2026-11-12): table grid typed from the image."
+}

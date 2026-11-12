@@ -1,0 +1,800 @@
+{
+  "seed": 20261104,
+  "quotas": {
+    "edgar_prose": 12,
+    "edgar_table": 8,
+    "edgar_amendment": 8,
+    "consumer": 12
+  },
+  "min_words": 80,
+  "max_per_doc": 3,
+  "max_per_doc_stratum": 2,
+  "levels": {
+    "light": {
+      "dpi": 300,
+      "blur_radius": 0.3,
+      "noise_sigma": 4.0,
+      "max_skew_deg": 0.3,
+      "jpeg_quality": 85,
+      "paper_grey": 250
+    },
+    "medium": {
+      "dpi": 200,
+      "blur_radius": 0.7,
+      "noise_sigma": 10.0,
+      "max_skew_deg": 1.0,
+      "jpeg_quality": 60,
+      "paper_grey": 242
+    },
+    "heavy": {
+      "dpi": 150,
+      "blur_radius": 1.1,
+      "noise_sigma": 18.0,
+      "max_skew_deg": 2.0,
+      "jpeg_quality": 35,
+      "paper_grey": 232
+    }
+  },
+  "pages": [
+    {
+      "scan_id": "scan_01",
+      "source_doc": "cfpb_cd_h25b",
+      "page": 2,
+      "stratum": "consumer",
+      "session": "cfpb_purchase_fixed",
+      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_closing-disclosure_cover-H25B.pdf",
+      "level": "light",
+      "params": {
+        "dpi": 300,
+        "blur_radius": 0.3,
+        "noise_sigma": 4.0,
+        "max_skew_deg": 0.3,
+        "jpeg_quality": 85,
+        "paper_grey": 250,
+        "skew_deg": -0.223
+      },
+      "image_sha256": "34f3daa14f8f3c60cdb9ad01b1c5ab08f2beca7a0a8534699e3449cf60d73d98"
+    },
+    {
+      "scan_id": "scan_02",
+      "source_doc": "cfpb_cd_h25b",
+      "page": 5,
+      "stratum": "consumer",
+      "session": "cfpb_purchase_fixed",
+      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_closing-disclosure_cover-H25B.pdf",
+      "level": "medium",
+      "params": {
+        "dpi": 200,
+        "blur_radius": 0.7,
+        "noise_sigma": 10.0,
+        "max_skew_deg": 1.0,
+        "jpeg_quality": 60,
+        "paper_grey": 242,
+        "skew_deg": 0.23
+      },
+      "image_sha256": "d5ae730add6037a34dee3058c46d3b7a3a019e0c455b2d844236a8fc3e833484"
+    },
+    {
+      "scan_id": "scan_03",
+      "source_doc": "cfpb_cd_h25e",
+      "page": 3,
+      "stratum": "consumer",
+      "session": "cfpb_refinance",
+      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_closing-disclosure_cover-H25E.pdf",
+      "level": "heavy",
+      "params": {
+        "dpi": 150,
+        "blur_radius": 1.1,
+        "noise_sigma": 18.0,
+        "max_skew_deg": 2.0,
+        "jpeg_quality": 35,
+        "paper_grey": 232,
+        "skew_deg": 1.472
+      },
+      "image_sha256": "6393bfd8be5c1e429fb159ce6565595c7f2812bccedf1ff3aa0c8ceb295a94b9"
+    },
+    {
+      "scan_id": "scan_04",
+      "source_doc": "cfpb_cd_h25e",
+      "page": 5,
+      "stratum": "consumer",
+      "session": "cfpb_refinance",
+      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_closing-disclosure_cover-H25E.pdf",
+      "level": "light",
+      "params": {
+        "dpi": 300,
+        "blur_radius": 0.3,
+        "noise_sigma": 4.0,
+        "max_skew_deg": 0.3,
+        "jpeg_quality": 85,
+        "paper_grey": 250,
+        "skew_deg": -0.189
+      },
+      "image_sha256": "db37e3866be7620ec9795154720d50751b7126e30f967497f691ba6e2be67d70"
+    },
+    {
+      "scan_id": "scan_05",
+      "source_doc": "cfpb_cd_h25f1",
+      "page": 2,
+      "stratum": "consumer",
+      "session": "cfpb_refinance",
+      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_closing-disclosure_cover-H25F1.pdf",
+      "level": "medium",
+      "params": {
+        "dpi": 200,
+        "blur_radius": 0.7,
+        "noise_sigma": 10.0,
+        "max_skew_deg": 1.0,
+        "jpeg_quality": 60,
+        "paper_grey": 242,
+        "skew_deg": -0.463
+      },
+      "image_sha256": "a90319841987f80f5b525cd188b08f097cbf64e45c0594873f1fe58530496e82"
+    },
+    {
+      "scan_id": "scan_06",
+      "source_doc": "cfpb_cd_h25g",
+      "page": 2,
+      "stratum": "consumer",
+      "session": "cfpb_refinance",
+      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_closing-disclosure_cover-H25G.pdf",
+      "level": "heavy",
+      "params": {
+        "dpi": 150,
+        "blur_radius": 1.1,
+        "noise_sigma": 18.0,
+        "max_skew_deg": 2.0,
+        "jpeg_quality": 35,
+        "paper_grey": 232,
+        "skew_deg": 1.484
+      },
+      "image_sha256": "8dbb9320454eafacedc77ab40aece49f6f3a0aeb6ec803c681ce04662da7aac8"
+    },
+    {
+      "scan_id": "scan_07",
+      "source_doc": "cfpb_cd_h25g",
+      "page": 6,
+      "stratum": "consumer",
+      "session": "cfpb_refinance",
+      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_closing-disclosure_cover-H25G.pdf",
+      "level": "light",
+      "params": {
+        "dpi": 300,
+        "blur_radius": 0.3,
+        "noise_sigma": 4.0,
+        "max_skew_deg": 0.3,
+        "jpeg_quality": 85,
+        "paper_grey": 250,
+        "skew_deg": 0.038
+      },
+      "image_sha256": "eb96880c2ed3e4e443219c7f01151830d355160038890ef53e198cece642e97a"
+    },
+    {
+      "scan_id": "scan_08",
+      "source_doc": "cfpb_le_h24b",
+      "page": 3,
+      "stratum": "consumer",
+      "session": "cfpb_purchase_fixed",
+      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_loan-estimate_fixed-rate-loan-sample-H24B.pdf",
+      "level": "medium",
+      "params": {
+        "dpi": 200,
+        "blur_radius": 0.7,
+        "noise_sigma": 10.0,
+        "max_skew_deg": 1.0,
+        "jpeg_quality": 60,
+        "paper_grey": 242,
+        "skew_deg": -0.04
+      },
+      "image_sha256": "e655bd24bcb64c88aa47d3fe9fb0bc89b5d2ab2ef062babb614b058204819a01"
+    },
+    {
+      "scan_id": "scan_09",
+      "source_doc": "cfpb_le_h24b",
+      "page": 4,
+      "stratum": "consumer",
+      "session": "cfpb_purchase_fixed",
+      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_loan-estimate_fixed-rate-loan-sample-H24B.pdf",
+      "level": "heavy",
+      "params": {
+        "dpi": 150,
+        "blur_radius": 1.1,
+        "noise_sigma": 18.0,
+        "max_skew_deg": 2.0,
+        "jpeg_quality": 35,
+        "paper_grey": 232,
+        "skew_deg": -0.009
+      },
+      "image_sha256": "2de4bfd18af0f03ac9a13719f06c9c4883ed734005b5f4fcba9e2673ff627b3c"
+    },
+    {
+      "scan_id": "scan_10",
+      "source_doc": "cfpb_le_h24c",
+      "page": 2,
+      "stratum": "consumer",
+      "session": "cfpb_le_io_arm",
+      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_loan-estimate_interest-only-adjustable-rate-loan-sample-H24C.pdf",
+      "level": "light",
+      "params": {
+        "dpi": 300,
+        "blur_radius": 0.3,
+        "noise_sigma": 4.0,
+        "max_skew_deg": 0.3,
+        "jpeg_quality": 85,
+        "paper_grey": 250,
+        "skew_deg": -0.272
+      },
+      "image_sha256": "14fe32859df3f605ce9fbceed5ccec24bf90d6e209510277adc3f83d87212a27"
+    },
+    {
+      "scan_id": "scan_11",
+      "source_doc": "cfpb_le_h24c",
+      "page": 4,
+      "stratum": "consumer",
+      "session": "cfpb_le_io_arm",
+      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_loan-estimate_interest-only-adjustable-rate-loan-sample-H24C.pdf",
+      "level": "medium",
+      "params": {
+        "dpi": 200,
+        "blur_radius": 0.7,
+        "noise_sigma": 10.0,
+        "max_skew_deg": 1.0,
+        "jpeg_quality": 60,
+        "paper_grey": 242,
+        "skew_deg": -0.105
+      },
+      "image_sha256": "4e884ce3281e7c3651a059923e211d01b2391ddb741e7cacc0412ad94c116df6"
+    },
+    {
+      "scan_id": "scan_12",
+      "source_doc": "cfpb_le_h24d",
+      "page": 2,
+      "stratum": "consumer",
+      "session": "cfpb_refinance",
+      "source_url": "https://files.consumerfinance.gov/f/201403_cfpb_loan-estimate_refinance-sample-H24D.pdf",
+      "level": "heavy",
+      "params": {
+        "dpi": 150,
+        "blur_radius": 1.1,
+        "noise_sigma": 18.0,
+        "max_skew_deg": 2.0,
+        "jpeg_quality": 35,
+        "paper_grey": 232,
+        "skew_deg": 1.33
+      },
+      "image_sha256": "48b9e4a6fba4eadfb78a6f25e9cb9e4030da9d47bb6e0c5267c8a463b6217c07"
+    },
+    {
+      "scan_id": "scan_13",
+      "source_doc": "deal_03_am2",
+      "page": 4,
+      "stratum": "edgar_amendment",
+      "session": "deal_03",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/720005/000072000520000041/ex10120200630-10qrjf.htm",
+      "level": "light",
+      "params": {
+        "dpi": 300,
+        "blur_radius": 0.3,
+        "noise_sigma": 4.0,
+        "max_skew_deg": 0.3,
+        "jpeg_quality": 85,
+        "paper_grey": 250,
+        "skew_deg": 0.21
+      },
+      "image_sha256": "18380a58324f233e800bb50d50bf81b19a6e386a61229564cf58012d3730b051"
+    },
+    {
+      "scan_id": "scan_14",
+      "source_doc": "deal_06_am2",
+      "page": 3,
+      "stratum": "edgar_amendment",
+      "session": "deal_06",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1089907/000162828025013989/swksecondamendmenttocredit.htm",
+      "level": "medium",
+      "params": {
+        "dpi": 200,
+        "blur_radius": 0.7,
+        "noise_sigma": 10.0,
+        "max_skew_deg": 1.0,
+        "jpeg_quality": 60,
+        "paper_grey": 242,
+        "skew_deg": 0.504
+      },
+      "image_sha256": "765b9492920ac73c1b9542ec23dcd4924ab5ecaabe80aa3b289f0158340059a7"
+    },
+    {
+      "scan_id": "scan_15",
+      "source_doc": "deal_10_am1",
+      "page": 10,
+      "stratum": "edgar_amendment",
+      "session": "deal_10",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/110621/000156459020033611/exhibit10_11.htm",
+      "level": "heavy",
+      "params": {
+        "dpi": 150,
+        "blur_radius": 1.1,
+        "noise_sigma": 18.0,
+        "max_skew_deg": 2.0,
+        "jpeg_quality": 35,
+        "paper_grey": 232,
+        "skew_deg": -0.218
+      },
+      "image_sha256": "93ecbcff692d74dd1652b65ac48ac05fe030a6c149dc93e9b2cb418716980754"
+    },
+    {
+      "scan_id": "scan_16",
+      "source_doc": "deal_10_am1",
+      "page": 11,
+      "stratum": "edgar_amendment",
+      "session": "deal_10",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/110621/000156459020033611/exhibit10_11.htm",
+      "level": "light",
+      "params": {
+        "dpi": 300,
+        "blur_radius": 0.3,
+        "noise_sigma": 4.0,
+        "max_skew_deg": 0.3,
+        "jpeg_quality": 85,
+        "paper_grey": 250,
+        "skew_deg": 0.011
+      },
+      "image_sha256": "f12bf4c3b3265ece1569380bbae31e1a2fbdb3b2e4b200455b70a738e9f56175"
+    },
+    {
+      "scan_id": "scan_17",
+      "source_doc": "deal_10_am3",
+      "page": 3,
+      "stratum": "edgar_amendment",
+      "session": "deal_10",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/110621/000095017022012972/rpm-ex10_103.htm",
+      "level": "medium",
+      "params": {
+        "dpi": 200,
+        "blur_radius": 0.7,
+        "noise_sigma": 10.0,
+        "max_skew_deg": 1.0,
+        "jpeg_quality": 60,
+        "paper_grey": 242,
+        "skew_deg": -0.344
+      },
+      "image_sha256": "5c15ca7e265bfbec77a313f2d8320b62776c0663b9f6e0cb4bb78801f6b54249"
+    },
+    {
+      "scan_id": "scan_18",
+      "source_doc": "deal_10_am3",
+      "page": 4,
+      "stratum": "edgar_amendment",
+      "session": "deal_10",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/110621/000095017022012972/rpm-ex10_103.htm",
+      "level": "heavy",
+      "params": {
+        "dpi": 150,
+        "blur_radius": 1.1,
+        "noise_sigma": 18.0,
+        "max_skew_deg": 2.0,
+        "jpeg_quality": 35,
+        "paper_grey": 232,
+        "skew_deg": -0.397
+      },
+      "image_sha256": "1b72cce71d65dac3f5dc222adebde923414ed652ca92f45c9dbe95e85c49aa0c"
+    },
+    {
+      "scan_id": "scan_19",
+      "source_doc": "deal_11_am3",
+      "page": 1,
+      "stratum": "edgar_amendment",
+      "session": "deal_11",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/768899/000076889921000085/tbi10k122720ex1026.htm",
+      "level": "light",
+      "params": {
+        "dpi": 300,
+        "blur_radius": 0.3,
+        "noise_sigma": 4.0,
+        "max_skew_deg": 0.3,
+        "jpeg_quality": 85,
+        "paper_grey": 250,
+        "skew_deg": -0.257
+      },
+      "image_sha256": "7aa3d8f2f3d04686c3447f47caead59c8f18c52c9df764fc15331c01c791b83c"
+    },
+    {
+      "scan_id": "scan_20",
+      "source_doc": "deal_12_am3",
+      "page": 3,
+      "stratum": "edgar_amendment",
+      "session": "deal_12",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1027838/000155837019009809/ex-10d1.htm",
+      "level": "medium",
+      "params": {
+        "dpi": 200,
+        "blur_radius": 0.7,
+        "noise_sigma": 10.0,
+        "max_skew_deg": 1.0,
+        "jpeg_quality": 60,
+        "paper_grey": 242,
+        "skew_deg": 0.818
+      },
+      "image_sha256": "4e0e269c7d0195eb75f7d5fa559099badd9371936c94121ed06bb698100820c0"
+    },
+    {
+      "scan_id": "scan_21",
+      "source_doc": "deal_02_ca",
+      "page": 52,
+      "stratum": "edgar_prose",
+      "session": "deal_02",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/33213/000110465922116543/tm2230127d1_ex10-1.htm",
+      "level": "light",
+      "params": {
+        "dpi": 300,
+        "blur_radius": 0.3,
+        "noise_sigma": 4.0,
+        "max_skew_deg": 0.3,
+        "jpeg_quality": 85,
+        "paper_grey": 250,
+        "skew_deg": 0.049
+      },
+      "image_sha256": "8fd5035df088fcd46c5e01dded1c9a79ef9be6381d9259eb75a6f93a96dc5439"
+    },
+    {
+      "scan_id": "scan_22",
+      "source_doc": "deal_04_ca",
+      "page": 6,
+      "stratum": "edgar_prose",
+      "session": "deal_04",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/51253/000119312521227550/d206865dex101.htm",
+      "level": "medium",
+      "params": {
+        "dpi": 200,
+        "blur_radius": 0.7,
+        "noise_sigma": 10.0,
+        "max_skew_deg": 1.0,
+        "jpeg_quality": 60,
+        "paper_grey": 242,
+        "skew_deg": -0.746
+      },
+      "image_sha256": "d84dd2c7ec884b940bd3baa96b4b566778680695f072090bd2e8abb2ad085ee5"
+    },
+    {
+      "scan_id": "scan_23",
+      "source_doc": "deal_05_ca",
+      "page": 15,
+      "stratum": "edgar_prose",
+      "session": "deal_05",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/915358/000091535821000003/sgma-20210204xex10_1.htm",
+      "level": "heavy",
+      "params": {
+        "dpi": 150,
+        "blur_radius": 1.1,
+        "noise_sigma": 18.0,
+        "max_skew_deg": 2.0,
+        "jpeg_quality": 35,
+        "paper_grey": 232,
+        "skew_deg": -1.815
+      },
+      "image_sha256": "c1742df8b82c544130560d184aba813afd2597786a806c553436d9451fabe655"
+    },
+    {
+      "scan_id": "scan_24",
+      "source_doc": "deal_05_ca",
+      "page": 18,
+      "stratum": "edgar_prose",
+      "session": "deal_05",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/915358/000091535821000003/sgma-20210204xex10_1.htm",
+      "level": "light",
+      "params": {
+        "dpi": 300,
+        "blur_radius": 0.3,
+        "noise_sigma": 4.0,
+        "max_skew_deg": 0.3,
+        "jpeg_quality": 85,
+        "paper_grey": 250,
+        "skew_deg": -0.215
+      },
+      "image_sha256": "3f42bef8d4f1ae691b731ae352a5f6329b5ca25180f278a5310bb8a95f429a67"
+    },
+    {
+      "scan_id": "scan_25",
+      "source_doc": "deal_06_ca",
+      "page": 8,
+      "stratum": "edgar_prose",
+      "session": "deal_06",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1089907/000155278123000317/e23295_ex10-1.htm",
+      "level": "medium",
+      "params": {
+        "dpi": 200,
+        "blur_radius": 0.7,
+        "noise_sigma": 10.0,
+        "max_skew_deg": 1.0,
+        "jpeg_quality": 60,
+        "paper_grey": 242,
+        "skew_deg": -0.219
+      },
+      "image_sha256": "a31076eb14279781af66dd8fb7d557ee47335087d0d524143111def5877f5871"
+    },
+    {
+      "scan_id": "scan_26",
+      "source_doc": "deal_06_ca",
+      "page": 72,
+      "stratum": "edgar_prose",
+      "session": "deal_06",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1089907/000155278123000317/e23295_ex10-1.htm",
+      "level": "heavy",
+      "params": {
+        "dpi": 150,
+        "blur_radius": 1.1,
+        "noise_sigma": 18.0,
+        "max_skew_deg": 2.0,
+        "jpeg_quality": 35,
+        "paper_grey": 232,
+        "skew_deg": -0.029
+      },
+      "image_sha256": "2a5e2f8f607d241e966ca29605747f1f095625b6229559290dae71119c8adccf"
+    },
+    {
+      "scan_id": "scan_27",
+      "source_doc": "deal_07_ca",
+      "page": 8,
+      "stratum": "edgar_prose",
+      "session": "deal_07",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/851310/000085131019000049/jpmcreditagreementfinal1.htm",
+      "level": "light",
+      "params": {
+        "dpi": 300,
+        "blur_radius": 0.3,
+        "noise_sigma": 4.0,
+        "max_skew_deg": 0.3,
+        "jpeg_quality": 85,
+        "paper_grey": 250,
+        "skew_deg": 0.057
+      },
+      "image_sha256": "0f329d5930b9704c101fa879645fc77eaf1d99a854b2a00c2fd4a7e64a9b4e2c"
+    },
+    {
+      "scan_id": "scan_28",
+      "source_doc": "deal_08_ca",
+      "page": 28,
+      "stratum": "edgar_prose",
+      "session": "deal_08",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1830033/000183003323000021/pct-form8xk3152023ex102xsy.htm",
+      "level": "medium",
+      "params": {
+        "dpi": 200,
+        "blur_radius": 0.7,
+        "noise_sigma": 10.0,
+        "max_skew_deg": 1.0,
+        "jpeg_quality": 60,
+        "paper_grey": 242,
+        "skew_deg": 0.788
+      },
+      "image_sha256": "43d48785439dfadd071febe45e552768989b3c1c2a0ef076d21ca397bbfa1690"
+    },
+    {
+      "scan_id": "scan_29",
+      "source_doc": "deal_10_ca",
+      "page": 148,
+      "stratum": "edgar_prose",
+      "session": "deal_10",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/110621/000119312518319622/d646824dex101.htm",
+      "level": "heavy",
+      "params": {
+        "dpi": 150,
+        "blur_radius": 1.1,
+        "noise_sigma": 18.0,
+        "max_skew_deg": 2.0,
+        "jpeg_quality": 35,
+        "paper_grey": 232,
+        "skew_deg": 0.186
+      },
+      "image_sha256": "3dd3df8bfe20289cb9df9e572681a63f5b2f72e97e33ceec00bf938d83eaf52c"
+    },
+    {
+      "scan_id": "scan_30",
+      "source_doc": "deal_10_ca",
+      "page": 158,
+      "stratum": "edgar_prose",
+      "session": "deal_10",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/110621/000119312518319622/d646824dex101.htm",
+      "level": "light",
+      "params": {
+        "dpi": 300,
+        "blur_radius": 0.3,
+        "noise_sigma": 4.0,
+        "max_skew_deg": 0.3,
+        "jpeg_quality": 85,
+        "paper_grey": 250,
+        "skew_deg": -0.142
+      },
+      "image_sha256": "3f673dbb2a5914169e74429def1a9a8b9938d80b12383f51d9a8083c30a23612"
+    },
+    {
+      "scan_id": "scan_31",
+      "source_doc": "deal_11_ca",
+      "page": 1,
+      "stratum": "edgar_prose",
+      "session": "deal_11",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/768899/000076889918000025/executedcreditagreementt.htm",
+      "level": "medium",
+      "params": {
+        "dpi": 200,
+        "blur_radius": 0.7,
+        "noise_sigma": 10.0,
+        "max_skew_deg": 1.0,
+        "jpeg_quality": 60,
+        "paper_grey": 242,
+        "skew_deg": -0.177
+      },
+      "image_sha256": "e800a7a8179a36124a7193fb4901fd68bf7f1a39fb2237cd2dfbed4738d549f7"
+    },
+    {
+      "scan_id": "scan_32",
+      "source_doc": "deal_11_ca",
+      "page": 103,
+      "stratum": "edgar_prose",
+      "session": "deal_11",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/768899/000076889918000025/executedcreditagreementt.htm",
+      "level": "heavy",
+      "params": {
+        "dpi": 150,
+        "blur_radius": 1.1,
+        "noise_sigma": 18.0,
+        "max_skew_deg": 2.0,
+        "jpeg_quality": 35,
+        "paper_grey": 232,
+        "skew_deg": 0.927
+      },
+      "image_sha256": "2d8fccd4ba43dfc7535055798877c2a113e835ee7ea327f6dfc336eafcdea8be"
+    },
+    {
+      "scan_id": "scan_33",
+      "source_doc": "deal_01_ca",
+      "page": 3,
+      "stratum": "edgar_table",
+      "session": "deal_01",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1286613/000114036119020643/ex10_3.htm",
+      "level": "light",
+      "params": {
+        "dpi": 300,
+        "blur_radius": 0.3,
+        "noise_sigma": 4.0,
+        "max_skew_deg": 0.3,
+        "jpeg_quality": 85,
+        "paper_grey": 250,
+        "skew_deg": -0.28
+      },
+      "image_sha256": "b720fb0e9911f0d92623c3e7946b49614cd9b92ac6ca81fca4ce185665c4c441"
+    },
+    {
+      "scan_id": "scan_34",
+      "source_doc": "deal_01_ca",
+      "page": 31,
+      "stratum": "edgar_table",
+      "session": "deal_01",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1286613/000114036119020643/ex10_3.htm",
+      "level": "medium",
+      "params": {
+        "dpi": 200,
+        "blur_radius": 0.7,
+        "noise_sigma": 10.0,
+        "max_skew_deg": 1.0,
+        "jpeg_quality": 60,
+        "paper_grey": 242,
+        "skew_deg": -0.146
+      },
+      "image_sha256": "af166d79bd839819e47059b6597f5115f5150e47beb4a1a5386bd1fb69d5d922"
+    },
+    {
+      "scan_id": "scan_35",
+      "source_doc": "deal_02_ca",
+      "page": 14,
+      "stratum": "edgar_table",
+      "session": "deal_02",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/33213/000110465922116543/tm2230127d1_ex10-1.htm",
+      "level": "heavy",
+      "params": {
+        "dpi": 150,
+        "blur_radius": 1.1,
+        "noise_sigma": 18.0,
+        "max_skew_deg": 2.0,
+        "jpeg_quality": 35,
+        "paper_grey": 232,
+        "skew_deg": 0.493
+      },
+      "image_sha256": "7cec825754624f3aade899f412de133579a7c43ea4b848218eb8208b7a5edc3f"
+    },
+    {
+      "scan_id": "scan_36",
+      "source_doc": "deal_02_ca",
+      "page": 21,
+      "stratum": "edgar_table",
+      "session": "deal_02",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/33213/000110465922116543/tm2230127d1_ex10-1.htm",
+      "level": "light",
+      "params": {
+        "dpi": 300,
+        "blur_radius": 0.3,
+        "noise_sigma": 4.0,
+        "max_skew_deg": 0.3,
+        "jpeg_quality": 85,
+        "paper_grey": 250,
+        "skew_deg": 0.203
+      },
+      "image_sha256": "597c258e4d0038aee072b2f867b2600e5049becf9c41f1170b914cfbefbb45c8"
+    },
+    {
+      "scan_id": "scan_37",
+      "source_doc": "deal_09_ca",
+      "page": 6,
+      "stratum": "edgar_table",
+      "session": "deal_09",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1082554/000110465918042653/a18-16093_1ex10d2.htm",
+      "level": "medium",
+      "params": {
+        "dpi": 200,
+        "blur_radius": 0.7,
+        "noise_sigma": 10.0,
+        "max_skew_deg": 1.0,
+        "jpeg_quality": 60,
+        "paper_grey": 242,
+        "skew_deg": 0.959
+      },
+      "image_sha256": "6fdfd6fad1b1c45b35dc53c96c9ac7c8db752402515758310f5b1ae88cad3493"
+    },
+    {
+      "scan_id": "scan_38",
+      "source_doc": "deal_10_ca",
+      "page": 142,
+      "stratum": "edgar_table",
+      "session": "deal_10",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/110621/000119312518319622/d646824dex101.htm",
+      "level": "heavy",
+      "params": {
+        "dpi": 150,
+        "blur_radius": 1.1,
+        "noise_sigma": 18.0,
+        "max_skew_deg": 2.0,
+        "jpeg_quality": 35,
+        "paper_grey": 232,
+        "skew_deg": 1.083
+      },
+      "image_sha256": "485ae99415ccd9b60532cebc788ac0b33a4bd51b4b80ce0dd4dd438103b93dd7"
+    },
+    {
+      "scan_id": "scan_39",
+      "source_doc": "deal_12_ca",
+      "page": 89,
+      "stratum": "edgar_table",
+      "session": "deal_12",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1027838/000155837018006459/tcmd-20180630ex10182d3c0.htm",
+      "level": "light",
+      "params": {
+        "dpi": 300,
+        "blur_radius": 0.3,
+        "noise_sigma": 4.0,
+        "max_skew_deg": 0.3,
+        "jpeg_quality": 85,
+        "paper_grey": 250,
+        "skew_deg": -0.14
+      },
+      "image_sha256": "3b919c367682a93a42129bd3dca5d6f8aec9d345a22bc93a1a11feb72800d572"
+    },
+    {
+      "scan_id": "scan_40",
+      "source_doc": "deal_12_ca",
+      "page": 154,
+      "stratum": "edgar_table",
+      "session": "deal_12",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1027838/000155837018006459/tcmd-20180630ex10182d3c0.htm",
+      "level": "medium",
+      "params": {
+        "dpi": 200,
+        "blur_radius": 0.7,
+        "noise_sigma": 10.0,
+        "max_skew_deg": 1.0,
+        "jpeg_quality": 60,
+        "paper_grey": 242,
+        "skew_deg": 0.278
+      },
+      "image_sha256": "15225ce52a19c4466c96412e7a6ae447b332b61cafb4af38d87ab6dc8b1e276a"
+    }
+  ]
+}

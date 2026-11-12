@@ -1,0 +1,244 @@
+{
+  "page_id": "scan_25_p001",
+  "doc_id": "scan_25",
+  "page": 1,
+  "stratum": "scanned",
+  "source_format": "image_pdf",
+  "scan_of": "deal_06_ca:p8",
+  "scan_level": "medium",
+  "page_size": [
+    612,
+    792
+  ],
+  "status": "verified",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-04",
+  "reference_text_source": "source_page_text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "text",
+      "bbox": [
+        37.3,
+        67.3,
+        577.3,
+        89.3
+      ],
+      "text": "\"Agent's Office\" means the Agent's address and, as appropriate, account as set forth in Section 9.01, or such other address or account as the Agent may from time to time notify to the Borrower and the Lenders."
+    },
+    {
+      "id": "e2",
+      "class": "text",
+      "bbox": [
+        109.3,
+        101.3,
+        436.7,
+        111
+      ],
+      "text": "\"Aggregate Commitments\" means the aggregate Commitments of all the Lenders."
+    },
+    {
+      "id": "e3",
+      "class": "text",
+      "bbox": [
+        109.3,
+        124,
+        403,
+        134
+      ],
+      "text": "\"Agreement\" has the meaning specified in introductory paragraph hereof."
+    },
+    {
+      "id": "e4",
+      "class": "text",
+      "bbox": [
+        36.7,
+        145.3,
+        577,
+        261.7
+      ],
+      "text": "\"Applicable Finance Laws\" means, collectively and to the extent applicable to any Loan Party, (a) each of the following federal laws and all regulations, rules and governmental guidelines relating thereto: the Fair Credit Reporting Act, Fair Debt Collections Practices Act, Equal Credit Opportunity A"
+    },
+    {
+      "id": "e5",
+      "class": "text",
+      "bbox": [
+        37,
+        275,
+        576.7,
+        296.3
+      ],
+      "text": "\"Applicable Law\" means, as to any Person, all applicable Laws binding upon such Person or to which such a Person is subject (including Applicable Finance Laws)."
+    },
+    {
+      "id": "e6",
+      "class": "text",
+      "bbox": [
+        36.3,
+        308,
+        576.7,
+        331.3
+      ],
+      "text": "\"Applicable Margin\" means, for any day, as to the L/C Fees payable hereunder or as to any Revolving Loan, as the case may be, the following applicable percentages per annum:"
+    },
+    {
+      "id": "e7",
+      "class": "table",
+      "bbox": [
+        88.4,
+        346,
+        523.3,
+        406.7
+      ],
+      "text": ""
+    },
+    {
+      "id": "e8",
+      "class": "text",
+      "bbox": [
+        36,
+        419,
+        576,
+        453
+      ],
+      "text": "\"Applicable Percentage\" means, with respect to any Lender, the percentage of the total Commitments represented by such Lender's Commitment. If the Commitments have terminated or expired, the Applicable Percentages shall be determined based upon the Commitments most recently in effect, giving effect "
+    },
+    {
+      "id": "e9",
+      "class": "text",
+      "bbox": [
+        36,
+        464.7,
+        575.7,
+        486.7
+      ],
+      "text": "\"Approved Fund\" means any Fund that is administered or managed by (a) a Lender, (b) an Affiliate of a Lender or (c) an entity or an Affiliate of an entity that administers or manages a Lender."
+    },
+    {
+      "id": "e10",
+      "class": "text",
+      "bbox": [
+        108,
+        498.7,
+        483.3,
+        509
+      ],
+      "text": "\"Approved Industry\" means life sciences, healthcare, device, pharma or tech-enabled product."
+    },
+    {
+      "id": "e11",
+      "class": "text",
+      "bbox": [
+        107.7,
+        521.3,
+        434,
+        531.3
+      ],
+      "text": "\"Arranger\" means First Horizon Bank, in its capacity as arranger and bookrunner."
+    },
+    {
+      "id": "e12",
+      "class": "text",
+      "bbox": [
+        35.7,
+        542.7,
+        575.7,
+        578
+      ],
+      "text": "\"Assignment and Assumption\" means an assignment and assumption entered into by a Lender and an Eligible Assignee (with the consent of any party whose consent is required by Section 9.04), and accepted by the Agent, in substantially the form of Exhibit A or any other form approved by the Agent."
+    },
+    {
+      "id": "e13",
+      "class": "page_footer",
+      "bbox": [
+        295.1,
+        586.1,
+        320.9,
+        603
+      ],
+      "text": ""
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6",
+    "e7",
+    "e8",
+    "e9",
+    "e10",
+    "e11",
+    "e12",
+    "e13"
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "element_id": "e7",
+      "bbox": [
+        88.4,
+        346,
+        523.3,
+        406.7
+      ],
+      "num_rows": 3,
+      "num_cols": 2,
+      "header_rows": [
+        0
+      ],
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Period"
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Revolving Loans and L/C Fees"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "During the Revolving Availability Period"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "3.750%"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "After the Revolving Availability Period"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "4.250%"
+        }
+      ]
+    }
+  ],
+  "key_values": [],
+  "header_footer_lines": [],
+  "notes": ""
+}

@@ -1,0 +1,1977 @@
+{
+  "page_id": "cfpb_cd_h25g_p003",
+  "doc_id": "cfpb_cd_h25g",
+  "page": 3,
+  "stratum": "table_heavy",
+  "source_format": "pdf",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612,
+    792
+  ],
+  "status": "verified",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-04",
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "section_header",
+      "bbox": [
+        36,
+        27.1,
+        159,
+        38.9
+      ],
+      "text": "Closing Cost Details"
+    },
+    {
+      "id": "e2",
+      "class": "table",
+      "bbox": [
+        35,
+        39.9,
+        576.4,
+        386
+      ],
+      "text": ""
+    },
+    {
+      "id": "e3",
+      "class": "text",
+      "bbox": [
+        41,
+        401,
+        93.8,
+        409.5
+      ],
+      "text": "Other Costs"
+    },
+    {
+      "id": "e4",
+      "class": "table",
+      "bbox": [
+        35.1,
+        405.9,
+        576.2,
+        757
+      ],
+      "text": ""
+    },
+    {
+      "id": "e5",
+      "class": "page_footer",
+      "bbox": [
+        36,
+        768.6,
+        113.2,
+        775.4
+      ],
+      "text": "CLOSING DISCLOSURE"
+    },
+    {
+      "id": "e6",
+      "class": "page_footer",
+      "bbox": [
+        454.2,
+        768.6,
+        576,
+        775.4
+      ],
+      "text": "PAGE 2 OF 5 · LOAN ID # 123456789"
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6"
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "element_id": "e2",
+      "bbox": [
+        35,
+        39.9,
+        576.4,
+        386
+      ],
+      "num_rows": 33,
+      "num_cols": 5,
+      "header_rows": [
+        0,
+        1
+      ],
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "Borrower-Paid"
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Paid by Others"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Loan Costs"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "At Closing"
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Before Closing"
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "A. Origination Charges"
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "$2,250.00"
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "01 1 % of Loan Amount (Points)"
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$1,500.00"
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "02 Application Fee"
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$750.00"
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "03"
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "04"
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "05"
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "06"
+        },
+        {
+          "row": 8,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "07"
+        },
+        {
+          "row": 9,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "08"
+        },
+        {
+          "row": 10,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "B. Services Borrower Did Not Shop For"
+        },
+        {
+          "row": 11,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "$620.00"
+        },
+        {
+          "row": 11,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "01 Appraisal Fee"
+        },
+        {
+          "row": 12,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "to John Smith Appraisers Inc."
+        },
+        {
+          "row": 12,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 12,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$405.00"
+        },
+        {
+          "row": 12,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 13,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "02 Credit Report Fee"
+        },
+        {
+          "row": 13,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "to Information Inc."
+        },
+        {
+          "row": 13,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 13,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$35.00"
+        },
+        {
+          "row": 13,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 14,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "03 Flood Determination Fee"
+        },
+        {
+          "row": 14,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "to Info Co."
+        },
+        {
+          "row": 14,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$25.00"
+        },
+        {
+          "row": 14,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 14,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "04 Flood Monitoring Fee"
+        },
+        {
+          "row": 15,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "to Info Co."
+        },
+        {
+          "row": 15,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$45.00"
+        },
+        {
+          "row": 15,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 16,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "05 Tax Monitoring Fee"
+        },
+        {
+          "row": 16,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "to Info Co."
+        },
+        {
+          "row": 16,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$65.00"
+        },
+        {
+          "row": 16,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 16,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 17,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "06 Tax Status Research Fee"
+        },
+        {
+          "row": 17,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "to Info Co."
+        },
+        {
+          "row": 17,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$45.00"
+        },
+        {
+          "row": 17,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 17,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 18,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "07"
+        },
+        {
+          "row": 18,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 18,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 18,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 19,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "08"
+        },
+        {
+          "row": 19,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 19,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 19,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 20,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "09"
+        },
+        {
+          "row": 20,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 20,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 20,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 21,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "10"
+        },
+        {
+          "row": 21,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 21,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 21,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 22,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "C. Services Borrower Did Shop For"
+        },
+        {
+          "row": 22,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "$930.50"
+        },
+        {
+          "row": 22,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 23,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "01 Pest Inspection Fee"
+        },
+        {
+          "row": 23,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "to Pests Co."
+        },
+        {
+          "row": 23,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$80.00"
+        },
+        {
+          "row": 23,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 23,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 24,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "02 Title - Insurance Binder"
+        },
+        {
+          "row": 24,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "to Epsilon Title Co."
+        },
+        {
+          "row": 24,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$50.00"
+        },
+        {
+          "row": 24,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 24,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 25,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "03 Title - Lender's Title Policy"
+        },
+        {
+          "row": 25,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "to Epsilon Title Co."
+        },
+        {
+          "row": 25,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$250.50"
+        },
+        {
+          "row": 25,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 25,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 26,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "04 Title - Settlement Agent Fee"
+        },
+        {
+          "row": 26,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "to Epsilon Title Co."
+        },
+        {
+          "row": 26,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$350.00"
+        },
+        {
+          "row": 26,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 26,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 27,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "05 Title - Title Search"
+        },
+        {
+          "row": 27,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "to Epsilon Title Co."
+        },
+        {
+          "row": 27,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$200.00"
+        },
+        {
+          "row": 27,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 27,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 28,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "06"
+        },
+        {
+          "row": 28,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 28,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 28,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 29,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "07"
+        },
+        {
+          "row": 29,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 29,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 29,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 30,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "08"
+        },
+        {
+          "row": 30,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 30,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 30,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 31,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "D. TOTAL LOAN COSTS (Borrower-Paid)"
+        },
+        {
+          "row": 31,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "$3,800.50"
+        },
+        {
+          "row": 31,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 32,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "Loan Costs Subtotals (A + B + C)"
+        },
+        {
+          "row": 32,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$3,360.50"
+        },
+        {
+          "row": 32,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$440.00"
+        },
+        {
+          "row": 32,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        }
+      ],
+      "adjudication": "P2",
+      "settled_by": "agent",
+      "settle_note": "P2 rows; two At Closing amounts un-spanned"
+    },
+    {
+      "id": "t2",
+      "element_id": "e4",
+      "bbox": [
+        35.1,
+        405.9,
+        576.2,
+        757
+      ],
+      "num_rows": 32,
+      "num_cols": 5,
+      "header_rows": [],
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "E. Taxes and Other Government Fees"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "$80.00"
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "01 Recording Fees Deed: Mortgage: $80.00"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$80.00"
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "02"
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "F. Prepaids"
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "$2,199.15"
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "01 Homeowner's Insurance Premium ( 12 mo.) to Insurance Co."
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$1,209.96"
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "02 Mortgage Insurance Premium ( 1 mo.) to MI Co."
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$82.35"
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "03 Prepaid Interest ( $17.19 per day from 4/15/2013 to 5/1/2013 )"
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$275.04"
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "04 Property Taxes ( 6 mo.) to Any County USA"
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$631.80"
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "05"
+        },
+        {
+          "row": 8,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "G. Initial Escrow Payment at Closing"
+        },
+        {
+          "row": 9,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "$576.95"
+        },
+        {
+          "row": 9,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "01 Homeowner's Insurance $100.83 per month for 2 mo."
+        },
+        {
+          "row": 10,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$201.66"
+        },
+        {
+          "row": 10,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "02 Mortgage Insurance $82.35 per month for 2 mo."
+        },
+        {
+          "row": 11,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$164.70"
+        },
+        {
+          "row": 11,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 11,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "03 Property Taxes $105.30 per month for 2 mo."
+        },
+        {
+          "row": 12,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$210.60"
+        },
+        {
+          "row": 12,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 12,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 13,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "04"
+        },
+        {
+          "row": 13,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 13,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 13,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 14,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "05"
+        },
+        {
+          "row": 14,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 14,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 14,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "06"
+        },
+        {
+          "row": 15,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 16,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "07"
+        },
+        {
+          "row": 16,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 16,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 16,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 17,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "08 Aggregate Adjustment"
+        },
+        {
+          "row": 17,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "- $0.01"
+        },
+        {
+          "row": 17,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 17,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 18,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "H. Other"
+        },
+        {
+          "row": 18,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 2,
+          "text": ""
+        },
+        {
+          "row": 18,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 19,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "01"
+        },
+        {
+          "row": 19,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 19,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 19,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 20,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "02"
+        },
+        {
+          "row": 20,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 20,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 20,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 21,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "03"
+        },
+        {
+          "row": 21,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 21,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 21,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 22,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "04"
+        },
+        {
+          "row": 22,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 22,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 22,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 23,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "05"
+        },
+        {
+          "row": 23,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 23,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 23,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 24,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "06"
+        },
+        {
+          "row": 24,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 24,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 24,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 25,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "07"
+        },
+        {
+          "row": 25,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 25,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 25,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 26,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "08"
+        },
+        {
+          "row": 26,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 26,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 26,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 27,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "I. TOTAL OTHER COSTS (Borrower-Paid)"
+        },
+        {
+          "row": 27,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "$2,856.10"
+        },
+        {
+          "row": 27,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 28,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "Other Costs Subtotals (E + F + G + H)"
+        },
+        {
+          "row": 28,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$2,856.10"
+        },
+        {
+          "row": 28,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 28,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 29,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "J. TOTAL CLOSING COSTS (Borrower-Paid)"
+        },
+        {
+          "row": 29,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "$6,156.60"
+        },
+        {
+          "row": 29,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 30,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "Closing Costs Subtotals (D + I)"
+        },
+        {
+          "row": 30,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$6,216.60"
+        },
+        {
+          "row": 30,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$440.00"
+        },
+        {
+          "row": 30,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 31,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "Lender Credits"
+        },
+        {
+          "row": 31,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "- $500.00"
+        },
+        {
+          "row": 31,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 31,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        }
+      ],
+      "adjudication": "own",
+      "settled_by": "agent",
+      "settle_note": "Neither parser kept the rows; typed from the image"
+    }
+  ],
+  "key_values": [],
+  "header_footer_lines": [
+    "CLOSING DISCLOSURE",
+    "PAGE 2 OF 5 · LOAN ID # 123456789"
+  ],
+  "notes": "Disputed P1/P2 tables settled by the agent from the page image (2026-11-12, settle_tables_agent.py)."
+}

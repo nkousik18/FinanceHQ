@@ -1,0 +1,1279 @@
+{
+  "page_id": "cfpb_cd_h25d1_p002",
+  "doc_id": "cfpb_cd_h25d1",
+  "page": 2,
+  "stratum": "complex_layout",
+  "source_format": "pdf",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612,
+    594
+  ],
+  "status": "verified",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-06",
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "section_header",
+      "bbox": [
+        40,
+        43.3,
+        161.5,
+        51.7
+      ],
+      "text": "Summaries of Transactions"
+    },
+    {
+      "id": "e2",
+      "class": "section_header",
+      "bbox": [
+        194.4,
+        43.5,
+        404.7,
+        51.1
+      ],
+      "text": "Use this table to see a summary of your transaction."
+    },
+    {
+      "id": "e3",
+      "class": "section_header",
+      "bbox": [
+        40.1,
+        58.9,
+        146.4,
+        65.7
+      ],
+      "text": "BORROWER'S TRANSACTION"
+    },
+    {
+      "id": "e4",
+      "class": "section_header",
+      "bbox": [
+        40,
+        73.9,
+        156.2,
+        80.7
+      ],
+      "text": "K. Due from Borrower at Closing"
+    },
+    {
+      "id": "e5",
+      "class": "other",
+      "bbox": [
+        39.6,
+        85.5,
+        125.4,
+        93.6
+      ],
+      "text": "01 Sale Price of Property"
+    },
+    {
+      "id": "e6",
+      "class": "other",
+      "bbox": [
+        39.1,
+        96.3,
+        227.4,
+        105
+      ],
+      "text": "02 Sale Price of Any Personal Property Included in Sale"
+    },
+    {
+      "id": "e7",
+      "class": "other",
+      "bbox": [
+        38.8,
+        107.4,
+        160.4,
+        116.2
+      ],
+      "text": "03 Closing Costs Paid at Closing (J)"
+    },
+    {
+      "id": "e8",
+      "class": "text",
+      "bbox": [
+        40,
+        119.4,
+        48.3,
+        126.3
+      ],
+      "text": "04"
+    },
+    {
+      "id": "e9",
+      "class": "section_header",
+      "bbox": [
+        40,
+        130.4,
+        86.3,
+        137.2
+      ],
+      "text": "Adjustments"
+    },
+    {
+      "id": "e10",
+      "class": "text",
+      "bbox": [
+        40,
+        141.4,
+        48.3,
+        148.3
+      ],
+      "text": "05"
+    },
+    {
+      "id": "e11",
+      "class": "text",
+      "bbox": [
+        40,
+        152.4,
+        48.3,
+        159.3
+      ],
+      "text": "06"
+    },
+    {
+      "id": "e12",
+      "class": "text",
+      "bbox": [
+        40,
+        163.4,
+        48.3,
+        170.3
+      ],
+      "text": "07"
+    },
+    {
+      "id": "e13",
+      "class": "section_header",
+      "bbox": [
+        40,
+        174.4,
+        213,
+        181.2
+      ],
+      "text": "Adjustments for Items Paid by Seller in Advance"
+    },
+    {
+      "id": "e14",
+      "class": "other",
+      "bbox": [
+        39.8,
+        184.5,
+        116.4,
+        192.7
+      ],
+      "text": "08 City/Town Taxes"
+    },
+    {
+      "id": "e15",
+      "class": "text",
+      "bbox": [
+        152,
+        185.4,
+        159.1,
+        192.3
+      ],
+      "text": "to"
+    },
+    {
+      "id": "e16",
+      "class": "other",
+      "bbox": [
+        39.6,
+        195.3,
+        106.6,
+        203.8
+      ],
+      "text": "09 County Taxes"
+    },
+    {
+      "id": "e17",
+      "class": "list",
+      "bbox": [
+        40,
+        207.4,
+        105.2,
+        214.3
+      ],
+      "text": "10 Assessments"
+    },
+    {
+      "id": "e18",
+      "class": "text",
+      "bbox": [
+        152,
+        196.4,
+        159.1,
+        203.3
+      ],
+      "text": "to"
+    },
+    {
+      "id": "e19",
+      "class": "text",
+      "bbox": [
+        152,
+        207.4,
+        159.1,
+        214.3
+      ],
+      "text": "to"
+    },
+    {
+      "id": "e20",
+      "class": "text",
+      "bbox": [
+        40,
+        218.4,
+        48.3,
+        225.3
+      ],
+      "text": "11"
+    },
+    {
+      "id": "e21",
+      "class": "text",
+      "bbox": [
+        40,
+        229.4,
+        48.2,
+        236.3
+      ],
+      "text": "12"
+    },
+    {
+      "id": "e22",
+      "class": "text",
+      "bbox": [
+        40,
+        240.4,
+        48.2,
+        247.3
+      ],
+      "text": "13"
+    },
+    {
+      "id": "e23",
+      "class": "text",
+      "bbox": [
+        40,
+        251.4,
+        48.2,
+        258.3
+      ],
+      "text": "14"
+    },
+    {
+      "id": "e24",
+      "class": "text",
+      "bbox": [
+        40,
+        262.4,
+        48.2,
+        269.3
+      ],
+      "text": "15"
+    },
+    {
+      "id": "e25",
+      "class": "section_header",
+      "bbox": [
+        40,
+        276.4,
+        228.9,
+        283.2
+      ],
+      "text": "L. Paid Already by or on Behalf of Borrower at Closing"
+    },
+    {
+      "id": "e26",
+      "class": "other",
+      "bbox": [
+        39.5,
+        287.6,
+        79.5,
+        295.5
+      ],
+      "text": "01 Deposit"
+    },
+    {
+      "id": "e27",
+      "class": "other",
+      "bbox": [
+        39.4,
+        298.3,
+        99.2,
+        306.3
+      ],
+      "text": "02 Loan Amount"
+    },
+    {
+      "id": "e28",
+      "class": "other",
+      "bbox": [
+        39.4,
+        309.1,
+        206.1,
+        317.7
+      ],
+      "text": "03 Existing Loan(s) Assumed or Taken Subject to"
+    },
+    {
+      "id": "e29",
+      "class": "other",
+      "bbox": [
+        39.4,
+        320.1,
+        218.3,
+        328.5
+      ],
+      "text": "04 Satisfaction of Junior Lien $5,000 P.O.C. Borrower"
+    },
+    {
+      "id": "e30",
+      "class": "other",
+      "bbox": [
+        40,
+        331.1,
+        94.2,
+        339.3
+      ],
+      "text": "05 Seller Credit"
+    },
+    {
+      "id": "e31",
+      "class": "section_header",
+      "bbox": [
+        40,
+        343.4,
+        88.6,
+        350.2
+      ],
+      "text": "Other Credits"
+    },
+    {
+      "id": "e32",
+      "class": "text",
+      "bbox": [
+        40,
+        354.4,
+        48.3,
+        361.3
+      ],
+      "text": "06"
+    },
+    {
+      "id": "e33",
+      "class": "text",
+      "bbox": [
+        40,
+        365.4,
+        48.3,
+        372.3
+      ],
+      "text": "07"
+    },
+    {
+      "id": "e34",
+      "class": "section_header",
+      "bbox": [
+        40,
+        376.4,
+        86.3,
+        383.2
+      ],
+      "text": "Adjustments"
+    },
+    {
+      "id": "e35",
+      "class": "text",
+      "bbox": [
+        40,
+        387.4,
+        48.3,
+        394.3
+      ],
+      "text": "08"
+    },
+    {
+      "id": "e36",
+      "class": "text",
+      "bbox": [
+        40,
+        398.4,
+        48.3,
+        405.3
+      ],
+      "text": "09"
+    },
+    {
+      "id": "e37",
+      "class": "text",
+      "bbox": [
+        40,
+        409.4,
+        48.3,
+        416.3
+      ],
+      "text": "10"
+    },
+    {
+      "id": "e38",
+      "class": "text",
+      "bbox": [
+        40,
+        420.4,
+        48.3,
+        427.3
+      ],
+      "text": "11"
+    },
+    {
+      "id": "e39",
+      "class": "section_header",
+      "bbox": [
+        40,
+        431.4,
+        181.9,
+        438.2
+      ],
+      "text": "Adjustments for Items Unpaid by Seller"
+    },
+    {
+      "id": "e40",
+      "class": "list",
+      "bbox": [
+        40,
+        442.4,
+        117.4,
+        449.3
+      ],
+      "text": "12 City/Town Taxes"
+    },
+    {
+      "id": "e41",
+      "class": "text",
+      "bbox": [
+        152,
+        442.4,
+        159.1,
+        449.3
+      ],
+      "text": "to"
+    },
+    {
+      "id": "e42",
+      "class": "list",
+      "bbox": [
+        40,
+        453.4,
+        107.6,
+        460.3
+      ],
+      "text": "13 County Taxes"
+    },
+    {
+      "id": "e43",
+      "class": "text",
+      "bbox": [
+        152,
+        453.4,
+        159.1,
+        460.3
+      ],
+      "text": "to"
+    },
+    {
+      "id": "e44",
+      "class": "list",
+      "bbox": [
+        40,
+        464.4,
+        106.2,
+        471.3
+      ],
+      "text": "14 Assessments"
+    },
+    {
+      "id": "e45",
+      "class": "text",
+      "bbox": [
+        152,
+        464.4,
+        159.1,
+        471.3
+      ],
+      "text": "to"
+    },
+    {
+      "id": "e46",
+      "class": "text",
+      "bbox": [
+        40,
+        475.4,
+        48.3,
+        482.3
+      ],
+      "text": "15"
+    },
+    {
+      "id": "e47",
+      "class": "text",
+      "bbox": [
+        40,
+        486.4,
+        48.3,
+        493.3
+      ],
+      "text": "16"
+    },
+    {
+      "id": "e48",
+      "class": "text",
+      "bbox": [
+        40,
+        497.4,
+        48.3,
+        504.3
+      ],
+      "text": "17"
+    },
+    {
+      "id": "e49",
+      "class": "section_header",
+      "bbox": [
+        40.1,
+        510.9,
+        93.2,
+        517.7
+      ],
+      "text": "CALCULATION"
+    },
+    {
+      "id": "e50",
+      "class": "text",
+      "bbox": [
+        40,
+        524.4,
+        167.2,
+        531.2
+      ],
+      "text": "Total Due from Borrower at Closing (K)"
+    },
+    {
+      "id": "e51",
+      "class": "text",
+      "bbox": [
+        40,
+        536.4,
+        236.7,
+        543.2
+      ],
+      "text": "Total Paid Already by or on Behalf of Borrower at Closing (L)"
+    },
+    {
+      "id": "e52",
+      "class": "other",
+      "bbox": [
+        40,
+        547.3,
+        196.2,
+        556.9
+      ],
+      "text": "Cash to Close From To Borrower"
+    },
+    {
+      "id": "e53",
+      "class": "section_header",
+      "bbox": [
+        321.9,
+        58.9,
+        411.6,
+        65.7
+      ],
+      "text": "SELLER'S TRANSACTION"
+    },
+    {
+      "id": "e54",
+      "class": "list",
+      "bbox": [
+        321.8,
+        73.9,
+        414.7,
+        80.7
+      ],
+      "text": "Due to Seller at Closing"
+    },
+    {
+      "id": "e55",
+      "class": "other",
+      "bbox": [
+        321.6,
+        85.7,
+        407.1,
+        93.9
+      ],
+      "text": "01 Sale Price of Property"
+    },
+    {
+      "id": "e56",
+      "class": "other",
+      "bbox": [
+        321.6,
+        96.4,
+        509,
+        104.9
+      ],
+      "text": "02 Sale Price of Any Personal Property Included in Sale"
+    },
+    {
+      "id": "e57",
+      "class": "text",
+      "bbox": [
+        321.8,
+        108.4,
+        330.1,
+        115.3
+      ],
+      "text": "03"
+    },
+    {
+      "id": "e58",
+      "class": "text",
+      "bbox": [
+        321.8,
+        119.4,
+        330.1,
+        126.3
+      ],
+      "text": "04"
+    },
+    {
+      "id": "e59",
+      "class": "text",
+      "bbox": [
+        321.8,
+        130.4,
+        330.1,
+        137.3
+      ],
+      "text": "05"
+    },
+    {
+      "id": "e60",
+      "class": "text",
+      "bbox": [
+        321.8,
+        141.4,
+        330.1,
+        148.3
+      ],
+      "text": "06"
+    },
+    {
+      "id": "e61",
+      "class": "text",
+      "bbox": [
+        321.8,
+        152.4,
+        330.1,
+        159.3
+      ],
+      "text": "07"
+    },
+    {
+      "id": "e62",
+      "class": "text",
+      "bbox": [
+        321.8,
+        163.4,
+        330.1,
+        170.3
+      ],
+      "text": "08"
+    },
+    {
+      "id": "e63",
+      "class": "section_header",
+      "bbox": [
+        321.8,
+        174.4,
+        494.8,
+        181.2
+      ],
+      "text": "Adjustments for Items Paid by Seller in Advance"
+    },
+    {
+      "id": "e64",
+      "class": "other",
+      "bbox": [
+        321.8,
+        184.4,
+        394.5,
+        192.7
+      ],
+      "text": "09 City/Town Taxes"
+    },
+    {
+      "id": "e65",
+      "class": "text",
+      "bbox": [
+        433.8,
+        185.4,
+        440.9,
+        192.3
+      ],
+      "text": "to"
+    },
+    {
+      "id": "e66",
+      "class": "other",
+      "bbox": [
+        321.8,
+        195.3,
+        384.7,
+        203.9
+      ],
+      "text": "10 County Taxes"
+    },
+    {
+      "id": "e67",
+      "class": "other",
+      "bbox": [
+        321.8,
+        206.6,
+        383.4,
+        214.3
+      ],
+      "text": "11 Assessments"
+    },
+    {
+      "id": "e68",
+      "class": "text",
+      "bbox": [
+        433.8,
+        196.4,
+        440.9,
+        203.3
+      ],
+      "text": "to"
+    },
+    {
+      "id": "e69",
+      "class": "text",
+      "bbox": [
+        433.8,
+        207.4,
+        440.9,
+        214.3
+      ],
+      "text": "to"
+    },
+    {
+      "id": "e70",
+      "class": "text",
+      "bbox": [
+        321.8,
+        218.4,
+        330.1,
+        225.3
+      ],
+      "text": "12"
+    },
+    {
+      "id": "e71",
+      "class": "text",
+      "bbox": [
+        321.8,
+        229.4,
+        330.1,
+        236.3
+      ],
+      "text": "13"
+    },
+    {
+      "id": "e72",
+      "class": "text",
+      "bbox": [
+        321.8,
+        240.4,
+        330.1,
+        247.3
+      ],
+      "text": "14"
+    },
+    {
+      "id": "e73",
+      "class": "text",
+      "bbox": [
+        321.8,
+        251.4,
+        330.1,
+        258.3
+      ],
+      "text": "15"
+    },
+    {
+      "id": "e74",
+      "class": "text",
+      "bbox": [
+        321.8,
+        262.4,
+        330.1,
+        269.3
+      ],
+      "text": "16"
+    },
+    {
+      "id": "e75",
+      "class": "section_header",
+      "bbox": [
+        321.8,
+        276.4,
+        425.4,
+        283.2
+      ],
+      "text": "N. Due from Seller at Closing"
+    },
+    {
+      "id": "e76",
+      "class": "other",
+      "bbox": [
+        321.8,
+        287.6,
+        384.9,
+        295.8
+      ],
+      "text": "01 Excess Deposit"
+    },
+    {
+      "id": "e77",
+      "class": "other",
+      "bbox": [
+        321.6,
+        298.3,
+        442.2,
+        307
+      ],
+      "text": "02 Closing Costs Paid at Closing (J)"
+    },
+    {
+      "id": "e78",
+      "class": "other",
+      "bbox": [
+        321.3,
+        309.3,
+        487.8,
+        317.8
+      ],
+      "text": "03 Existing Loan(s) Assumed or Taken Subject to"
+    },
+    {
+      "id": "e79",
+      "class": "other",
+      "bbox": [
+        321.5,
+        320.4,
+        434.5,
+        328.9
+      ],
+      "text": "04 Payoff of First Mortgage Loan"
+    },
+    {
+      "id": "e80",
+      "class": "other",
+      "bbox": [
+        321,
+        331.5,
+        445.5,
+        340.1
+      ],
+      "text": "05 Payoff of Second Mortgage Loan"
+    },
+    {
+      "id": "e81",
+      "class": "other",
+      "bbox": [
+        321.4,
+        342.3,
+        500.2,
+        350.3
+      ],
+      "text": "06 Satisfaction of Junior Lien $5,000 P.O.C. Borrower"
+    },
+    {
+      "id": "e82",
+      "class": "text",
+      "bbox": [
+        321.8,
+        354.4,
+        330.1,
+        361.3
+      ],
+      "text": "07"
+    },
+    {
+      "id": "e83",
+      "class": "list",
+      "bbox": [
+        321.8,
+        365.4,
+        376,
+        372.3
+      ],
+      "text": "08 Seller Credit"
+    },
+    {
+      "id": "e84",
+      "class": "text",
+      "bbox": [
+        321.8,
+        376.4,
+        330.1,
+        383.3
+      ],
+      "text": "09"
+    },
+    {
+      "id": "e85",
+      "class": "text",
+      "bbox": [
+        321.8,
+        387.4,
+        330.1,
+        394.3
+      ],
+      "text": "10"
+    },
+    {
+      "id": "e86",
+      "class": "text",
+      "bbox": [
+        321.8,
+        398.4,
+        330.1,
+        405.3
+      ],
+      "text": "11"
+    },
+    {
+      "id": "e87",
+      "class": "text",
+      "bbox": [
+        321.8,
+        409.4,
+        330.1,
+        416.3
+      ],
+      "text": "12"
+    },
+    {
+      "id": "e88",
+      "class": "text",
+      "bbox": [
+        321.8,
+        420.4,
+        330.1,
+        427.3
+      ],
+      "text": "13"
+    },
+    {
+      "id": "e89",
+      "class": "section_header",
+      "bbox": [
+        321.8,
+        431.4,
+        463.7,
+        438.2
+      ],
+      "text": "Adjustments for Items Unpaid by Seller"
+    },
+    {
+      "id": "e90",
+      "class": "other",
+      "bbox": [
+        321.8,
+        441.4,
+        398,
+        449.7
+      ],
+      "text": "14 City/Town Taxes"
+    },
+    {
+      "id": "e91",
+      "class": "text",
+      "bbox": [
+        433.8,
+        442.4,
+        440.9,
+        449.3
+      ],
+      "text": "to"
+    },
+    {
+      "id": "e92",
+      "class": "list",
+      "bbox": [
+        321.8,
+        453.4,
+        388.3,
+        460.3
+      ],
+      "text": "15 County Taxes"
+    },
+    {
+      "id": "e93",
+      "class": "text",
+      "bbox": [
+        433.8,
+        453.4,
+        440.9,
+        460.3
+      ],
+      "text": "to"
+    },
+    {
+      "id": "e94",
+      "class": "list",
+      "bbox": [
+        321.8,
+        464.4,
+        386.9,
+        471.3
+      ],
+      "text": "16 Assessments"
+    },
+    {
+      "id": "e95",
+      "class": "text",
+      "bbox": [
+        433.8,
+        464.4,
+        440.9,
+        471.3
+      ],
+      "text": "to"
+    },
+    {
+      "id": "e96",
+      "class": "text",
+      "bbox": [
+        321.8,
+        475.4,
+        330,
+        482.3
+      ],
+      "text": "17"
+    },
+    {
+      "id": "e97",
+      "class": "text",
+      "bbox": [
+        321.8,
+        486.4,
+        330,
+        493.3
+      ],
+      "text": "18"
+    },
+    {
+      "id": "e98",
+      "class": "text",
+      "bbox": [
+        321.8,
+        497.4,
+        330,
+        504.3
+      ],
+      "text": "19"
+    },
+    {
+      "id": "e99",
+      "class": "section_header",
+      "bbox": [
+        321.9,
+        510.9,
+        375,
+        517.7
+      ],
+      "text": "CALCULATION"
+    },
+    {
+      "id": "e100",
+      "class": "text",
+      "bbox": [
+        321.8,
+        524.4,
+        432.3,
+        531.2
+      ],
+      "text": "Total Due to Seller at Closing (M)"
+    },
+    {
+      "id": "e101",
+      "class": "text",
+      "bbox": [
+        321.8,
+        536.4,
+        440.2,
+        543.2
+      ],
+      "text": "Total Due from Seller at Closing (N)"
+    },
+    {
+      "id": "e102",
+      "class": "other",
+      "bbox": [
+        321.8,
+        546.9,
+        427.1,
+        556.9
+      ],
+      "text": "Cash From To Seller"
+    },
+    {
+      "id": "e103",
+      "class": "page_footer",
+      "bbox": [
+        36,
+        573.6,
+        113.2,
+        580.4
+      ],
+      "text": "CLOSING DISCLOSURE"
+    },
+    {
+      "id": "e104",
+      "class": "page_footer",
+      "bbox": [
+        450.1,
+        573.6,
+        576,
+        580.4
+      ],
+      "text": "PAGE 3 OF 5 · LOAN ID # 0000000000"
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6",
+    "e7",
+    "e8",
+    "e9",
+    "e10",
+    "e11",
+    "e12",
+    "e13",
+    "e14",
+    "e15",
+    "e16",
+    "e17",
+    "e18",
+    "e19",
+    "e20",
+    "e21",
+    "e22",
+    "e23",
+    "e24",
+    "e25",
+    "e26",
+    "e27",
+    "e28",
+    "e29",
+    "e30",
+    "e31",
+    "e32",
+    "e33",
+    "e34",
+    "e35",
+    "e36",
+    "e37",
+    "e38",
+    "e39",
+    "e40",
+    "e41",
+    "e42",
+    "e43",
+    "e44",
+    "e45",
+    "e46",
+    "e47",
+    "e48",
+    "e49",
+    "e50",
+    "e51",
+    "e52",
+    "e53",
+    "e54",
+    "e55",
+    "e56",
+    "e57",
+    "e58",
+    "e59",
+    "e60",
+    "e61",
+    "e62",
+    "e63",
+    "e64",
+    "e65",
+    "e66",
+    "e67",
+    "e68",
+    "e69",
+    "e70",
+    "e71",
+    "e72",
+    "e73",
+    "e74",
+    "e75",
+    "e76",
+    "e77",
+    "e78",
+    "e79",
+    "e80",
+    "e81",
+    "e82",
+    "e83",
+    "e84",
+    "e85",
+    "e86",
+    "e87",
+    "e88",
+    "e89",
+    "e90",
+    "e91",
+    "e92",
+    "e93",
+    "e94",
+    "e95",
+    "e96",
+    "e97",
+    "e98",
+    "e99",
+    "e100",
+    "e101",
+    "e102",
+    "e103",
+    "e104"
+  ],
+  "tables": [],
+  "key_values": [],
+  "header_footer_lines": [
+    "CLOSING DISCLOSURE",
+    "PAGE 3 OF 5 · LOAN ID # 0000000000"
+  ],
+  "notes": ""
+}

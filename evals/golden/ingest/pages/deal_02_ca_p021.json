@@ -1,0 +1,138 @@
+{
+  "page_id": "deal_02_ca_p021",
+  "doc_id": "deal_02_ca",
+  "page": 21,
+  "stratum": "table_heavy",
+  "source_format": "html_rendered",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612,
+    792
+  ],
+  "status": "verified",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-04",
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "text",
+      "bbox": [
+        36,
+        75.2,
+        576.7,
+        107.7
+      ],
+      "text": "\"Maturity Date\" means the earlier of (a) the two year anniversary of the Funding Date and (b) the effective date of (x) if the Funding Date has not occurred, any other termination or cancellation of the Aggregate Commitments and (y) if the Funding Date has occurred, the acceleration in full of the T"
+    },
+    {
+      "id": "e2",
+      "class": "text",
+      "bbox": [
+        68.4,
+        120.2,
+        347.1,
+        130.2
+      ],
+      "text": "\"Moody's\" means Moody's Investors Service, Inc. and any successor thereto."
+    },
+    {
+      "id": "e3",
+      "class": "text",
+      "bbox": [
+        36,
+        142.7,
+        576.7,
+        175.2
+      ],
+      "text": "\"Multiemployer Plan\" means, at any time, an employee pension benefit plan within the meaning of Section 4001(a)(3) of ERISA to which any member of the ERISA Group is then making or accruing an obligation to make contributions, or has within the preceding five plan years made contributions, including"
+    },
+    {
+      "id": "e4",
+      "class": "text",
+      "bbox": [
+        36,
+        187.7,
+        576.7,
+        208.9
+      ],
+      "text": "\"Multiple Employer Plan\" means a Plan which has two or more contributing sponsors (including the Borrower or any ERISA Affiliate) at least two of whom are not under common control, as such a plan is described in Section 4064 of ERISA."
+    },
+    {
+      "id": "e5",
+      "class": "text",
+      "bbox": [
+        36,
+        221.5,
+        576.7,
+        242.7
+      ],
+      "text": "\"Non-Consenting Lender\" means any Lender that does not approve any consent, waiver or amendment that (i) requires the approval of each Lender or all affected Lenders in accordance with the terms of Section 10.01 and (ii) has been approved by the Required Lenders."
+    },
+    {
+      "id": "e6",
+      "class": "text",
+      "bbox": [
+        36,
+        255.2,
+        576.7,
+        332.7
+      ],
+      "text": "\"Non-Recourse Debt\" of any Person means Debt secured by a Lien on one or more assets of such Person, where the rights and remedies of the holder of such Debt in respect of such Debt do not extend to any other assets of such Person and, if such Person is organized under the laws of or doing business "
+    },
+    {
+      "id": "e7",
+      "class": "text",
+      "bbox": [
+        36,
+        345.2,
+        576.7,
+        366.4
+      ],
+      "text": "\"Note\" means a promissory note made by the Borrower in favor of a Lender evidencing Loans made by such Lender, substantially in the form of Exhibit B."
+    },
+    {
+      "id": "e8",
+      "class": "text",
+      "bbox": [
+        36,
+        379,
+        576.7,
+        433.9
+      ],
+      "text": "\"Obligations\" means all advances to, and debts, liabilities, obligations, covenants and duties of, the Borrower arising under any Loan Document or otherwise with respect to any Loan, whether direct or indirect (including those acquired by assumption), absolute or contingent, due or to become due, no"
+    },
+    {
+      "id": "e9",
+      "class": "page_number",
+      "bbox": [
+        301.9,
+        457,
+        310.9,
+        466.9
+      ],
+      "text": "16"
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6",
+    "e7",
+    "e8",
+    "e9"
+  ],
+  "tables": [],
+  "key_values": [],
+  "header_footer_lines": [
+    "16"
+  ],
+  "notes": ""
+}

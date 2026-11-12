@@ -1,0 +1,124 @@
+{
+  "page_id": "deal_05_ca_p070",
+  "doc_id": "deal_05_ca",
+  "page": 70,
+  "stratum": "digital_prose",
+  "source_format": "html_rendered",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612,
+    792
+  ],
+  "status": "verified",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-04",
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "section_header",
+      "bbox": [
+        262.3,
+        43.9,
+        349.7,
+        52.7
+      ],
+      "text": "Borrowing Base Schedule"
+    },
+    {
+      "id": "e2",
+      "class": "text",
+      "bbox": [
+        64.8,
+        60.4,
+        547.2,
+        176.5
+      ],
+      "text": "\"Borrowing Base\" means, at any time, the sum of (a) 90% of Eligible Accounts at such time, plus (b) the lesser of (i) 85% of Eligible Foreign Accounts at such time and (ii) $4,000,000, plus (c) the lesser of (i) 70% of Eligible Inventory, valued at the lower of cost or market value, determined on a "
+    },
+    {
+      "id": "e3",
+      "class": "text",
+      "bbox": [
+        64.8,
+        175.9,
+        547.2,
+        201.2
+      ],
+      "text": "third unrelated an to consignor, as Party, Loan a by consigned are that Goods Finished time, any at means, Goods\" Finished \"Consigned ﻿ party."
+    },
+    {
+      "id": "e4",
+      "class": "text",
+      "bbox": [
+        64.8,
+        200.6,
+        547.2,
+        242.5
+      ],
+      "text": "the and in, established relationship the mean thereof derivations other and \"consignment\" \"consignee\", \"consignor\", \"consigned\", ﻿ obligations, rights and remedies of the parties with respect to that relationship as provided in, a written bailment, consignment or other form of inventory management a"
+    },
+    {
+      "id": "e5",
+      "class": "text",
+      "bbox": [
+        64.8,
+        241.9,
+        547.2,
+        267.2
+      ],
+      "text": "to AB Electrolux by Borrower the to owing Accounts of sale non-recourse the means Program\" Purchase Receivable Trade \"Electrolux ﻿ Deutsche Bank AG or its successor in the ordinary course of business consistent with past practice."
+    },
+    {
+      "id": "e6",
+      "class": "text",
+      "bbox": [
+        64.8,
+        266.6,
+        547.2,
+        300.2
+      ],
+      "text": "its in determines Lender the which Party Loan a of Accounts) Foreign than (other Accounts the time, any at means, Accounts\" \"Eligible ﻿ Permitted Discretion are eligible as the basis for the extension of Revolving Loans and the issuance of Letters of Credit hereunder. Without limiting the Lender's P"
+    },
+    {
+      "id": "e13",
+      "class": "text",
+      "bbox": [
+        79.2,
+        299.6,
+        81.2,
+        308.5
+      ],
+      "text": "﻿"
+    },
+    {
+      "id": "e14",
+      "class": "list",
+      "bbox": [
+        95.8,
+        305.4,
+        576.5,
+        457.8
+      ],
+      "text": ""
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6",
+    "e13",
+    "e14"
+  ],
+  "tables": [],
+  "key_values": [],
+  "header_footer_lines": [],
+  "notes": ""
+}

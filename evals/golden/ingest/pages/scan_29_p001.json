@@ -1,0 +1,148 @@
+{
+  "page_id": "scan_29_p001",
+  "doc_id": "scan_29",
+  "page": 1,
+  "stratum": "scanned",
+  "source_format": "image_pdf",
+  "scan_of": "deal_10_ca:p148",
+  "scan_level": "heavy",
+  "page_size": [
+    612,
+    792
+  ],
+  "status": "verified",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-04",
+  "reference_text_source": "source_page_text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "section_header",
+      "bbox": [
+        266.3,
+        46,
+        348.3,
+        68.3
+      ],
+      "text": "EXHIBIT ss A)"
+    },
+    {
+      "id": "e2",
+      "class": "section_header",
+      "bbox": [
+        185.7,
+        77.3,
+        425.3,
+        86.7
+      ],
+      "text": "ASSIGNMENT AND ASSUMPTION AGREEMENT"
+    },
+    {
+      "id": "e3",
+      "class": "text",
+      "bbox": [
+        34,
+        98,
+        573.7,
+        184.3
+      ],
+      "text": "THIS ASSIGNMENT AND ASSUMPTION AGREEMENT (the \"Assignment and Assumption\") is dated as of the Effective Date set forth below and is entered into by and between [/nsert name of Assignor] (the \"Assignor™) and [/nsert name of Assignee) (the \" Assignee\"). Capitalized terms used but not defined herein sh"
+    },
+    {
+      "id": "e4",
+      "class": "text",
+      "bbox": [
+        34.3,
+        192,
+        577,
+        373.3
+      ],
+      "text": "For an agreed consideration, the Assignor hereby irrevocably sells and assigns to the Assignee, and the Assignee hereby irrevocably purchases and assumes from the Assignor, subject to and in accordance with the Standard Terms and Conditions and the Credit Agreement, as of the Effective Date inserted"
+    },
+    {
+      "id": "e5",
+      "class": "list",
+      "bbox": [
+        66.3,
+        404.8,
+        137,
+        414.8
+      ],
+      "text": "Assignee:"
+    },
+    {
+      "id": "e6",
+      "class": "list",
+      "bbox": [
+        66.7,
+        433.3,
+        142.7,
+        447
+      ],
+      "text": "3; Borrowers:"
+    },
+    {
+      "id": "e7",
+      "class": "list",
+      "bbox": [
+        66.3,
+        464.3,
+        190,
+        474.7
+      ],
+      "text": "Administrative Agent:"
+    },
+    {
+      "id": "e8",
+      "class": "text",
+      "bbox": [
+        231,
+        417,
+        398.7,
+        428
+      ],
+      "text": "{and is an Affiliate of [identifi Lender]}"
+    },
+    {
+      "id": "e9",
+      "class": "text",
+      "bbox": [
+        231,
+        434,
+        523.3,
+        456.7
+      ],
+      "text": "RPM INTERNATIONAL INC.., and certain of its Affiliates named in the Credit Agreement (referred to below)"
+    },
+    {
+      "id": "e10",
+      "class": "text",
+      "bbox": [
+        230,
+        463,
+        507,
+        488
+      ],
+      "text": "PNC BANK, NATIONAL ASSOCIATION, as the administrative agent under the Credit Agreement"
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6",
+    "e7",
+    "e8",
+    "e9",
+    "e10"
+  ],
+  "tables": [],
+  "key_values": [],
+  "header_footer_lines": [],
+  "notes": ""
+}

@@ -1,0 +1,981 @@
+{
+  "page_id": "deal_01_ca_p002",
+  "doc_id": "deal_01_ca",
+  "page": 2,
+  "stratum": "table_heavy",
+  "source_format": "html_rendered",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612,
+    792
+  ],
+  "status": "verified",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-04",
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "section_header",
+      "bbox": [
+        253,
+        36.1,
+        359.7,
+        47.2
+      ],
+      "text": "TABLE OF CONTENTS"
+    },
+    {
+      "id": "e2",
+      "class": "table",
+      "bbox": [
+        35.4,
+        59.5,
+        577,
+        537.4
+      ],
+      "text": ""
+    },
+    {
+      "id": "e3",
+      "class": "page_number",
+      "bbox": [
+        36,
+        561.4,
+        38.2,
+        570.2
+      ],
+      "text": "i"
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3"
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "element_id": "e2",
+      "bbox": [
+        35.4,
+        59.5,
+        577,
+        537.4
+      ],
+      "num_rows": 33,
+      "num_cols": 4,
+      "header_rows": [],
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "1."
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "DEFINITIONS AND PRINCIPLES OF CONSTRUCTION."
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "1"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 1.1"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Definitions."
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "1"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 1.2"
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Accounting Terms; GAAP"
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "18"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 1.3"
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Principles of Construction."
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "19"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "2."
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "AMOUNT AND TERMS OF LOANS."
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "19"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 2.1"
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Loans."
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "19"
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 2.2"
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Procedures for Borrowing."
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "20"
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 2.3"
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Notes."
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "22"
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 2.4"
+        },
+        {
+          "row": 8,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Termination and Reduction of Revolving Loan and Line of Credit Loan."
+        },
+        {
+          "row": 8,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "22"
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 9,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 2.5"
+        },
+        {
+          "row": 9,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Repayments of the Loans."
+        },
+        {
+          "row": 9,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "22"
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 10,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 2.6"
+        },
+        {
+          "row": 10,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Principal Reductions; Prepayments."
+        },
+        {
+          "row": 10,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "23"
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 11,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 2.7"
+        },
+        {
+          "row": 11,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Payments."
+        },
+        {
+          "row": 11,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "24"
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 12,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 2.8"
+        },
+        {
+          "row": 12,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Swap Transactions."
+        },
+        {
+          "row": 12,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "24"
+        },
+        {
+          "row": 13,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 13,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 2.9"
+        },
+        {
+          "row": 13,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Annual Clean-Up."
+        },
+        {
+          "row": 13,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "25"
+        },
+        {
+          "row": 14,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "3."
+        },
+        {
+          "row": 14,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "INTEREST, FEES, YIELD PROTECTIONS, ETC."
+        },
+        {
+          "row": 14,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "25"
+        },
+        {
+          "row": 15,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 15,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 3.1"
+        },
+        {
+          "row": 15,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Interest Rate and Payment Dates."
+        },
+        {
+          "row": 15,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "25"
+        },
+        {
+          "row": 16,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 16,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 3.2"
+        },
+        {
+          "row": 16,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Late Fee."
+        },
+        {
+          "row": 16,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "28"
+        },
+        {
+          "row": 17,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 17,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 3.3"
+        },
+        {
+          "row": 17,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Unused Loan Fee."
+        },
+        {
+          "row": 17,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "28"
+        },
+        {
+          "row": 18,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 18,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 3.4"
+        },
+        {
+          "row": 18,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Yield Protections"
+        },
+        {
+          "row": 18,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "28"
+        },
+        {
+          "row": 19,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 19,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 3.5"
+        },
+        {
+          "row": 19,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Increased Costs; Capital Requirements."
+        },
+        {
+          "row": 19,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "29"
+        },
+        {
+          "row": 20,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 20,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 3.6"
+        },
+        {
+          "row": 20,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Taxes."
+        },
+        {
+          "row": 20,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "29"
+        },
+        {
+          "row": 21,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "4."
+        },
+        {
+          "row": 21,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "REPRESENTATIONS AND WARRANTIES."
+        },
+        {
+          "row": 21,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "30"
+        },
+        {
+          "row": 22,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 22,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.1"
+        },
+        {
+          "row": 22,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Existence and Power."
+        },
+        {
+          "row": 22,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "30"
+        },
+        {
+          "row": 23,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 23,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.2"
+        },
+        {
+          "row": 23,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Authority and Execution."
+        },
+        {
+          "row": 23,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "30"
+        },
+        {
+          "row": 24,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 24,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.3"
+        },
+        {
+          "row": 24,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Binding Agreement."
+        },
+        {
+          "row": 24,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "30"
+        },
+        {
+          "row": 25,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 25,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.4"
+        },
+        {
+          "row": 25,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Litigation."
+        },
+        {
+          "row": 25,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "30"
+        },
+        {
+          "row": 26,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 26,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.5"
+        },
+        {
+          "row": 26,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Required Consents."
+        },
+        {
+          "row": 26,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "31"
+        },
+        {
+          "row": 27,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 27,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.6"
+        },
+        {
+          "row": 27,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Absence of Defaults; No Conflicting Agreements."
+        },
+        {
+          "row": 27,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "31"
+        },
+        {
+          "row": 28,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 28,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.7"
+        },
+        {
+          "row": 28,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Compliance with Applicable Laws."
+        },
+        {
+          "row": 28,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "31"
+        },
+        {
+          "row": 29,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 29,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.8"
+        },
+        {
+          "row": 29,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Taxes."
+        },
+        {
+          "row": 29,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "31"
+        },
+        {
+          "row": 30,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 30,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.9"
+        },
+        {
+          "row": 30,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Governmental Regulations."
+        },
+        {
+          "row": 30,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "32"
+        },
+        {
+          "row": 31,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 31,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.10"
+        },
+        {
+          "row": 31,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Federal Reserve Regulations; Use of Loan Proceeds."
+        },
+        {
+          "row": 31,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "32"
+        },
+        {
+          "row": 32,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 32,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Section 4.11"
+        },
+        {
+          "row": 32,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "ERISA."
+        },
+        {
+          "row": 32,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "32"
+        }
+      ],
+      "adjudication": "P2",
+      "settled_by": "agent",
+      "settle_note": "P2 keeps one TOC entry per row; P1 merged 4.3/4.4 and 4.6/4.7"
+    }
+  ],
+  "key_values": [],
+  "header_footer_lines": [
+    "i"
+  ],
+  "notes": "Disputed P1/P2 tables settled by the agent from the page image (2026-11-12, settle_tables_agent.py)."
+}

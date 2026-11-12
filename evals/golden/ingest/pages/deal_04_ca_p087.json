@@ -1,0 +1,90 @@
+{
+  "page_id": "deal_04_ca_p087",
+  "doc_id": "deal_04_ca",
+  "page": 87,
+  "stratum": "digital_prose",
+  "source_format": "html_rendered",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612,
+    792
+  ],
+  "status": "verified",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-04",
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "text",
+      "bbox": [
+        36.3,
+        53.9,
+        574.3,
+        180.2
+      ],
+      "text": "(b) Jurisdiction. Each party hereto irrevocably and unconditionally agrees that it will not commence any action, litigation or proceeding of any kind or description, whether in law or equity, whether in contract or in tort or otherwise, against any other party hereto, or any Related Party of the for"
+    },
+    {
+      "id": "e2",
+      "class": "text",
+      "bbox": [
+        36.3,
+        191.6,
+        564.4,
+        233.1
+      ],
+      "text": "(c) Waiver of Venue. Each party hereto irrevocably and unconditionally waives, to the fullest extent permitted by applicable law, any objection that it may now or hereafter have to the laying of venue of any action or proceeding arising out of or relating to this Agreement or any other Loan Document"
+    },
+    {
+      "id": "e3",
+      "class": "text",
+      "bbox": [
+        36.3,
+        244.5,
+        573.1,
+        317.8
+      ],
+      "text": "(d) Service of Process. Each party hereto irrevocably consents to service of process in the manner provided for notices in Section 9.02. Each of NL Holding, IFF Nederland and each Designated Subsidiary hereby agrees that service of process in any action or proceeding brought in any New York State co"
+    },
+    {
+      "id": "e4",
+      "class": "text",
+      "bbox": [
+        36.3,
+        329.2,
+        576.3,
+        434.3
+      ],
+      "text": "SECTION 9.11. Execution in Counterparts. This Agreement may be executed in any number of counterparts and by different parties hereto in separate counterparts, each of which when so executed shall be deemed to be an original and all of which taken together shall constitute one and the same agreement"
+    },
+    {
+      "id": "e5",
+      "class": "page_number",
+      "bbox": [
+        301.9,
+        443.7,
+        310.7,
+        453.5
+      ],
+      "text": "83"
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5"
+  ],
+  "tables": [],
+  "key_values": [],
+  "header_footer_lines": [
+    "83"
+  ],
+  "notes": ""
+}

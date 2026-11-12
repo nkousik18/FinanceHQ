@@ -1,0 +1,630 @@
+{
+  "page_id": "cfpb_cd_h25g_p005",
+  "doc_id": "cfpb_cd_h25g",
+  "page": 5,
+  "stratum": "complex_layout",
+  "source_format": "pdf",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612,
+    792
+  ],
+  "status": "verified",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-06",
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "section_header",
+      "bbox": [
+        36,
+        37.1,
+        282.8,
+        48.9
+      ],
+      "text": "Additional Information About This Loan"
+    },
+    {
+      "id": "e2",
+      "class": "section_header",
+      "bbox": [
+        42,
+        72.8,
+        118.1,
+        81.2
+      ],
+      "text": "Loan Disclosures"
+    },
+    {
+      "id": "e3",
+      "class": "section_header",
+      "bbox": [
+        36,
+        92.3,
+        85.1,
+        99.9
+      ],
+      "text": "Assumption"
+    },
+    {
+      "id": "e4",
+      "class": "text",
+      "bbox": [
+        36,
+        102.8,
+        284.2,
+        110.5
+      ],
+      "text": "If you sell or transfer this property to another person, your lender"
+    },
+    {
+      "id": "e5",
+      "class": "other",
+      "bbox": [
+        35.1,
+        112.6,
+        284.7,
+        133.7
+      ],
+      "text": "\u0007will allow, under certain conditions, this person to assume this loan on the original terms. 0"
+    },
+    {
+      "id": "e6",
+      "class": "other",
+      "bbox": [
+        34.7,
+        136.3,
+        274.1,
+        146.2
+      ],
+      "text": "\u0007will not allow assumption of this loan on the original terms. x"
+    },
+    {
+      "id": "e7",
+      "class": "section_header",
+      "bbox": [
+        36,
+        159.3,
+        102.6,
+        166.9
+      ],
+      "text": "Demand Feature"
+    },
+    {
+      "id": "e8",
+      "class": "text",
+      "bbox": [
+        36,
+        171.8,
+        71.3,
+        179.5
+      ],
+      "text": "Your loan"
+    },
+    {
+      "id": "e9",
+      "class": "other",
+      "bbox": [
+        35,
+        182,
+        289.3,
+        203.2
+      ],
+      "text": "\u0007has a demand feature, which permits your lender to require early repayment of the loan. You should review your note for details. U"
+    },
+    {
+      "id": "e10",
+      "class": "other",
+      "bbox": [
+        34.8,
+        204.8,
+        173.1,
+        215
+      ],
+      "text": "does not have a demand feature. x"
+    },
+    {
+      "id": "e11",
+      "class": "section_header",
+      "bbox": [
+        36,
+        228.3,
+        91.6,
+        235.9
+      ],
+      "text": "Late Payment"
+    },
+    {
+      "id": "e12",
+      "class": "text",
+      "bbox": [
+        36,
+        238.8,
+        290.9,
+        257
+      ],
+      "text": "If your payment is more than 15 days late, your lender will charge a late fee of 5% of the monthly principal and interest payment."
+    },
+    {
+      "id": "e13",
+      "class": "section_header",
+      "bbox": [
+        36,
+        270.3,
+        231.3,
+        278
+      ],
+      "text": "Negative Amortization (Increase in Loan Amount)"
+    },
+    {
+      "id": "e14",
+      "class": "text",
+      "bbox": [
+        36,
+        280.8,
+        139.9,
+        288.5
+      ],
+      "text": "Under your loan terms, you"
+    },
+    {
+      "id": "e15",
+      "class": "other",
+      "bbox": [
+        35,
+        291.1,
+        292.2,
+        343.5
+      ],
+      "text": "\u0007are scheduled to make monthly payments that do not pay all of the interest due that month. As a result, your loan amount will increase (negatively amortize), and your loan amount will likely become larger than your original loan amount. Increases in your loan amount lower the equity you have in thi"
+    },
+    {
+      "id": "e16",
+      "class": "other",
+      "bbox": [
+        34.9,
+        345.4,
+        292.2,
+        397.9
+      ],
+      "text": "\u0007may have monthly payments that do not pay all of the interest due that month. If you do, your loan amount will increase (negatively amortize), and, as a result, your loan amount may become larger than your original loan amount. Increases in your loan amount lower the equity you have in this propert"
+    },
+    {
+      "id": "e17",
+      "class": "list",
+      "bbox": [
+        37.2,
+        400.4,
+        217.4,
+        410
+      ],
+      "text": "do not have a negative amortization feature. x"
+    },
+    {
+      "id": "e18",
+      "class": "section_header",
+      "bbox": [
+        36,
+        425.3,
+        103.6,
+        432.9
+      ],
+      "text": "Partial Payments"
+    },
+    {
+      "id": "e19",
+      "class": "text",
+      "bbox": [
+        36,
+        437.8,
+        79.1,
+        445.5
+      ],
+      "text": "Your lender"
+    },
+    {
+      "id": "e20",
+      "class": "other",
+      "bbox": [
+        34.7,
+        447.4,
+        276.2,
+        468.9
+      ],
+      "text": "\u0007may accept payments that are less than the full amount due (partial payments) and apply them to your loan. x"
+    },
+    {
+      "id": "e21",
+      "class": "other",
+      "bbox": [
+        35,
+        470.6,
+        296,
+        492.2
+      ],
+      "text": "\u0007may hold them in a separate account until you pay the rest of the payment, and then apply the full payment to your loan. U1"
+    },
+    {
+      "id": "e22",
+      "class": "other",
+      "bbox": [
+        34.8,
+        494.4,
+        192.5,
+        504.4
+      ],
+      "text": "\u0007does not accept any partial payments. UO"
+    },
+    {
+      "id": "e23",
+      "class": "text",
+      "bbox": [
+        36,
+        508.8,
+        268.9,
+        516.5
+      ],
+      "text": "If this loan is sold, your new lender may have a different policy."
+    },
+    {
+      "id": "e24",
+      "class": "section_header",
+      "bbox": [
+        36,
+        529.8,
+        101.9,
+        537.4
+      ],
+      "text": "Security Interest"
+    },
+    {
+      "id": "e25",
+      "class": "text",
+      "bbox": [
+        36,
+        540.3,
+        181.3,
+        560
+      ],
+      "text": "You are granting a security interest in 123 Anywhere Street, Anytown, ST 12345"
+    },
+    {
+      "id": "e26",
+      "class": "text",
+      "bbox": [
+        36,
+        584.8,
+        276.3,
+        603
+      ],
+      "text": "You may lose this property if you do not make your payments or satisfy other obligations for this loan."
+    },
+    {
+      "id": "e27",
+      "class": "section_header",
+      "bbox": [
+        315,
+        91.7,
+        378.7,
+        99.3
+      ],
+      "text": "Escrow Account"
+    },
+    {
+      "id": "e28",
+      "class": "text",
+      "bbox": [
+        315,
+        102.2,
+        386.7,
+        109.9
+      ],
+      "text": "For now, your loan"
+    },
+    {
+      "id": "e29",
+      "class": "other",
+      "bbox": [
+        313.6,
+        112,
+        575.6,
+        164.8
+      ],
+      "text": "\u0007will have an escrow account (also called an \"impound\" or \"trust\" account) to pay the property costs listed below. Without an escrow account, you would pay them directly, possibly in one or two large payments a year. Your lender may be liable for penalties and interest for failing to make a payment."
+    },
+    {
+      "id": "e30",
+      "class": "table",
+      "bbox": [
+        313.6,
+        177.9,
+        575.6,
+        354.5
+      ],
+      "text": ""
+    },
+    {
+      "id": "e31",
+      "class": "other",
+      "bbox": [
+        314.1,
+        371.1,
+        573.8,
+        413.3
+      ],
+      "text": "\u0007will not have an escrow account because you declined it your lender does not offer one. You must directly pay your property costs, such as taxes and homeowner's insurance. Contact your lender to ask if your loan can have an escrow account. CL"
+    },
+    {
+      "id": "e32",
+      "class": "text",
+      "bbox": [
+        319.4,
+        424.5,
+        354.8,
+        431.3
+      ],
+      "text": "No Escrow"
+    },
+    {
+      "id": "e33",
+      "class": "table",
+      "bbox": [
+        314.1,
+        429.2,
+        577.6,
+        480.8
+      ],
+      "text": ""
+    },
+    {
+      "id": "e34",
+      "class": "section_header",
+      "bbox": [
+        315.4,
+        490.8,
+        366.4,
+        498.4
+      ],
+      "text": "In the future,"
+    },
+    {
+      "id": "e35",
+      "class": "text",
+      "bbox": [
+        315.4,
+        501.3,
+        571.7,
+        603.5
+      ],
+      "text": "Your property costs may change and, as a result, your escrow payment may change. You may be able to cancel your escrow account, but if you do, you must pay your property costs directly. If you fail to pay your property taxes, your state or local government may (1) impose fines and penalties or (2) p"
+    },
+    {
+      "id": "e36",
+      "class": "page_footer",
+      "bbox": [
+        36,
+        768.6,
+        113.2,
+        775.4
+      ],
+      "text": "CLOSING DISCLOSURE"
+    },
+    {
+      "id": "e37",
+      "class": "page_footer",
+      "bbox": [
+        450.1,
+        768.6,
+        576,
+        775.4
+      ],
+      "text": "PAGE 4 OF 5 · LOAN ID # 1234567890"
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6",
+    "e7",
+    "e8",
+    "e9",
+    "e10",
+    "e11",
+    "e12",
+    "e13",
+    "e14",
+    "e15",
+    "e16",
+    "e17",
+    "e18",
+    "e19",
+    "e20",
+    "e21",
+    "e22",
+    "e23",
+    "e24",
+    "e25",
+    "e26",
+    "e27",
+    "e28",
+    "e29",
+    "e30",
+    "e31",
+    "e32",
+    "e33",
+    "e34",
+    "e35",
+    "e36",
+    "e37"
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "element_id": "e30",
+      "bbox": [
+        313.6,
+        177.9,
+        575.6,
+        354.5
+      ],
+      "num_rows": 5,
+      "num_cols": 3,
+      "header_rows": [
+        0
+      ],
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 3,
+          "text": "Escrow"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Escrowed Property Costs over Year 1"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$2,473.56"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Estimated total amount over year 1 for your escrowed property costs: Property Taxes, Homeowner's Insurance"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Non-Escrowed Property Costs over Year 1"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Estimated total amount over year 1 for your non-escrowed property costs: You may have other property costs."
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Initial Escrow Payment"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$576.95"
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "A cushion for the escrow account you pay at closing. See Section G on page 2."
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Monthly Escrow Payment"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$206.13"
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "The amount included in your total monthly payment."
+        }
+      ],
+      "adjudication": "P2",
+      "settled_by": "agent",
+      "settle_note": "P2 rows; 'You may have other property costs.' moved to the Non-Escrowed row (both parsers misplaced it)"
+    },
+    {
+      "id": "t2",
+      "element_id": "e33",
+      "bbox": [
+        314.1,
+        429.2,
+        577.6,
+        480.8
+      ],
+      "num_rows": 2,
+      "num_cols": 2,
+      "header_rows": [],
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Estimated Property Costs over Year 1"
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Estimated total amount over year 1. You must pay these costs directly, possibly in one or two large payments a year."
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Escrow Waiver Fee"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        }
+      ]
+    }
+  ],
+  "key_values": [],
+  "header_footer_lines": [
+    "CLOSING DISCLOSURE",
+    "PAGE 4 OF 5 · LOAN ID # 1234567890"
+  ],
+  "notes": "Disputed P1/P2 tables settled by the agent from the page image (2026-11-12, settle_tables_agent.py)."
+}

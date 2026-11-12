@@ -1,0 +1,919 @@
+{
+  "page_id": "scan_01_p001",
+  "doc_id": "scan_01",
+  "page": 1,
+  "stratum": "scanned",
+  "source_format": "image_pdf",
+  "scan_of": "cfpb_cd_h25b:p2",
+  "scan_level": "light",
+  "page_size": [
+    612,
+    792
+  ],
+  "status": "verified",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": "kousik",
+  "verified_on": "2026-11-06",
+  "reference_text_source": "source_page_text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "section_header",
+      "bbox": [
+        38,
+        49,
+        188.3,
+        66.7
+      ],
+      "text": "° ° Closi ng Disclosu re"
+    },
+    {
+      "id": "e2",
+      "class": "text",
+      "bbox": [
+        267.7,
+        45,
+        569.7,
+        65.7
+      ],
+      "text": "This form is a statement of final loan terms and closing costs. Compare this document with your Loan Estimate."
+    },
+    {
+      "id": "e3",
+      "class": "table",
+      "bbox": [
+        27.1,
+        82.9,
+        590.1,
+        190.7
+      ],
+      "text": ""
+    },
+    {
+      "id": "e4",
+      "class": "table",
+      "bbox": [
+        34.2,
+        202.8,
+        577.3,
+        389.5
+      ],
+      "text": ""
+    },
+    {
+      "id": "e5",
+      "class": "text",
+      "bbox": [
+        43.3,
+        411.3,
+        46.7,
+        420.3
+      ],
+      "text": "Pp Oje ed Pa eC"
+    },
+    {
+      "id": "e6",
+      "class": "table",
+      "bbox": [
+        28.8,
+        425.6,
+        571.1,
+        649.7
+      ],
+      "text": ""
+    },
+    {
+      "id": "e7",
+      "class": "table",
+      "bbox": [
+        32.6,
+        652.7,
+        575.7,
+        747.9
+      ],
+      "text": ""
+    },
+    {
+      "id": "e8",
+      "class": "page_footer",
+      "bbox": [
+        36.7,
+        767.3,
+        113.3,
+        773.3
+      ],
+      "text": "CLOSING DISCLOSURE"
+    },
+    {
+      "id": "e9",
+      "class": "page_footer",
+      "bbox": [
+        453.3,
+        769,
+        574.3,
+        775
+      ],
+      "text": "PAGE 1 OF 5+ LOAN ID # 123456789"
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6",
+    "e7",
+    "e8",
+    "e9"
+  ],
+  "tables": [
+    {
+      "id": "t1",
+      "element_id": "e3",
+      "bbox": [
+        27.1,
+        82.9,
+        590.1,
+        190.7
+      ],
+      "num_rows": 9,
+      "num_cols": 6,
+      "header_rows": [
+        0
+      ],
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "Closing Information"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "Transaction Information"
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "Loan Information"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Date Issued"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "4/15/2013"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Borrower"
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Michael Jones and Mary Stone"
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Loan Term"
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "30 years"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Closing Date"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "4/15/2013"
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "123 Anywhere Street"
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Purpose"
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Purchase"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Disbursement Date"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "4/15/2013"
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Anytown, ST 12345"
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Product"
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Fixed Rate"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Settlement Agent"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Epsilon Title Co."
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Seller"
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Steve Cole and Amy Doe"
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "File #"
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "12-3456"
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "321 Somewhere Drive"
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Loan Type"
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Conventional FHA"
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Property"
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "456 Somewhere Ave"
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Anytown, ST 12345"
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "VA"
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Anytown, ST 12345"
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Lender"
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Ficus Bank"
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Loan ID #"
+        },
+        {
+          "row": 7,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "123456789"
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Sale Price"
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$180,000"
+        },
+        {
+          "row": 8,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 8,
+          "col": 4,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "MIC #"
+        },
+        {
+          "row": 8,
+          "col": 5,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "000654321"
+        }
+      ],
+      "adjudication": "P1",
+      "settled_by": "agent",
+      "settle_note": "P1 keeps one line per row; P2 merged lines. OCR junk removed"
+    },
+    {
+      "id": "t2",
+      "element_id": "e4",
+      "bbox": [
+        34.2,
+        202.8,
+        577.3,
+        389.5
+      ],
+      "num_rows": 7,
+      "num_cols": 3,
+      "header_rows": [
+        0,
+        4
+      ],
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Loan Terms"
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Can this amount increase after closing?"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Loan Amount"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$162,000"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "NO"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Interest Rate"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "3.875%"
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "NO"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Monthly Principal & Interest See Projected Payments below for your Estimated Total Monthly Payment"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$761.78"
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "NO"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Does the loan have these features?"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Prepayment Penalty"
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "YES As high as $3,240 if you pay off the loan during the first 2 years"
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Balloon Payment"
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "NO"
+        }
+      ],
+      "adjudication": "P1",
+      "settled_by": "agent",
+      "settle_note": "P1's 3 columns (YES and its note are one cell); headers sit over the answer column only; OCR fixes"
+    },
+    {
+      "id": "t3",
+      "element_id": "e6",
+      "bbox": [
+        28.8,
+        425.6,
+        571.1,
+        649.7
+      ],
+      "num_rows": 7,
+      "num_cols": 4,
+      "header_rows": [
+        0
+      ],
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Payment Calculation"
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "Years 1-7"
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Years 8-30"
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Principal & Interest"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": ""
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$761.78"
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$761.78"
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Mortgage Insurance"
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "+"
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "82.35"
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "+ —"
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Estimated Escrow Amount can increase over time"
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "+"
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "206.13"
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "+ 206.13"
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Estimated Total Monthly Payment"
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "$1,050.26"
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$967.91"
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "row_span": 2,
+          "col_span": 1,
+          "text": "Estimated Taxes, Insurance & Assessments Amount can increase over time See page 4 for details"
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "row_span": 2,
+          "col_span": 1,
+          "text": "$356.13 a month"
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "This estimate includes In escrow? Property Taxes YES Homeowner's Insurance YES Other: Homeowner's Association Dues NO"
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 2,
+          "text": "See Escrow Account on page 4 for details. You must pay for other property costs separately."
+        }
+      ],
+      "adjudication": "P1",
+      "settled_by": "agent",
+      "settle_note": "P1's 4-column layout; taxes block rebuilt as merged cells; OCR fixes"
+    },
+    {
+      "id": "t4",
+      "element_id": "e7",
+      "bbox": [
+        32.6,
+        652.7,
+        575.7,
+        747.9
+      ],
+      "num_rows": 2,
+      "num_cols": 3,
+      "header_rows": [],
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Closing Costs"
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$9,712.10"
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Includes $4,694.05 in Loan Costs + $5,018.05 in Other Costs - $0 in Lender Credits. See page 2 for details."
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Cash to Close"
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "$14,147.26"
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "row_span": 1,
+          "col_span": 1,
+          "text": "Includes Closing Costs. See Calculating Cash to Close on page 3 for details."
+        }
+      ],
+      "adjudication": "own",
+      "settled_by": "agent",
+      "settle_note": "Three columns: P1 put the label last, P2 merged amount and note"
+    }
+  ],
+  "key_values": [],
+  "header_footer_lines": [
+    "CLOSING DISCLOSURE",
+    "PAGE 1 OF 5+ LOAN ID # 123456789"
+  ],
+  "notes": "Disputed P1/P2 tables settled by the agent from the page image (2026-11-12, settle_tables_agent.py)."
+}

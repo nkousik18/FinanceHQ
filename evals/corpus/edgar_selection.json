@@ -1,0 +1,26 @@
+{
+  "approved_by": "kousik",
+  "approved_on": "2026-11-04",
+  "source": "evals/corpus/edgar_candidates.json",
+  "note": "Deal order sets deal IDs (deal_01 ... deal_12). Reserves are not in the corpus.",
+  "deals": [
+    {"deal_id": "deal_01", "cik": "0001286613", "name": "Lincoln Educational Services"},
+    {"deal_id": "deal_02", "cik": "0000033213", "name": "EQT Corp"},
+    {"deal_id": "deal_03", "cik": "0000720005", "name": "Raymond James Financial"},
+    {"deal_id": "deal_04", "cik": "0000051253", "name": "International Flavors & Fragrances"},
+    {"deal_id": "deal_05", "cik": "0000915358", "name": "SigmaTron International"},
+    {"deal_id": "deal_06", "cik": "0001089907", "name": "SWK Holdings"},
+    {"deal_id": "deal_07", "cik": "0000851310", "name": "Harmonic Inc"},
+    {"deal_id": "deal_08", "cik": "0001830033", "name": "PureCycle Technologies"},
+    {"deal_id": "deal_09", "cik": "0001082554", "name": "United Therapeutics"},
+    {"deal_id": "deal_10", "cik": "0000110621", "name": "RPM International"},
+    {"deal_id": "deal_11", "cik": "0000768899", "name": "TrueBlue"},
+    {"deal_id": "deal_12", "cik": "0001027838", "name": "Tactile Systems Technology"}
+  ],
+  "reserves": [
+    {"cik": "0001689796", "name": "JBG SMITH Properties"},
+    {"cik": "0001538849", "name": "CrossAmerica Partners"},
+    {"cik": "0000315131", "name": "PHX Minerals"},
+    {"cik": "0001309402", "name": "Green Plains"}
+  ]
+}
