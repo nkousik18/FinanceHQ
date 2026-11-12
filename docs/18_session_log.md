@@ -7,6 +7,28 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-12 (cont.) — Docling → production adapter; cleaning and validation metrics
+
+**Branch:** `feature/r1-docling-adapter` (from `main` after PR #3 merged)
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-12-6 | R1 merged to `main` via PR #3 (Kousik: "push to main"); leftovers continue on a new branch | Kousik's request; branch → PR → main rule kept | PR #3 |
+| S-2026-11-12-7 | Adapter mapping and confidence rule (see scope Decision Log 2026-11-12) | Lets cleaner/validator (and R2's chunker) run unchanged on Docling output | `evals/parsers/production_adapter.py` |
+| S-2026-11-12-8 | **Scope said the cleaner has 7 fixes; the code has different ones.** Scope corrected; metrics count the real fixes | Found while reading `cleaner.py` | scope §4 line; `evals/ingest_metrics/cleaning.py` |
+| S-2026-11-12-9 | **Finding:** number-space repair corrupts multi-value Docling table cells (23 cells P2, 4 P2V) | Textract-era assumption | `docs/20_s0_results.md` §4.2 |
+| S-2026-11-12-10 | **Finding:** validator fails every table-less document (`NO_STRUCTURED_DATA` ERROR): 27/41 EDGAR, 21/40 scans; required fields are for the Indian loan form | Textract-era assumption; recorded, not enforced | same |
+| S-2026-11-12-11 | **Finding:** 3 of 40 scans produce no text with Docling + Tesseract (`scan_27/32/38`); Vision recovers 1. Not investigated | Shows up as NO_PAGES | same |
+
+Changes: `evals/parsers/production_adapter.py`, `evals/ingest_metrics/cleaning.py`, `evals/ingest_metrics/run_cleaning.py`, cleaning tables in `s0_report.py`, `evals/tests/test_production_adapter.py` (7 tests). 148 evals tests pass. Run: 1.5 s for 92 docs × P2 + 40 × P2V.
+
+### Open items (decisions for Kousik)
+- Fix the cleaner for Docling (versioned config, e.g. skip number-space repair on cells with several numbers)? Or leave it and report?
+- Investigate the 3 empty scans before R2?
+- Then: R1 leftovers done → PR; ask before R2.
+
+---
+
 ## 2026-11-12 — Golden-set tables settled by the agent; S0 run
 
 **Branch:** `feature/r1-corpus-parsing`

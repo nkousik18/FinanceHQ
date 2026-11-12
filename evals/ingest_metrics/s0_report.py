@@ -11,6 +11,7 @@ import sys
 from pathlib import Path
 
 DEFAULT = Path("data/results/s0/summary.json")
+CLEANING = Path("data/results/s0/cleaning.json")
 SUBSETS = ["all", "prefilled", "from_scratch", "stratum:digital_prose", "stratum:table_heavy",
            "stratum:complex_layout", "stratum:scanned"]
 
@@ -88,6 +89,37 @@ def render(s: dict) -> str:
     return "\n".join(out) + "\n"
 
 
+def render_cleaning(c: dict) -> str:
+    """Cleaning + validation tables from run_cleaning.py output."""
+    rows = [(cfg, part, a) for cfg, parts in c["configs"].items() for part, a in parts.items()
+            if isinstance(a, dict) and a.get("documents")]
+    out = ["### Cleaning (production cleaner on Docling output)", "",
+           "| Config | Part | docs | pages | chars removed % | over-cleaned pages | number-space fixes | "
+           "of which corrupted numbers | table cells | header lines removed |",
+           "|---|---|---|---|---|---|---|---|---|---|"]
+    for cfg, part, a in rows:
+        r = a["repairs"]
+        hdr = sum(v for k, v in r.items() if k.startswith("header:"))
+        oc = a["overclean_rate"]
+        out.append(f"| {cfg} | {part} | {a['documents']} | {a['pages']} | {100 * a['chars_removed_rate']:.4f} | "
+                   f"{'–' if oc is None else f'{100 * oc:.1f}% of {a['overclean_checked_pages']}'} | "
+                   f"{r['table:number_space']} | {r['table:number_corrupted']} | {a['table_cells']} | {hdr} |")
+    codes = sorted({k for _, _, a in rows for k in a["docs_with_code"]})
+    out += ["", "### Validation (production validator; documents with each issue)", "",
+            "| Config | Part | docs | failed (ERROR) | " + " | ".join(codes) + " |",
+            "|---|---|---|---|" + "---|" * len(codes)]
+    for cfg, part, a in rows:
+        out.append(f"| {cfg} | {part} | {a['documents']} | {a['validation_failed_docs']} | "
+                   + " | ".join(str(a["docs_with_code"].get(k, 0)) for k in codes) + " |")
+    out += ["", "Stage latency per document (ms, p50 / p95): "
+            + "; ".join(f"{cfg} {part}: clean {a['latency_ms']['clean_p50']:.2f} / {a['latency_ms']['clean_p95']:.2f}, "
+                        f"validate {a['latency_ms']['validate_p50']:.2f} / {a['latency_ms']['validate_p95']:.2f}"
+                        for cfg, part, a in rows)]
+    return "\n".join(out) + "\n"
+
+
 if __name__ == "__main__":
     path = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT
     print(render(json.loads(path.read_text())))
+    if CLEANING.exists():
+        print(render_cleaning(json.loads(CLEANING.read_text())))
