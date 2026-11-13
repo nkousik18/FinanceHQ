@@ -42,10 +42,19 @@ Not affected: the S0 P1-vs-P2 decision and H10 (no golden table page comes from 
 
 ### Fixes (Kousik chose: re-render with images, 0° shim, replace golden pages) — see scope Decision Log 2026-11-12
 - Done: image filings rendered with their 350 page images (`evals/corpus/render.py`, `fetch.py --only`); scans rebuilt (only scan_27/31/32 changed); `tesseract-no-osd` shim + `ParserConfig.ocr_orientation`; golden pages replaced (`labeling replace`) → `deal_02_ca_p058`, `deal_05_am2_p001`; 5 tests (155 evals pass).
-- **In progress at commit time:** full P1/P2 re-parse (new cache keys). Until it finishes and the steps below run, `docs/20_s0_results.md` §4 numbers are from the **pre-fix** parse.
+- Committed/merged as PR #4 with the re-parse still running.
+
+### Re-run after fixes (later the same day)
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-12-15 | 2 replacement golden pages pre-filled from P1 and **checked against the image by the agent** (`labeled_by: agent`); `deal_05_am2_p001`: title and recital "A." classes fixed | Kousik asked the agent to continue | label notes |
+| S-2026-11-12-16 | **S0 re-run** on the fixed parse: decision (P2) and H10 unchanged; H6 still not supported; scan text much better (P2 CER 5.2 → 3.1%, numeric fidelity 72.6 → 84.1%) | Fixes don't touch golden tables | `docs/20_s0_results.md` §4.3 |
+| S-2026-11-12-17 | **Finding, not fixed:** `scan_03` — Docling layout labels the whole page a *picture*, OCR text is stored inside it and dropped by the reader (as in Docling's own export). Reader left as is | Only page materially affected; changing the reader would pull logo text into CFPB pages and shift the golden pre-fill | same |
+
+Re-parse: P1 and P2, 92 docs each, 0 failures. 155 evals tests pass.
 
 ### Open items
-- After re-parse: pre-fill + check the 2 new golden pages (they have no label files yet), re-run S0 + cleaning, update §4 with before/after.
+- R1 is complete apart from the split-table gap. Next: follow-up PR, then ask Kousik before R2.
 - Then: R1 leftovers done → PR; ask before R2.
 
 ---
