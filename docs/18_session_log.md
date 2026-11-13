@@ -7,6 +7,83 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-12 (cont.) — R2 step 3: C4 layout-aware chunker
+
+**Branch:** `feature/r2-chunkers`. Kousik: "c4 please" (C2 overlap question from step 2 still open; C2 left as built).
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-12-24 | `SourceDoc` gains Docling layout elements located in the cleaned page text (19,459/19,459 found) | C4 needs layout classes with provenance | scope Decision Log |
+| S-2026-11-12-25 | C4 heading levels inferred from numbering (Docling: all level 1, no titles); unnumbered heading after a heading is joined to it; headings on ≥ 3 pages demoted to body; body-less headings kept as heading-only pieces | See Decision Log 2026-11-12 (C4 rows) | same |
+| S-2026-11-12-26 | C4 sizes: ≤ 254 content tokens incl. prefix, prefix ≤ 64, min 50 (merge), C2 sentence windows inside sections; tables split by rows with header repeated; page furniture left out | Scope §6.1 | same |
+| S-2026-11-12-27 | Table row spans trimmed of U+FEFF (provenance only; N2 re-checked: 4,774 chunks, 0 differences) | Cell text ending in a BOM gave padded spans | `source.py` |
+| S-2026-11-12-28 | **Finding:** most numbered sections in the credit agreements are **not** Docling headings: of 1,311 EDGAR elements starting like "2.11 Title." / "Section 2.11 Title.", 738 are body `text`/`list` items and 573 are `section_header`. C4, built strictly on Docling headers as the scope says, misses those boundaries | Docling labels a run-in heading ("Section 2.11 Prepayments. (a) The Borrower may…") as a paragraph | open question below |
+
+Changes: `evals/chunking/c4_layout.py`; `base.py` (`Element`, `strip_blank`); `source.py` (`locate_elements`, row-span trim); `stream.py` (`stream_from_pieces`, page offsets); `c2_sentence_window.py` (`sentence_windows` reused by C4); `check_corpus.py` (C4, word check, coverage); `evals/tests/test_chunking_c4.py` (24 tests). Evals 211 pass; app 173 pass / 2 skipped (production untouched).
+
+Corpus run (92 docs, P2/P2V, cleaner v2; **0 errors, no empty span, no chunk without a span**):
+
+| Chunker | Chunks | MiniLM tokens p5 / p50 / p95 / max | Over 254 | Non-blank page chars in no chunk |
+|---|---|---|---|---|
+| C1 | 4,774 | 380 / 476 / 711 / 1,954 | 99.0% | 0% |
+| C2 | 9,760 | 77 / 176 / 200 / 200 | 0% | 0% |
+| C3 | 6,583 | 253 / 254 / 254 / 254 | 0% | 0% |
+| C4 | 8,503 (8,132 prose, 371 table) | 74 / 213 / 254 / 254 | 0% | 0.28% (headers/footers/page numbers only) |
+
+C4 detail: 223/223 tables in chunks, 75 split by rows (header repeated in all pieces); 106 chunks under 50 tokens (83 prose that had no room to merge, 23 small tables).
+
+### Open items
+- Kousik: add a C4 rule that promotes run-in "Section 2.11 Title." paragraphs to headings (a deviation from "boundaries from Docling elements", so asking), or keep C4 strict and report the gap?
+- Still open from step 2: C2 overlap (whole-sentence only vs token fallback).
+- Next: R2 step 4 (C5 semantic) — ask Kousik first.
+
+---
+
+## 2026-11-12 (cont.) — R2 step 2: C2 sentence window, C3 fixed tokens
+
+**Branch:** `feature/r2-chunkers`
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-12-20 | Sentence splitter **syntok 1.4.4**; token counts: MiniLM's own tokenizer + **tiktoken 0.14.0 `cl100k_base`**. Both installed in `venv/` without changing other packages, pinned in `requirements-dev.txt` | pysbd broke "Section 2.11(a)."; blingfire x86-only; nltk needs data | scope Decision Log |
+| S-2026-11-12-21 | C3 = 254 content tokens (+[CLS]/[SEP] = 256), 32 overlap, word-snapped. C2 = whole sentences ≤ 200 tokens, ≤ 40 tokens of whole-sentence overlap, over-long sentences split C3-style. Both chunk the page stream across pages | Scope §6.1; no chunk truncated by MiniLM | same |
+| S-2026-11-12-22 | Invisible format chars (U+FEFF) treated as blank in all spans; C1 spans trimmed (text unchanged) | Found by the corpus run: BOM-only/BOM-edged spans in `deal_05_ca` | same |
+| S-2026-11-12-23 | **Finding:** C2 overlap often empty: 46% of boundaries have none (last sentence > 40 tokens); 23% of C2 chunks contain a split sentence | Long legal sentences; may matter for §8.2 sentence-break and evidence fragmentation | open question below |
+
+Changes: `evals/chunking/tokens.py`, `stream.py`, `c2_sentence_window.py`, `c3_fixed_tokens.py`, `check_corpus.py` (corpus correctness check), `base.py` (`is_blank`, `has_text`, `SourceDoc.trim`), C1 span trimming; `evals/tests/test_chunking_c2_c3.py` (22 tests). Evals 187 pass; app 173 pass / 2 skipped (production untouched).
+
+Corpus run (`venv/bin/python -m evals.chunking.check_corpus`; P2 digital / P2V scans, cleaner v2; 92 docs, 0 missing, **0 errors, no empty span, every non-blank page character covered by C2 and C3**):
+
+| Chunker | Chunks | MiniLM tokens p5 / p50 / p95 / max | Over 254 |
+|---|---|---|---|
+| C1 | 4,774 | 380 / 476 / 711 / 1,954 | 99.0% |
+| C2 | 9,760 | 77 / 176 / 200 / 200 | 0% |
+| C3 | 6,583 | 253 / 254 / 254 / 254 | 0% |
+
+N2 re-checked after the C1 span change: 4,774 chunks, 0 differences.
+
+### Open items
+- Kousik: keep C2's whole-sentence overlap (often none), or allow a token-level overlap when the last sentence is > 40 tokens?
+- Next: R2 step 3 (C4 layout-aware) — **ask Kousik first**.
+
+---
+
+## 2026-11-12 (cont.) — R2 step 1: chunker interface, C1 with provenance, N2
+
+**Branch:** `feature/r2-chunkers` (from `feature/r1-docling-adapter`; R1 follow-up is PR #5, open)
+
+| ID | Decision | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-12-18 | R2 done one module at a time: (1) interface + C1 + N2, (2) C2 + C3, (3) C4, (4) C5, (5) §8.2 chunk metrics on the corpus | Kousik's step-by-step preference | this log |
+| S-2026-11-12-19 | Provenance = spans into cleaned page text; C1 = evals mirror of production with tagged lines; production chunker unchanged | See scope Decision Log 2026-11-12 | `evals/chunking/` |
+
+Changes: `evals/chunking/base.py` (Span, SourceDoc, Chunk, Chunker), `source.py` (cache → adapter → cleaner v2 → SourceDoc with table-row spans), `c1_line_window.py`, `evals/tests/test_chunking_c1.py` (10 tests). N2 on the corpus: 92 docs, 4,774 chunks, 0 differences. 165 evals tests pass.
+
+### Open items
+- Next: R2 step 2 (C2 sentence window, C3 fixed tokens) — needs the MiniLM tokenizer.
+
+---
+
 ## 2026-11-12 (cont.) — Docling → production adapter; cleaning and validation metrics
 
 **Branch:** `feature/r1-docling-adapter` (from `main` after PR #3 merged)
