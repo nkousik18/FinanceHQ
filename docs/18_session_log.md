@@ -7,6 +7,26 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-13 (cont.) — R3 step 2a: drafting model + page selection
+
+**Branch:** `feature/r3-qa-golden`. Kousik: start R3 step 2 (drafting script), one module at a time.
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-13-20 | **Drafting model = `openai/gpt-oss-120b`** (Kousik), `reasoning_effort=low`. Groq models on the account: qwen3.8-27b, gpt-oss-120b, gpt-oss-20b (+ non-text) | Drafting with the generator (qwen) would test it on questions shaped by its own wording; 120b is the strongest. Uses the judge's daily quota, which isn't needed before S4 | scope Decision Log |
+| S-2026-11-13-21 | **≈ 1.5 candidates per final question** (Kousik): 80 single-page jobs + 12 cross_doc jobs, 2 candidates each ≈ 184 | Room for span rejects and Kousik's rejects without doubling review time | same |
+| S-2026-11-13-22 | **Page selection** (`evals/golden/qa/pages.py`, seed 20261113): buckets edgar / consumer / scan; jobs per (type, bucket) in `PLAN` (consumer 19 jobs + scan 8 jobs, so the ≥ 20% consumer and ≥ 8 scan quotas have slack); type rules: table = table ≥ 3 rows on the page, calculation = table or ≥ 6 numbers, explain = EDGAR prose ≥ 200 words without a table, all ≥ 80 words; no CFPB covers, signature pages or TOC pages; sessions round robin, page at most once per type, unused pages first, a scan shares its use with its source page | Spread across deals; consumer forms have only 29 usable pages, so they're shared between types (4 pages) | same |
+| S-2026-11-13-23 | Scan questions: evidence on the scan doc (its Apple Vision text); `session_docs` lists the whole session incl. the scan. Swapping the source page for its scan in the index is R4's job | The schema labels pages, not index contents | same |
+
+Corpus check: 1,909 pages, usable edgar 1,384 / consumer 29 / scan 38 (TOC 32, signature 112, cover 11 excluded). All 80 single-page jobs filled, deterministic.
+
+Changes: `evals/golden/qa/pages.py`, `evals/tests/test_qa_pages.py` (9 tests). Evals 287 pass; production untouched.
+
+### Open items
+- Next module: `pairs.py` (amendment section ↔ original section, LE ↔ CD pairs → 12 cross_doc jobs). Then `draft.py` (Groq + token estimate).
+
+---
+
 ## 2026-11-13 (cont.) — R3 step 1: QA golden-set schema + F3 validator
 
 **Branch:** `feature/r3-qa-golden`, built on `feature/r2-chunkers` (Kousik: "start R3 now on a branch built on R2"). R2 PR #6 opened (depends on #5; merge #5 first).

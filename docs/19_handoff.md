@@ -30,7 +30,7 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 | R0 | ✅ Merged to `main` (PR #2): cache-eviction fix, tests repaired, truncation measured (100% of C1 chunks > MiniLM 256 tokens), Groq model switch, placeholder PII module + Airflow DAG |
 | R1 | ✅ Merged (PR #3, #4); S0 → **P2 wins**. Follow-up branch `feature/r1-docling-adapter` (S0 re-run after parser/corpus fixes) |
 | R2 | 🔶 PR #6 open (merge #5 first). Branch **`feature/r2-chunkers`**. C1–C5 + §8.2 metrics done; results `docs/21_r2_chunk_metrics.md` (H8 supported: C1 truncation 99%, C2–C5 0%) |
-| R3 | 🔶 On **`feature/r3-qa-golden`** (built on R2). Step 1 done: QA schema + F3 validator (`evals/golden/qa/`, `python -m evals.golden.qa.validate [--final]`). Next: drafting script (Groq), then Kousik verifies 120 questions |
+| R3 | 🔶 On **`feature/r3-qa-golden`** (built on R2). Step 1 done: QA schema + F3 validator (`evals/golden/qa/`, `python -m evals.golden.qa.validate [--final]`). Step 2 (drafting, model gpt-oss-120b, ≈184 candidates): `pages.py` done (80 single-page jobs); next `pairs.py` (12 cross_doc jobs), then `draft.py` (Groq, token estimate first), then Kousik verifies |
 
 **R1 done:**
 - Public corpus, all local, no AWS: 41 SEC EDGAR docs (12 credit-agreement "deals" + amendments, 1,836 pages), 11 CFPB TRID sample forms (40 pages), 40 simulated scans. Manifest with checksums: `evals/corpus/manifest.csv`.
