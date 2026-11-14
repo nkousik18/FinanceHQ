@@ -1,0 +1,235 @@
+"""C4 layout-aware chunker: heading paths, tables, size bounds, provenance (F1)."""
+import pytest
+
+from evals.chunking.base import Element, SourceDoc, Span, TableSource
+from evals.chunking.c4_layout import C4LayoutAware, heading_level, split_runin
+from evals.chunking.source import locate_elements
+from evals.chunking.tokens import MAX_CONTENT_TOKENS, minilm_count
+from evals.parsers.docling_doc import PageView
+
+PROSE = ("The Borrower may prepay the Loans in whole or in part at any time without premium or "
+         "penalty, subject to Section 3.05, upon notice to the Administrative Agent. ")
+
+
+def _doc(pages: dict[int, list], form_fields=()) -> SourceDoc:
+    """pages: {n: [(cls, text) | ("table", rows)]} -> SourceDoc with elements, spans, tables."""
+    texts, elements, tables = {}, [], []
+    for n, items in pages.items():
+        lines, pos = [], 0
+        for cls, val in items:
+            if cls == "table":
+                spans = []
+                for row in val:
+                    line = " ".join(c for c in row if c)
+                    spans.append(Span(n, pos, pos + len(line)))
+                    lines.append(line)
+                    pos += len(line) + 1
+                md = "\n".join("| " + " | ".join(r) + " |" for r in val)
+                tables.append(TableSource(n, len(tables), md, [list(r) for r in val], spans))
+                elements.append(Element(n, "table", "", None, len(tables) - 1))
+            else:
+                elements.append(Element(n, cls, val, Span(n, pos, pos + len(val))))
+                lines.append(val)
+                pos += len(val) + 1
+        texts[n] = "\n".join(lines)
+    return SourceDoc("d", texts, tables, list(form_fields), elements=elements)
+
+
+def _check(doc, chunks):
+    for c in chunks:
+        assert c.meta["minilm_tokens"] == minilm_count(c.text) <= MAX_CONTENT_TOKENS, c.index
+        flat = " ".join(c.text.replace("|", " ").split())
+        for s in c.spans:
+            assert all(w in flat for w in doc.text_at(s).split()), (c.index, s)
+
+
+@pytest.mark.parametrize("text,level", [
+    ("ARTICLE II", 1), ("Article IV Conditions", 1), ("EXHIBIT A", 1), ("Schedule 2", 1),
+    ("3. Representations and Warranties.", 2), ("2.11 Prepayments.", 3), ("Section 2.11 Prepayments", 3),
+    ("§ 1.01 Defined Terms", 3), ("2.11.1 Optional", 4), ("A. Origination Charges", 5), ("(a) Notices", 6),
+    ("Closing Cost Details", 1), ("2019 Revolving Facility", 1),
+])
+def test_heading_level(text, level):
+    assert heading_level(text)[0] == level
+
+
+def test_heading_path_prefix_and_joined_titles():
+    doc = _doc({1: [("section_header", "ARTICLE II"), ("section_header", "THE LOANS"),
+                    ("section_header", "2.01 Commitments."), ("text", PROSE * 2),
+                    ("section_header", "2.02 Prepayments."), ("text", PROSE * 2),
+                    ("section_header", "ARTICLE III"), ("section_header", "3.01 Taxes."), ("text", PROSE * 2)]})
+    chunks = C4LayoutAware().chunk(doc)
+    _check(doc, chunks)
+    texts = [c.text for c in chunks]
+    assert texts[0].startswith("ARTICLE II THE LOANS > 2.01 Commitments.: The Borrower")
+    assert texts[1].startswith("ARTICLE II THE LOANS > 2.02 Prepayments.: ")
+    assert texts[2].startswith("ARTICLE III > 3.01 Taxes.: ")
+    # every heading's span is attached to a chunk
+    all_spans = [s for c in chunks for s in c.spans]
+    for h in (e.span for e in doc.elements if e.cls == "section_header"):
+        assert any(s.start <= h.start and h.end <= s.end for s in all_spans), h
+
+
+def test_long_section_falls_back_to_sentence_windows():
+    doc = _doc({1: [("section_header", "2.05 Prepayments."), ("text", PROSE * 20)]})
+    chunks = C4LayoutAware().chunk(doc)
+    _check(doc, chunks)
+    assert len(chunks) > 3 and all(c.text.startswith("2.05 Prepayments.: ") for c in chunks)
+    assert all(c.meta["minilm_tokens"] <= MAX_CONTENT_TOKENS for c in chunks)
+
+
+def test_running_heading_is_demoted_and_furniture_dropped():
+    pages = {n: [("page_header", "ACME CREDIT AGREEMENT"), ("section_header", "Execution Version"),
+                 ("section_header", f"{n}.01 Item."), ("text", PROSE * 2), ("page_number", str(n))]
+             for n in (1, 2, 3)}
+    doc = _doc(pages)
+    chunks = C4LayoutAware().chunk(doc)
+    _check(doc, chunks)
+    assert not any("Execution Version" in c.section for c in chunks)
+    assert any("Execution Version" in c.text for c in chunks)          # kept as body text
+    assert not any("ACME CREDIT AGREEMENT" in c.text for c in chunks)
+    assert [c.section for c in chunks] == ["1.01 Item.", "2.01 Item.", "3.01 Item."]
+
+
+def test_heading_without_body_and_small_chunks_are_merged():
+    doc = _doc({1: [("section_header", "2.02 [Reserved]."), ("section_header", "2.03 Fees."),
+                    ("text", "Fees are payable quarterly."), ("section_header", "2.04 Interest."),
+                    ("text", PROSE * 2)]})
+    chunks = C4LayoutAware().chunk(doc)
+    _check(doc, chunks)
+    assert len(chunks) == 1
+    assert "2.02 [Reserved]." in chunks[0].text and "Fees are payable quarterly." in chunks[0].text
+    assert chunks[0].meta["merged"] == 3
+
+
+def test_small_table_kept_whole_with_prefix():
+    rows = [("Tier", "Ratio", "Margin"), ("I", "< 1.50:1", "1.25%"), ("II", ">= 1.50:1", "1.50%")]
+    doc = _doc({1: [("section_header", "Pricing Grid"), ("table", rows)]})
+    (c,) = C4LayoutAware().chunk(doc)
+    _check(doc, [c])
+    assert c.text == ("Pricing Grid: | Tier | Ratio | Margin |\n| --- | --- | --- |\n"
+                      "| I | < 1.50:1 | 1.25% |\n| II | >= 1.50:1 | 1.50% |")
+    assert c.meta["kind"] == "table" and c.meta["pieces"] == 1
+
+
+def test_big_table_split_by_rows_with_header_repeated():
+    rows = [("Lender", "Commitment", "Percentage")] + [
+        (f"Bank number {i} National Association", f"${i},000,000.00", f"{i}.123456789%") for i in range(60)]
+    doc = _doc({1: [("section_header", "SCHEDULE 2.01"), ("table", rows)]})
+    chunks = C4LayoutAware().chunk(doc)
+    _check(doc, chunks)
+    assert len(chunks) > 1
+    seen = []
+    for c in chunks:
+        lines = c.text.split("\n")
+        assert lines[0] == "SCHEDULE 2.01: | Lender | Commitment | Percentage |"
+        assert lines[1] == "| --- | --- | --- |"
+        assert c.meta["header_repeated"] and c.meta["pieces"] == len(chunks)
+        seen += lines[2:]
+    assert seen == ["| " + " | ".join(r) + " |" for r in rows[1:]]       # every row once, in order
+
+
+def test_overlong_row_is_cut_with_sub_spans():
+    rows = [("Item", "Text"), ("1", " ".join(f"word{i}" for i in range(400)))]
+    doc = _doc({1: [("table", rows)]})
+    chunks = C4LayoutAware().chunk(doc)
+    _check(doc, chunks)
+    assert len(chunks) >= 2
+    row_spans = [s for c in chunks for s in c.spans if s.start > 0]
+    assert len(row_spans) >= 2 and row_spans[0].end <= row_spans[1].start
+
+
+def test_prefix_is_capped():
+    long_head = "ARTICLE IX " + " ".join(["MISCELLANEOUS PROVISIONS AND OTHER MATTERS"] * 20)
+    doc = _doc({1: [("section_header", long_head), ("section_header", "9.01 Notices."), ("text", PROSE * 3)]})
+    chunks = C4LayoutAware().chunk(doc)
+    _check(doc, chunks)
+    assert chunks[0].text.startswith("9.01 Notices.: ")
+    assert chunks[0].meta["prefix_cut"] and chunks[0].meta["prefix_tokens"] <= 64
+
+
+def test_form_fields_grouped():
+    doc = _doc({1: [("text", PROSE)]}, form_fields=[("Loan Amount", "$162,000"), ("Rate", "3.875%"),
+                                                    ("Empty", "")])
+    chunks = C4LayoutAware().chunk(doc)
+    form = [c for c in chunks if c.meta["kind"] == "form"]
+    assert len(form) == 1 and form[0].text == "Form Fields: Loan Amount: $162,000\nRate: 3.875%"
+
+
+def test_requires_layout_elements():
+    with pytest.raises(ValueError):
+        C4LayoutAware().chunk(SourceDoc("d", {1: "text"}))
+
+
+def test_locate_elements_in_cleaned_text():
+    view = PageView(page=1, size=(612, 792), elements=[
+        {"id": "e1", "class": "section_header", "text": "﻿ARTICLE I", "bbox": [], "ref": ""},
+        {"id": "e2", "class": "text", "text": "Shinhan Bank", "bbox": [], "ref": ""},   # cleaner removes
+        {"id": "e3", "class": "text", "text": "Body text.", "bbox": [], "ref": ""},
+        {"id": "e4", "class": "table", "text": "", "bbox": [], "ref": ""}],
+        tables=[{"element_id": "e4"}])
+    page = "﻿ARTICLE I\nBody text.\nA B"
+    ts = TableSource(1, 0, "| A | B |", [["A", "B"]], [Span(1, 22, 25)])
+    els, missing = locate_elements({1: view}, {1: page}, [ts])
+    assert missing == 1
+    assert [(e.cls, e.text, e.span, e.table) for e in els] == [
+        ("section_header", "ARTICLE I", Span(1, 1, 10), None), ("text", "Shinhan Bank", None, None),
+        ("text", "Body text.", Span(1, 11, 21), None), ("table", "", None, 0)]
+
+
+# ---- run-in headings (S-2026-11-13-10) ----------------------------------------------------------
+def _el(text: str, cls: str = "text") -> Element:
+    return Element(1, cls, text, Span(1, 10, 10 + len(text)))
+
+
+@pytest.mark.parametrize("text,head,body", [
+    ("Section 2.11 Prepayments. (a) The Borrower may prepay.", "Section 2.11 Prepayments.", "(a) The Borrower may prepay."),
+    ("SECTION 4.01. Representations and Warranties of the Company. The Company represents:",
+     "SECTION 4.01. Representations and Warranties of the Company.", "The Company represents:"),
+    ("8.3.4.3 Financial Statements. Promptly upon mailing.", "8.3.4.3 Financial Statements.", "Promptly upon mailing."),
+    ("SECTION 5.08 = Compliance with Swiss Non-Bank Rules. The Swiss", "SECTION 5.08 = Compliance with Swiss Non-Bank Rules.", "The Swiss"),
+    ("SECTION 2.05 — Funding of Borrowings. The Lender", "SECTION 2.05 — Funding of Borrowings.", "The Lender"),
+    ("SECTION 8.08. No Other Duties, etc. Anything herein", "SECTION 8.08. No Other Duties, etc.", "Anything herein"),
+    ("Section 2.3 Notes.", "Section 2.3 Notes.", None),
+    ("SECTION 2.03. [Reserved].", "SECTION 2.03. [Reserved].", None),
+])
+def test_split_runin_heading_and_body(text, head, body):
+    e = _el(text, "list")
+    h, b = split_runin(e)
+    assert h.cls == "section_header" and h.text == head
+    assert (h.span.start, h.span.end) == (10, 10 + len(head))
+    if body is None:
+        assert b is None
+    else:
+        assert b.text == body and b.cls == "list" and b.span.end == e.span.end
+        assert b.span.end - b.span.start == len(body)
+
+
+@pytest.mark.parametrize("text", [
+    "5.1 Compliance with Laws. . . . . . . . . . 53",                     # table of contents
+    "Section 4.12 Financial Statements. 33",                               # TOC entry with page number
+    "1.1. Clause (a) of Section 5.08 of the Credit Agreement is amended and restated.",
+    "9.02. Section in term such to assigned meaning the has Party",        # garbled text layer
+    "11.3.4 any change in the corporate existence of any Borrower.",
+    "Section 5.10 Margin Stock",                                           # no closing period
+    "2.11 Prepayments. The Borrower may prepay.",                          # (section_header: not run-in)
+])
+def test_split_runin_rejects(text):
+    cls = "section_header" if text.startswith("2.11 Prepayments") else "text"
+    assert split_runin(_el(text, cls)) is None
+
+
+def test_runin_heading_opens_a_section_in_c4():
+    body = PROSE * 2
+    doc = _doc({1: [("section_header", "ARTICLE II"), ("text", "Section 2.01 Commitments. " + body),
+                    ("text", "Section 2.02 Prepayments. " + body)]})
+    chunks = C4LayoutAware().chunk(doc)
+    _check(doc, chunks)
+    assert [c.section for c in chunks] == ["ARTICLE II > Section 2.01 Commitments.",
+                                           "ARTICLE II > Section 2.02 Prepayments."]
+    assert chunks[1].text.startswith("ARTICLE II > Section 2.02 Prepayments.: The Borrower")
+    strict = C4LayoutAware(runin_headings=False).chunk(doc)
+    assert {c.section for c in strict} == {"ARTICLE II"}
+    # provenance unchanged: the same page characters are covered either way
+    cov = lambda cs: sorted({(s.page, i) for c in cs for s in c.spans for i in range(s.start, s.end)})  # noqa: E731
+    assert cov(chunks) == cov(strict)

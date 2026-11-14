@@ -7,6 +7,177 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-13 (cont.) — R2: open chunker questions settled
+
+**Branch:** `feature/r2-chunkers`. Kousik answered the three open questions (each with the agent's recommendation).
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-13-10 | **C4 promotes run-in headings** (Kousik): a `text`/`list` element opening with a dotted section number + a title of ≤ 15 title-case words ending in "." ("Section 2.11 Prepayments. (a) …", "8.3.4.3 Financial Statements. …", "SECTION 2.05 — Funding of Borrowings. …", "SECTION 2.03. [Reserved].") is split into a heading and its body (`c4_layout.split_runin`). Rejected: TOC lines (rest is a page number / dot leaders), lowercase titles (garbled text, amendment instructions "1.1. Clause (a) of Section 5.08 … is amended", numbered sub-clauses), titles without a closing period. `runin_headings=False` = strict C4. **Deviation from §6.1** "boundaries from Docling elements" | Without it, 56% of numbered sections are invisible to C4 (S-2026-11-12-28), so H1 would test Docling's labels more than layout-aware chunking | scope Decision Log |
+| S-2026-11-13-11 | **C2 keeps whole-sentence overlap** (Kousik). 46% of boundaries have none (S-2026-11-12-23); reported with its results | C2's point is sentence alignment; a token fallback would make it C3-like | same |
+| S-2026-11-13-12 | **C5 stays literal p95** (Kousik). 89% of cuts are size-driven (S-2026-11-13-3), each still at the segment's largest distance; reported with its results | Any other percentile would be arbitrary without QA data; S1 judges C5 | same |
+| S-2026-11-13-13 | Rule check on all 1,023 EDGAR body elements starting "N.N…": 945 promoted. Missed on purpose/accepted: OCR-split titles ("Use of Proce ds."), titles without a period ("Section 5.10 Margin Stock") | Sampled and read before fixing the rule | — |
+| S-2026-11-13-14 | `run_metrics --chunkers …` now merges into existing results (same table config + cleaning version) instead of overwriting | Re-running one chunker shouldn't re-embed all five | `run_metrics.save` |
+
+Effect on the corpus (C4, P2/P2V, cleaner v2): run-in headings promoted EDGAR 945, scans 8, consumer 0. EDGAR distinct sections 1,215 → 1,971; C4 chunks 8,503 → **8,749**. Corpus check: 0 errors, uncovered 0.28% (unchanged: page furniture only). §8.2 for C4 now: MiniLM p5/p50/p95/max 70/208/254/254, truncation 0%, table-break 0% (34.7% split, header always repeated), sentence-break 8.0%, redundancy 5.0%, index 12.8 MB. Full tables regenerated: `docs/21_r2_chunk_metrics.md`.
+
+Changes: `evals/chunking/c4_layout.py` (`split_runin`, `runin_headings` param), `run_metrics.py` (`save` merge), tests (+18: run-in split/reject cases, C4 integration incl. strict mode with identical coverage, partial-run merge). Evals 261 pass; production untouched.
+
+### Open items
+- None left for R2. Next: open the R2 PR `feature/r2-chunkers` → `main`, then R3 (QA golden set) — ask Kousik.
+
+---
+
+## 2026-11-13 (cont.) — R2 step 5: §8.2 chunk metrics
+
+**Branch:** `feature/r2-chunkers`. Kousik: "R2 step 5 go" (C2 overlap, C4 run-in headings, C5 tuning still open; all chunkers left as built).
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-13-4 | §8.2 metrics computed from chunk **spans** (one definition for all chunkers); text a chunker adds (C1 headings/pipes, C4 prefixes) counts in size and truncation only | Provenance is the common ground; see `evals/chunking/metrics.py` docstring | scope Decision Log |
+| S-2026-11-13-5 | Definitions: truncation = > 254 MiniLM content tokens, per chunk copy + page words no chunk embeds; table-break = split and some piece touching a data row lacks the header row; sentence-break = chunk start/end not a syntok sentence edge (doc start/end excluded); redundancy = duplicate MiniLM page-token copies ÷ all copies; fragmentation = §8.3 cover rule (≥ 50% of non-blank chars) | Scope §8.2 wording made operational | same |
+| S-2026-11-13-6 | Sentence reference = C2's splitter (syntok per line), so C2/C5 only break where they split an over-long sentence: favoured by construction (disclosed) | No independent sentence labels | same |
+| S-2026-11-13-7 | Index = one FAISS IndexFlatIP per chunker over the corpus; memory = n × 384 × 4 B, disk = written file; embedding = production MiniLM, normalized, batch 64, CPU | Flat size is linear, so total = sum over sessions | same |
+| S-2026-11-13-8 | **H8 measured: supported.** C1 truncation 99.0% [98.1, 99.4] (> 50%); C2–C5 0.0% (< 5%). 23.0% [22.5, 23.4] of corpus words are embedded by no C1 chunk (R0's loan1: 22.5%) | Formal hypothesis reporting stays in R8 | scope §11 note |
+| S-2026-11-13-9 | Evidence fragmentation: implemented and tested (`metrics.fragmentation`), **pending the QA set (R3)** | Needs evidence spans | — |
+
+Changes: `evals/chunking/metrics.py`, `evals/chunking/run_metrics.py`, `evals/chunking/r2_report.py` (renders `docs/21_r2_chunk_metrics.md`, F7), `evals/tests/test_chunking_metrics.py` (23 tests); `docs/19_handoff.md` brought up to date. Evals 244 pass; production untouched.
+Bugs found by the corpus run and fixed before the final run: C1 word alignment failed across a markdown `| --- |` separator row (9,227 → 2,178 unaligned words); BOM-only "words" counted as never embedded (0.01% for C2/C3/C5 → 0%).
+
+Corpus run (92 docs, P2/P2V, cleaner v2, 0 missing; output `data/results/r2/chunk_metrics.json` + per-doc `chunk_metrics_docs.jsonl`, gitignored):
+
+| | C1 | C2 | C3 | C4 | C5 |
+|---|---|---|---|---|---|
+| Chunks | 4,774 | 9,760 | 6,583 | 8,503 | 10,744 |
+| MiniLM tokens p5/p50/p95/max | 380/476/711/1,954 | 77/176/200/200 | 253/254/254/254 | 74/213/254/254 | 54/139/200/200 |
+| tiktoken p5/p50/p95/max | 381/483/699/1,020 | 75/175/210/288 | 238/253/279/378 | 77/215/263/338 | 53/141/203/288 |
+| Words p5/p50/p95/max | 301/358/531/600 | 55/129/162/190 | 159/194/214/242 | 50/157/200/237 | 38/104/160/186 |
+| ★ Truncation rate [95% CI] | **99.0%** [98.1, 99.4] | 0% | 0% | 0% | 0% |
+| Tokens dropped per chunk copy | 49.9% | 0 | 0 | 0 | 0 |
+| ★ Page words never embedded [CI] | **23.0%** [22.5, 23.4] | 0% | 0% | 0.26% [0.20, 0.38] | 0% |
+| Tables split / broken (n = 216) | 13.0% / 13.0% | 49.1% / 49.1% | 46.8% / 46.8% | 34.7% / **0%** | 56.9% / 56.9% |
+| Sentence-break rate | 6.9% | 12.3% | 97.6% | 7.9% | 10.4% |
+| Overlap redundancy | 38.8% | 8.4% | 12.6% | 5.4% | 0% |
+| Index memory = disk | 7.0 MB | 14.3 MB | 9.6 MB | 12.5 MB | 15.7 MB |
+| Chunking / embedding time (s) | 0.5 / 83 | 9.6 / 127 | 4.8 / 102 | 8.2 / 128 | 163 / 115 |
+
+Notes:
+- C1: 2,178 page words in truncated chunks couldn't be aligned to the chunk text and count as not embedded; counting them all as embedded gives 22.76%, so the bound is tight. C1 truncation by part: EDGAR 99.6%, consumer 92.2%, scans 78.4%.
+- C1's 38.8% redundancy includes its tables, which appear twice (page text + markdown) when the two copies land in different chunks.
+- C4's never-embedded 0.26% = page headers/footers/numbers it leaves out on purpose (consumer 3.4%, scans 1.1%, EDGAR 0.2%).
+- C1's low table-break (13%) is because it also writes each table whole as markdown; its page-text copy of the rows is split more often.
+- C5's chunking time includes embedding every sentence. Timings are from one laptop run, so they're rough.
+
+### Open items
+- Still open: C2 overlap (step 2), C4 run-in headings (step 3), C5 tuning (step 4).
+- R2 deliverables now complete pending those answers → next: PR `feature/r2-chunkers` → main, then R3 (QA golden set). Ask Kousik first.
+
+---
+
+## 2026-11-13 — R2 step 4: C5 semantic chunker
+
+**Branch:** `feature/r2-chunkers`. Kousik: "go c5" (C2 overlap and C4 run-in heading questions still open; both left as built).
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-13-1 | C5 = C2's sentence units, each embedded with MiniLM; cut where adjacent cosine distance > the document's 95th percentile; no overlap | Scope §6.1, literal | scope Decision Log |
+| S-2026-11-13-2 | C5 max 200 tokens (C2), over-max segments split at their largest distance; min 50 (C4's, since C2 has none), small segments merged into the more similar neighbour if it fits | "Same min/max as C2"; C2 has no min | same |
+| S-2026-11-13-3 | **Finding:** only 10% of C5 boundaries (1,108) pass the p95 threshold; 89% (9,544) come from the 200-token max split, which still cuts at the segment's largest distance. Median per-document threshold 0.96 (p5 0.83, p95 0.99): MiniLM sees most adjacent legal sentences as far apart | Long documents, p95 = 1 cut per 20 sentences, segments far over 200 tokens | open question below |
+
+Changes: `evals/chunking/c5_semantic.py`; `check_corpus.py` (C5, exact checks); `evals/tests/test_chunking_c5.py` (10 tests, one with real MiniLM). Evals 221 pass; production untouched.
+
+Corpus run (92 docs, P2/P2V, cleaner v2; **0 errors, no empty span, every non-blank page character covered**; 163 s on CPU incl. embedding):
+
+| Chunker | Chunks | MiniLM tokens p5 / p50 / p95 / max | Over 254 | Non-blank page chars in no chunk |
+|---|---|---|---|---|
+| C5 | 10,744 | 54 / 139 / 200 / 200 | 0% | 0% |
+
+C5 detail: 319 chunks under 50 tokens (no neighbour merge fit); 2,127 contain a split over-long sentence.
+
+### Open items
+- Kousik: keep C5 literal (p95, per-sentence embeddings — mostly size-driven cuts), or tune it (e.g. lower percentile, or embed each sentence with ±1 neighbour as in common semantic chunkers) so the threshold drives more cuts? Tuning = deviation from §6.1.
+- Still open: C2 overlap (step 2), C4 run-in headings (step 3).
+- Next: R2 step 5 (§8.2 chunk metrics on the corpus) — ask Kousik first.
+
+---
+
+## 2026-11-12 (cont.) — R2 step 3: C4 layout-aware chunker
+
+**Branch:** `feature/r2-chunkers`. Kousik: "c4 please" (C2 overlap question from step 2 still open; C2 left as built).
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-12-24 | `SourceDoc` gains Docling layout elements located in the cleaned page text (19,459/19,459 found) | C4 needs layout classes with provenance | scope Decision Log |
+| S-2026-11-12-25 | C4 heading levels inferred from numbering (Docling: all level 1, no titles); unnumbered heading after a heading is joined to it; headings on ≥ 3 pages demoted to body; body-less headings kept as heading-only pieces | See Decision Log 2026-11-12 (C4 rows) | same |
+| S-2026-11-12-26 | C4 sizes: ≤ 254 content tokens incl. prefix, prefix ≤ 64, min 50 (merge), C2 sentence windows inside sections; tables split by rows with header repeated; page furniture left out | Scope §6.1 | same |
+| S-2026-11-12-27 | Table row spans trimmed of U+FEFF (provenance only; N2 re-checked: 4,774 chunks, 0 differences) | Cell text ending in a BOM gave padded spans | `source.py` |
+| S-2026-11-12-28 | **Finding:** most numbered sections in the credit agreements are **not** Docling headings: of 1,311 EDGAR elements starting like "2.11 Title." / "Section 2.11 Title.", 738 are body `text`/`list` items and 573 are `section_header`. C4, built strictly on Docling headers as the scope says, misses those boundaries | Docling labels a run-in heading ("Section 2.11 Prepayments. (a) The Borrower may…") as a paragraph | open question below |
+
+Changes: `evals/chunking/c4_layout.py`; `base.py` (`Element`, `strip_blank`); `source.py` (`locate_elements`, row-span trim); `stream.py` (`stream_from_pieces`, page offsets); `c2_sentence_window.py` (`sentence_windows` reused by C4); `check_corpus.py` (C4, word check, coverage); `evals/tests/test_chunking_c4.py` (24 tests). Evals 211 pass; app 173 pass / 2 skipped (production untouched).
+
+Corpus run (92 docs, P2/P2V, cleaner v2; **0 errors, no empty span, no chunk without a span**):
+
+| Chunker | Chunks | MiniLM tokens p5 / p50 / p95 / max | Over 254 | Non-blank page chars in no chunk |
+|---|---|---|---|---|
+| C1 | 4,774 | 380 / 476 / 711 / 1,954 | 99.0% | 0% |
+| C2 | 9,760 | 77 / 176 / 200 / 200 | 0% | 0% |
+| C3 | 6,583 | 253 / 254 / 254 / 254 | 0% | 0% |
+| C4 | 8,503 (8,132 prose, 371 table) | 74 / 213 / 254 / 254 | 0% | 0.28% (headers/footers/page numbers only) |
+
+C4 detail: 223/223 tables in chunks, 75 split by rows (header repeated in all pieces); 106 chunks under 50 tokens (83 prose that had no room to merge, 23 small tables).
+
+### Open items
+- Kousik: add a C4 rule that promotes run-in "Section 2.11 Title." paragraphs to headings (a deviation from "boundaries from Docling elements", so asking), or keep C4 strict and report the gap?
+- Still open from step 2: C2 overlap (whole-sentence only vs token fallback).
+- Next: R2 step 4 (C5 semantic) — ask Kousik first.
+
+---
+
+## 2026-11-12 (cont.) — R2 step 2: C2 sentence window, C3 fixed tokens
+
+**Branch:** `feature/r2-chunkers`
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-12-20 | Sentence splitter **syntok 1.4.4**; token counts: MiniLM's own tokenizer + **tiktoken 0.14.0 `cl100k_base`**. Both installed in `venv/` without changing other packages, pinned in `requirements-dev.txt` | pysbd broke "Section 2.11(a)."; blingfire x86-only; nltk needs data | scope Decision Log |
+| S-2026-11-12-21 | C3 = 254 content tokens (+[CLS]/[SEP] = 256), 32 overlap, word-snapped. C2 = whole sentences ≤ 200 tokens, ≤ 40 tokens of whole-sentence overlap, over-long sentences split C3-style. Both chunk the page stream across pages | Scope §6.1; no chunk truncated by MiniLM | same |
+| S-2026-11-12-22 | Invisible format chars (U+FEFF) treated as blank in all spans; C1 spans trimmed (text unchanged) | Found by the corpus run: BOM-only/BOM-edged spans in `deal_05_ca` | same |
+| S-2026-11-12-23 | **Finding:** C2 overlap often empty: 46% of boundaries have none (last sentence > 40 tokens); 23% of C2 chunks contain a split sentence | Long legal sentences; may matter for §8.2 sentence-break and evidence fragmentation | open question below |
+
+Changes: `evals/chunking/tokens.py`, `stream.py`, `c2_sentence_window.py`, `c3_fixed_tokens.py`, `check_corpus.py` (corpus correctness check), `base.py` (`is_blank`, `has_text`, `SourceDoc.trim`), C1 span trimming; `evals/tests/test_chunking_c2_c3.py` (22 tests). Evals 187 pass; app 173 pass / 2 skipped (production untouched).
+
+Corpus run (`venv/bin/python -m evals.chunking.check_corpus`; P2 digital / P2V scans, cleaner v2; 92 docs, 0 missing, **0 errors, no empty span, every non-blank page character covered by C2 and C3**):
+
+| Chunker | Chunks | MiniLM tokens p5 / p50 / p95 / max | Over 254 |
+|---|---|---|---|
+| C1 | 4,774 | 380 / 476 / 711 / 1,954 | 99.0% |
+| C2 | 9,760 | 77 / 176 / 200 / 200 | 0% |
+| C3 | 6,583 | 253 / 254 / 254 / 254 | 0% |
+
+N2 re-checked after the C1 span change: 4,774 chunks, 0 differences.
+
+### Open items
+- Kousik: keep C2's whole-sentence overlap (often none), or allow a token-level overlap when the last sentence is > 40 tokens?
+- Next: R2 step 3 (C4 layout-aware) — **ask Kousik first**.
+
+---
+
+## 2026-11-12 (cont.) — R2 step 1: chunker interface, C1 with provenance, N2
+
+**Branch:** `feature/r2-chunkers` (from `feature/r1-docling-adapter`; R1 follow-up is PR #5, open)
+
+| ID | Decision | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-12-18 | R2 done one module at a time: (1) interface + C1 + N2, (2) C2 + C3, (3) C4, (4) C5, (5) §8.2 chunk metrics on the corpus | Kousik's step-by-step preference | this log |
+| S-2026-11-12-19 | Provenance = spans into cleaned page text; C1 = evals mirror of production with tagged lines; production chunker unchanged | See scope Decision Log 2026-11-12 | `evals/chunking/` |
+
+Changes: `evals/chunking/base.py` (Span, SourceDoc, Chunk, Chunker), `source.py` (cache → adapter → cleaner v2 → SourceDoc with table-row spans), `c1_line_window.py`, `evals/tests/test_chunking_c1.py` (10 tests). N2 on the corpus: 92 docs, 4,774 chunks, 0 differences. 165 evals tests pass.
+
+### Open items
+- Next: R2 step 2 (C2 sentence window, C3 fixed tokens) — needs the MiniLM tokenizer.
+
+---
+
 ## 2026-11-12 (cont.) — Docling → production adapter; cleaning and validation metrics
 
 **Branch:** `feature/r1-docling-adapter` (from `main` after PR #3 merged)
@@ -42,10 +213,19 @@ Not affected: the S0 P1-vs-P2 decision and H10 (no golden table page comes from 
 
 ### Fixes (Kousik chose: re-render with images, 0° shim, replace golden pages) — see scope Decision Log 2026-11-12
 - Done: image filings rendered with their 350 page images (`evals/corpus/render.py`, `fetch.py --only`); scans rebuilt (only scan_27/31/32 changed); `tesseract-no-osd` shim + `ParserConfig.ocr_orientation`; golden pages replaced (`labeling replace`) → `deal_02_ca_p058`, `deal_05_am2_p001`; 5 tests (155 evals pass).
-- **In progress at commit time:** full P1/P2 re-parse (new cache keys). Until it finishes and the steps below run, `docs/20_s0_results.md` §4 numbers are from the **pre-fix** parse.
+- Committed/merged as PR #4 with the re-parse still running.
+
+### Re-run after fixes (later the same day)
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-12-15 | 2 replacement golden pages pre-filled from P1 and **checked against the image by the agent** (`labeled_by: agent`); `deal_05_am2_p001`: title and recital "A." classes fixed | Kousik asked the agent to continue | label notes |
+| S-2026-11-12-16 | **S0 re-run** on the fixed parse: decision (P2) and H10 unchanged; H6 still not supported; scan text much better (P2 CER 5.2 → 3.1%, numeric fidelity 72.6 → 84.1%) | Fixes don't touch golden tables | `docs/20_s0_results.md` §4.3 |
+| S-2026-11-12-17 | **Finding, not fixed:** `scan_03` — Docling layout labels the whole page a *picture*, OCR text is stored inside it and dropped by the reader (as in Docling's own export). Reader left as is | Only page materially affected; changing the reader would pull logo text into CFPB pages and shift the golden pre-fill | same |
+
+Re-parse: P1 and P2, 92 docs each, 0 failures. 155 evals tests pass.
 
 ### Open items
-- After re-parse: pre-fill + check the 2 new golden pages (they have no label files yet), re-run S0 + cleaning, update §4 with before/after.
+- R1 is complete apart from the split-table gap. Next: follow-up PR, then ask Kousik before R2.
 - Then: R1 leftovers done → PR; ask before R2.
 
 ---
