@@ -14,7 +14,8 @@ normalized, batch 64, CPU), one FAISS IndexFlatIP per chunker over the whole cor
 builds one per session; Flat size is linear, so the total is the same). Memory = vectors × 384 ×
 4 bytes; disk = the written index file.
 
-Outputs (gitignored): data/results/r2/chunk_metrics.json, chunk_metrics_docs.jsonl
+Outputs (gitignored): data/results/r2/chunk_metrics.json, chunk_metrics_docs.jsonl. Running a
+subset of chunkers replaces only their entries (same table config and cleaning version).
 """
 from __future__ import annotations
 
@@ -167,6 +168,23 @@ def run(chunker_ids: list[str], with_index: bool = True, table_config: str = "P2
     return out, doc_rows
 
 
+def save(res: dict, docs: list[dict]) -> None:
+    """Write results. A run of some chunkers replaces only theirs in existing results."""
+    summ, rows = OUT / "chunk_metrics.json", OUT / "chunk_metrics_docs.jsonl"
+    if summ.exists():
+        old = json.loads(summ.read_text())
+        if (old.get("table_config"), old.get("cleaning_version")) == (res["table_config"], res["cleaning_version"]):
+            res["chunkers"] = {**old["chunkers"], **res["chunkers"]}
+            if rows.exists():
+                keep = [json.loads(x) for x in rows.read_text().splitlines() if x.strip()]
+                docs = [r for r in keep if r["chunker"] not in {d["chunker"] for d in docs}] + docs
+    res["chunkers"] = {k: res["chunkers"][k] for k in sorted(res["chunkers"])}
+    summ.write_text(json.dumps(res, indent=1))
+    with rows.open("w") as fh:
+        for r in docs:
+            fh.write(json.dumps(r) + "\n")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--chunkers", nargs="+", default=list(CHUNKERS), choices=sorted(CHUNKERS))
@@ -176,10 +194,7 @@ def main() -> int:
     structlog.configure(wrapper_class=structlog.make_filtering_bound_logger(logging.WARNING))
     res, docs = run(args.chunkers, with_index=not args.no_index)
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "chunk_metrics.json").write_text(json.dumps(res, indent=1))
-    with (OUT / "chunk_metrics_docs.jsonl").open("w") as fh:
-        for r in docs:
-            fh.write(json.dumps(r) + "\n")
+    save(res, docs)
     print(json.dumps({k: {x: v[x] for x in v if x != "by_part"} for k, v in res["chunkers"].items()}, indent=1))
     return 1 if res["missing_parse"] else 0
 

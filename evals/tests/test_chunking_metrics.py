@@ -225,3 +225,17 @@ def test_r2_report_renders_from_summary():
     s["index"] = {"vectors": len(chunks), "memory_mb": 0.1, "disk_mb": 0.1, "embed_seconds_per_doc": 0.5}
     md = render({"cleaning_version": "v2", "chunkers": {"C2": s}})
     assert "| ★ Truncation rate | 0% |" in md and "### edgar (1 docs)" in md and "pending R3" in md
+
+
+def test_partial_run_replaces_only_its_chunkers(tmp_path, monkeypatch):
+    import json as _j
+    from evals.chunking import run_metrics as R
+    monkeypatch.setattr(R, "OUT", tmp_path)
+    base = {"table_config": "P2", "cleaning_version": "v2", "missing_parse": []}
+    R.save({**base, "chunkers": {"C1": {"v": 1}, "C4": {"v": 1}}},
+           [{"chunker": "C1", "doc_id": "a"}, {"chunker": "C4", "doc_id": "a"}])
+    R.save({**base, "chunkers": {"C4": {"v": 2}}}, [{"chunker": "C4", "doc_id": "a", "new": True}])
+    res = _j.loads((tmp_path / "chunk_metrics.json").read_text())
+    assert res["chunkers"] == {"C1": {"v": 1}, "C4": {"v": 2}}
+    rows = [_j.loads(x) for x in (tmp_path / "chunk_metrics_docs.jsonl").read_text().splitlines()]
+    assert rows == [{"chunker": "C1", "doc_id": "a"}, {"chunker": "C4", "doc_id": "a", "new": True}]

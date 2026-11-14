@@ -1,4 +1,4 @@
-# Agent handoff — Retrieval & Evals initiative (2026-11-06)
+# Agent handoff — Retrieval & Evals initiative (updated 2026-11-13)
 
 For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the files in "Read next".
 
@@ -20,6 +20,7 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 1. `loandoc-retrieval-evals-scope-v2.md` — the plan: metrics (§8), stages S0–S5 (§9.3), requirements (§10), hypotheses (§11), milestones R0–R8 (§12), decisions (§14), **Decision Log** (end).
 2. `docs/18_session_log.md` — what happened each session, newest first.
 3. `docs/r0_findings.md` — R0 measurements (MiniLM truncation, test repair, model switch).
+   `docs/20_s0_results.md` (S0 parsing) and `docs/21_r2_chunk_metrics.md` (R2 chunk metrics) — generated results.
 4. `evals/golden/ingest/README.md` — golden-set labelling guide.
 
 ## 3. Where things stand
@@ -27,7 +28,8 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 | Milestone | Status |
 |---|---|
 | R0 | ✅ Merged to `main` (PR #2): cache-eviction fix, tests repaired, truncation measured (100% of C1 chunks > MiniLM 256 tokens), Groq model switch, placeholder PII module + Airflow DAG |
-| R1 | 🔶 In progress on branch **`feature/r1-corpus-parsing`** (pushed) |
+| R1 | ✅ Merged (PR #3, #4); S0 → **P2 wins**. Follow-up branch `feature/r1-docling-adapter` (S0 re-run after parser/corpus fixes) |
+| R2 | 🔶 Built on **`feature/r2-chunkers`**, PR to `main` not opened yet. C1–C5 + §8.2 metrics done; results `docs/21_r2_chunk_metrics.md` (H8 supported: C1 truncation 99%, C2–C5 0%) |
 
 **R1 done:**
 - Public corpus, all local, no AWS: 41 SEC EDGAR docs (12 credit-agreement "deals" + amendments, 1,836 pages), 11 CFPB TRID sample forms (40 pages), 40 simulated scans. Manifest with checksums: `evals/corpus/manifest.csv`.
@@ -41,9 +43,11 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 3. Downstream config from now on: `downstream_config("P2", part)` (P2 digital, P2V scans).
 4. ~~Cleaning / validation metrics~~ done 2026-11-12 via `evals/parsers/production_adapter.py` (Docling → `ExtractionResult`; R2's chunker can use the same adapter). Run `venv/bin/python -m evals.ingest_metrics.run_cleaning`. Split-table rate stays a recorded gap.
    **Cleaner v2** (`clean_extraction(..., version="v2")`) is the downstream cleaning for evals; production default stays v1 (S-2026-11-12-12).
-5. Open the R1 PR to `main`; ask Kousik before starting R2.
+5. ~~Open the R1 PR to `main`~~ (merged).
 
-**After R1:** R2 (chunker interface with provenance; C1 = exact production chunker, N2 equality test; C2–C5), R3 (QA golden set, 120 questions), R4 (retrieval metrics, S1), then **stop for review** (D9).
+**R2 (branch `feature/r2-chunkers`):** chunkers in `evals/chunking/` (C1 = exact production chunker, N2 test; C2 sentence window; C3 fixed tokens; C4 layout-aware; C5 semantic). Check provenance: `venv/bin/python -m evals.chunking.check_corpus`. Metrics: `venv/bin/python -m evals.chunking.run_metrics` (~10 min, embeds everything) then `venv/bin/python -m evals.chunking.r2_report` → `docs/21_r2_chunk_metrics.md`. Chunker questions settled 2026-11-13 (S-2026-11-13-10…12): C4 promotes run-in "Section 2.11 Title." headings (`runin_headings`, deviation recorded); C2 overlap and C5 stay as built. Evidence fragmentation waits for the QA set.
+
+**Next:** R2 PR → `main` (ask Kousik), then R3 (QA golden set, 120 questions), R4 (retrieval metrics, S1), then **stop for review** (D9).
 
 ## 4. Decisions you must respect (most recent)
 

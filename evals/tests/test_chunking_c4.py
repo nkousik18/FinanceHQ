@@ -2,7 +2,7 @@
 import pytest
 
 from evals.chunking.base import Element, SourceDoc, Span, TableSource
-from evals.chunking.c4_layout import C4LayoutAware, heading_level
+from evals.chunking.c4_layout import C4LayoutAware, heading_level, split_runin
 from evals.chunking.source import locate_elements
 from evals.chunking.tokens import MAX_CONTENT_TOKENS, minilm_count
 from evals.parsers.docling_doc import PageView
@@ -175,3 +175,61 @@ def test_locate_elements_in_cleaned_text():
     assert [(e.cls, e.text, e.span, e.table) for e in els] == [
         ("section_header", "ARTICLE I", Span(1, 1, 10), None), ("text", "Shinhan Bank", None, None),
         ("text", "Body text.", Span(1, 11, 21), None), ("table", "", None, 0)]
+
+
+# ---- run-in headings (S-2026-11-13-10) ----------------------------------------------------------
+def _el(text: str, cls: str = "text") -> Element:
+    return Element(1, cls, text, Span(1, 10, 10 + len(text)))
+
+
+@pytest.mark.parametrize("text,head,body", [
+    ("Section 2.11 Prepayments. (a) The Borrower may prepay.", "Section 2.11 Prepayments.", "(a) The Borrower may prepay."),
+    ("SECTION 4.01. Representations and Warranties of the Company. The Company represents:",
+     "SECTION 4.01. Representations and Warranties of the Company.", "The Company represents:"),
+    ("8.3.4.3 Financial Statements. Promptly upon mailing.", "8.3.4.3 Financial Statements.", "Promptly upon mailing."),
+    ("SECTION 5.08 = Compliance with Swiss Non-Bank Rules. The Swiss", "SECTION 5.08 = Compliance with Swiss Non-Bank Rules.", "The Swiss"),
+    ("SECTION 2.05 — Funding of Borrowings. The Lender", "SECTION 2.05 — Funding of Borrowings.", "The Lender"),
+    ("SECTION 8.08. No Other Duties, etc. Anything herein", "SECTION 8.08. No Other Duties, etc.", "Anything herein"),
+    ("Section 2.3 Notes.", "Section 2.3 Notes.", None),
+    ("SECTION 2.03. [Reserved].", "SECTION 2.03. [Reserved].", None),
+])
+def test_split_runin_heading_and_body(text, head, body):
+    e = _el(text, "list")
+    h, b = split_runin(e)
+    assert h.cls == "section_header" and h.text == head
+    assert (h.span.start, h.span.end) == (10, 10 + len(head))
+    if body is None:
+        assert b is None
+    else:
+        assert b.text == body and b.cls == "list" and b.span.end == e.span.end
+        assert b.span.end - b.span.start == len(body)
+
+
+@pytest.mark.parametrize("text", [
+    "5.1 Compliance with Laws. . . . . . . . . . 53",                     # table of contents
+    "Section 4.12 Financial Statements. 33",                               # TOC entry with page number
+    "1.1. Clause (a) of Section 5.08 of the Credit Agreement is amended and restated.",
+    "9.02. Section in term such to assigned meaning the has Party",        # garbled text layer
+    "11.3.4 any change in the corporate existence of any Borrower.",
+    "Section 5.10 Margin Stock",                                           # no closing period
+    "2.11 Prepayments. The Borrower may prepay.",                          # (section_header: not run-in)
+])
+def test_split_runin_rejects(text):
+    cls = "section_header" if text.startswith("2.11 Prepayments") else "text"
+    assert split_runin(_el(text, cls)) is None
+
+
+def test_runin_heading_opens_a_section_in_c4():
+    body = PROSE * 2
+    doc = _doc({1: [("section_header", "ARTICLE II"), ("text", "Section 2.01 Commitments. " + body),
+                    ("text", "Section 2.02 Prepayments. " + body)]})
+    chunks = C4LayoutAware().chunk(doc)
+    _check(doc, chunks)
+    assert [c.section for c in chunks] == ["ARTICLE II > Section 2.01 Commitments.",
+                                           "ARTICLE II > Section 2.02 Prepayments."]
+    assert chunks[1].text.startswith("ARTICLE II > Section 2.02 Prepayments.: The Borrower")
+    strict = C4LayoutAware(runin_headings=False).chunk(doc)
+    assert {c.section for c in strict} == {"ARTICLE II"}
+    # provenance unchanged: the same page characters are covered either way
+    cov = lambda cs: sorted({(s.page, i) for c in cs for s in c.spans for i in range(s.start, s.end)})  # noqa: E731
+    assert cov(chunks) == cov(strict)

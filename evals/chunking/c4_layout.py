@@ -9,6 +9,10 @@ Scope rules and how they are implemented (choices: Decision Log 2026-11-12):
   is joined to it ("Article II" + "CONDITIONS PRECEDENT"). A heading text on >= 3 pages is
   demoted to body text: it can't reset the path ("Execution Version" on 102 pages of deal_08_ca)
   but its text stays in the chunks (repeated exhibit titles, signature-page markers).
+- **Run-in headings** (Kousik's decision 2026-11-13, a deviation from "Docling elements only"):
+  a `text`/`list` element opening with "2.11 Title." / "Section 2.11. Title." (dotted number,
+  <= 15 title-case words, ending in ".") is split into a heading and its body (`split_runin`).
+  Off with `runin_headings=False` (strict C4).
 - A heading that gets no body before the next heading at its level ("2.03 [Reserved.]") is
   emitted as a heading-only piece, which the min-size merge then joins to a neighbour.
 - **Heading-path prefix** "A > B > C: " is part of the chunk text and its token budget; capped at
@@ -31,7 +35,7 @@ import re
 from collections import Counter
 from dataclasses import dataclass, field
 
-from evals.chunking.base import Chunk, Element, SourceDoc, Span
+from evals.chunking.base import Chunk, Element, SourceDoc, Span, strip_blank
 from evals.chunking.c1_line_window import _merge
 from evals.chunking.c2_sentence_window import sentence_windows
 from evals.chunking.c3_fixed_tokens import token_windows
@@ -65,6 +69,50 @@ def heading_level(text: str) -> tuple[int, bool]:
     if _PAREN.match(t):
         return 6, True
     return 1, False
+
+
+# Run-in headings (Kousik, 2026-11-13, S-2026-11-13-10): Docling labels most numbered sections
+# ("Section 2.11 Prepayments. (a) The Borrower may ...") as body text, not section headers.
+RUNIN_CLASSES = {"text", "list"}
+_RUNIN = re.compile(r"^(?:(?:SECTION|Section|§+)\s*)?\d{1,3}(?:\.\d{1,3})+\.?\s+(?:[=|—–-]\s+)?"
+                    r"(?P<title>[^.\n]{1,150}?)\.(?=\s|$)")
+_SMALL = {"a", "an", "and", "as", "at", "by", "for", "from", "in", "into", "of", "on", "or", "the",
+          "to", "under", "upon", "with", "without", "vs", "per", "etc", "&", "-", "–", "—"}
+_TOC_TAIL = re.compile(r"^[\d\s.ivxlcIVXLC]*$")
+RUNIN_MAX_TITLE_WORDS = 15
+
+
+def _title_like(title: str) -> bool:
+    words = title.split()
+    if not words or len(words) > RUNIN_MAX_TITLE_WORDS:
+        return False
+    if not (words[0][0].isupper() or words[0][0].isdigit() or words[0].startswith("[")):
+        return False
+    return all(w[0].isupper() or w[0].isdigit() or w[0] in "([\"'“‘" or w.lower().strip(",;:") in _SMALL
+               for w in words)
+
+
+def split_runin(e: Element) -> tuple[Element, Element | None] | None:
+    """A body `text`/`list` element that opens with a numbered run-in heading -> (heading, body).
+    Heading = dotted section number + a title of <= 15 title-case words ending in "."; body = the
+    rest (None if empty). Not a heading: lowercase titles (garbled text, cross-references) and
+    table-of-contents lines (rest is only a page number or dot leaders)."""
+    if e.cls not in RUNIN_CLASSES or e.span is None:
+        return None
+    m = _RUNIN.match(e.text)
+    if not m or not _title_like(m.group("title")):
+        return None
+    cut = m.end()
+    rest = e.text[cut:]
+    if rest.strip() and _TOC_TAIL.match(rest):
+        return None
+    lead = len(rest) - len(rest.lstrip())
+    head = Element(e.page, "section_header", e.text[:cut], Span(e.span.page, e.span.start, e.span.start + cut))
+    if not rest.strip():
+        return head, None
+    b0 = e.span.start + cut + lead
+    body = Element(e.page, e.cls, strip_blank(e.text[cut + lead:]), Span(e.span.page, b0, e.span.end))
+    return head, body
 
 
 def _norm(text: str) -> str:
@@ -116,9 +164,10 @@ class C4LayoutAware:
     chunker_id = "C4"
 
     def __init__(self, max_tokens: int = MAX_CONTENT_TOKENS, min_tokens: int = 50, overlap: int = 40,
-                 prefix_max: int = 64):
+                 prefix_max: int = 64, runin_headings: bool = True):
         self.params = {"max_tokens": max_tokens, "min_tokens": min_tokens, "overlap": overlap,
-                       "prefix_max": prefix_max, "tokenizer": "all-MiniLM-L6-v2"}
+                       "prefix_max": prefix_max, "runin_headings": runin_headings,
+                       "tokenizer": "all-MiniLM-L6-v2"}
         self._prefix_cache: dict[tuple[str, ...], tuple[str, int, bool]] = {}
 
     # ---- prefix -------------------------------------------------------------------------
@@ -298,21 +347,25 @@ class C4LayoutAware:
         for e in doc.elements:
             if e.cls in FURNITURE:
                 continue
-            if e.cls in HEADING and _norm(e.text) not in running:
+            runin = split_runin(e) if self.params["runin_headings"] else None
+            if (e.cls in HEADING and _norm(e.text) not in running) or runin:
+                head, body = runin if runin else (e, None)
                 emit(self._prose(doc, run, path))
                 run = []
-                level, numbered = heading_level(e.text)
-                spans = [e.span] if e.span else []
+                level, numbered = heading_level(head.text)
+                spans = [head.span] if head.span else []
                 if after_heading and not numbered and path:
                     last = path[-1]
-                    path[-1] = _Head(last.level, f"{last.text} {e.text}", last.spans + spans)
+                    path[-1] = _Head(last.level, f"{last.text} {head.text}", last.spans + spans)
                 else:
                     while path and path[-1].level >= level:
                         if not path[-1].attached and path[-1].spans:
                             emit([self._heading_only(path)])
                         path.pop()
-                    path.append(_Head(level, e.text, spans))
-                after_heading = True
+                    path.append(_Head(level, head.text, spans))
+                after_heading = body is None
+                if body is not None:
+                    run.append(body)
                 continue
             after_heading = False
             if e.table is not None:

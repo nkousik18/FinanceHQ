@@ -7,6 +7,27 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-13 (cont.) — R2: open chunker questions settled
+
+**Branch:** `feature/r2-chunkers`. Kousik answered the three open questions (each with the agent's recommendation).
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-13-10 | **C4 promotes run-in headings** (Kousik): a `text`/`list` element opening with a dotted section number + a title of ≤ 15 title-case words ending in "." ("Section 2.11 Prepayments. (a) …", "8.3.4.3 Financial Statements. …", "SECTION 2.05 — Funding of Borrowings. …", "SECTION 2.03. [Reserved].") is split into a heading and its body (`c4_layout.split_runin`). Rejected: TOC lines (rest is a page number / dot leaders), lowercase titles (garbled text, amendment instructions "1.1. Clause (a) of Section 5.08 … is amended", numbered sub-clauses), titles without a closing period. `runin_headings=False` = strict C4. **Deviation from §6.1** "boundaries from Docling elements" | Without it, 56% of numbered sections are invisible to C4 (S-2026-11-12-28), so H1 would test Docling's labels more than layout-aware chunking | scope Decision Log |
+| S-2026-11-13-11 | **C2 keeps whole-sentence overlap** (Kousik). 46% of boundaries have none (S-2026-11-12-23); reported with its results | C2's point is sentence alignment; a token fallback would make it C3-like | same |
+| S-2026-11-13-12 | **C5 stays literal p95** (Kousik). 89% of cuts are size-driven (S-2026-11-13-3), each still at the segment's largest distance; reported with its results | Any other percentile would be arbitrary without QA data; S1 judges C5 | same |
+| S-2026-11-13-13 | Rule check on all 1,023 EDGAR body elements starting "N.N…": 945 promoted. Missed on purpose/accepted: OCR-split titles ("Use of Proce ds."), titles without a period ("Section 5.10 Margin Stock") | Sampled and read before fixing the rule | — |
+| S-2026-11-13-14 | `run_metrics --chunkers …` now merges into existing results (same table config + cleaning version) instead of overwriting | Re-running one chunker shouldn't re-embed all five | `run_metrics.save` |
+
+Effect on the corpus (C4, P2/P2V, cleaner v2): run-in headings promoted EDGAR 945, scans 8, consumer 0. EDGAR distinct sections 1,215 → 1,971; C4 chunks 8,503 → **8,749**. Corpus check: 0 errors, uncovered 0.28% (unchanged: page furniture only). §8.2 for C4 now: MiniLM p5/p50/p95/max 70/208/254/254, truncation 0%, table-break 0% (34.7% split, header always repeated), sentence-break 8.0%, redundancy 5.0%, index 12.8 MB. Full tables regenerated: `docs/21_r2_chunk_metrics.md`.
+
+Changes: `evals/chunking/c4_layout.py` (`split_runin`, `runin_headings` param), `run_metrics.py` (`save` merge), tests (+18: run-in split/reject cases, C4 integration incl. strict mode with identical coverage, partial-run merge). Evals 261 pass; production untouched.
+
+### Open items
+- None left for R2. Next: open the R2 PR `feature/r2-chunkers` → `main`, then R3 (QA golden set) — ask Kousik.
+
+---
+
 ## 2026-11-13 (cont.) — R2 step 5: §8.2 chunk metrics
 
 **Branch:** `feature/r2-chunkers`. Kousik: "R2 step 5 go" (C2 overlap, C4 run-in headings, C5 tuning still open; all chunkers left as built).
