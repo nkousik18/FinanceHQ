@@ -11,7 +11,7 @@ C2/C3/C5 (exact): every span's text is a substring of the chunk text, and every 
 character is in some chunk. C2–C5: the MiniLM count of the chunk text equals the chunker's
 own count and fits 254. Coverage (% of non-blank page characters in no chunk span) is reported
 for all; C4 leaves out page headers/footers/numbers on purpose, so it is not an error there.
-Exit 1 on any failure. The full §8.2 metrics come later (R2 step 5).
+Exit 1 on any failure. The §8.2 metrics: evals/chunking/run_metrics.py.
 """
 from __future__ import annotations
 

@@ -7,6 +7,52 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-13 (cont.) — R2 step 5: §8.2 chunk metrics
+
+**Branch:** `feature/r2-chunkers`. Kousik: "R2 step 5 go" (C2 overlap, C4 run-in headings, C5 tuning still open; all chunkers left as built).
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-13-4 | §8.2 metrics computed from chunk **spans** (one definition for all chunkers); text a chunker adds (C1 headings/pipes, C4 prefixes) counts in size and truncation only | Provenance is the common ground; see `evals/chunking/metrics.py` docstring | scope Decision Log |
+| S-2026-11-13-5 | Definitions: truncation = > 254 MiniLM content tokens, per chunk copy + page words no chunk embeds; table-break = split and some piece touching a data row lacks the header row; sentence-break = chunk start/end not a syntok sentence edge (doc start/end excluded); redundancy = duplicate MiniLM page-token copies ÷ all copies; fragmentation = §8.3 cover rule (≥ 50% of non-blank chars) | Scope §8.2 wording made operational | same |
+| S-2026-11-13-6 | Sentence reference = C2's splitter (syntok per line), so C2/C5 only break where they split an over-long sentence: favoured by construction (disclosed) | No independent sentence labels | same |
+| S-2026-11-13-7 | Index = one FAISS IndexFlatIP per chunker over the corpus; memory = n × 384 × 4 B, disk = written file; embedding = production MiniLM, normalized, batch 64, CPU | Flat size is linear, so total = sum over sessions | same |
+| S-2026-11-13-8 | **H8 measured: supported.** C1 truncation 99.0% [98.1, 99.4] (> 50%); C2–C5 0.0% (< 5%). 23.0% [22.5, 23.4] of corpus words are embedded by no C1 chunk (R0's loan1: 22.5%) | Formal hypothesis reporting stays in R8 | scope §11 note |
+| S-2026-11-13-9 | Evidence fragmentation: implemented and tested (`metrics.fragmentation`), **pending the QA set (R3)** | Needs evidence spans | — |
+
+Changes: `evals/chunking/metrics.py`, `evals/chunking/run_metrics.py`, `evals/chunking/r2_report.py` (renders `docs/21_r2_chunk_metrics.md`, F7), `evals/tests/test_chunking_metrics.py` (23 tests); `docs/19_handoff.md` brought up to date. Evals 244 pass; production untouched.
+Bugs found by the corpus run and fixed before the final run: C1 word alignment failed across a markdown `| --- |` separator row (9,227 → 2,178 unaligned words); BOM-only "words" counted as never embedded (0.01% for C2/C3/C5 → 0%).
+
+Corpus run (92 docs, P2/P2V, cleaner v2, 0 missing; output `data/results/r2/chunk_metrics.json` + per-doc `chunk_metrics_docs.jsonl`, gitignored):
+
+| | C1 | C2 | C3 | C4 | C5 |
+|---|---|---|---|---|---|
+| Chunks | 4,774 | 9,760 | 6,583 | 8,503 | 10,744 |
+| MiniLM tokens p5/p50/p95/max | 380/476/711/1,954 | 77/176/200/200 | 253/254/254/254 | 74/213/254/254 | 54/139/200/200 |
+| tiktoken p5/p50/p95/max | 381/483/699/1,020 | 75/175/210/288 | 238/253/279/378 | 77/215/263/338 | 53/141/203/288 |
+| Words p5/p50/p95/max | 301/358/531/600 | 55/129/162/190 | 159/194/214/242 | 50/157/200/237 | 38/104/160/186 |
+| ★ Truncation rate [95% CI] | **99.0%** [98.1, 99.4] | 0% | 0% | 0% | 0% |
+| Tokens dropped per chunk copy | 49.9% | 0 | 0 | 0 | 0 |
+| ★ Page words never embedded [CI] | **23.0%** [22.5, 23.4] | 0% | 0% | 0.26% [0.20, 0.38] | 0% |
+| Tables split / broken (n = 216) | 13.0% / 13.0% | 49.1% / 49.1% | 46.8% / 46.8% | 34.7% / **0%** | 56.9% / 56.9% |
+| Sentence-break rate | 6.9% | 12.3% | 97.6% | 7.9% | 10.4% |
+| Overlap redundancy | 38.8% | 8.4% | 12.6% | 5.4% | 0% |
+| Index memory = disk | 7.0 MB | 14.3 MB | 9.6 MB | 12.5 MB | 15.7 MB |
+| Chunking / embedding time (s) | 0.5 / 83 | 9.6 / 127 | 4.8 / 102 | 8.2 / 128 | 163 / 115 |
+
+Notes:
+- C1: 2,178 page words in truncated chunks couldn't be aligned to the chunk text and count as not embedded; counting them all as embedded gives 22.76%, so the bound is tight. C1 truncation by part: EDGAR 99.6%, consumer 92.2%, scans 78.4%.
+- C1's 38.8% redundancy includes its tables, which appear twice (page text + markdown) when the two copies land in different chunks.
+- C4's never-embedded 0.26% = page headers/footers/numbers it leaves out on purpose (consumer 3.4%, scans 1.1%, EDGAR 0.2%).
+- C1's low table-break (13%) is because it also writes each table whole as markdown; its page-text copy of the rows is split more often.
+- C5's chunking time includes embedding every sentence. Timings are from one laptop run, so they're rough.
+
+### Open items
+- Still open: C2 overlap (step 2), C4 run-in headings (step 3), C5 tuning (step 4).
+- R2 deliverables now complete pending those answers → next: PR `feature/r2-chunkers` → main, then R3 (QA golden set). Ask Kousik first.
+
+---
+
 ## 2026-11-13 — R2 step 4: C5 semantic chunker
 
 **Branch:** `feature/r2-chunkers`. Kousik: "go c5" (C2 overlap and C4 run-in heading questions still open; both left as built).
