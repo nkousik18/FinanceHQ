@@ -7,6 +7,25 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-13 (cont.) — R3 step 1: QA golden-set schema + F3 validator
+
+**Branch:** `feature/r3-qa-golden`, built on `feature/r2-chunkers` (Kousik: "start R3 now on a branch built on R2"). R2 PR #6 opened (depends on #5; merge #5 first).
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-13-15 | **`amendment: bool` added to the §5.2 schema** | H9 and the "≥ 10 amendment questions" quota need to know which questions are amendment questions; inferring it from document roles is ambiguous (a lookup on an amendment isn't an amendment question). Amendment ⇒ `superseded_values` non-empty and evidence from an amendment doc; otherwise `superseded_values` empty | scope Decision Log |
+| S-2026-11-13-16 | Sessions come from the manifest `deal_id` (EDGAR deals, CFPB scenarios), scans included; `session_docs` must all belong to `session_id` | One source of truth for sessions | same |
+| S-2026-11-13-17 | **Validator text = parse `downstream_config("P2", part)` + cleaner v2**, the text chunkers index (scope: "parser config chosen in S0"). Span match: exact, else whitespace-insensitive | Same text retrieval scores against | same |
+| S-2026-11-13-18 | **Entity / superseded-value match:** numeric values match on `numeric_tokens` (all present, with multiplicity), others on `norm_match` substring | Scope §8.3 "numbers, rates and dates after normalization; names by normalized string"; reuses the S0 normalizer | same |
+| S-2026-11-13-19 | Validator also enforces: nothing without `verified_by`/`verified_on`; unanswerable ⇔ type `unanswerable` ⇔ no evidence; cross_doc evidence from 2+ docs; calculation needs `answer_numeric`; tolerance needs a number. `--final` adds the §5.1 quotas (type counts, 40/80 split, ≥ 70% EDGAR, ≥ 20% consumer, ≥ 8 scan-evidence, ≥ 10 amendment cross_doc) | §5.1–5.3, F3 | same |
+
+Changes: `evals/golden/qa/schema.py`, `evals/golden/qa/validate.py` (CLI: `venv/bin/python -m evals.golden.qa.validate [--final]`), `evals/tests/test_qa_schema.py` (17 tests). Smoke test on real text: a correct CFPB span ("Loan Amount $162,000 NO", cfpb_cd_h25b p2) passes, an altered one is caught. Evals 278 pass.
+
+### Open items
+- Next: R3 step 2, the drafting script (Groq; estimate tokens before running) — ask Kousik first.
+
+---
+
 ## 2026-11-13 (cont.) — R2: open chunker questions settled
 
 **Branch:** `feature/r2-chunkers`. Kousik answered the three open questions (each with the agent's recommendation).
