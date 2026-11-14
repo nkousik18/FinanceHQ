@@ -7,6 +7,33 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-13 — R2 step 4: C5 semantic chunker
+
+**Branch:** `feature/r2-chunkers`. Kousik: "go c5" (C2 overlap and C4 run-in heading questions still open; both left as built).
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-13-1 | C5 = C2's sentence units, each embedded with MiniLM; cut where adjacent cosine distance > the document's 95th percentile; no overlap | Scope §6.1, literal | scope Decision Log |
+| S-2026-11-13-2 | C5 max 200 tokens (C2), over-max segments split at their largest distance; min 50 (C4's, since C2 has none), small segments merged into the more similar neighbour if it fits | "Same min/max as C2"; C2 has no min | same |
+| S-2026-11-13-3 | **Finding:** only 10% of C5 boundaries (1,108) pass the p95 threshold; 89% (9,544) come from the 200-token max split, which still cuts at the segment's largest distance. Median per-document threshold 0.96 (p5 0.83, p95 0.99): MiniLM sees most adjacent legal sentences as far apart | Long documents, p95 = 1 cut per 20 sentences, segments far over 200 tokens | open question below |
+
+Changes: `evals/chunking/c5_semantic.py`; `check_corpus.py` (C5, exact checks); `evals/tests/test_chunking_c5.py` (10 tests, one with real MiniLM). Evals 221 pass; production untouched.
+
+Corpus run (92 docs, P2/P2V, cleaner v2; **0 errors, no empty span, every non-blank page character covered**; 163 s on CPU incl. embedding):
+
+| Chunker | Chunks | MiniLM tokens p5 / p50 / p95 / max | Over 254 | Non-blank page chars in no chunk |
+|---|---|---|---|---|
+| C5 | 10,744 | 54 / 139 / 200 / 200 | 0% | 0% |
+
+C5 detail: 319 chunks under 50 tokens (no neighbour merge fit); 2,127 contain a split over-long sentence.
+
+### Open items
+- Kousik: keep C5 literal (p95, per-sentence embeddings — mostly size-driven cuts), or tune it (e.g. lower percentile, or embed each sentence with ±1 neighbour as in common semantic chunkers) so the threshold drives more cuts? Tuning = deviation from §6.1.
+- Still open: C2 overlap (step 2), C4 run-in headings (step 3).
+- Next: R2 step 5 (§8.2 chunk metrics on the corpus) — ask Kousik first.
+
+---
+
 ## 2026-11-12 (cont.) — R2 step 3: C4 layout-aware chunker
 
 **Branch:** `feature/r2-chunkers`. Kousik: "c4 please" (C2 overlap question from step 2 still open; C2 left as built).

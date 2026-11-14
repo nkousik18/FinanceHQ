@@ -1,14 +1,14 @@
 """
 Run chunkers over the whole corpus and check provenance (scope v2 §6.1, F1).
 
-    venv/bin/python -m evals.chunking.check_corpus                 # C1 C2 C3 C4
+    venv/bin/python -m evals.chunking.check_corpus                 # C1 C2 C3 C4 C5
     venv/bin/python -m evals.chunking.check_corpus --chunkers C4
 
 Documents: downstream_config("P2", part) (P2 digital, P2V scans), cleaner v2.
 Checks per chunk (all chunkers): has text; every span non-empty, inside its page, not
 blank-padded; every word of a span's text occurs in the chunk text (table pipes ignored).
-C2/C3 (exact): every span's text is a substring of the chunk text, and every non-blank page
-character is in some chunk. C2/C3/C4: the MiniLM count of the chunk text equals the chunker's
+C2/C3/C5 (exact): every span's text is a substring of the chunk text, and every non-blank page
+character is in some chunk. C2–C5: the MiniLM count of the chunk text equals the chunker's
 own count and fits 254. Coverage (% of non-blank page characters in no chunk span) is reported
 for all; C4 leaves out page headers/footers/numbers on purpose, so it is not an error there.
 Exit 1 on any failure. The full §8.2 metrics come later (R2 step 5).
@@ -29,14 +29,15 @@ from evals.chunking.c1_line_window import C1LineWindow
 from evals.chunking.c2_sentence_window import C2SentenceWindow
 from evals.chunking.c3_fixed_tokens import C3FixedTokens
 from evals.chunking.c4_layout import C4LayoutAware
+from evals.chunking.c5_semantic import C5Semantic
 from evals.chunking.source import load_source
 from evals.chunking.tokens import MAX_CONTENT_TOKENS, minilm_counts
 from evals.corpus.manifest import read_manifest
 from evals.parsers.config import CONFIGS, downstream_config, load_cached
 
-CHUNKERS = {"C1": C1LineWindow, "C2": C2SentenceWindow, "C3": C3FixedTokens, "C4": C4LayoutAware}
-EXACT = {"C2", "C3"}            # chunk text is a slice of the page stream
-COUNTED = {"C2", "C3", "C4"}    # chunker reports its own MiniLM count and must fit the embedder
+CHUNKERS = {"C1": C1LineWindow, "C2": C2SentenceWindow, "C3": C3FixedTokens, "C4": C4LayoutAware, "C5": C5Semantic}
+EXACT = {"C2", "C3", "C5"}            # chunk text is a slice of the page stream
+COUNTED = {"C2", "C3", "C4", "C5"}    # chunker reports its own MiniLM count and must fit the embedder
 log = logging.getLogger("check_corpus")
 
 
