@@ -177,6 +177,44 @@ def test_run_stops_on_api_error_and_budget(tmp_dirs):
     assert out["called"] == 0 and "daily token budget" in out["stopped"]
 
 
+class JsonValidateFailed(Exception):
+    """Shape of groq.BadRequestError for code json_validate_failed (body = inner error dict)."""
+    def __init__(self, gen):
+        super().__init__("Failed to generate JSON")
+        self.body = {"message": "Failed to generate JSON", "type": "invalid_request_error",
+                     "code": "json_validate_failed", "failed_generation": gen}
+
+
+def test_run_salvages_json_validate_failed(tmp_dirs):
+    # page text with a raw \x07 bullet; the model copies it into the span -> Groq's strict JSON check fails
+    text = DictText({"d1_ca": {1: "Estimated Closing Costs $5,099 \x07Includes Loan Costs."}})
+    gen = '{"candidates": [' + json.dumps(cand(
+        question="What are the estimated closing costs?", reference_answer="$5,099.",
+        evidence=[{"doc_id": "d1_ca", "page": 1, "span_text": "XX"}], entities=["$5,099"],
+        answer_numeric=5099)).replace('"XX"', '"Estimated Closing Costs $5,099 \x07Includes Loan Costs."') + ']}'
+    with pytest.raises(json.JSONDecodeError):
+        json.loads(gen)                                             # strict parse fails, like Groq's
+    client = FakeClient([])
+    client.chat.completions.create = lambda **kw: (_ for _ in ()).throw(JsonValidateFailed(gen))
+    ledger = Ledger(path=tmp_dirs / "ledger.jsonl")
+    out = draft.run([LOOKUP], DOCS, text, client, ledger, sleep=lambda s: None)
+    assert out["called"] == 1 and out["stopped"] is None
+    raw = json.loads((draft.RAW_DIR / "lookup-001.json").read_text())
+    assert raw["usage_estimated"] and raw["completion_tokens"] > draft.EST_REASONING_PER_CALL
+    assert json.loads((tmp_dirs / "ledger.jsonl").read_text())["total_tokens"] > 0   # budget still counts it
+    rep = draft.rebuild([LOOKUP], DOCS, text)
+    assert rep["candidates"] == 1 and rep["rejected"] == 0               # span still verbatim incl. \x07
+
+
+def test_other_bad_request_still_stops(tmp_dirs):
+    class Other(Exception):
+        body = {"code": "context_length_exceeded"}
+    client = FakeClient([])
+    client.chat.completions.create = lambda **kw: (_ for _ in ()).throw(Other("too long"))
+    out = draft.run([LOOKUP], DOCS, TEXT, client, Ledger(path=tmp_dirs / "l.jsonl"), sleep=lambda s: None)
+    assert out["called"] == 0 and "too long" in out["stopped"]
+
+
 # ---- ledger --------------------------------------------------------------------------------------
 def test_ledger_caps(tmp_path):
     assert cost_usd("openai/gpt-oss-120b", 1_000_000, 1_000_000) == pytest.approx(0.75)

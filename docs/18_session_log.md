@@ -7,6 +7,19 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-16 — R3 step 2d: drafting pilot (3 jobs)
+
+**Branch:** `feature/r3-qa-golden`. Kousik committed step 2b–c (`1803284`) and OK'd the pilot.
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-16-1 | **Pilot ran** `draft --run --limit 3` (all 3 = cross_doc jobs 001–003): 10,511 tokens, $0.0027. Measured per call: prompt 2,643 (token counter off by 3.6%), completion 861 of which reasoning 232; the guess was 1,400. Remaining 89 jobs: ≈ 125k prompt + ≈ 77–125k completion ≈ **200–250k tokens, 1.1–1.3 days, < $0.10** | Pilot replaces the completion guess |
+| S-2026-11-16-2 | **Filter yield 4/6.** Both rejects (cross_doc-003) shortened the original-agreement span with "...", so it was not verbatim → correctly rejected. 2 kept candidates flagged "amendment without superseded_values" (deal_07: original was a $62,500 *closing* fee, amendment makes it an *annual facility* fee). Seen in review: entities sometimes hold a whole long definition (cross_doc-002) | Inputs for the prompt decision and Kousik's review |
+| S-2026-11-16-3 | **Two prompt rules added** (Kousik): spans are never shortened with "..."/"…" (pick a shorter contiguous sentence instead); entities are short (a value or name, ≤ ~8 words), never a whole clause. Only cross_doc-003 re-drafted (old response kept in `data/results/r3/raw_superseded/`); 001–002 kept as drafted. Re-draft: 2/2 passed the filter; both ask about the old §2.7 terms, which the amendment removed ("[Reserved]"), so the right answer is "no longer applies" (for review) | Pilot lost 2/6 to "..." spans |
+| S-2026-11-16-4 | **Full run stopped on a Groq 400 `json_validate_failed`** (cross_doc-011, LE↔CD): CFPB page text has raw `\x07` bullets; the model copied one into a span (correct per the rules) and a raw control character is invalid JSON. **Fix:** on that error code only, keep Groq's `failed_generation`, parse leniently (`strict=False`), save it as the raw response, record estimated tokens in the ledger (`usage_estimated`); any other API error still stops the run. 2 tests added (312 pass) | Spans must stay verbatim, so cleaning `\x07` out of the prompt would break the span check; salvage costs no extra tokens |
+
+---
+
 ## 2026-11-14 — R3 step 2c: drafting script (no real run yet)
 
 **Branch:** `feature/r3-qa-golden`. Kousik: "go" on `draft.py`.

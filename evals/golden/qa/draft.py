@@ -59,10 +59,10 @@ You are shown the cleaned text of one or two document pages, each under a header
 Rules for every question:
 - Answerable from the shown text alone (except type "unanswerable"), and specific: a reader of the whole loan file must be able to tell which value is meant. Name the facility, party or section when needed. Do not mention "the page" or "the text" in the question.
 - Write it the way a loan analyst or borrower would ask it.
-- evidence: one or more {"doc_id", "page", "span_text"}. span_text is copied EXACTLY, character for character, from the page text: one contiguous passage (a sentence, clause or table row, 5-60 words) that contains the answer. Keep typos, OCR errors, odd spacing and capitalisation as they are. Never paraphrase or join pieces from different places into one span; use several evidence items instead.
+- evidence: one or more {"doc_id", "page", "span_text"}. span_text is copied EXACTLY, character for character, from the page text: one contiguous passage (a sentence, clause or table row, 5-60 words) that contains the answer. Keep typos, OCR errors, odd spacing and capitalisation as they are. Never paraphrase or join pieces from different places into one span; use several evidence items instead. Never shorten a span with "..." or "…": if the passage is too long, choose a shorter contiguous sentence or clause from it that still holds the value.
 - reference_answer: a complete, correct answer in 1-3 sentences.
 - key_points: the 1-4 facts a complete answer must contain.
-- entities: every amount, rate, date and party name in the reference answer, written as it appears in the evidence.
+- entities: every amount, rate, date and party name in the reference answer, written as it appears in the evidence. Each entity is short (a value or a name, at most about 8 words), never a whole clause or definition.
 - answer_numeric: the answer as a plain number (no $ or %, e.g. 2.5 for 2.50%) when the answer is one number, else null. numeric_tolerance: null unless answer_numeric is set and rounding is involved.
 - superseded_values: [] and amendment: false unless the instructions say otherwise.
 Return JSON only: {"candidates": [ {question, reference_answer, evidence, key_points, entities, superseded_values, amendment, answer_numeric, numeric_tolerance} ]}"""
@@ -143,7 +143,7 @@ def parse_content(content: str) -> list[dict]:
     m = re.search(r"\{.*\}", s, re.S)
     if not m:
         raise ValueError("no JSON object in response")
-    data = json.loads(m.group(0))
+    data = json.loads(m.group(0), strict=False)   # raw control chars (e.g. \x07 bullets in CFPB text)
     cands = data.get("candidates", data if isinstance(data, list) else [])
     return [c for c in cands if isinstance(c, dict)]
 
@@ -260,6 +260,24 @@ def call_model(client, msgs: list[dict]) -> dict:
             "reasoning_tokens": getattr(details, "reasoning_tokens", None) if details else None}
 
 
+def salvage(exc: Exception, msgs: list[dict], est_prompt: int) -> dict | None:
+    """Groq 400 `json_validate_failed` still returns the generation. It fails Groq's strict JSON
+    check when a span copies a raw control character from the page (e.g. \x07 bullets in CFPB
+    forms); our parser accepts those. Usage is not returned, so tokens are estimated."""
+    body = getattr(exc, "body", None)
+    if not isinstance(body, dict):
+        return None
+    err = body.get("error", body) if isinstance(body.get("error", body), dict) else body
+    gen = err.get("failed_generation")
+    if err.get("code") != "json_validate_failed" or not gen:
+        return None
+    import tiktoken
+    out_tokens = len(tiktoken.get_encoding("o200k_harmony").encode(gen)) + EST_REASONING_PER_CALL
+    return {"content": gen, "returned_model": MODEL, "finish_reason": "json_validate_failed_salvaged",
+            "prompt_tokens": est_prompt, "completion_tokens": out_tokens, "reasoning_tokens": None,
+            "usage_estimated": True}
+
+
 def run(jobs: list[Job], docs: dict[str, DocInfo], text, client, ledger, limit: int | None = None,
         tpm: int = TPM_LIMIT, sleep=time.sleep) -> dict:
     """Draft jobs without a saved response, in order, until done, `limit`, or a budget stops it."""
@@ -279,8 +297,11 @@ def run(jobs: list[Job], docs: dict[str, DocInfo], text, client, ledger, limit: 
         try:
             out = call_model(client, msgs)
         except Exception as exc:                      # rate limit / API error: stop, resume later
-            stop = f"{type(exc).__name__}: {exc}"
-            break
+            out = salvage(exc, msgs, est_p)
+            if out is None:
+                stop = f"{type(exc).__name__}: {exc}"
+                break
+            log.warning("%s: json_validate_failed, generation salvaged (usage estimated)", job.job_id)
         row = ledger.record(f"r3_draft:{job.job_id}", MODEL, out["returned_model"], out["prompt_tokens"],
                             out["completion_tokens"], out["reasoning_tokens"])
         (RAW_DIR / f"{job.job_id}.json").write_text(json.dumps({**out, "job": job.to_dict(), "ts": row["ts"],
