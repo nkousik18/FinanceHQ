@@ -92,6 +92,7 @@ class Job:
     pages: tuple[tuple[str, int], ...]     # (doc_id, page) shown to the model, in order
     n: int = CANDIDATES_PER_JOB
     note: str = ""                         # pairs.py: what the pair is (e.g. "Section 2.11")
+    amendment: bool = False                # pairs.py: amendment ↔ original pair
 
     def to_dict(self) -> dict:
         d = asdict(self)

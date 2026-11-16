@@ -7,6 +7,46 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-14 — R3 step 2c: drafting script (no real run yet)
+
+**Branch:** `feature/r3-qa-golden`. Kousik: "go" on `draft.py`.
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-14-1 | **Spend/token ledger** `evals/llm/ledger.py` → `data/spend_ledger.jsonl` (gitignored, F9 pattern): one line per call with prompt/completion/reasoning tokens and $ at list price; guards before each call: $5 per run, $40 total (override flag), **190k tokens per UTC day** (200k free tier minus margin) | D7; shared with S4 later |
+| S-2026-11-14-2 | **Price gpt-oss-120b = $0.15 / $0.60 per M tokens** (in / out; reasoning billed as output), checked 2026-11-13 via aggregators quoting Groq's model docs (launch price was $0.75 out). qwen price left out until S4 needs it | D7 "published prices"; not verified on groq.com itself |
+| S-2026-11-14-3 | **Drafting call:** gpt-oss-120b, reasoning effort low, temperature 0.4, JSON mode, max 6,000 completion tokens; one system prompt (span copied exactly, entities as written, answer_numeric plain number) + one rule per type (lookup, table, calculation, explain, unanswerable, cross_doc amendment, cross_doc LE↔CD); scan pages marked "OCR text"; calls paced under 8k tokens/min | Scope §5.2–5.3 fields; Groq free-tier per-minute limit |
+| S-2026-11-14-4 | **Auto-reject only** (§5.3 step 2): span not found verbatim (exact or whitespace-insensitive) in the page it cites, a page the model wasn't shown, unanswerable with evidence, answerable without. **Everything else the F3 validator finds is kept as `draft_issues`** for Kousik's review | Scope says the script rejects on spans; Kousik decides the rest |
+| S-2026-11-14-5 | **Resumable, reviewable output:** raw response per job in `data/results/r3/raw/` (never re-asked); candidates rebuilt from all raws every run → `evals/golden/qa/drafts/candidates.jsonl` (+ `rejected.jsonl` with reasons). Nothing writes `questions.jsonl` | A stopped run (budget, 429) loses nothing; review file is separate from the set |
+| S-2026-11-14-6 | **Dry-run estimate (92 jobs, 184 candidates):** prompt 132,703 tokens (counted, o200k_harmony; max 3,138 per call) + completion guess 128,800 (300 per candidate + 800 reasoning per call) = **≈ 261,500 tokens ≈ 1.4 free-tier days, ≈ $0.10** at list price | Completion is a guess until a pilot measures it |
+
+Changes: `evals/llm/ledger.py`, `evals/golden/qa/draft.py`, `evals/tests/test_qa_draft.py` (15 tests, fake client, no network). Evals 310 pass; production untouched.
+
+### Open items
+- Kousik: OK a **pilot of 3 jobs** (≈ 8.5k tokens), then re-estimate from measured tokens, then the full run (2 days).
+
+---
+
+## 2026-11-13 (cont.) — R3 step 2b: cross_doc pairs
+
+**Branch:** `feature/r3-qa-golden`. Kousik: "go ahead" on `pairs.py`.
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-13-24 | **Amendment pairing rule** (`evals/golden/qa/pairs.py`): an amendment page's targets = "Section N.NN … is (hereby) amended/restated/deleted/replaced" and 'definition of "Term" … amended', plus terms restated right after "Section 1.01/1.1 … is amended"; original page = first body page with a line starting "SECTION N.NN Title" or '"Term" (shall) mean(s)' | Scope §5.3: pair each amendment section with the original section it changes; deterministic, no LLM |
+| S-2026-11-13-25 | **TOC pages skipped for pairing:** `pages.is_toc` or > 15 distinct section headings on the page (TOC pages ~75; body pages ≤ 9 — image filings double their text, so distinct). First version matched TOC pages in deal_03_ca / deal_07_ca (no page numbers there) | Pairs must point at the clause text |
+| S-2026-11-13-26 | **Pair choice:** "money" pairs first (label names margin/rate/commitment/ratio/maturity/fee/covenant/…, word-bounded — "Integration" matched "rate" before), seeded round robin over deals, each amendment page and original page used once; 9 amendment jobs + 3 LE↔CD jobs (same form page, consumer session) | Money targets make "value after the amendment" questions with a superseded value (H9, stale-answer rate) |
+| S-2026-11-13-27 | Bug fixed in the amendment regex: a sentence gap `[^.;]` stopped at the dot in "Section 1.01", missing 'definition of "X" in Section 1.01 … is amended' (5 pairs) | Caught by test |
+
+Corpus: 47 pairs in 11 of 12 deals (deal_05: its amended sections aren't found in the original as headings), 19 money pairs. Chosen: 9 amendment jobs over 8 deals (fees, maturity dates ×4, commitments extension, rates, negative covenants, LIBOR successor) + 3 LE↔CD jobs. With `pages.py`: **92 jobs, no shortfall** (≈ 184 candidates). Note: 2 of the 9 (deal_03, deal_11) are image filings with OCR-damaged text (doubled letters lost).
+
+Changes: `evals/golden/qa/pairs.py`, `evals/golden/qa/pages.py` (`Job.amendment`), `evals/tests/test_qa_pairs.py` (8 tests). Evals 295 pass; production untouched.
+
+### Open items
+- Next module: `draft.py` — prompts per type, Groq gpt-oss-120b call, token ledger, dry-run token estimate, span filter → `candidates.jsonl` for Kousik's review.
+
+---
+
 ## 2026-11-13 (cont.) — R3 step 2a: drafting model + page selection
 
 **Branch:** `feature/r3-qa-golden`. Kousik: start R3 step 2 (drafting script), one module at a time.
