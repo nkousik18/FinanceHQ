@@ -177,6 +177,12 @@ def test_run_stops_on_api_error_and_budget(tmp_dirs):
     assert out["called"] == 0 and "daily token budget" in out["stopped"]
 
 
+def test_page_override_only_touches_named_job():
+    out = draft.apply_overrides([LOOKUP, UNANS], {"unanswerable-001": (("d1_ca", 1),)})
+    assert out[0] is LOOKUP and out[1].pages == (("d1_ca", 1),) and out[1].job_id == "unanswerable-001"
+    assert draft.PAGE_OVERRIDES["table-007"] == (("deal_07_ca", 101),)
+
+
 class JsonValidateFailed(Exception):
     """Shape of groq.BadRequestError for code json_validate_failed (body = inner error dict)."""
     def __init__(self, gen):

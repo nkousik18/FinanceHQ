@@ -78,6 +78,16 @@ TYPE_RULES = {
 }
 
 
+# Hand-made page swaps for single jobs (Kousik's call, logged in the session log). The seeded
+# selection stays as it is, so no other job moves; only the named job is shown a different page.
+PAGE_OVERRIDES: dict[str, tuple[tuple[str, int], ...]] = {
+    # deal_07_ca p3 is a table of contents on an image filing (OCR garbled the dot leaders, so
+    # pages.is_toc missed it); Groq returned no valid JSON. p101: compliance-certificate schedule
+    # with covenant values in table rows (S-2026-11-16-7).
+    "table-007": (("deal_07_ca", 101),),
+}
+
+
 # ---- jobs and page text ------------------------------------------------------------------------
 def build_jobs(docs: dict[str, DocInfo], text) -> tuple[list[Job], dict[str, int]]:
     """All drafting jobs: cross_doc pairs first (their pages are then avoided), then single pages."""
@@ -88,7 +98,13 @@ def build_jobs(docs: dict[str, DocInfo], text) -> tuple[list[Job], dict[str, int
     used: dict = {}
     pair_jobs, short1 = select_pair_jobs(amendment_pairs(texts, roles), form_pairs(infos), used=used)
     page_jobs, short2 = select_jobs(infos, used=used)
-    return pair_jobs + page_jobs, {**short1, **short2}
+    return apply_overrides(pair_jobs + page_jobs), {**short1, **short2}
+
+
+def apply_overrides(jobs: list[Job], overrides=None) -> list[Job]:
+    from dataclasses import replace
+    overrides = PAGE_OVERRIDES if overrides is None else overrides
+    return [replace(j, pages=overrides[j.job_id]) if j.job_id in overrides else j for j in jobs]
 
 
 def page_map(text, doc_id: str) -> dict[int, str]:
