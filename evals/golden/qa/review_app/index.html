@@ -75,6 +75,7 @@ mark.h0 { background: var(--hl0); } mark.h1 { background: var(--hl1); } mark.h2 
       <div id="quota" class="quota" style="margin-top:8px"></div>
       <div class="filters">
         <select id="fStatus"><option value="">all statuses</option><option>todo</option><option>keep</option><option>drop</option><option>later</option><option>stale</option></select>
+        <select id="fSugg"><option value="">all suggestions</option><option value="keep">agent: keep</option><option value="fix">agent: fix</option><option value="drop">agent: drop</option><option value="none">no suggestion</option></select>
         <select id="fType"><option value="">all types</option></select>
         <input id="fText" type="search" placeholder="search" style="width:100%">
       </div>
@@ -115,20 +116,21 @@ async function loadList() {
   renderList();
 }
 function visible() {
-  const s = $("#fStatus").value, t = $("#fType").value, q = $("#fText").value.toLowerCase();
+  const s = $("#fStatus").value, t = $("#fType").value, q = $("#fText").value.toLowerCase(), g = $("#fSugg").value;
   return LIST.items.filter(i => (!s || i.status === s) && (!t || i.type === t) &&
+    (!g || (g === "none" ? !i.suggest : i.suggest === g)) &&
     (!q || i.question.toLowerCase().includes(q) || i.cid.includes(q) || i.session_id.includes(q)));
 }
 function renderList() {
   $("#list").innerHTML = visible().map(i => `
     <div class="list-item ${CUR && CUR.candidate.cid === i.cid ? "active" : ""}" data-cid="${i.cid}">
       <div class="q">${esc(i.question)}</div>
-      <div class="meta"><span class="pill s-${i.status}">${i.status}</span><span>${i.cid}</span>
+      <div class="meta"><span class="pill s-${i.status}">${i.status}</span><span>${i.cid}</span>${i.suggest ? `<span class="s-${i.suggest === "fix" ? "later" : i.suggest}" title="agent suggestion">→ ${i.suggest}</span>` : ""}
         ${i.issues ? `<span title="draft issues">⚠ ${i.issues}</span>` : ""}${i.edited ? "<span>edited</span>" : ""}${i.scan ? "<span>scan</span>" : ""}</div>
     </div>`).join("") || `<div class="empty">No candidates match.</div>`;
 }
 $("#list").addEventListener("click", e => { const it = e.target.closest(".list-item"); if (it) open(it.dataset.cid); });
-["fStatus", "fType", "fText"].forEach(id => $("#" + id).addEventListener("input", renderList));
+["fStatus", "fType", "fText", "fSugg"].forEach(id => $("#" + id).addEventListener("input", renderList));
 
 function step(d) {
   const v = visible(); if (!v.length) return;
@@ -161,6 +163,7 @@ function renderEditor() {
       <div class="meta">${c.type}${c.amendment ? " · amendment" : ""} · session ${esc(c.session_id)} · ${esc(c.drafted_by)}${c.pair_note ? " · " + esc(c.pair_note) : ""}</div>
     </header>
     ${CUR.status === "stale" ? `<div class="warn">The draft changed since this review (re-drafted). The form shows the new draft; your old decision was <b>${esc(r.decision)}</b>.</div>` : ""}
+    ${suggestionPanel()}
     ${(c.draft_issues || []).map(x => `<div class="warn">Draft issue: ${esc(x)}</div>`).join("")}
     ${unans ? `<div class="warn">Unanswerable: keep only if the answer is truly in none of this session's documents (${docs.length}).</div>` : ""}
     <label class="f">Question</label><textarea id="q" rows="2">${esc(FORM.question)}</textarea>
@@ -183,6 +186,13 @@ function renderEditor() {
       <span class="diff" id="diff"></span>
     </div>`;
   renderEvs();
+  if ($("#applySugg")) $("#applySugg").onclick = () => {
+    const sg = CUR.suggestion; Object.assign(FORM, JSON.parse(JSON.stringify(sg.edits || {})));
+    if (sg.drop_reason) $("#dropReason").value = sg.drop_reason;
+    const note = $("#note").value; renderEditor(); $("#note").value = note; renderPages(); scrollToMarks(); check();
+    if (sg.drop_reason) $("#dropReason").value = sg.drop_reason;
+    toast(sg.suggest === "drop" ? "drop reason filled in: click Drop to confirm" : "edits applied: check, then Keep");
+  };
   $("#q").oninput = e => { FORM.question = e.target.value; changed(); };
   $("#ra").oninput = e => { FORM.reference_answer = e.target.value; changed(); };
   $("#kp").oninput = e => { FORM.key_points = unlines(e.target.value); changed(); };
@@ -196,6 +206,19 @@ function renderEditor() {
   $("#bLater").onclick = () => save("later");
   $("#bReset").onclick = () => { FORM = JSON.parse(JSON.stringify(CUR.draft)); renderEditor(); renderPages(); check(); };
   showDiff();
+}
+function suggestionPanel() {
+  const sg = CUR.suggestion; if (!sg) return "";
+  const cls = sg.suggest === "keep" ? "s-keep" : sg.suggest === "drop" ? "s-drop" : "s-later";
+  const edits = Object.entries(sg.edits || {}).map(([k, v]) =>
+    `<div style="margin-top:4px"><b>${esc(k)}</b>: <span style="font-family:var(--mono);font-size:12px">${esc(typeof v === "string" ? v : JSON.stringify(v))}</span></div>`).join("");
+  const can = (sg.edits && Object.keys(sg.edits).length) || sg.drop_reason;
+  return `<div class="ev" style="border-color:currentColor" >
+    <div class="row" style="justify-content:space-between"><b class="${cls}">Agent suggests: ${esc(sg.suggest)}${sg.drop_reason ? " (" + esc(sg.drop_reason) + ")" : ""}</b>
+      <span class="meta">confidence ${esc(sg.confidence || "?")}</span></div>
+    <div style="font-size:13px;margin-top:4px">${esc(sg.reason || "")}</div>${edits}
+    ${can ? `<button class="small" id="applySugg" style="margin-top:6px">${sg.suggest === "drop" ? "Use drop reason" : "Apply suggested edits"}</button>` : ""}
+    <div class="meta" style="margin-top:4px">A suggestion only: you decide.</div></div>`;
 }
 function renderEvs() {
   const docs = CUR.candidate.session_docs;

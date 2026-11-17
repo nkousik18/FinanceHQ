@@ -13,6 +13,10 @@ Kousik's decisions in `drafts/reviews.json`, keyed by candidate id:
     "reviewed_by": "kousik", "reviewed_on": "2026-11-17",
     "draft_hash": "..."}}                                 # draft fields when reviewed -> stale check
 
+Agent pre-review suggestions (optional) are read from `drafts/suggestions*.json`
+({cid: {suggest: keep|fix|drop, reason, edits, drop_reason, confidence}}); they are only shown,
+never applied without a click, and never written to reviews.json by themselves.
+
 A "keep" is refused while the F3 checks (`schema.validate_question`) find a problem; "later" and
 "drop" save as they are. If draft.py re-drafts a job and a candidate's draft changes, its review
 is shown as stale. The finalise step (assign qids, dev/test split) reads `final` from here.
@@ -75,6 +79,15 @@ class ReviewStore:
     def reviews(self) -> dict[str, dict]:
         return json.loads(self.reviews_path.read_text()) if self.reviews_path.exists() else {}
 
+    def suggestions(self) -> dict[str, dict]:
+        out: dict[str, dict] = {}
+        for f in sorted(self.reviews_path.parent.glob("suggestions*.json")):
+            try:
+                out.update(json.loads(f.read_text()))
+            except (OSError, json.JSONDecodeError):
+                continue                     # a file being written right now: skip this time
+        return out
+
     def _cand(self, cid: str) -> dict:
         if not CID_RE.match(cid):
             raise KeyError(cid)
@@ -91,11 +104,12 @@ class ReviewStore:
         return rev["decision"]
 
     def list(self) -> dict:
-        revs = self.reviews()
+        revs, sugg = self.reviews(), self.suggestions()
         items = []
         for c in self.candidates():
             r = revs.get(c["cid"])
             items.append({"cid": c["cid"], "type": c["type"], "session_id": c["session_id"],
+                          "suggest": (sugg.get(c["cid"]) or {}).get("suggest"),
                           "question": (r or {}).get("final", {}).get("question") or c["question"],
                           "issues": len(c.get("draft_issues") or []), "status": self.status(c, r),
                           "edited": bool(r and r.get("edited")), "scan": any(
@@ -118,11 +132,19 @@ class ReviewStore:
     def get(self, cid: str) -> dict:
         c = self._cand(cid)
         r = self.reviews().get(cid)
-        shown = c["shown_pages"]
+        sugg = self.suggestions().get(cid)
         spans = (r or {}).get("final", {}).get("evidence") or c["evidence"]
+        # pages shown to the drafting model, then any other page cited by the review or the suggestion
+        cited = [(e.get("doc_id"), e.get("page")) for ev in ((r or {}).get("final", {}).get("evidence"),
+                 ((sugg or {}).get("edits") or {}).get("evidence"), c["evidence"]) for e in (ev or [])]
+        order = []
+        for d, p in [tuple(x) for x in c["shown_pages"]] + cited:
+            if (d, p) not in order and d in self.docs and isinstance(p, int) and self.text.page(d, p) is not None:
+                order.append((d, p))
         pages = [self.page_view(d, p, [(i, e["span_text"]) for i, e in enumerate(spans)
-                                       if e.get("doc_id") == d and e.get("page") == p]) for d, p in shown]
+                                       if e.get("doc_id") == d and e.get("page") == p]) for d, p in order]
         return {"candidate": c, "review": r, "status": self.status(c, r), "pages": pages,
+                "suggestion": sugg,
                 "draft": {k: c.get(k) for k in EDITABLE}}
 
     # ---- checking and saving -------------------------------------------------------------------

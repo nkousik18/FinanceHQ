@@ -150,3 +150,22 @@ def test_http_roundtrip(store):
         assert st == 200 and json.loads(body)["saved"]
     finally:
         httpd.shutdown()
+
+
+def test_suggestions_shown_not_applied(store):
+    d = store.reviews_path.parent
+    (d / "suggestions_a.json").write_text(json.dumps({"lookup-001-a": {"suggest": "fix", "reason": "r",
+                                                                      "edits": {"question": "Better?"}}}))
+    (d / "suggestions_b.json").write_text("{ half-written")            # skipped, no crash
+    assert store.get("lookup-001-a")["suggestion"]["edits"] == {"question": "Better?"}
+    assert store.get("lookup-001-b")["suggestion"] is None
+    items = store.list()["items"]
+    assert [i["suggest"] for i in items] == ["fix", None] and items[0]["status"] == "todo"
+    assert store.reviews() == {}
+
+
+def test_pages_cited_by_suggestion_are_opened(store):
+    (store.reviews_path.parent / "suggestions_a.json").write_text(json.dumps({"lookup-001-a": {
+        "suggest": "fix", "edits": {"evidence": [{"doc_id": "d1_am1", "page": 1, "span_text": "x"}]}}}))
+    pages = [(p["doc_id"], p["page"]) for p in store.get("lookup-001-a")["pages"]]
+    assert pages == [("d1_ca", 1), ("d1_am1", 1)]
