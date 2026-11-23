@@ -84,8 +84,12 @@ class BM25Retriever:
                     "tokenizer": "lower+numnorm+stopwords_en,no_stem", "min_score": ">0"}
     needs_vector = False
 
+    def prepare(self, index: SessionIndex) -> None:
+        """Index-time work (the runner calls it when a session index is built, outside all timers)."""
+        bm25_index(index)
+
     def search(self, index: SessionIndex, query_vec, k: int, query: str = "") -> Hits:
-        bm25_index(index)                       # build outside the timer
+        bm25_index(index)                       # no-op after prepare()
         t0 = time.perf_counter()
         ids, scores = bm25_rank(index, query, k)
         return Hits(ids, scores, {"bm25": time.perf_counter() - t0})

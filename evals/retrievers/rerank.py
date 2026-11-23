@@ -63,6 +63,10 @@ class Reranked:
         self.needs_vector = base.needs_vector
         self.needs_parents = getattr(base, "needs_parents", False)
 
+    def prepare(self, index: SessionIndex) -> None:
+        if hasattr(self.base, "prepare"):
+            self.base.prepare(index)
+
     def search(self, index: SessionIndex, query_vec, k: int, query: str = "") -> Hits:
         hits = self.base.search(index, query_vec, max(RERANK_DEPTH, k), query=query)
         cands = hits.ranked(index)

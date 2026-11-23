@@ -134,3 +134,13 @@ def test_run_stage_with_lexical_retrievers(tmp_path, retriever, comps):
     assert s["retriever_params"] == RETRIEVERS[retriever].params
     row = json.loads((tmp_path / "out" / "s2" / "dev" / "x" / "questions.jsonl").read_text())
     assert set(row["timings_s"]) == comps
+
+
+
+def test_prepare_builds_bm25_at_index_time():
+    from evals.retrievers import Reranked
+    for r in (BM25Retriever(), HybridRetriever(),
+              Reranked(BM25Retriever(), lambda q, t: np.zeros(len(t)), lambda q, t: 1)):
+        idx = _index(["closing fee", "leverage"])
+        r.prepare(idx)
+        assert "bm25" in idx.extras

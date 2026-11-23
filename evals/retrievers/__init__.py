@@ -1,5 +1,6 @@
 """Retrievers (scope v2 §7). Each has `retriever_id`, `params`, `needs_vector` (does it use the query
-embedding?), optional `needs_parents` (R-pc: the run's `parent_chunker` sections) and `search(index, query_vec, k, query=...) -> Hits`.
+embedding?), optional `needs_parents` (R-pc: the run's `parent_chunker` sections) optional `prepare(index)` (index-time work, called when the session index is built) and
+`search(index, query_vec, k, query=...) -> Hits`.
 `+rerank` wraps any of them (`make_retriever(name, rerank=True)`)."""
 from evals.retrievers.bm25 import BM25Retriever
 from evals.retrievers.dense import DenseRetriever, Hits, SessionIndex

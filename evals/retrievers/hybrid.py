@@ -38,10 +38,13 @@ class HybridRetriever:
     def __init__(self):
         self.dense = DenseRetriever()
 
+    def prepare(self, index: SessionIndex) -> None:
+        bm25_index(index)
+
     def search(self, index: SessionIndex, query_vec, k: int, query: str = "") -> Hits:
         depth = max(LIST_DEPTH, k)
         dense = self.dense.search(index, query_vec, depth)
-        bm25_index(index)                       # build outside the timer
+        bm25_index(index)                       # no-op after prepare()
         t0 = time.perf_counter()
         bm_ids, _ = bm25_rank(index, query, depth)
         t1 = time.perf_counter()

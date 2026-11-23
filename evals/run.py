@@ -212,6 +212,8 @@ def run_one(rc: RunConfig, questions: list[dict], corpus, cache: IndexCache, emb
                 pparts = [cache.get(parent_chunker, v.doc_id, v.drop_pages) for v in view]
                 idx.extras["parents"] = ParentMap({p.source.doc_id: p.source for p in parts},
                                                   {pp.source.doc_id: pp.chunks for pp in pparts})
+            if hasattr(retriever, "prepare"):
+                retriever.prepare(idx)           # index-time work (BM25), outside the query timers
             sessions[view] = (idx, {p.source.doc_id: p.source for p in parts})
         idx, sources = sessions[view]
         t0 = time.perf_counter()
