@@ -5,7 +5,7 @@ Eval runner (scope v2 §9.2), retrieval stages S1–S3.
     venv/bin/python -m evals.run --config evals/configs/s1_chunkers.yaml --split dev --runs C2-dense --limit 5
 
 Config (YAML): `stage`, `table_config`, and `runs`: an explicit list (never a generated product) of
-{name, chunker, chunker_params?, retriever, top_k}. Per run and question:
+{name, chunker, chunker_params?, retriever, top_k, parent_chunker? (R-pc)}. Per run and question:
   1. session view (views.py: digital docs, or the cited scan swapped in for its source page)
   2. each document view's chunks + vectors from the chunk/embedding cache (index_cache.py)
   3. one FAISS index per view (like production's per-session index; BM25 built lazily on it), query
@@ -59,12 +59,18 @@ class RunConfig:
     retriever: str
     top_k: int
     chunker_params: dict = field(default_factory=dict)
+    parent_chunker: str | None = None        # R-pc only: the chunker whose sections are the parents
 
     def __post_init__(self):
         if self.chunker not in CHUNKERS:
             raise ValueError(f"run {self.name}: unknown chunker {self.chunker!r}")
         if self.retriever not in RETRIEVERS:
             raise ValueError(f"run {self.name}: unknown retriever {self.retriever!r}")
+        needs = getattr(RETRIEVERS[self.retriever], "needs_parents", False)
+        if needs and self.parent_chunker not in CHUNKERS:
+            raise ValueError(f"run {self.name}: {self.retriever} needs a known parent_chunker")
+        if not needs and self.parent_chunker is not None:
+            raise ValueError(f"run {self.name}: parent_chunker only applies to parent-child retrievers")
         if not (isinstance(self.top_k, int) and self.top_k >= 1):
             raise ValueError(f"run {self.name}: top_k must be a positive int")
 
@@ -183,6 +189,7 @@ def _pct(xs: list[float], q: float) -> float | None:
 def run_one(rc: RunConfig, questions: list[dict], corpus, cache: IndexCache, embed) -> tuple[list[dict], dict]:
     chunker = CHUNKERS[rc.chunker](**rc.chunker_params)
     retriever = RETRIEVERS[rc.retriever]()
+    parent_chunker = CHUNKERS[rc.parent_chunker]() if rc.parent_chunker else None
     amend = corpus.amendment_docs()
     sessions: dict[tuple[DocView, ...], tuple[SessionIndex, dict]] = {}
     rows, results, lat = [], [], {}                 # latency: component -> seconds per question
@@ -192,6 +199,11 @@ def run_one(rc: RunConfig, questions: list[dict], corpus, cache: IndexCache, emb
         if view not in sessions:
             parts = [cache.get(chunker, v.doc_id, v.drop_pages) for v in view]
             idx = SessionIndex.build([(p.chunks, p.vectors) for p in parts])
+            if parent_chunker is not None:
+                from evals.retrievers.parent_child import ParentMap
+                pparts = [cache.get(parent_chunker, v.doc_id, v.drop_pages) for v in view]
+                idx.extras["parents"] = ParentMap({p.source.doc_id: p.source for p in parts},
+                                                  {pp.source.doc_id: pp.chunks for pp in pparts})
             sessions[view] = (idx, {p.source.doc_id: p.source for p in parts})
         idx, sources = sessions[view]
         t0 = time.perf_counter()
@@ -199,7 +211,7 @@ def run_one(rc: RunConfig, questions: list[dict], corpus, cache: IndexCache, emb
         t_embed = time.perf_counter() - t0
         hits = retriever.search(idx, qvec, max(rc.top_k, RANK_DEPTH), query=q["question"])
         t_total = time.perf_counter() - t0
-        ranked = [idx.chunks[i] for i in hits.ids]
+        ranked = hits.ranked(idx)
         n_rel = fragmented = None
         if q["evidence"] and not q.get("unanswerable"):
             ev = [M.Evidence(e["doc_id"], e["page"], e["span_text"]) for e in q["evidence"]]

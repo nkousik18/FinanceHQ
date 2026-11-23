@@ -48,6 +48,10 @@ class Hits:
     ids: list[int]           # positions in SessionIndex.chunks, rank order
     scores: list[float]
     timings: dict[str, float]  # seconds per component
+    chunks: list[Chunk] | None = None   # retrievers that return chunks not in the index (R-pc parents)
+
+    def ranked(self, index: "SessionIndex") -> list[Chunk]:
+        return self.chunks if self.chunks is not None else [index.chunks[i] for i in self.ids]
 
 
 class DenseRetriever:

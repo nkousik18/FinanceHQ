@@ -7,6 +7,23 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-22 (cont.) — R5 step 2: R-pc (parent–child)
+
+**Branch:** `feature/r5-retrieval-strategies`. Kousik: "run step 2".
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-22-41 | **R-pc parents** (`evals/retrievers/parent_child.py`): children = the run's chunker (C2), dense search; a C4 *section* = consecutive C4 chunks with the same heading path; parent text rebuilt from the cleaned page text under the union of the section's spans (C4's own chunks overlap and repeat the prefix), prefixed with the heading path → parent spans match parent text exactly. Child → the section sharing the most characters (ties → earlier) | §7; C4 chunks are ≤ 254 tokens, so "the C4 section" must be rebuilt from its chunks |
+| S-2026-11-22-42 | **Window cap (D10): section > 800 MiniLM content tokens → 800-token window centred on the child**, clipped at the section ends (stays 800). **No C4 section** (no overlap, or empty heading path) → same window over the whole document | Unbounded sections (definitions run to 50+ pages) would fill the 1,200-word budget alone | Decision Log |
+| S-2026-11-22-43 | **Dedupe:** a child is skipped if its parent is already returned **or ≥ 50% of its characters are inside a returned parent** (§8.3 coverage rule); parent score = best child's score; stops at k parents | Centred windows of nearby children overlap; without this they repeat text in the budget |
+| S-2026-11-22-44 | Rank metrics' ideal (`n_relevant`, ndcg/map) stays the **children** count for R-pc: parents are built per query, so there's no fixed parent index. ndcg@10/map@10 for R-pc are diagnostic only; recall@budget and entity recall don't use it | Report caveat |
+| S-2026-11-22-45 | Runner: `parent_chunker` in the run config (required for R-pc, rejected otherwise); parent C4 chunks come from the same chunk cache; `Hits.chunks` carries chunks not in the index; latency component `parent_map` | — | `evals/run.py` |
+| S-2026-11-22-46 | **Checks:** provenance on real data — 19 dev views, 434 sampled parents, 0 spans whose text isn't in the parent text; parent size p50 811 / p95 822 / max 843 MiniLM tokens (800 + heading prefix). Smoke run C2-pc (dev, no MLflow): runs end to end, ~half of returned parents are windows, ≈ 2.9 parents fit the budget; output deleted, numbers come from S2 (F7) | Plumbing check |
+
+Changes: `evals/retrievers/{parent_child,dense,__init__}.py`, `evals/run.py`, `evals/tests/test_retriever_pc.py` (10 tests). Evals 398 pass.
+
+---
+
 ## 2026-11-22 (cont.) — R5 steps 0–1: branch, R-bm25, R-hybrid
 
 **Branch:** `feature/r5-retrieval-strategies` (from `main` after PR #8 merged, `2482e45`). Kousik: "yes go, propose R5 steps", then "go with your recommendations, start step 0 and 1".
