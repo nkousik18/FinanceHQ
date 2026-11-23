@@ -7,6 +7,24 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-23 (cont.) — R5 wrap-up: PR, options considered, logging rule
+
+Kousik asked that **every discovery and every discussion** be logged, not only final decisions, so that each decision can be checked or defended later. This section adds what earlier sections left out: the options presented to Kousik and the ones rejected, with reasons.
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-23-15 | **R5 PR #9 opened** (`feature/r5-retrieval-strategies` → `main`), waiting for Kousik's review. R6 not started (needs Kousik's go) | Plan S-2026-11-22-31 ends with the PR | GitHub #9 |
+| S-2026-11-23-16 | **Rejected (S2 R-pc variants, 2026-11-22):** a second R-pc configuration with C3 children → C4 parents (16 runs). Rejected on the agent's recommendation: C3 lost S1 (0.652 vs C2 0.773), and the 2 extra runs would test a chunker already ruled out | Keeps S2 at 14 runs, all on S1's picks | S-2026-11-22-32 |
+| S-2026-11-23-17 | **Rejected (S3 scope, 2026-11-22):** per-session indexes only. Rejected because sessions hold 3–1,489 chunks, too few for HNSW/IVF to differ from Flat; the S3 results confirmed it (per-session recall vs exact ≥ 0.95 for every HNSW setting) | The curve needs a bigger index | S-2026-11-22-33, S-2026-11-23-12 |
+| S-2026-11-23-18 | **Rejected (R-pc + rerank, 2026-11-23, Kousik chose option 1):** reranking R-pc's *children* before parent mapping (option 2). It would avoid the 62% truncation of ~800-token parents, but it changes §7's "rerank the candidates" and would need a Decision Log deviation. Result for the record: R-pc + rerank is the weakest S2 config (0.667), and the truncation is a likely contributor; not tested | Follow the spec; measure the cost | S-2026-11-22-49, S-2026-11-23-4 |
+| S-2026-11-23-19 | **Rejected (S2 picks, 2026-11-23, Kousik kept the rule):** replacing the third pick C2-bm25+rerank with C2-dense+rerank for a more varied S4. Both have recall@budget 0.833; the rule's choice rests on a ~50 ms rerank-latency gap (CPU noise) | Pre-committed rule over a post-hoc choice | S-2026-11-23-8 |
+| S-2026-11-23-20 | **Rejected (R-pc design, agent, 2026-11-22):** fixed, non-overlapping 800-token blocks per section as parents (simpler duplicate removal, parents precomputable). Rejected for centred windows (as proposed to Kousik), so a child near a block edge still gets context on both sides; overlap handled by the covered-child skip (S-2026-11-22-43) | Matches the approved proposal | S-2026-11-22-42 |
+| S-2026-11-23-21 | **Rejected (R-pc rank metrics, agent):** counting relevant *parents* for ndcg/map (map every relevant child to its parent). Rejected as itself an approximation (a non-relevant child's parent can also cover evidence); children count kept and the caveat printed in the report | Decision metric unaffected | S-2026-11-22-44 |
+| S-2026-11-23-22 | **Rejected (BM25 zero-score results, agent):** returning zero-score chunks in index order to always fill k. Rejected: their rank would be arbitrary. Consequence: R-bm25 can return fewer than 20 chunks (e.g. 704 rerank candidates for 40 questions vs 706 for dense) | Honest lower bound | S-2026-11-22-37 |
+| S-2026-11-23-23 | **Logging rule (Kousik):** from now on each session section records findings (with numbers), every option put to Kousik **and the ones rejected, with reasons**, smoke-check observations, bugs found, and PR/merge events — not only final decisions | So decisions can be proved or revisited from the log | memory + this log |
+
+---
+
 ## 2026-11-23 (cont.) — R5 step 5: S3 index-type study
 
 **Branch:** `feature/r5-retrieval-strategies`. Kousik: "Start step 5 by keeping the rules pick". Runs at `e5ecdd5` (clean tree), dev. Report: `docs/24_s3_index_types.md` (no pick); MLflow `loandoc_retrieval_evals`: 10 per-session runs + 10 pooled runs (tag `study=pooled`).
