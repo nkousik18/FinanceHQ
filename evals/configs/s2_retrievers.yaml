@@ -1,0 +1,25 @@
+# S2 (scope v2 §9.3): S1's top 2 chunkers (C2, C4; S-2026-11-22-30) × {R-dense, R-bm25, R-hybrid, R-pc},
+# each ± rerank, dev split. Picks the top 3 configurations by recall@budget (D3; ties -> faster),
+# reported against the C1 + R-dense baseline (production), taken from the S1 run (same questions file
+# and setup, checked by the report).
+# R-pc: one configuration, C2 children -> C4 section parents (S-2026-11-22-32): "C4 × R-pc" would be
+# the same run. 14 runs (≤ 16). Runs are listed explicitly (§9.2). top_k = 20 as S1 (S-2026-11-22-18).
+# R-pc + rerank reranks the parents as specified (Kousik 2026-11-23, option 1); truncation reported.
+stage: S2
+table_config: P2
+baseline: {stage: S1, run: C1-dense}
+runs:
+  - {name: C2-dense,        chunker: C2, retriever: R-dense,  top_k: 20}
+  - {name: C2-dense+rerank, chunker: C2, retriever: R-dense,  top_k: 20, rerank: true}
+  - {name: C2-bm25,         chunker: C2, retriever: R-bm25,   top_k: 20}
+  - {name: C2-bm25+rerank,  chunker: C2, retriever: R-bm25,   top_k: 20, rerank: true}
+  - {name: C2-hybrid,       chunker: C2, retriever: R-hybrid, top_k: 20}
+  - {name: C2-hybrid+rerank, chunker: C2, retriever: R-hybrid, top_k: 20, rerank: true}
+  - {name: C4-dense,        chunker: C4, retriever: R-dense,  top_k: 20}
+  - {name: C4-dense+rerank, chunker: C4, retriever: R-dense,  top_k: 20, rerank: true}
+  - {name: C4-bm25,         chunker: C4, retriever: R-bm25,   top_k: 20}
+  - {name: C4-bm25+rerank,  chunker: C4, retriever: R-bm25,   top_k: 20, rerank: true}
+  - {name: C4-hybrid,       chunker: C4, retriever: R-hybrid, top_k: 20}
+  - {name: C4-hybrid+rerank, chunker: C4, retriever: R-hybrid, top_k: 20, rerank: true}
+  - {name: C2-pc,           chunker: C2, retriever: R-pc, parent_chunker: C4, top_k: 20}
+  - {name: C2-pc+rerank,    chunker: C2, retriever: R-pc, parent_chunker: C4, top_k: 20, rerank: true}

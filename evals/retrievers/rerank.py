@@ -56,6 +56,8 @@ class Reranked:
         self.base = base
         self.scorer = scorer or (lambda q, t: cross_encoder_scores(q, t))     # looked up at call time
         self.pair_len = pair_len or (lambda q, t: pair_tokens(q, t))
+        if scorer is None:
+            _model()                       # load once here, not inside the first question's timer
         self.retriever_id = f"{base.retriever_id}+rerank"
         self.params = {**base.params, "rerank": self.params_extra}
         self.needs_vector = base.needs_vector

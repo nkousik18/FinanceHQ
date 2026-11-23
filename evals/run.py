@@ -83,6 +83,7 @@ class StageConfig:
     stage: str
     table_config: str
     runs: list[RunConfig]
+    baseline: dict | None = None      # {stage, run}: an earlier stage's run the report compares against
 
 
 def load_config(path: Path) -> StageConfig:
@@ -93,7 +94,10 @@ def load_config(path: Path) -> StageConfig:
     names = [r.name for r in runs]
     if len(set(names)) != len(names):
         raise ValueError(f"{path}: duplicate run names")
-    return StageConfig(raw["stage"], raw.get("table_config", "P2"), runs)
+    base = raw.get("baseline")
+    if base is not None and (set(base) != {"stage", "run"} or base["run"] in names):
+        raise ValueError(f"{path}: baseline must be {{stage, run}} naming a run outside this stage")
+    return StageConfig(raw["stage"], raw.get("table_config", "P2"), runs, base)
 
 
 # ---- provenance --------------------------------------------------------------------------------

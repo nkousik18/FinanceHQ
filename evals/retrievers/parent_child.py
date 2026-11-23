@@ -15,6 +15,8 @@ parents = C4 sections (the run's `parent_chunker`).
   window of it centred on the child** (clipped at the section's ends, so still 800 when possible).
 - **No C4 section available** (the child overlaps no C4 chunk, or only chunks with an empty heading
   path) -> the same 800-token window over the whole document (pages joined as in C2/C3).
+- Section token offsets are computed when the ParentMap is built (index time); a document fallback
+  region is tokenized on first use (rare).
 
 **Ranking:** children by dense score (all of them, best first); each child maps to its parent;
 a child is **skipped when its parent is already returned, or when >= 50% of the child's characters
@@ -129,6 +131,7 @@ class ParentMap:
                     continue
                 reg = _Region(f"{doc_id}-PC-s{gi}", doc_id, sec + SECTION_SEP,
                               stream_from_pieces(src, pieces, SECTION_SEP), sec)
+                reg.offsets()              # tokenize at index time, not inside a query's parent_map timer
                 regs.append((reg, pieces))
             self.sections[doc_id] = regs
 
