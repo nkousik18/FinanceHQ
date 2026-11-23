@@ -10,7 +10,8 @@ Input: `drafts/candidates.jsonl` + `drafts/reviews.json` (review app). Only revi
 
 1. **Pick** exactly the §5.1 type quota from the kept questions (seeded, deterministic). Constraint
    items are taken first, so a random fill can't push them out: amendment cross_doc (≥ 10), scan
-   evidence (≥ 8), consumer sessions (≥ 20%). The rest of each type's quota is a seeded random fill.
+   evidence (≥ 8), consumer items a type can't avoid, consumer sessions (≥ 20%). The rest of each
+   type's quota is a seeded random fill, with consumer items capped so EDGAR sessions stay ≥ 70%.
    Fewer kept than a quota → nothing is written; the shortfall is reported.
 2. **Split** 40 dev / 80 test, stratified: each type's dev count by largest remainder (8/8/7/5/5/7),
    and within a type the items are ordered by stratum (consumer / scan / amendment / plain EDGAR)
@@ -31,7 +32,7 @@ from collections import Counter
 from pathlib import Path
 
 from evals.golden.qa.review_app.store import EDITABLE, draft_hash
-from evals.golden.qa.schema import (MIN_AMENDMENT_QUESTIONS, MIN_CONSUMER_SHARE, MIN_SCAN_QUESTIONS,
+from evals.golden.qa.schema import (MIN_AMENDMENT_QUESTIONS, MIN_CONSUMER_SHARE, MIN_EDGAR_SHARE, MIN_SCAN_QUESTIONS,
                                     REQUIRED, SPLIT_SIZES, TYPE_COUNTS, TYPES, DocInfo, mix_report,
                                     validate_set)
 
@@ -85,7 +86,8 @@ def kept_questions(candidates: list[dict], reviews: dict[str, dict]) -> tuple[li
 # ---- 1. pick the quota ---------------------------------------------------------------------------
 def pick(kept: list[dict], docs: dict[str, DocInfo], quotas: dict[str, int] = TYPE_COUNTS,
          seed: int = SEED, min_amend: int = MIN_AMENDMENT_QUESTIONS, min_scan: int = MIN_SCAN_QUESTIONS,
-         min_consumer_share: float = MIN_CONSUMER_SHARE) -> tuple[list[dict], dict[str, int]]:
+         min_consumer_share: float = MIN_CONSUMER_SHARE,
+         min_edgar_share: float = MIN_EDGAR_SHARE) -> tuple[list[dict], dict[str, int]]:
     """(chosen questions, shortfall per type). Constraint items first, then a seeded fill."""
     by_type = {t: sorted([q for q in kept if q["type"] == t], key=lambda q: q["source_cid"]) for t in quotas}
     short = {t: quotas[t] - len(qs) for t, qs in by_type.items() if len(qs) < quotas[t]}
@@ -107,13 +109,26 @@ def pick(kept: list[dict], docs: dict[str, DocInfo], quotas: dict[str, int] = TY
 
     take(lambda q: q["amendment"] and q["type"] == "cross_doc", min_amend)
     take(lambda q: is_scan(q, docs), min_scan - sum(is_scan(q, docs) for qs in chosen.values() for q in qs))
+    # consumer items a type can't avoid (fewer EDGAR items left than its open slots) are taken now, so
+    # they count toward the consumer minimum instead of pushing past the EDGAR share later
+    def n_consumer() -> int:
+        return sum(is_consumer(q) for qs in chosen.values() for q in qs)
+    for t in quotas:
+        unavoidable = quotas[t] - len(chosen[t]) - sum(not is_consumer(q) and q not in chosen[t] for q in by_type[t])
+        if unavoidable > 0:
+            take(lambda q, t=t: q["type"] == t and is_consumer(q), unavoidable)
     need_consumer = math.ceil(round(min_consumer_share * sum(quotas.values()), 6))
-    take(is_consumer, need_consumer - sum(is_consumer(q) for qs in chosen.values() for q in qs))
-    for t in quotas:                                   # seeded fill
-        for q in by_type[t]:
-            if len(chosen[t]) >= quotas[t]:
-                break
-            if q not in chosen[t]:
+    take(is_consumer, need_consumer - n_consumer())
+    # seeded fill; consumer items capped so EDGAR sessions stay >= 70%. The second pass ignores the cap
+    # only if a type still can't be filled (validate_set then reports the share).
+    max_consumer = sum(quotas.values()) - math.ceil(round(min_edgar_share * sum(quotas.values()), 6))
+    for capped in (True, False):
+        for t in quotas:
+            for q in by_type[t]:
+                if len(chosen[t]) >= quotas[t]:
+                    break
+                if q in chosen[t] or (capped and is_consumer(q) and n_consumer() >= max_consumer):
+                    continue
                 chosen[t].append(q)
     return [q for t in quotas for q in chosen[t]], {}
 

@@ -118,3 +118,18 @@ def test_full_finalise_passes_validator_and_is_deterministic():
     # dev gets each stratum, not just plain EDGAR
     dev = [q for q in qs if q["split"] == "dev"]
     assert {fz.stratum(q, DOCS) for q in dev} >= {"consumer", "scan", "amendment", "edgar"}
+
+
+def test_fill_caps_consumer_for_edgar_share():
+    # found 2026-11-22: the fill took 44/120 consumer items (EDGAR share < 70%); then a type filled early
+    # used the cap and a later type with few EDGAR items was forced over it
+    def q(cid, t, consumer):
+        return {"source_cid": cid, "type": t, "session_id": "cfpb_a" if consumer else "deal_01",
+                "amendment": False, "evidence": [{"doc_id": "x", "page": 1}]}
+    kept = ([q(f"a-{i}", "lookup", i < 3) for i in range(5)] +      # lookup: 3 consumer, plenty EDGAR
+            [q(f"b-{i}", "table", i < 2) for i in range(3)])         # table: only 1 EDGAR for 2 slots
+    for seed in range(20):
+        for min_consumer in (0.0, 0.25):        # the consumer minimum must not use up the cap either
+            chosen, short = fz.pick(kept, {}, {"lookup": 2, "table": 2}, seed=seed, min_amend=0, min_scan=0,
+                                    min_consumer_share=min_consumer, min_edgar_share=0.75)
+            assert not short and sum(fz.is_consumer(x) for x in chosen) == 1, (seed, min_consumer)

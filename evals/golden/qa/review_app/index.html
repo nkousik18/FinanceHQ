@@ -276,7 +276,7 @@ function highlightsFor(p) {
   return out.sort((a, b) => a[0] - b[0]);
 }
 function markSpans() {
-  document.querySelectorAll(".ev").forEach(box => {
+  document.querySelectorAll("#evs .ev").forEach(box => {   // not the suggestion panel (also .ev)
     const e = FORM.evidence[+box.dataset.i], p = PAGES.find(p => p.doc_id === e.doc_id && p.page === +e.page);
     const el = box.querySelector(".spanok");
     if (!p) { el.innerHTML = `<span class="s-later">page not open</span>`; return; }
