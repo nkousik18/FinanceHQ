@@ -7,6 +7,25 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-23 (cont.) — R5 step 5: S3 index-type study
+
+**Branch:** `feature/r5-retrieval-strategies`. Kousik: "Start step 5 by keeping the rules pick". Runs at `e5ecdd5` (clean tree), dev. Report: `docs/24_s3_index_types.md` (no pick); MLflow `loandoc_retrieval_evals`: 10 per-session runs + 10 pooled runs (tag `study=pooled`).
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-23-9 | **Index parameters (D10):** HNSW M 32, efConstruction 200, efSearch ∈ {16, 32, 64, 128}; IVF nlist = round(√N) per index (IVFFlat, trained on the index's own vectors), nprobe ∈ {1, 2, 4, 8, 16}; all inner product on normalized MiniLM vectors. Config `evals/configs/s3_index_types.yaml`; spec in a run's `index:` (`evals/retrievers/ann.py`) | Standard sweep points; √N is the usual IVF starting point | Decision Log |
+| S-2026-11-23-10 | **Recall vs exact (§8.3)** = share of exact search's top k inside the approximate top k. Per session: a non-flat index keeps an exact IndexFlatIP copy; the dense list's overlap is computed outside the timers (`exact_overlap` in `retriever_info`). Pooled: `evals/index_study.py`, one index over the 52 dev-session documents (each once, no dropped pages; 9,592 C2 vectors), 40 dev questions, top 10/20, latency = median of 5 single-query searches per question | §8.3; S-2026-11-22-33 | — |
+| S-2026-11-23-11 | **Bug found: FAISS batch search (nq > 1) segfaults when torch is loaded** (two OpenMP runtimes, macOS; single-query search was safe, which is all the runner does). **`dense._faiss()` now sets FAISS to 1 thread** for all evals; this also makes HNSW/IVF builds reproducible. Flat S3 run reproduces S2's C2-hybrid+rerank exactly (0.864) | Same family as S-2026-11-22-15; a small CPU host is single-threaded anyway | `evals/retrievers/dense.py` |
+| S-2026-11-23-12 | **S3 per-session result:** HNSW (every efSearch) and IVF nprobe 8/16 give the **same recall@budget as Flat (0.864)**; IVF nprobe 1/2/4: 0.833 / 0.803 / 0.803 (diff vs Flat CIs touch 0). Dense top-20 recall vs exact: HNSW 0.950 → 0.999 (ef 16 → 128), IVF 0.428 → 0.990 (np 1 → 16). Vector search is 36–161 µs p50 on sessions of 3–1,489 chunks: **irrelevant next to query embedding (~12 ms) and CPU rerank (~300 ms)** | §9.3 S3 | — |
+| S-2026-11-23-13 | **S3 pooled curve (9,592 vectors):** Flat 374 µs p50, recall 1.0; HNSW ef 16/32/64/128 → recall@20 0.860 / 0.944 / 0.981 / 0.990 at 22 / 34 / 58 / 109 µs (build 2.1 s, 16.5 MB vs 14.1 MB); IVF np 1→16 → recall@20 0.395 → 0.919 at 13 → 86 µs (build 0.04 s). **At this corpus size Flat stays the right choice** (exact, < 0.4 ms); HNSW ef 64 would be the pick only at far larger N | §7 "the point is the curve" | R8 |
+| S-2026-11-23-14 | Per-session total latency: the first two runs (flat, hnsw-ef16) were ~520 ms p50 vs ~320 ms for the rest — **reranker CPU warm-up** (rerank p50 485 / 469 vs 286–304 ms), not the index. Report adds a rerank column and a generated note | Don't misread order effects as index effects | `evals/report.py` |
+
+Changes: `evals/retrievers/{ann,dense,hybrid}.py`, `evals/run.py` (`index`), `evals/index_study.py`, `evals/report.py` (`render_s3`), `evals/configs/s3_index_types.yaml`, `evals/tests/test_index_types.py` (14 tests). Evals 434 pass. `docs/24_s3_index_types.md` (generated); S1/S2 reports regenerate byte-identical.
+
+**R5 complete:** R-bm25, R-hybrid, R-pc, +rerank, S2 (picks C2-hybrid+rerank, C2-bm25, C2-bm25+rerank + C1-dense baseline → S4), S3 (Flat stays). Next: R5 PR → Kousik's review; R6 (generation, judge, S4 on test) only when Kousik says go.
+
+---
+
 ## 2026-11-23 — R5 step 4: S2 run + report
 
 **Branch:** `feature/r5-retrieval-strategies`. Kousik: "option 1, go step 4" (R-pc + rerank reranks the parents as specified; truncation reported — closes S-2026-11-22-49). Run at `a5b5f96` (clean tree), dev 40 q (33 answerable), top_k 20. Report: `docs/23_s2_retrieval.md`; MLflow `loandoc_retrieval_evals`, 14 runs.

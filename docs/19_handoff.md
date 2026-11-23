@@ -21,7 +21,7 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 2. `docs/18_session_log.md` — what happened each session, newest first.
 3. `docs/r0_findings.md` — R0 measurements (MiniLM truncation, test repair, model switch).
    `docs/20_s0_results.md` (S0 parsing), `docs/21_r2_chunk_metrics.md` (R2 chunk metrics) and
-   **`docs/22_s1_retrieval.md` (S1 retrieval)**, **`docs/23_s2_retrieval.md` (S2 retrieval)** — generated results (F7: never hand-edit numbers).
+   **`docs/22_s1_retrieval.md` (S1 retrieval)**, **`docs/23_s2_retrieval.md` (S2 retrieval)**, **`docs/24_s3_index_types.md` (S3 index types)** — generated results (F7: never hand-edit numbers).
 4. `evals/golden/ingest/README.md` — golden-set labelling guide.
 
 ## 3. Where things stand
@@ -33,7 +33,8 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 | R2 | ✅ Merged: chunkers C1–C5 (`evals/chunking/`) + §8.2 chunk metrics (`docs/21_r2_chunk_metrics.md`) |
 | R3 | ✅ Merged (PR #7): QA golden set `evals/golden/qa/questions.jsonl`, q0001–q0120, **40 dev / 80 test**, all human-verified |
 | R4 | ✅ Merged (PR #8): retrieval metrics, runner, MLflow, report; S1 → **C2 + C4** |
-| R5 | 🔶 On **`feature/r5-retrieval-strategies`**. Steps (S-2026-11-22-31): ~~0 housekeeping~~ → ~~1 `R-bm25` + `R-hybrid`~~ → ~~2 `R-pc`~~ → ~~3 `+rerank`~~ → ~~4 S2 run + report~~ → **5 S3** → PR. Ask before each step |
+| R5 | 🔶 **Done on `feature/r5-retrieval-strategies`, PR to `main` waiting for Kousik's review.** S2 → picks C2-hybrid+rerank, C2-bm25, C2-bm25+rerank (+ C1-dense baseline); S3 → Flat stays (`docs/24_s3_index_types.md`) |
+| R6 | ⏸ Not started — generation harness, judge + calibration (Kousik labels 50), **S4 on test**. Wait for Kousik's go |
 
 **R4 (merged), what exists:**
 - `evals/retrieval/metrics.py` — all §8.3 metrics per question. Coverage = R2's `covers()` rule. Budget = copy of production `router._build_context` (greedy to 1,200 words, first chunk always in); a test pins `MAX_CONTEXT_WORDS` to production.
@@ -66,7 +67,7 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 
 | What | How |
 |---|---|
-| App + evals venv | `venv/` (Python 3.12). Tests: `venv/bin/python -m pytest -q evals/tests` and `cd fastapi_service && ../venv/bin/python -m pytest -q` (evals **420** pass; app **173** pass, 2 stale skipped) |
+| App + evals venv | `venv/` (Python 3.12). Tests: `venv/bin/python -m pytest -q evals/tests` and `cd fastapi_service && ../venv/bin/python -m pytest -q` (evals **434** pass; app **173** pass, 2 stale skipped) |
 | Docling venv | **`venv-docling/`** (separate: Docling's numpy 2/torch/httpx conflict with the app venv). Pinned in `requirements-docling.txt` |
 | Rebuild corpus | `venv/bin/python -m evals.corpus.fetch fetch` (needs `SEC_USER_AGENT` in `.env`; CFPB PDFs must be in `data/corpus/inbox/cfpb/` — consumerfinance.gov blocks scripts) ; scans: `python -m evals.corpus.scans build` |
 | Parse | `caffeinate -i venv-docling/bin/python -m evals.parsers.docling_runner --configs P1 P2` (resumable; ~40 min for both on the M3) |
@@ -74,7 +75,7 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 | S0 | `venv/bin/python -m evals.ingest_metrics.run_s0 [--include-unverified] [--skip-corpus] [--mlflow]` → `data/results/s0/` ; MLflow store `data/mlflow/mlflow.db` |
 | QA set | validate: `venv/bin/python -m evals.golden.qa.validate --final` |
 | Retrieval stage | `venv/bin/python -m evals.run --config evals/configs/s1_chunkers.yaml --split dev [--runs C2-dense] [--limit 3] [--no-mlflow]` (cold: ~15 min for C1–C5, C5 slowest; cached: seconds). `--limit` = smoke run, tagged SMOKE, report refuses it |
-| Report | `venv/bin/python -m evals.report --stage S1 --split dev` |
+| Report | `venv/bin/python -m evals.report --stage S1|S2|S3 --split dev` ; S3 pooled study: `venv/bin/python -m evals.index_study --config evals/configs/s3_index_types.yaml` |
 | MLflow UI | `venv/bin/mlflow ui --backend-store-uri sqlite:///data/mlflow/mlflow.db` |
 
 Tools on the Mac: Chrome 156 (HTML→PDF rendering), Tesseract 5.5.1, Apple M3 GPU (MPS), 16 GB RAM.
@@ -90,7 +91,8 @@ evals/chunking/    base (Chunk/Span provenance), source (parse → cleaned Sourc
 evals/golden/qa/   schema + validate (F3), pages/pairs (job selection), draft (gpt-oss-120b), review_app/, finalise, questions.jsonl
 evals/llm/         ledger (D7 spend + 190k tokens/day guard)
 evals/retrieval/   metrics (§8.3), index_cache, views (scan swap)
-evals/retrievers/  __init__ (registry RETRIEVERS), dense (R-dense), bm25 (R-bm25 + tokenizer), hybrid (R-hybrid, rrf), parent_child (R-pc, ParentMap), rerank (Reranked; make_retriever)
+evals/retrievers/  __init__ (registry RETRIEVERS), dense (R-dense), bm25 (R-bm25 + tokenizer), hybrid (R-hybrid, rrf), parent_child (R-pc, ParentMap), rerank (Reranked; make_retriever), ann (FAISS index specs for S3)
+evals/index_study.py  S3 pooled index study
 evals/run.py  evals/report.py  evals/tracking.py  evals/configs/s1_chunkers.yaml
 evals/stats.py     bootstrap, ratio CI, paired diff CI, Holm
 evals/tests/       all evals tests (F8 known-answer tests per metric; F9 data-rules test)
@@ -114,6 +116,7 @@ orchestration/     placeholder Airflow DAG (not wired in)   fastapi_service/app/
 - EDGAR: same amendment is often filed twice (8-K, then 10-Q; redacted then full) — dedupe logic in `edgar_discover.dedupe_amendments`.
 - Unverified (pre-filled) golden labels **are** Docling P1 output — any run on them is a dry run, not a result.
 - Background parse runs: launch with `run_in_background`; don't poll; the runner logs to `data/parse_cache/run.log`.
+- **FAISS batch search (nq > 1) segfaults with torch loaded** (OpenMP clash): `dense._faiss()` sets 1 FAISS thread — always get faiss through it.
 - **Import faiss only after torch** (macOS): if faiss loads first, the next MiniLM encode segfaults (two OpenMP runtimes). `evals/retrievers/dense.py::_faiss()` imports torch first — reuse it for any new FAISS code (HNSW/IVF in S3).
 - Production code is imported as `app.…` (path set by `evals/parsers/production_adapter.py`), not `fastapi_service.app.…`.
 - `value_in` (entity match) treats `62500.00` ≠ `$62,500` — numeric tokens must match exactly after normalization.

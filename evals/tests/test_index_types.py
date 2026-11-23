@@ -127,6 +127,7 @@ def test_render_s3(tmp_path):
     for n, idx in (("flat", None), ("ivf-np1", {"type": "ivf", "nprobe": 1})):
         runs[n]["summary"]["run"]["index"] = idx
         runs[n]["summary"]["latency_ms"]["vector_search"] = {"p50": 0.0001, "p95": 0.0002}
+        runs[n]["summary"]["latency_ms"]["rerank"] = {"p50": 300.0 if n == "flat" else 480.0, "p95": 600.0}
         for row in runs[n]["rows"].values():
             row["index_chunks"] = 100
     pooled = {"n_vectors": 1000, "chunker": "C2", "n_docs": 3, "dim": 384, "n_queries": 4, "repeats": 5,
@@ -136,5 +137,6 @@ def test_render_s3(tmp_path):
                            "recall_vs_exact@10": {"mean": 1.0, "min": 1.0},
                            "recall_vs_exact@20": {"mean": 1.0, "min": 1.0}, "search_ms": {"p50": 0.1, "p95": 0.2}}]}
     md = RP.render_s3("dev", runs, pooled)
+    assert "rerank p50 300–480 ms across runs" in md
     assert "**No pick**" in md and "IVF nlist=sqrt nprobe=1" in md and "| 0.750 |" in md
     assert "| Flat (exact) | 0.01 | 1.0 | 1.000 (min 1.00) |" in md and "1,000 `C2` vectors" in md

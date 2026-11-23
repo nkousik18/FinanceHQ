@@ -460,12 +460,19 @@ def render_s3(split: str, runs: dict, pooled: dict) -> str:
         info = sm.get("retriever_info") or {}
         ov = info["exact_overlap"] / info["exact_overlap_n"] if info.get("exact_overlap_n") else None
         vs, tot = sm["latency_ms"]["vector_search"], sm["latency_ms"]["total"]
+        rr = sm["latency_ms"].get("rerank", {}).get("p50")
         rows.append([f"`{name}`", index_label(sm["run"].get("index")), ci_cell(ci),
                      "–" if name == base else diff_cell(d), "1 (exact)" if name == base else f3(ov),
-                     f"{1000 * vs['p50']:.0f} / {1000 * vs['p95']:.0f}", f"{tot['p50']:.0f}"])
+                     f"{1000 * vs['p50']:.0f} / {1000 * vs['p95']:.0f}", "–" if rr is None else f"{rr:.0f}",
+                     f"{tot['p50']:.0f}"])
     n = bootstrap_ci(values(runs[base], "recall@budget", qids))["n"]
     session = md_table(["Run", "Index", f"★ recall@budget (n={n})", "diff vs Flat [95% CI]",
-                        "dense top-20 recall vs exact (mean)", "vector search µs p50 / p95", "total ms p50"], rows)
+                        "dense top-20 recall vs exact (mean)", "vector search µs p50 / p95", "rerank ms p50",
+                        "total ms p50"], rows)
+    rr = [r["summary"]["latency_ms"]["rerank"]["p50"] for r in runs.values() if "rerank" in r["summary"]["latency_ms"]]
+    rr_note = (f"Runs execute in config order. Total latency is the CPU reranker's (rerank p50 {min(rr):.0f}–"
+               f"{max(rr):.0f} ms across runs, scoring the same kind of candidates), so differences in the total "
+               "column are reranker/CPU noise, not the index: compare the vector search column." if rr else "")
     prow = []
     for r in pooled["results"]:
         sp = r["spec"]
@@ -496,6 +503,8 @@ Session index sizes over the {len(qids)} dev questions: {sizes[0]}–{sizes[-1]}
 {sizes[len(sizes) // 2]}). Latency per question; the total is dominated by the CPU reranker.
 
 {session}
+
+{rr_note}
 
 ## Pooled index: the whole dev corpus
 
