@@ -1,0 +1,1456 @@
+{
+ "lookup-001-a": {
+  "suggest": "keep",
+  "reason": "Section 2.07(c) of the deal_07 Credit Agreement: reductions in integral multiples of $500,000, minimum $1,000,000; amendments 2/3 do not change it. Answer and span correct.",
+  "edits": {},
+  "confidence": "high"
+ },
+ "lookup-001-b": {
+  "suggest": "keep",
+  "reason": "Correct per Section 2.07(a). Somewhat definitional (the date itself is defined elsewhere and was extended by Amendment 2), but the question asks only the termination trigger so it is unambiguous.",
+  "edits": {},
+  "confidence": "medium"
+ },
+ "lookup-002-a": {
+  "suggest": "fix",
+  "reason": "'this Amendment' is vague in a session with three amendments; the clause appears only in the First Amendment (April 30, 2020), so pin it. Entity 'this Amendment' is not a useful value.",
+  "edits": {
+   "question": "Under Section 4(d) of the First Amendment to the RPM Credit Agreement (dated April 30, 2020), is that amendment a substitution, novation, discharge or release of any Borrower's obligations under the Credit Agreement?",
+   "reference_answer": "No. The First Amendment states it is not a substitution, novation, discharge or release of any Borrower's obligations under the Credit Agreement or the other Loan Documents, all of which remain in full force and effect.",
+   "entities": [
+    "First Amendment",
+    "novation"
+   ]
+  },
+  "confidence": "medium"
+ },
+ "lookup-002-b": {
+  "suggest": "fix",
+  "reason": "As phrased it asks a live factual question the documents cannot answer; the page only contains the Borrowers' representation as of the First Amendment. Reframed as what the Borrowers represent, pinned to the First Amendment.",
+  "edits": {
+   "question": "In the First Amendment to the RPM Credit Agreement (April 30, 2020), what do the Borrowers represent about Events of Default and Potential Defaults?",
+   "reference_answer": "In the First Amendment, each Borrower represents that no Event of Default or Potential Default has occurred and is continuing under the Credit Agreement or the other Loan Documents.",
+   "key_points": [
+    "no Event of Default has occurred and is continuing",
+    "no Potential Default has occurred and is continuing"
+   ],
+   "entities": [
+    "Event of Default",
+    "Potential Default",
+    "First Amendment"
+   ]
+  },
+  "confidence": "low"
+ },
+ "lookup-003-a": {
+  "suggest": "fix",
+  "reason": "Correct (Article IX appointment; cover page and preamble agree, amendments do not change agent). Added the full legal name to the answer, which is the defined meaning of 'Wells Fargo'.",
+  "edits": {
+   "reference_answer": "Wells Fargo (Wells Fargo Bank, National Association) is appointed as the Administrative Agent."
+  },
+  "confidence": "high"
+ },
+ "lookup-004-a": {
+  "suggest": "keep",
+  "reason": "Recital on p6 of the EQT Credit Agreement: up to $1,250,000,000; amendments do not change the amount.",
+  "edits": {},
+  "confidence": "high"
+ },
+ "lookup-004-b": {
+  "suggest": "fix",
+  "reason": "Correct date, but 'this Credit Agreement' is vague in a session with three dated amendments; name the original EQT term loan Credit Agreement.",
+  "edits": {
+   "question": "On what date was the original EQT Corporation term loan Credit Agreement (before any amendments) entered into?"
+  },
+  "confidence": "high"
+ },
+ "lookup-005-a": {
+  "suggest": "fix",
+  "reason": "Clause (g) is a clause of the 'Eligible Accounts' definition (Sigmatron ABL Credit Agreement), not 'of the agreement'; question must name the definition. Answer correct.",
+  "edits": {
+   "question": "Under clause (g) of the 'Eligible Accounts' definition in the SigmaTron Credit Agreement, what type of billing makes an Account ineligible?",
+   "reference_answer": "An Account that represents a progress billing is excluded from Eligible Accounts under clause (g)."
+  },
+  "confidence": "high"
+ },
+ "lookup-005-b": {
+  "suggest": "fix",
+  "reason": "Misframed: clause (o) of the 'Eligible Accounts' definition does not prohibit anyone from owing; it excludes Accounts owed by those parties. Entities were long phrases.",
+  "edits": {
+   "question": "Under clause (o) of the 'Eligible Accounts' definition in the SigmaTron Credit Agreement, Accounts owed by which parties are excluded?",
+   "reference_answer": "Accounts owed by any Affiliate of any Loan Party, or by any officer or director of any Loan Party or of any of its Affiliates, are not Eligible Accounts.",
+   "key_points": [
+    "owed by an Affiliate of a Loan Party",
+    "owed by an officer or director of a Loan Party or its Affiliates",
+    "excluded from Eligible Accounts"
+   ],
+   "entities": [
+    "Affiliate",
+    "officer or director"
+   ]
+  },
+  "confidence": "high"
+ },
+ "lookup-006-a": {
+  "suggest": "fix",
+  "reason": "Answer correct (Defaulting Lender Waterfall, PureCycle Credit Agreement p37). Question slightly loose: the waterfall applies to payments received for the account of a Defaulting Lender, not all payments; tightened.",
+  "edits": {
+   "question": "In the PureCycle Credit Agreement's Defaulting Lender Waterfall, what is the first application of payments received by the Administrative Agent for the account of a Defaulting Lender?"
+  },
+  "confidence": "high"
+ },
+ "lookup-006-b": {
+  "suggest": "keep",
+  "reason": "Faithful to p37: restriction is as set forth in the 'Required Lenders' definition and Section 11.01. A cross-reference answer, but specific and checkable.",
+  "edits": {},
+  "confidence": "medium"
+ },
+ "lookup-007-b": {
+  "suggest": "fix",
+  "reason": "Wrong logic: the question asks for 'the earlier of the two dates' and the answer asserts March 31, 2025, but which date is earlier depends on whether a termination notice is delivered. Reframed as when the period ends, pinned to Amendment No. 2.",
+  "edits": {
+   "question": "Under Amendment No. 2 to the IFF Credit Agreement, when does the Covenant Relief Period Termination Date occur?",
+   "reference_answer": "It is the earlier of (a) March 31, 2025 and (b) the date on which the Agent receives a Covenant Relief Period Termination Notice from the Company.",
+   "key_points": [
+    "earlier of two dates",
+    "March 31, 2025",
+    "date the Agent receives a Covenant Relief Period Termination Notice from the Company"
+   ],
+   "entities": [
+    "March 31, 2025",
+    "Covenant Relief Period Termination Notice"
+   ]
+  },
+  "confidence": "high"
+ },
+ "lookup-009-a": {
+  "suggest": "keep",
+  "reason": "Section 3.15 representation of the deal_06 Credit Agreement; answer faithful. Simple yes/no but specific.",
+  "edits": {},
+  "confidence": "medium"
+ },
+ "lookup-009-b": {
+  "suggest": "keep",
+  "reason": "Section 3.16 representation, verbatim support. Simple yes/no; same page as 009-a but a different fact.",
+  "edits": {},
+  "confidence": "medium"
+ },
+ "lookup-010-a": {
+  "suggest": "keep",
+  "reason": "Date on the face of the Waiver and Second Amendment (Tactile, deal_12_am2 p1); question names the document so it is unambiguous.",
+  "edits": {},
+  "confidence": "high"
+ },
+ "lookup-010-b": {
+  "suggest": "fix",
+  "reason": "Agent name is a near-duplicate of lookup-003-a (another 'who is the Administrative Agent' = Wells Fargo) and trivial. Same page has a more useful fact: the default being waived. Replaced with that.",
+  "edits": {
+   "question": "In the Waiver and Second Amendment to the Tactile Systems Credit Agreement, what default did the Borrower acknowledge?",
+   "reference_answer": "The Borrower acknowledged it failed to comply with Section 8.1(c) of the Credit Agreement by not providing, within sixty (60) days after the end of Fiscal Year 2018, a business plan and operating and capital budget of the Borrower and its Subsidiaries for the ensuing three fiscal years (the 'Current Default').",
+   "evidence": [
+    {
+     "doc_id": "deal_12_am2",
+     "page": 1,
+     "span_text": "The Borrower acknowledges that it failed to comply with Section 8.1(c) of the Credit Agreement by failing to provide, within sixty (60) days after the end of Fiscal Year 2018, a business plan and operating and capital budget of Borrower and its Subsidiaries for the ensuing three fiscal years (the \"Current Default\")."
+    }
+   ],
+   "key_points": [
+    "breach of Section 8.1(c)",
+    "business plan and operating and capital budget not delivered",
+    "within sixty (60) days after end of Fiscal Year 2018"
+   ],
+   "entities": [
+    "Section 8.1(c)",
+    "sixty (60) days",
+    "Fiscal Year 2018"
+   ]
+  },
+  "confidence": "medium"
+ },
+ "lookup-011-a": {
+  "suggest": "keep",
+  "reason": "Section 4.9(b) of the Lincoln Educational Credit Agreement; March 29, 2005 is correct and amendments do not touch 4.9.",
+  "edits": {},
+  "confidence": "high"
+ },
+ "lookup-011-b": {
+  "suggest": "keep",
+  "reason": "Same paragraph as 011-a but a different date (December 31, 2016) and fact; correct. Reviewer may treat the pair as near-duplicates and keep only one.",
+  "edits": {},
+  "confidence": "medium"
+ },
+ "lookup-012-a": {
+  "suggest": "fix",
+  "reason": "Raymond James deal has two Borrowers (RJF and RJA) and the question's 'starts the delivery schedule' is vague; pin it to Section 6.01(a) annual statements. Value September 30, 2019 is correct.",
+  "edits": {
+   "question": "Under Section 6.01(a) of the Raymond James Credit Agreement, with which fiscal year do the annual consolidated financial statement deliveries commence?",
+   "reference_answer": "Annual statements (due within ninety days after each fiscal year end) commence with the fiscal year ending September 30, 2019.",
+   "evidence": [
+    {
+     "doc_id": "deal_03_ca",
+     "page": 59,
+     "span_text": "within ninety days after the end of each fiscal year of such Borrower, commencing with the fiscal year ending September 30, 2019"
+    }
+   ],
+   "entities": [
+    "September 30, 2019",
+    "ninety days"
+   ]
+  },
+  "confidence": "high"
+ },
+ "lookup-012-b": {
+  "suggest": "fix",
+  "reason": "Amendment No. 1 rewrote Section 6.01(b) (separate RJF and RJA clauses) but kept forty-five days, so the answer stands; question should name the agreement/section and note 'as amended', with the amendment span added as evidence.",
+  "edits": {
+   "question": "Under Section 6.01(b) of the Raymond James Credit Agreement (as amended by the First Amendment), within how many days after the end of each of the first three fiscal quarters must the quarterly financial statements be delivered?",
+   "reference_answer": "Within forty-five days after the end of each of the first three fiscal quarters of each fiscal year (for both RJF and RJA under the amended Section 6.01(b)).",
+   "evidence": [
+    {
+     "doc_id": "deal_03_ca",
+     "page": 59,
+     "span_text": "within forty-five days after the end of each of the first three fiscal quarters of each fiscal year"
+    },
+    {
+     "doc_id": "deal_03_am1",
+     "page": 2,
+     "span_text": "within forty-five days after the end of each of the first three fiscal quarters of each fiscal year of RJA"
+    }
+   ],
+   "entities": [
+    "forty-five days"
+   ]
+  },
+  "confidence": "medium"
+ },
+ "lookup-013-a": {
+  "suggest": "fix",
+  "reason": "Correct (Section 8.04(b), deal_07 Credit Agreement p81). Answer omitted the consequence that silence is deemed consent; added it and the section reference in the question.",
+  "edits": {
+   "question": "Under Section 8.04(b) of the deal_07 Credit Agreement, within how many Business Days must the Borrower Representative object in writing to an assignment of the Loans or the Revolving Commitment?",
+   "reference_answer": "Within 5 Business Days after receiving notice of the assignment; otherwise the Borrower Representative is deemed to have consented.",
+   "evidence": [
+    {
+     "doc_id": "deal_07_ca",
+     "page": 81,
+     "span_text": "the Borrower Representative shall be deemed to have consented to an assignment of all or a portion of the Loans and the Revolving Commitment unless it shall object thereto by written notice to the Lender within 5 Business Days after having received notice thereof"
+    }
+   ]
+  },
+  "confidence": "high"
+ },
+ "lookup-013-b": {
+  "suggest": "keep",
+  "reason": "Faithful to Section 8.04(b): Affiliate of the Lender, Approved Fund, or any assignee while an Event of Default is continuing. Amendments do not change 8.04.",
+  "edits": {},
+  "confidence": "high"
+ },
+ "lookup-014-a": {
+  "suggest": "fix",
+  "reason": "2% is the initial rate of an adjustable negative-amortization loan; answer should say it adjusts yearly from year 2 and can reach 7% in year 10 so 'the interest rate' is not read as fixed.",
+  "edits": {
+   "question": "What is the initial interest rate shown on the negative-amortization ARM Loan Estimate, and how high can it go?",
+   "reference_answer": "The initial interest rate is 2%; it adjusts every year starting in year 2 and can go as high as 7% in year 10.",
+   "evidence": [
+    {
+     "doc_id": "cfpb_le_h24f",
+     "page": 2,
+     "span_text": "Interest Rate 2% YES · Adjusts every year starting in year 2 · Can go as high as 7% in year 10"
+    }
+   ],
+   "key_points": [
+    "initial rate 2%",
+    "adjusts every year starting in year 2",
+    "maximum 7% in year 10"
+   ],
+   "entities": [
+    "2%",
+    "7%"
+   ]
+  },
+  "confidence": "high"
+ },
+ "lookup-014-b": {
+  "suggest": "fix",
+  "reason": "Correct (9/21/2012 at 5:00 p.m. EDT). Entity shortened to the date value.",
+  "edits": {
+   "entities": [
+    "9/21/2012"
+   ]
+  },
+  "confidence": "high"
+ },
+ "lookup-015-a": {
+  "suggest": "keep",
+  "reason": "5% of monthly P&I after 15 days; identical on the Loan Estimate, Closing Disclosure and scans, so no version ambiguity.",
+  "edits": {},
+  "confidence": "high"
+ },
+ "lookup-015-b": {
+  "suggest": "fix",
+  "reason": "Value differs by document: the Loan Estimate shows a rounded $206 escrow, the Closing Disclosure $206.13. Pin the question to the Closing Disclosure.",
+  "edits": {
+   "question": "According to the Closing Disclosure, what is the monthly escrow payment for this purchase loan?",
+   "reference_answer": "The Closing Disclosure shows a monthly escrow payment of $206.13 (the Loan Estimate showed a rounded estimate of $206)."
+  },
+  "confidence": "high"
+ },
+ "lookup-016-a": {
+  "suggest": "fix",
+  "reason": "Correct ($100,000 on line L04). Question wording slightly off ('Borrower's transaction' is the section heading); tightened to the Summaries of Transactions line.",
+  "edits": {
+   "question": "On the H-25(C) Closing Disclosure sample, what principal balance is shown for the Second Loan in Section L (Paid Already by or on Behalf of Borrower at Closing)?"
+  },
+  "confidence": "high"
+ },
+ "lookup-016-b": {
+  "suggest": "fix",
+  "reason": "Wrong answer: checked the page image (evals/golden/ingest/images/cfpb_cd_h25c_p002.png): $96,500.00 is the amount on line L04 'Second Loan (Principal Balance $100,000)'; the Cash to Close line is blank. The text layer just placed the number after the Cash to Close label. Reframed to ask the L04 amount.",
+  "edits": {
+   "question": "On the H-25(C) Closing Disclosure sample, what amount is entered on line L04 for the Second Loan (principal balance $100,000) as paid on behalf of the borrower at closing?",
+   "reference_answer": "Line L04 shows $96,500.00 for the Second Loan (whose principal balance is $100,000). The Cash to Close line itself is left blank in this sample.",
+   "evidence": [
+    {
+     "doc_id": "cfpb_cd_h25c",
+     "page": 2,
+     "span_text": "04 Second Loan (Principal Balance $100,000)"
+    },
+    {
+     "doc_id": "cfpb_cd_h25c",
+     "page": 2,
+     "span_text": "$96,500.00"
+    }
+   ],
+   "key_points": [
+    "line L04 Second Loan",
+    "$96,500.00",
+    "principal balance $100,000"
+   ],
+   "entities": [
+    "$96,500.00",
+    "Second Loan"
+   ],
+   "answer_numeric": 96500
+  },
+  "confidence": "medium"
+ },
+ "lookup-017-a": {
+  "suggest": "fix",
+  "reason": "Ambiguous in this session: H-25(E) CD shows $1,950.00 but the H-25(G) CD shows $2,250.00 (LE H-24(D) $1,950). Pin to the H-25(E) Closing Disclosure.",
+  "edits": {
+   "question": "On the H-25(E) refinance Closing Disclosure, what is the total of Section A, Origination Charges?",
+   "reference_answer": "Section A Origination Charges on the H-25(E) Closing Disclosure total $1,950.00."
+  },
+  "confidence": "high"
+ },
+ "lookup-017-b": {
+  "suggest": "fix",
+  "reason": "Ambiguous: H-25(E) CD shows $17.71/day but the H-25(G) CD in the same session shows $17.19/day for the same dates. Pin to H-25(E); added the line total $283.36.",
+  "edits": {
+   "question": "On the H-25(E) refinance Closing Disclosure, what daily prepaid interest is charged from 4/15/2013 to 5/1/2013, and what is the total prepaid interest?",
+   "reference_answer": "$17.71 per day from 4/15/2013 to 5/1/2013, for a total of $283.36 in prepaid interest.",
+   "key_points": [
+    "$17.71 per day",
+    "4/15/2013 to 5/1/2013",
+    "total $283.36"
+   ],
+   "entities": [
+    "$17.71",
+    "$283.36"
+   ]
+  },
+  "confidence": "high"
+ },
+ "lookup-018-a": {
+  "suggest": "fix",
+  "reason": "Correct per the scanned Third Amendment letter (scan_19 = deal_11_am3 p1). But the Second Amendment also touched this definition (it added it), so name the Third Amendment.",
+  "edits": {
+   "question": "Under the TrueBlue Third Amendment to Credit Agreement (letter dated January 28, 2021), as of what date is the amended 'Asset Coverage Ratio' definition deemed effective?",
+   "reference_answer": "The Third Amendment's amended Asset Coverage Ratio definition is deemed effective as of December 27, 2020."
+  },
+  "confidence": "high"
+ },
+ "lookup-018-b": {
+  "suggest": "fix",
+  "reason": "Correct: $50,000,000 is deducted from unrestricted cash and Cash Equivalents in clause (b)(ii); same in the Second and Third Amendment versions, so no version ambiguity. Named the TrueBlue agreement and added the not-less-than-zero floor.",
+  "edits": {
+   "question": "In the TrueBlue Credit Agreement's 'Asset Coverage Ratio' definition, what fixed amount is subtracted from unrestricted cash and Cash Equivalents in clause (b)(ii)?",
+   "reference_answer": "$50,000,000 is subtracted from the Loan Parties' unrestricted cash and Cash Equivalents, and the result of clause (b)(ii) cannot be less than zero.",
+   "key_points": [
+    "$50,000,000",
+    "subtracted from unrestricted cash and Cash Equivalents",
+    "clause (ii) not less than zero"
+   ]
+  },
+  "confidence": "high"
+ },
+ "lookup-019-a": {
+  "suggest": "fix",
+  "reason": "Ambiguous: the Loan Estimate (and its scan, scan_09) shows APR 4.274% but the Closing Disclosure in the same session shows 4.174%. Pin to the Loan Estimate; scan evidence kept.",
+  "edits": {
+   "question": "What Annual Percentage Rate (APR) does the Loan Estimate show for this purchase loan?",
+   "reference_answer": "The Loan Estimate shows an APR of 4.274%. (The final Closing Disclosure shows 4.174%.)"
+  },
+  "confidence": "high"
+ },
+ "lookup-019-b": {
+  "suggest": "fix",
+  "reason": "Ambiguous: Loan Estimate TIP 69.45% vs Closing Disclosure TIP 69.46%. Pin to the Loan Estimate; scan evidence kept.",
+  "edits": {
+   "question": "What Total Interest Percentage (TIP) does the Loan Estimate show for this purchase loan?",
+   "reference_answer": "The Loan Estimate shows a TIP of 69.45%. (The final Closing Disclosure shows 69.46%.)"
+  },
+  "confidence": "high"
+ },
+ "calculation-001-a": {
+  "suggest": "fix",
+  "reason": "Meaningless arithmetic (adds the 1/16% rounding increment to the 2.50% margin). Rewritten as a real rate computation from the same two definitions: 1.21% x 1.00 rounded up to next 1/16% = 1.25%, plus 2.50% = 3.75%. Uses a hypothetical input; reviewer may prefer to drop if hypotheticals are out of scope.",
+  "edits": {
+   "question": "Under the Harmonic (deal_07) Credit Agreement, if on a given day the one-month LIBO Rate is 1.21% and the Statutory Reserve Rate is 1.00, what is the Adjusted One Month LIBOR Rate?",
+   "reference_answer": "The Adjusted LIBO Rate is 1.21% x 1.00 = 1.21%, rounded up to the next 1/16 of 1% = 1.25%; adding the 2.50% component gives an Adjusted One Month LIBOR Rate of 3.75% per annum.",
+   "key_points": [
+    "Adjusted LIBO Rate = LIBO Rate x Statutory Reserve Rate",
+    "rounded up to next 1/16 of 1% -> 1.25%",
+    "plus 2.50% per annum",
+    "3.75%"
+   ],
+   "entities": [
+    "2.50%",
+    "1/16 of 1%",
+    "3.75%"
+   ],
+   "answer_numeric": 3.75,
+   "numeric_tolerance": 0
+  },
+  "confidence": "medium"
+ },
+ "calculation-001-b": {
+  "suggest": "drop",
+  "reason": "Counts table-of-contents entries (answer 1); no arithmetic and no value to a loan-file user.",
+  "edits": {},
+  "drop_reason": "trivial / not useful",
+  "confidence": "high"
+ },
+ "calculation-002-a": {
+  "suggest": "fix",
+  "reason": "Draft adds section numbers (9.05 + 9.06) - meaningless. Replaced with a real computation in the same deal: Total Commitments fell from $1,250,000,000 (original Schedule 2.01, deal_02_ca p111) to $750,000,000 (Schedule 2.01 in Annex I of the Third Amendment, deal_02_am3 p27): decrease $500,000,000. New pages are not among the shown pages; reviewer should open them.",
+  "edits": {
+   "question": "By how much did the Total Commitments under the EQT term loan Credit Agreement decrease from the original Schedule 2.01 to the Schedule 2.01 attached to the Third Amendment?",
+   "reference_answer": "Total Commitments fell from $1,250,000,000.00 to $750,000,000.00, a decrease of $500,000,000.",
+   "evidence": [
+    {
+     "doc_id": "deal_02_ca",
+     "page": 111,
+     "span_text": "Total Commitments $1,250,000,000.00 100.000000000%"
+    },
+    {
+     "doc_id": "deal_02_am3",
+     "page": 27,
+     "span_text": "Total Commitments $ 750,000,000.00 100.000000000%"
+    }
+   ],
+   "key_points": [
+    "original Total Commitments $1,250,000,000",
+    "Third Amendment Total Commitments $750,000,000",
+    "decrease $500,000,000"
+   ],
+   "entities": [
+    "$1,250,000,000.00",
+    "750,000,000.00",
+    "$500,000,000"
+   ],
+   "answer_numeric": 500000000,
+   "numeric_tolerance": 0
+  },
+  "confidence": "medium"
+ },
+ "calculation-002-b": {
+  "suggest": "fix",
+  "reason": "Draft adds section number 9.07 to a page number - meaningless. Replaced with a real computation: PNC's commitment went from $149,999,999.99 (original Schedule 2.01) to $75,000,000.00 (Third Amendment Annex I); reduction $74,999,999.99. New pages are not among the shown pages.",
+  "edits": {
+   "question": "By how much was PNC Bank, National Association's commitment under the EQT term loan Credit Agreement reduced between the original Schedule 2.01 and the Schedule 2.01 attached to the Third Amendment?",
+   "reference_answer": "PNC's commitment went from $149,999,999.99 to $75,000,000.00, a reduction of $74,999,999.99.",
+   "evidence": [
+    {
+     "doc_id": "deal_02_ca",
+     "page": 111,
+     "span_text": "PNC Bank, National Association $ 149,999,999.99 11.999999999%"
+    },
+    {
+     "doc_id": "deal_02_am3",
+     "page": 27,
+     "span_text": "PNC Bank, National Association $ 75,000,000.00 10.000000000%"
+    }
+   ],
+   "key_points": [
+    "original PNC commitment $149,999,999.99",
+    "Third Amendment PNC commitment $75,000,000.00",
+    "reduction $74,999,999.99"
+   ],
+   "entities": [
+    "149,999,999.99",
+    "75,000,000.00",
+    "$74,999,999.99"
+   ],
+   "answer_numeric": 74999999.99,
+   "numeric_tolerance": 0
+  },
+  "confidence": "medium"
+ },
+ "calculation-003-a": {
+  "suggest": "fix",
+  "reason": "Draft adds occurrences of the word 'one' - meaningless. Replaced with a real computation on Section 9.14 Capital Expenditures: original 2020 limit $7,000,000 (scan_39 = deal_12_ca p89) vs First Amendment $15,000,000 (deal_12_am1 p1): increase $8,000,000. Uses scan evidence (keeps a scan question in the set).",
+  "edits": {
+   "question": "By how much did the First Amendment to the Tactile Systems Credit Agreement increase the Section 9.14 Capital Expenditures limit for Fiscal Year 2020?",
+   "reference_answer": "The 2020 limit rose from $7,000,000 in the original Credit Agreement to $15,000,000 under the First Amendment, an increase of $8,000,000.",
+   "evidence": [
+    {
+     "doc_id": "scan_39",
+     "page": 1,
+     "span_text": "2020 $7,000,000"
+    },
+    {
+     "doc_id": "deal_12_am1",
+     "page": 1,
+     "span_text": "2020 $15,000,000"
+    }
+   ],
+   "key_points": [
+    "original 2020 limit $7,000,000",
+    "amended 2020 limit $15,000,000",
+    "increase $8,000,000"
+   ],
+   "entities": [
+    "$7,000,000",
+    "$15,000,000",
+    "$8,000,000"
+   ],
+   "answer_numeric": 8000000,
+   "numeric_tolerance": 0
+  },
+  "confidence": "high"
+ },
+ "calculation-003-b": {
+  "suggest": "fix",
+  "reason": "Draft subtracts a section number from a page number - meaningless. Replaced with a real computation from the Applicable Margin grid (deal_12_ca p8, unchanged by amendments): LIBOR margin Level IV 2.15% minus Level I 1.40% = 0.75 percentage points.",
+  "edits": {
+   "question": "Under the Tactile Systems Credit Agreement's Applicable Margin grid, how much higher is the LIBOR margin at Pricing Level IV than at Pricing Level I?",
+   "reference_answer": "The LIBOR margin is 2.15% at Pricing Level IV versus 1.40% at Pricing Level I, so it is 0.75 percentage points higher.",
+   "evidence": [
+    {
+     "doc_id": "deal_12_ca",
+     "page": 8,
+     "span_text": "I Less than 1.00 to 1.00___ 0.200% 1.40% 0.40%"
+    },
+    {
+     "doc_id": "deal_12_ca",
+     "page": 8,
+     "span_text": "IV Greater than or equal to 2.50 to 1.00 0.275% 2.15% 1.15%"
+    }
+   ],
+   "key_points": [
+    "Level I LIBOR margin 1.40%",
+    "Level IV LIBOR margin 2.15%",
+    "difference 0.75 percentage points"
+   ],
+   "entities": [
+    "1.40%",
+    "2.15%",
+    "0.75"
+   ],
+   "answer_numeric": 0.75,
+   "numeric_tolerance": 0
+  },
+  "confidence": "high"
+ },
+ "calculation-004-a": {
+  "suggest": "fix",
+  "reason": "Draft takes 50% of a page number - meaningless. Replaced with a real computation from the RPM Second Amendment (deal_10_am2 p2): maximum Net Leverage Ratio steps up from 3.75 to 4.25 during an Increased Net Leverage Ratio Period, an increase of 0.50.",
+  "edits": {
+   "question": "Under Section 8.2.8 of the RPM Credit Agreement as restated by the Second Amendment, by how much does the maximum permitted Net Leverage Ratio increase during an Increased Net Leverage Ratio Period?",
+   "reference_answer": "The maximum rises from 3.75 to 1.00 to 4.25 to 1.00, an increase of 0.50 (one half turn of leverage).",
+   "evidence": [
+    {
+     "doc_id": "deal_10_am2",
+     "page": 2,
+     "span_text": "to be greater than 3.75 to 1.00"
+    },
+    {
+     "doc_id": "deal_10_am2",
+     "page": 2,
+     "span_text": "the maximum permitted Net Leverage Ratio shall increase to 4.25 to 1.00"
+    }
+   ],
+   "key_points": [
+    "base maximum 3.75 to 1.00",
+    "increased maximum 4.25 to 1.00",
+    "increase 0.50"
+   ],
+   "entities": [
+    "3.75 to 1.00",
+    "4.25 to 1.00",
+    "0.50"
+   ],
+   "answer_numeric": 0.5,
+   "numeric_tolerance": 0
+  },
+  "confidence": "medium"
+ },
+ "calculation-004-b": {
+  "suggest": "drop",
+  "reason": "Subtracts 50 from a page number (27) - meaningless; pair 004-a was repurposed to the only clean computation found nearby.",
+  "edits": {},
+  "drop_reason": "trivial / not useful",
+  "confidence": "high"
+ },
+ "calculation-005-a": {
+  "suggest": "drop",
+  "reason": "Sums '9' and '42' taken from a document footer code ('CHAR1\\1635 42v6'), not from the Eurodollar Rate definition. Nonsense.",
+  "edits": {},
+  "drop_reason": "wrong answer",
+  "confidence": "high"
+ },
+ "calculation-005-b": {
+  "suggest": "drop",
+  "reason": "Same footer-code numbers as 005-a (9 and 42); not a value in the agreement.",
+  "edits": {},
+  "drop_reason": "wrong answer",
+  "confidence": "high"
+ },
+ "calculation-006-a": {
+  "suggest": "fix",
+  "reason": "Draft sums parts of a document ID code (4863-6092-...). Replaced with a real computation from the PureCycle Third Amendment (deal_08_am3 p1): convertible-notes Indebtedness basket raised from $200,000,000 to $250,000,000, an increase of $50,000,000 (25%).",
+  "edits": {
+   "question": "By how much did the Third Amendment to the PureCycle Credit Agreement increase the Indebtedness basket for unsecured convertible notes, in dollars and as a percentage?",
+   "reference_answer": "The basket rose from $200,000,000 to $250,000,000, an increase of $50,000,000, or 25%.",
+   "evidence": [
+    {
+     "doc_id": "deal_08_am3",
+     "page": 1,
+     "span_text": "increase the amount available under the Indebtedness basket for unsecured convertible notes from $200,000,000 to $250,000,000"
+    }
+   ],
+   "key_points": [
+    "from $200,000,000",
+    "to $250,000,000",
+    "increase $50,000,000 (25%)"
+   ],
+   "entities": [
+    "$200,000,000",
+    "$250,000,000",
+    "$50,000,000"
+   ],
+   "answer_numeric": 50000000,
+   "numeric_tolerance": 0
+  },
+  "confidence": "high"
+ },
+ "calculation-006-b": {
+  "suggest": "drop",
+  "reason": "Subtracts parts of a document ID code; no meaningful value.",
+  "edits": {},
+  "drop_reason": "trivial / not useful",
+  "confidence": "high"
+ },
+ "calculation-007-a": {
+  "suggest": "fix",
+  "reason": "Draft adds a 5-day notice period to a page number - meaningless. Replaced with a real computation from the SWK Third Amendment (deal_06_am3 p2): $5,000,000 12-month repurchase cap plus up to $4,000,000 of excluded M3F repurchases = $9,000,000 (subject to the $10,000,000 Liquidity condition).",
+  "edits": {
+   "question": "Under Section 6.05(d) of the SWK Credit Agreement as restated by the Third Amendment, what is the maximum total of Permitted Stock Repurchases SWK Holdings could make in a twelve-month period that includes M3F, Inc. repurchases made between May 17, 2024 and December 1, 2024?",
+   "reference_answer": "$9,000,000: the general $5,000,000 twelve-month cap plus up to $4,000,000 of repurchases from M3F, Inc. in that window, which are excluded from the cap (each repurchase still requires Liquidity of at least $10,000,000 afterwards).",
+   "evidence": [
+    {
+     "doc_id": "deal_06_am3",
+     "page": 2,
+     "span_text": "the aggregate amount of all such repurchases on and after the Closing Date during any twelve (12) month period does not exceed $5,000,000"
+    },
+    {
+     "doc_id": "deal_06_am3",
+     "page": 2,
+     "span_text": "up to $4,000,000 of Permitted Stock Repurchases by SWK Holdings from M3F, Inc. during the period commencing May 17, 2024 through and including December 1, 2024 shall not be included in such $5,000,000 amount"
+    }
+   ],
+   "key_points": [
+    "$5,000,000 twelve-month cap",
+    "up to $4,000,000 M3F repurchases excluded",
+    "total $9,000,000",
+    "Liquidity at least $10,000,000 after repurchase"
+   ],
+   "entities": [
+    "$5,000,000",
+    "$4,000,000",
+    "$9,000,000"
+   ],
+   "answer_numeric": 9000000,
+   "numeric_tolerance": 0
+  },
+  "confidence": "medium"
+ },
+ "calculation-007-b": {
+  "suggest": "drop",
+  "reason": "Expresses a 5-day notice period as a percentage of a page number - meaningless.",
+  "edits": {},
+  "drop_reason": "trivial / not useful",
+  "confidence": "high"
+ },
+ "calculation-008-a": {
+  "suggest": "fix",
+  "reason": "Arithmetic right (3 - 2 = 1) but the two-Business-Day prepayment notice applies only to Eurocurrency Rate Advances (Base Rate prepayments need same-day notice); question must say so and name the agreement. Light calculation, kept because the comparison is genuinely useful.",
+  "edits": {
+   "question": "Under Sections 2.09 and 2.10(a) of the IFF Credit Agreement, how many more Business Days of advance notice are required to Convert Advances than to optionally prepay Eurocurrency Rate Advances?",
+   "reference_answer": "One Business Day more: a Conversion needs notice by 11:00 A.M. (New York City time) on the third Business Day before the Conversion, while an optional prepayment of Eurocurrency Rate Advances needs at least two Business Days' notice.",
+   "key_points": [
+    "Conversion notice: third Business Day prior",
+    "Eurocurrency prepayment notice: at least two Business Days",
+    "difference one Business Day"
+   ]
+  },
+  "confidence": "medium"
+ },
+ "calculation-009-a": {
+  "suggest": "fix",
+  "reason": "Draft adds section numbers 7.11 + 7.12 - meaningless. Replaced with a real computation from the Minimum Fixed Charge Coverage Ratio table in Section 7 of the Lincoln Credit Agreement (deal_01_ca p61; not changed by amendments): 1.35 (March 31, 2021 and thereafter) minus 1.00 (June 30, 2020) = 0.35.",
+  "edits": {
+   "question": "Under the Lincoln Educational Credit Agreement's Minimum Fixed Charge Coverage Ratio covenant, by how much does the required minimum ratio rise from the fiscal quarter ending June 30, 2020 to the level that applies from March 31, 2021 onward?",
+   "reference_answer": "The minimum rises from 1.00 to 1 (quarter ending June 30, 2020) to 1.35 to 1 (March 31, 2021 and thereafter), an increase of 0.35.",
+   "evidence": [
+    {
+     "doc_id": "deal_01_ca",
+     "page": 61,
+     "span_text": "June 30, 2020 1.00 to 1"
+    },
+    {
+     "doc_id": "deal_01_ca",
+     "page": 61,
+     "span_text": "March 31, 2021 and thereafter 1.35 to 1"
+    }
+   ],
+   "key_points": [
+    "June 30, 2020 minimum 1.00 to 1",
+    "March 31, 2021 and thereafter 1.35 to 1",
+    "increase 0.35"
+   ],
+   "entities": [
+    "1.00 to 1",
+    "1.35 to 1",
+    "0.35"
+   ],
+   "answer_numeric": 0.35,
+   "numeric_tolerance": 0
+  },
+  "confidence": "high"
+ },
+ "calculation-009-b": {
+  "suggest": "drop",
+  "reason": "Subtracts section numbers (7.13 - 7.11 = 0.02) - meaningless.",
+  "edits": {},
+  "drop_reason": "trivial / not useful",
+  "confidence": "high"
+ },
+ "calculation-010-a": {
+  "suggest": "fix",
+  "reason": "answer_numeric 0.8725 is wrong and in the wrong unit: 149,262.95 / 171,000 = 87.29%. Also the $149,262.95 figure was only in the answer; added the Projected Payments span that contains it.",
+  "edits": {
+   "question": "On the Year 7 balloon Loan Estimate, what percentage of the $171,000 loan amount is the final balloon payment?",
+   "reference_answer": "The final payment of $149,262.95 is about 87.29% of the $171,000 loan amount (149,262.95 / 171,000).",
+   "evidence": [
+    {
+     "doc_id": "cfpb_le_h24e",
+     "page": 2,
+     "span_text": "Principal & Interest $853.78 $149,262.95"
+    },
+    {
+     "doc_id": "cfpb_le_h24e",
+     "page": 2,
+     "span_text": "Loan Amount $171,000"
+    }
+   ],
+   "key_points": [
+    "final balloon payment $149,262.95",
+    "loan amount $171,000",
+    "about 87.29%"
+   ],
+   "entities": [
+    "$149,262.95",
+    "$171,000",
+    "87.29%"
+   ],
+   "answer_numeric": 87.29,
+   "numeric_tolerance": 0.44
+  },
+  "confidence": "high"
+ },
+ "calculation-010-b": {
+  "suggest": "fix",
+  "reason": "Adding sale price and loan amount has no meaning. Same two inputs give the loan-to-value ratio, which the form does not print: 171,000 / 190,000 = 90%.",
+  "edits": {
+   "question": "On the Year 7 balloon Loan Estimate, what is the loan-to-value ratio implied by the loan amount and the sale price?",
+   "reference_answer": "The loan amount of $171,000 divided by the $190,000 sale price gives a loan-to-value ratio of 90%.",
+   "key_points": [
+    "loan amount $171,000",
+    "sale price $190,000",
+    "LTV 90%"
+   ],
+   "entities": [
+    "$190,000",
+    "$171,000",
+    "90%"
+   ],
+   "answer_numeric": 90,
+   "numeric_tolerance": 0
+  },
+  "confidence": "high"
+ },
+ "calculation-011-a": {
+  "suggest": "fix",
+  "reason": "Lookup in disguise: A + B + C is printed on the page as D. TOTAL LOAN COSTS $5,851. Replaced with an unprinted sum from the same section: the four Title charges in Section C ($32 + $665 + $325 + $624 = $1,646).",
+  "edits": {
+   "question": "On the 5-year interest-only ARM Loan Estimate, what is the total of the title-related charges listed under Section C, Services You Can Shop For?",
+   "reference_answer": "Title - Courier Fee $32 + Title - Lender's Title Policy $665 + Title - Settlement Agent Fee $325 + Title - Title Search $624 = $1,646.",
+   "evidence": [
+    {
+     "doc_id": "cfpb_le_h24c",
+     "page": 3,
+     "span_text": "Title - Courier Fee $32"
+    },
+    {
+     "doc_id": "cfpb_le_h24c",
+     "page": 3,
+     "span_text": "Title - Lender's Title Policy $665"
+    },
+    {
+     "doc_id": "cfpb_le_h24c",
+     "page": 3,
+     "span_text": "Title - Settlement Agent Fee $325"
+    },
+    {
+     "doc_id": "cfpb_le_h24c",
+     "page": 3,
+     "span_text": "Title - Title Search $624"
+    }
+   ],
+   "key_points": [
+    "Courier $32",
+    "Lender's Title Policy $665",
+    "Settlement Agent $325",
+    "Title Search $624",
+    "total $1,646"
+   ],
+   "entities": [
+    "$32",
+    "$665",
+    "$325",
+    "$624",
+    "$1,646"
+   ],
+   "answer_numeric": 1646,
+   "numeric_tolerance": 0
+  },
+  "confidence": "high"
+ },
+ "calculation-011-b": {
+  "suggest": "fix",
+  "reason": "Lookup in disguise: E + F + G + H is printed as I. TOTAL OTHER COSTS $2,940. Replaced with an unprinted computation using the scanned page 1 (scan_10 = cfpb_le_h24c p2): maximum P&I $2,068 minus initial interest-only P&I $703.33 = $1,364.67 (keeps a scan question).",
+  "edits": {
+   "question": "On the 5-year interest-only ARM Loan Estimate, how much higher is the maximum possible monthly principal and interest payment than the initial interest-only payment?",
+   "reference_answer": "The maximum P&I of $2,068 (year 15) minus the initial interest-only payment of $703.33 is $1,364.67 per month.",
+   "evidence": [
+    {
+     "doc_id": "scan_10",
+     "page": 1,
+     "span_text": "Principal & Interest $703.33 only interest"
+    },
+    {
+     "doc_id": "scan_10",
+     "page": 1,
+     "span_text": "Can go as high as $2,068 in year 15"
+    }
+   ],
+   "key_points": [
+    "initial interest-only P&I $703.33",
+    "maximum P&I $2,068 in year 15",
+    "difference $1,364.67"
+   ],
+   "entities": [
+    "$703.33",
+    "$2,068",
+    "$1,364.67"
+   ],
+   "answer_numeric": 1364.67,
+   "numeric_tolerance": 0
+  },
+  "confidence": "high"
+ },
+ "calculation-012-a": {
+  "suggest": "fix",
+  "reason": "Finance Charge + Amount Financed is not a meaningful quantity (and does not equal the printed Total of Payments). Same inputs give a meaningful ratio: 118,830.27 / 162,000.00 = 73.35%. Pinned to the Closing Disclosure (the LE in this session does not show these figures).",
+  "edits": {
+   "question": "On the purchase loan's Closing Disclosure, what is the Finance Charge as a percentage of the Amount Financed?",
+   "reference_answer": "$118,830.27 / $162,000.00 = about 73.35%.",
+   "key_points": [
+    "Finance Charge $118,830.27",
+    "Amount Financed $162,000.00",
+    "about 73.35%"
+   ],
+   "entities": [
+    "$118,830.27",
+    "$162,000.00",
+    "73.35%"
+   ],
+   "answer_numeric": 73.35,
+   "numeric_tolerance": 0.37
+  },
+  "confidence": "medium"
+ },
+ "calculation-012-b": {
+  "suggest": "fix",
+  "reason": "Arithmetic correct ($285,803.36 - $162,000.00 = $123,803.36), not printed, and meaningful (total cost beyond the amount financed). Only pinned the document.",
+  "edits": {
+   "question": "On the purchase loan's Closing Disclosure, how much greater is the Total of Payments than the Amount Financed?"
+  },
+  "confidence": "high"
+ },
+ "calculation-013-a": {
+  "suggest": "drop",
+  "reason": "Built on a misread: $96,500.00 is the amount on line L04 (Second Loan), not Cash to Close (blank in this sample; verified on the page image). Sum of principal and L04 amount has no meaning.",
+  "edits": {},
+  "drop_reason": "wrong answer",
+  "confidence": "high"
+ },
+ "calculation-013-b": {
+  "suggest": "fix",
+  "reason": "Label was wrong ($96,500.00 is the L04 Second Loan amount, not Cash to Close - checked page image), but the difference $100,000 - $96,500 = $3,500 is meaningful: the part of the second loan's principal not credited to the borrower at closing.",
+  "edits": {
+   "question": "On the H-25(C) Closing Disclosure sample, how much less than the Second Loan's $100,000 principal balance is the amount credited for it on line L04?",
+   "reference_answer": "Line L04 credits $96,500.00 against a $100,000 principal balance, so $3,500.00 less.",
+   "evidence": [
+    {
+     "doc_id": "cfpb_cd_h25c",
+     "page": 2,
+     "span_text": "Second Loan (Principal Balance $100,000)"
+    },
+    {
+     "doc_id": "cfpb_cd_h25c",
+     "page": 2,
+     "span_text": "$96,500.00"
+    }
+   ],
+   "key_points": [
+    "principal balance $100,000",
+    "line L04 amount $96,500.00",
+    "difference $3,500.00"
+   ]
+  },
+  "confidence": "medium"
+ },
+ "calculation-014-a": {
+  "suggest": "fix",
+  "reason": "Correct ($180,000 - $171,000 = $9,000) and not printed anywhere in this 2-page document. Reworded to name it as the implied down payment.",
+  "edits": {
+   "question": "On the negative-amortization ARM Loan Estimate, what down payment is implied by the sale price and the loan amount?",
+   "reference_answer": "Sale Price $180,000 minus Loan Amount $171,000 implies a $9,000 down payment."
+  },
+  "confidence": "high"
+ },
+ "calculation-014-b": {
+  "suggest": "fix",
+  "reason": "Ratio is right but answer_numeric 0.95 conflicts with the '95%' wording and fails F3 (entity '0.95'). Set to 95 (percent).",
+  "edits": {
+   "question": "On the negative-amortization ARM Loan Estimate, what loan-to-value ratio do the loan amount and sale price imply?",
+   "reference_answer": "The Loan Amount of $171,000 is 95% of the $180,000 Sale Price (LTV 95%).",
+   "key_points": [
+    "Loan Amount $171,000",
+    "Sale Price $180,000",
+    "95%"
+   ],
+   "entities": [
+    "$171,000",
+    "$180,000",
+    "95%"
+   ],
+   "answer_numeric": 95,
+   "numeric_tolerance": 0
+  },
+  "confidence": "high"
+ },
+ "calculation-015-a": {
+  "suggest": "fix",
+  "reason": "Draft adds two unrelated periods (270-day increased-cost lookback + 10-day break-funding certificate payment, mislabelled as a 'tax' deadline). Replaced with a real computation in the same deal: the Wagz pre-acquisition funding cap rose from $5,000,000 (Second Amendment) to $7,000,000 (Third Amendment) = +$2,000,000 (40%). Loses the scan evidence; no meaningful scan computation found on scan_23/scan_24.",
+  "edits": {
+   "question": "By how much did the SigmaTron Third Amendment (September 30, 2021) raise the cap on Loan and Letter of Credit proceeds used to fund Wagz's operations before the Wagz Acquisition, compared with the Second Amendment?",
+   "reference_answer": "The cap rose from $5,000,000 under the Second Amendment to $7,000,000 under the Third Amendment, an increase of $2,000,000 (40%).",
+   "evidence": [
+    {
+     "doc_id": "deal_05_am2",
+     "page": 1,
+     "span_text": "proceeds of Loans and Letters of Credit used to finance business operations of Wagz prior to consummation of the Wagz Acquisition shall not exceed $5,000,000 in the aggregate"
+    },
+    {
+     "doc_id": "deal_05_am3",
+     "page": 1,
+     "span_text": "proceeds of Loans and Letters of Credit used to finance business operations of Wagz prior to consummation of the Wagz Acquisition shall not exceed $7,000,000 in the aggregate"
+    }
+   ],
+   "key_points": [
+    "Second Amendment cap $5,000,000",
+    "Third Amendment cap $7,000,000",
+    "increase $2,000,000"
+   ],
+   "entities": [
+    "$5,000,000",
+    "$7,000,000",
+    "$2,000,000"
+   ],
+   "answer_numeric": 2000000,
+   "numeric_tolerance": 0
+  },
+  "confidence": "high"
+ },
+ "calculation-015-b": {
+  "suggest": "drop",
+  "reason": "Ratio of two unrelated periods (270-day increased-cost lookback vs 10-day break-funding payment, mislabelled 'tax-payment grace period'); fails F3 entities too.",
+  "edits": {},
+  "drop_reason": "trivial / not useful",
+  "confidence": "high"
+ },
+ "explain-001-a": {
+  "suggest": "fix",
+  "reason": "Faithful to Section 9.3(k) of the Tactile Credit Agreement (unchanged by the three amendments). Named the agreement and trimmed generic entities.",
+  "edits": {
+   "question": "Under Section 9.3(k) of the Tactile Systems Credit Agreement, what conditions apply to the general basket for Investments not otherwise permitted?",
+   "entities": [
+    "$2,000,000",
+    "Event of Default"
+   ]
+  },
+  "confidence": "high"
+ },
+ "explain-002-a": {
+  "suggest": "fix",
+  "reason": "Faithful to the 'Acquisition' definition in the Raymond James Credit Agreement. Question said 'this Credit Agreement'; entities were whole clauses. Named the agreement and shortened entities.",
+  "edits": {
+   "question": "How does the Raymond James Credit Agreement define an 'Acquisition', and does acquiring a majority of another Person's Voting Stock count even when a merger is involved?",
+   "entities": [
+    "Voting Stock",
+    "line of business",
+    "merger or consolidation"
+   ]
+  },
+  "confidence": "high"
+ },
+ "explain-002-b": {
+  "suggest": "drop",
+  "reason": "Trivial definitional clause (Agent's Office = Schedule 11.02 address or whatever the Agent notifies); the key points invent requirements (notice 'must specify' the new address) not in the text.",
+  "edits": {},
+  "drop_reason": "trivial / not useful",
+  "confidence": "medium"
+ },
+ "explain-003-a": {
+  "suggest": "fix",
+  "reason": "Faithful to the waiver sentence in the form of Swingline Note (Exhibit A-2, United Therapeutics Credit Agreement). 'this Swingline Note' made specific; entities trimmed.",
+  "edits": {
+   "question": "In the form of Swingline Note (Exhibit A-2) to the United Therapeutics Credit Agreement, what requirements does the Borrower waive, and what exception applies?",
+   "reference_answer": "The Borrower waives all requirements as to diligence, presentment, demand of payment and protest, and also notice of any kind with respect to the Swingline Note, except notice that the Credit Agreement requires. The holder can therefore enforce payment without those formalities.",
+   "entities": [
+    "presentment",
+    "protest"
+   ]
+  },
+  "confidence": "high"
+ },
+ "explain-003-b": {
+  "suggest": "fix",
+  "reason": "As drafted it is a one-fact lookup (New York law), not an explain. Same page has a real explain-worthy rule: how Swingline Loans refunded as Revolving Credit Loans are treated. Replaced.",
+  "edits": {
+   "question": "Under the form of Swingline Note (Exhibit A-2) to the United Therapeutics Credit Agreement, how are Swingline Loans that are refunded as Revolving Credit Loans repaid, and are they still payable under the Swingline Note?",
+   "reference_answer": "Swingline Loans refunded as Revolving Credit Loans under Section 2.2(b) become payable by the Borrower as Revolving B Credit Loans under the terms of the Credit Agreement, and are no longer payable under the Swingline Note as Swingline Loans.",
+   "evidence": [
+    {
+     "doc_id": "deal_09_ca",
+     "page": 92,
+     "span_text": "Swingline Loans refunded as Revolving Credit Loans in accordance with Section 2.2(b) of the Credit Agreement shall be payable by the Borrower as Revolving B Credit Loans pursuant to the terms of the Credit Agreement, and shall not be payable under this Swingline Note as Swingline Loans."
+    }
+   ],
+   "key_points": [
+    "refunded under Section 2.2(b)",
+    "payable as Revolving B Credit Loans under the Credit Agreement",
+    "no longer payable under the Swingline Note"
+   ],
+   "entities": [
+    "Section 2.2(b)",
+    "Revolving B Credit Loans"
+   ]
+  },
+  "confidence": "high"
+ },
+ "explain-004-a": {
+  "suggest": "fix",
+  "reason": "Faithful to Section 2.11 (EQT Credit Agreement). Added the other essential point of the clause (recording failures/errors do not affect the Borrower's obligation to pay) and an entity; named the section.",
+  "edits": {
+   "question": "Under Section 2.11 (Evidence of Debt) of the EQT term loan Credit Agreement, what weight do the Lenders' and the Administrative Agent's records have, and which controls if they conflict?",
+   "reference_answer": "The accounts and records kept by the Administrative Agent and each Lender are prima facie evidence of the Borrowings, interest and payments. A failure to record, or an error in recording, does not limit the Borrower's obligation to pay. If a Lender's records conflict with the Administrative Agent's, the Administrative Agent's records control in the absence of manifest error.",
+   "evidence": [
+    {
+     "doc_id": "deal_02_ca",
+     "page": 37,
+     "span_text": "Any failure to so record or any error in doing so shall not, however, limit or otherwise affect the obligation of the Borrower hereunder to pay any amount owing with respect to the Obligations."
+    },
+    {
+     "doc_id": "deal_02_ca",
+     "page": 37,
+     "span_text": "In the event of any conflict between the accounts and records maintained by any Lender and the accounts and records of the Administrative Agent in respect of such matters, the accounts and records of the Administrative Agent shall control in the absence of manifest error."
+    }
+   ],
+   "key_points": [
+    "records are prima facie evidence",
+    "recording failure or error does not affect the obligation to pay",
+    "Administrative Agent's records control in a conflict",
+    "absent manifest error"
+   ],
+   "entities": [
+    "manifest error",
+    "prima facie"
+   ]
+  },
+  "confidence": "high"
+ },
+ "explain-004-b": {
+  "suggest": "fix",
+  "reason": "Answer's last sentence is backwards: it is the general next-Business-Day rule in 2.12(b)(i) that does not apply to Maturity Date payments; the Maturity Date has its own rule in (b)(ii). Corrected answer and key points.",
+  "edits": {
+   "question": "Under Section 2.12(b) of the EQT term loan Credit Agreement, if the Maturity Date is not a Business Day, when is the payment due, and what happens if the next Business Day is in another calendar month?",
+   "reference_answer": "The payment is made on the next following Business Day, and the extra time is reflected in computing interest or fees. But if that next Business Day falls in another calendar month, the payment is due on the immediately preceding Business Day instead. (The general next-Business-Day rule in 2.12(b)(i) expressly does not apply to Maturity Date payments; (b)(ii) governs them.)",
+   "key_points": [
+    "Maturity Date not a Business Day -> next following Business Day",
+    "extension reflected in interest or fees",
+    "if next Business Day is in another month -> immediately preceding Business Day"
+   ]
+  },
+  "confidence": "high"
+ },
+ "explain-005-a": {
+  "suggest": "fix",
+  "reason": "'Exhibit 10.2' is the SEC filing label and '1.16' is really Section 5.16 (text extraction dropped the '5.'). The rep itself is one line ('taken as a whole, are Solvent'), so the answer padded it. Rewritten to explain what Solvent means, adding the 'Solvent' definition (p25) as evidence.",
+  "edits": {
+   "question": "In the PureCycle Credit Agreement, Section 5.16 represents that the Borrower and its Subsidiaries, taken as a whole, are Solvent. What tests does 'Solvent' require?",
+   "reference_answer": "Taken as a whole, (a) the fair value of their property exceeds their total liabilities, including contingent liabilities; (b) the present fair saleable value of their assets is at least the amount needed to pay probable liabilities on debts as they mature; (c) they do not intend or expect to incur debts beyond their ability to pay as they mature; (d) they are not engaged, or about to engage, in business for which their property is unreasonably small capital; and (e) they can pay debts, contingent obligations and other commitments as they mature in the ordinary course.",
+   "evidence": [
+    {
+     "doc_id": "deal_08_ca",
+     "page": 54,
+     "span_text": "The Borrower and its Subsidiaries, taken as a whole, are Solvent."
+    },
+    {
+     "doc_id": "deal_08_ca",
+     "page": 25,
+     "span_text": "(a) the fair value of the property of such Person is greater than the total amount of liabilities, including contingent liabilities, of such Person, (b) the present fair saleable value of the assets of such Person is not less than the amount that will be required to pay the probable liability of such Person on its debts as they become absolute and matured, (c) such Person does not intend to, and does not believe that it will, incur debts or liabilities beyond such Person's ability to pay such debts and liabilities as they mature, (d) such Person is not engaged in business or a transaction, and is not about to engage in business or a transaction, for which such Person's property would constitute an unreasonably small capital, and (e) such Person is able to pay its debts and liabilities, contingent obligations and other commitments as they mature in the ordinary course of business"
+    }
+   ],
+   "key_points": [
+    "taken as a whole",
+    "fair value of property exceeds liabilities incl. contingent",
+    "can pay debts as they mature",
+    "not unreasonably small capital"
+   ],
+   "entities": [
+    "taken as a whole",
+    "unreasonably small capital"
+   ]
+  },
+  "confidence": "medium"
+ },
+ "explain-005-b": {
+  "suggest": "fix",
+  "reason": "Answer faithful, but 'Exhibit 10.2 clause 1.17' is the filing label plus an extraction artifact; the clause is Section 5.17 (Casualty, Etc.). Added the 'whether or not covered by insurance' point.",
+  "edits": {
+   "question": "Under the Casualty representation (Section 5.17) of the PureCycle Credit Agreement, when would a fire, strike, storm or similar event make the representation untrue?",
+   "reference_answer": "Only if the businesses or properties of a Loan Party or any Subsidiary are affected by such a casualty (fire, explosion, accident, strike or labor dispute, drought, storm, earthquake, embargo, act of God, etc.) that, individually or in the aggregate, could reasonably be expected to have a Material Adverse Effect, and this applies whether or not the casualty is covered by insurance.",
+   "key_points": [
+    "listed casualty events affecting a Loan Party or Subsidiary",
+    "individually or in the aggregate",
+    "could reasonably be expected to have a Material Adverse Effect",
+    "whether or not covered by insurance"
+   ],
+   "entities": [
+    "Material Adverse Effect"
+   ]
+  },
+  "confidence": "high"
+ },
+ "explain-006-a": {
+  "suggest": "fix",
+  "reason": "Missed the main condition: an e-mail notice is deemed received only on the sender's receipt of an acknowledgement (return receipt, reply e-mail etc.); the after-hours rule then pushes it to the next Business Day opening. The draft's 'regardless of when the sender transmits' line is confusing. Named Section 8.01(c) of the SigmaTron agreement.",
+  "edits": {
+   "question": "Under Section 8.01(c) of the SigmaTron Credit Agreement, when is a notice sent by e-mail deemed received, and what happens if it is not given during the recipient's normal business hours?",
+   "reference_answer": "An e-mail notice is deemed received when the sender receives an acknowledgement from the intended recipient (for example a return receipt, return e-mail or other written acknowledgement). If it is not given during the recipient's normal business hours, it is deemed given at the opening of business on the recipient's next Business Day.",
+   "evidence": [
+    {
+     "doc_id": "deal_05_ca",
+     "page": 39,
+     "span_text": "deemed received upon the sender's receipt of an acknowledgement from the intended recipient (such as by the \"return receipt requested\" function, as available, return e-mail or other written acknowledgement) provided that if not given during normal business hours for the recipient, such notice or communication shall be deemed to have been given at the opening of business on the next Business Day of the recipient"
+    }
+   ],
+   "key_points": [
+    "deemed received on sender's receipt of acknowledgement",
+    "outside recipient's business hours -> opening of business next Business Day"
+   ],
+   "entities": [
+    "acknowledgement",
+    "next Business Day"
+   ]
+  },
+  "confidence": "high"
+ },
+ "explain-006-b": {
+  "suggest": "fix",
+  "reason": "Faithful but incomplete: it says the waiver must be permitted by paragraph (b) without saying what (b) requires (a written agreement between the Borrower and the Lender). Added that span; also that making a Loan is not a waiver of a Default. Entities shortened.",
+  "edits": {
+   "question": "Under Section 8.02 of the SigmaTron Credit Agreement, what is required for a waiver of a provision of the Credit Agreement to be effective, and how far does such a waiver reach?",
+   "reference_answer": "A waiver is effective only if permitted by Section 8.02(b), which requires a written agreement entered into by the Borrower and the Lender (for other Loan Documents, by the Lender and the relevant Loan Parties). Even then it applies only in the specific instance and for the purpose given. The Lender's failure or delay in exercising rights is not a waiver, and making a Loan or issuing a Letter of Credit does not waive any Default.",
+   "evidence": [
+    {
+     "doc_id": "deal_05_ca",
+     "page": 39,
+     "span_text": "No waiver of any provision of any Loan Document or consent to any departure by any Loan Party therefrom shall in any event be effective unless the same shall be permitted by paragraph (b) of this Section, and then such waiver or consent shall be effective only in the specific instance and for the purpose for which given"
+    },
+    {
+     "doc_id": "deal_05_ca",
+     "page": 39,
+     "span_text": "in the case of this Agreement, pursuant to an agreement or agreements in writing entered into by the Borrower and the Lender"
+    }
+   ],
+   "key_points": [
+    "must be permitted by Section 8.02(b): written agreement of Borrower and Lender",
+    "effective only for the specific instance and purpose",
+    "failure or delay is not a waiver; making a Loan does not waive a Default"
+   ],
+   "entities": [
+    "in writing",
+    "specific instance"
+   ]
+  },
+  "confidence": "high"
+ },
+ "explain-007-a": {
+  "suggest": "fix",
+  "reason": "Faithful to the definition (IFF Third Amended and Restated Credit Agreement). 'the Effective Date' is ambiguous next to the amendments' own effective dates; named the agreement. Light for an explain (single definition) but has 3 conditions.",
+  "edits": {
+   "question": "How does the IFF Credit Agreement (July 28, 2021) define its 'Effective Date', and what must happen for it to occur?",
+   "reference_answer": "The Effective Date is the date, no later than July 30, 2021, on which the conditions precedent in Section 3.01 have been satisfied, or waived in accordance with Section 9.01."
+  },
+  "confidence": "medium"
+ },
+ "explain-007-b": {
+  "suggest": "fix",
+  "reason": "Faithful (definition unchanged by the amendments). Named the agreement and shortened entities.",
+  "edits": {
+   "question": "Under the IFF Credit Agreement, how is the 'Equivalent' of one currency in another determined, and what applies if the Oanda page no longer exists?",
+   "entities": [
+    "11:00 A.M.",
+    "Oanda",
+    "Agent"
+   ]
+  },
+  "confidence": "high"
+ },
+ "explain-008-a": {
+  "suggest": "fix",
+  "reason": "Correct but thin (one exclusion) and the question's 'When does...exclude' framing is odd. Broadened to what the SWK 'Guarantee' definition covers plus the exclusion, using the same definition text.",
+  "edits": {
+   "question": "Under the SWK Credit Agreement, what kinds of obligations count as a 'Guarantee', and what is expressly excluded?",
+   "reference_answer": "A Guarantee is (a) any obligation, contingent or otherwise, guaranteeing or having the economic effect of guaranteeing another Person's Indebtedness or other obligation, including obligations to purchase or pay that debt or to purchase or lease property, securities or services to assure its payment, and (b) any Lien on the Person's assets securing another Person's Indebtedness, whether or not assumed. Endorsements for collection or deposit in the ordinary course of business are excluded.",
+   "evidence": [
+    {
+     "doc_id": "deal_06_ca",
+     "page": 23,
+     "span_text": "any obligation, contingent or otherwise, of such Person guaranteeing or having the economic effect of guaranteeing any Indebtedness or other obligation payable or performable by another Person"
+    },
+    {
+     "doc_id": "deal_06_ca",
+     "page": 23,
+     "span_text": "any Lien on any assets of such Person securing any Indebtedness or other obligation of any other Person, whether or not such Indebtedness or other obligation is assumed by such Person"
+    },
+    {
+     "doc_id": "deal_06_ca",
+     "page": 23,
+     "span_text": "provided that the term \"Guarantee\" shall not include endorsements for collection or deposit in the ordinary course of business."
+    }
+   ],
+   "key_points": [
+    "obligations guaranteeing or with economic effect of guaranteeing another's debt",
+    "Liens securing another Person's debt",
+    "excludes ordinary-course endorsements for collection or deposit"
+   ],
+   "entities": [
+    "economic effect",
+    "Lien",
+    "endorsements for collection or deposit"
+   ]
+  },
+  "confidence": "high"
+ },
+ "explain-008-b": {
+  "suggest": "fix",
+  "reason": "Faithful and complete. Only named the agreement ('the agreement' is vague in a multi-doc session).",
+  "edits": {
+   "question": "Under the SWK Credit Agreement, how is the amount of a Guarantee determined?",
+   "entities": [
+    "good faith"
+   ]
+  },
+  "confidence": "high"
+ },
+ "explain-009-a": {
+  "suggest": "fix",
+  "reason": "Correct trigger, but fails F3 (entity '$0.00') and misses the essential carve-out that repurchases made before any Revolving Loan draw stay permitted even above $10,000,000. Section 7.9 as restated by the Lincoln Second Amendment (May 23, 2022); not changed by the Third Amendment. Expanded to the full rule so 009-b can go.",
+  "edits": {
+   "question": "Under Section 7.9 of the Lincoln Educational Credit Agreement as restated by the Second Amendment, how does the share Repurchase Program Cap work and when is it reduced?",
+   "reference_answer": "The Borrower may repurchase its shares with cash on hand up to $30,000,000 (the Repurchase Program Cap), but must stop further purchases while a Default or Event of Default is continuing. From the date the Revolving Loan's outstanding principal is greater than zero, the cap drops to $10,000,000. Repurchases made before any Revolving Loan draw remain permitted even if they exceed $10,000,000.",
+   "evidence": [
+    {
+     "doc_id": "deal_01_am2",
+     "page": 2,
+     "span_text": "shares of its Capital Stock using cash on hand not to exceed $30,000,000 (the \"Repurchase Program Cap\"); provided, however, that the Borrower shall cease making any additional purchases if a Default or Event of Default shall have occurred and is continuing"
+    },
+    {
+     "doc_id": "deal_01_am2",
+     "page": 2,
+     "span_text": "from and after the date on which the outstanding principal balance of the Revolving Loan is greater than zero ($0.00), the Repurchase Program Cap shall be reduced to $10,000,000"
+    },
+    {
+     "doc_id": "deal_01_am2",
+     "page": 2,
+     "span_text": "any repurchases made under the repurchase program prior to any draw under the Revolving Loan shall be permitted notwithstanding that such repurchases exceed $10,000,000"
+    }
+   ],
+   "key_points": [
+    "cap $30,000,000 using cash on hand",
+    "stop purchases during a Default or Event of Default",
+    "cap falls to $10,000,000 once Revolving Loan balance > $0",
+    "earlier repurchases above $10,000,000 remain permitted"
+   ],
+   "entities": [
+    "$30,000,000",
+    "$10,000,000",
+    "Event of Default"
+   ]
+  },
+  "confidence": "high"
+ },
+ "explain-009-b": {
+  "suggest": "drop",
+  "reason": "One-fact half of the same Section 7.9 sentence as 009-a (stop repurchases during a Default); the fixed 009-a now covers it.",
+  "edits": {},
+  "drop_reason": "duplicate",
+  "confidence": "medium"
+ },
+ "explain-010-a": {
+  "suggest": "fix",
+  "reason": "Correct on revocation but omits what the consent covers (Lender may publish tombstones and other publicity, at its own expense, without prior approval). Added; named Section 8.19 of the Harmonic (deal_07) Credit Agreement.",
+  "edits": {
+   "question": "Under Section 8.19 (Marketing Consent) of the Harmonic Credit Agreement, what may the Lender do, on what terms, and how does the consent end?",
+   "reference_answer": "The Borrowers authorize the Lender, at its sole expense and without any prior approval by a Borrower, to publish tombstones and give other publicity to the Agreement as it determines in its sole discretion. The authorization stays in effect until the Borrower Representative notifies the Lender in writing that it is revoked.",
+   "evidence": [
+    {
+     "doc_id": "deal_07_ca",
+     "page": 88,
+     "span_text": "to publish such tombstones and give such other publicity to this Agreement as it may from time to time determine in its sole discretion"
+    },
+    {
+     "doc_id": "deal_07_ca",
+     "page": 88,
+     "span_text": "The foregoing authorization shall remain in effect unless the Borrower Representative notifies the Lender in writing that such authorization is revoked."
+    }
+   ],
+   "key_points": [
+    "Lender may publish tombstones and publicity",
+    "at Lender's sole expense, no prior Borrower approval",
+    "ends on written revocation notice from Borrower Representative"
+   ],
+   "entities": [
+    "tombstones",
+    "Borrower Representative"
+   ]
+  },
+  "confidence": "high"
+ },
+ "explain-010-b": {
+  "suggest": "fix",
+  "reason": "Misframed: nothing 'triggers' an extension, and 'automatically' is not in the text; the clause says extensions/renewals may happen without notice to or assent of the guarantor and the guarantor stays bound. Reframed around the nature of the Section 9.01 guaranty.",
+  "edits": {
+   "question": "Under Section 9.01 of the Harmonic Credit Agreement, what kind of guaranty does each Loan Guarantor give, and does it need to consent to extensions or renewals of the Guaranteed Obligations?",
+   "reference_answer": "Each Loan Guarantor is jointly and severally liable, as a primary obligor and not merely a surety, and absolutely, unconditionally and irrevocably guarantees prompt payment of the Secured Obligations plus collection costs (the Guaranteed Obligations). The Guaranteed Obligations may be extended or renewed in whole or in part without notice to or further assent from the Loan Guarantor, which remains bound notwithstanding any extension or renewal.",
+   "evidence": [
+    {
+     "doc_id": "deal_07_ca",
+     "page": 88,
+     "span_text": "absolutely and unconditionally and irrevocably guarantees to the Secured Parties, the prompt payment when due"
+    },
+    {
+     "doc_id": "deal_07_ca",
+     "page": 88,
+     "span_text": "Each Loan Guarantor further agrees that the Guaranteed Obligations may be extended or renewed in whole or in part without notice to or further assent from it, and that it remains bound upon its guarantee notwithstanding any such extension or renewa"
+    }
+   ],
+   "key_points": [
+    "joint and several, primary obligor not surety",
+    "absolute, unconditional, irrevocable guaranty of prompt payment",
+    "extensions/renewals need no notice or assent",
+    "guarantor remains bound"
+   ],
+   "entities": [
+    "Loan Guarantor",
+    "Guaranteed Obligations"
+   ]
+  },
+  "confidence": "medium"
+ },
+ "explain-011-b": {
+  "suggest": "fix",
+  "reason": "Scan question (scan_27 = deal_07_ca p8); OCR span matches the original definition and amendments do not redefine it. Answer faithful (the definition says nothing about content beyond accuracy, so question reworded). Named the agreement; entities shortened.",
+  "edits": {
+   "question": "Under the Harmonic Credit Agreement, who must sign the Compliance Certificate, what must they certify, and what form must it take?",
+   "entities": [
+    "Financial Officer",
+    "Exhibit B",
+    "sole discretion"
+   ]
+  },
+  "confidence": "high"
+ },
+ "explain-012-a": {
+  "suggest": "fix",
+  "reason": "Scan question (scan_28 = deal_08_ca p28, OCR spans match the original). Headings-only rule is trivial boilerplate; kept the scan but broadened to three essential interpretive rules of Section 1.02 so the explain is worth having.",
+  "edits": {
+   "question": "Under Section 1.02 (Other Interpretive Provisions) of the PureCycle Credit Agreement, how are references to other agreements, the word 'including', and section headings to be read?",
+   "reference_answer": "References to an agreement, instrument or other document (including the Loan Documents) mean that document as amended, restated, modified, extended, replaced or supplemented from time to time (subject to any restrictions on amendments); 'include', 'includes' and 'including' are read as followed by 'without limitation'; and section headings are for convenience of reference only and do not affect interpretation.",
+   "evidence": [
+    {
+     "doc_id": "scan_28",
+     "page": 1,
+     "span_text": "shall be construed as referring to such agreement, instrument or other document as from time to time amended, amended and restated, modified, extended, restated, replaced or supplemented from time to time"
+    },
+    {
+     "doc_id": "scan_28",
+     "page": 1,
+     "span_text": "shall be deemed to be followed by the phrase \"without limitation.\""
+    },
+    {
+     "doc_id": "scan_28",
+     "page": 1,
+     "span_text": "Section headings herein and in the other Loan Documents are included for convenience of reference only and shall not affect the interpretation of this Agreement or any other Loan Document."
+    }
+   ],
+   "key_points": [
+    "document references mean the document as amended from time to time",
+    "'including' means without limitation",
+    "headings do not affect interpretation"
+   ],
+   "entities": [
+    "without limitation",
+    "convenience of reference"
+   ]
+  },
+  "confidence": "medium"
+ }
+}

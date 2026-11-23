@@ -1,0 +1,802 @@
+{
+ "cross_doc-001-a": {
+  "confidence": "high",
+  "edits": {
+   "entities": [
+    "annual facility fee",
+    "$62,500"
+   ],
+   "key_points": [
+    "annual facility fee",
+    "$62,500"
+   ],
+   "question": "After the Second Amendment, what fee does Section 2.10(c) of the Credit Agreement require the Borrowers to pay the Lender, and in what amount?",
+   "reference_answer": "An annual facility fee of $62,500, payable on the Second Amendment Effective Date and on the Interest Payment Date closest to the first anniversary thereof.",
+   "superseded_values": [
+    "closing fee"
+   ]
+  },
+  "reason": "The $62,500 amount is unchanged by the Second Amendment; what changed is the fee type (one-time closing fee -> annual facility fee). Reworded to ask fee type + amount and added superseded 'closing fee'.",
+  "suggest": "fix"
+ },
+ "cross_doc-001-b": {
+  "confidence": "high",
+  "edits": {
+   "superseded_values": [
+    "due and payable in full on the Effective Date"
+   ]
+  },
+  "reason": "Answer correct per am2 p3; original 2.10(c) fee was due in full on the Effective Date. Only missing superseded_values.",
+  "suggest": "fix"
+ },
+ "cross_doc-002-a": {
+  "confidence": "high",
+  "edits": {
+   "entities": [
+    "June 30, 2026"
+   ],
+   "superseded_values": [
+    "two year anniversary of the Funding Date"
+   ]
+  },
+  "reason": "Answer June 30, 2026 correct (am3 p2 restates the definition). Entities/superseded held the whole old clause; shortened to short values.",
+  "suggest": "fix"
+ },
+ "cross_doc-002-b": {
+  "confidence": "medium",
+  "drop_reason": "duplicate",
+  "reason": "Same change as cross_doc-002-a (Maturity Date -> June 30, 2026); the 'how did it change' framing also forces the old definition into the answer, clashing with superseded_values.",
+  "suggest": "drop"
+ },
+ "cross_doc-003-a": {
+  "confidence": "high",
+  "edits": {
+   "entities": [
+    "Section 2.7 [Reserved]"
+   ],
+   "key_points": [
+    "Section 2.7 amended and restated in its entirety",
+    "now reads [Reserved]",
+    "optional extension mechanism removed"
+   ],
+   "question": "What did the Second Amendment to the Credit Agreement do to Section 2.7 (Optional Extensions of Commitments), the provision letting the Borrower request extensions of the Revolving A and Revolving B Credit Maturity Dates by Extension Letter?",
+   "reference_answer": "It amended and restated Section 2.7 in its entirety to read 'Section 2.7 [Reserved]', i.e. the optional extension mechanism was deleted and the Borrower can no longer request extensions under it.",
+   "superseded_values": [
+    "no earlier than sixty (60) days"
+   ]
+  },
+  "reason": "False premise: the Second Amendment restated Section 2.7 as '[Reserved]', so asking for the current day-count is invalid. Rephrased to 'what did the amendment do to Section 2.7'.",
+  "suggest": "fix"
+ },
+ "cross_doc-003-b": {
+  "confidence": "high",
+  "drop_reason": "duplicate",
+  "reason": "Same false premise as 003-a (Section 2.7 is now [Reserved]) and covers the same change; 003-a fixed version already tests it.",
+  "suggest": "drop"
+ },
+ "cross_doc-004-a": {
+  "confidence": "medium",
+  "edits": {
+   "entities": [
+    "LIBOR Successor Rate",
+    "LIBOR Successor Rate Conforming Changes"
+   ],
+   "evidence": [
+    {
+     "doc_id": "deal_03_am1",
+     "page": 1,
+     "span_text": "or with respect to any rate that is an alternative or replacement for or successor to any of such rate (including any LIBOR Successor Rate) or the effect of any of the foregoing, or of any LIBOR Successor Rate Conforming Changes."
+    },
+    {
+     "doc_id": "deal_03_ca",
+     "page": 28,
+     "span_text": "or with respect to any comparable or successor rate thereto."
+    }
+   ],
+   "key_points": [
+    "alternative, replacement or successor rates to the Eurodollar Rate",
+    "including any LIBOR Successor Rate",
+    "LIBOR Successor Rate Conforming Changes"
+   ],
+   "question": "After the First Amendment, which rates besides the Eurodollar Rate does the Administrative Agent's no-liability disclaimer in Section 1.05 (Times of Day; Rates) of the Credit Agreement cover?",
+   "reference_answer": "Any rate that is an alternative or replacement for or successor to the Eurodollar Rate (including any LIBOR Successor Rate), the effect of any of the foregoing, and any LIBOR Successor Rate Conforming Changes.",
+   "superseded_values": [
+    "comparable or successor rate thereto"
+   ]
+  },
+  "reason": "The Eastern-time sentence is identical before and after the First Amendment (superseded value was just the OCR copy of the same sentence). The real change is the Agent's disclaimer now covering alternative/replacement/successor rates incl. LIBOR Successor Rate; rewrote around that.",
+  "suggest": "fix"
+ },
+ "cross_doc-005-a": {
+  "confidence": "medium",
+  "drop_reason": "other",
+  "reason": "The 3.75x / 4.25x Net Leverage Ratio levels in Section 8.2.8 are the same in the original and in all three amendments, so this does not test an amendment change; there is no superseded value (only one-doc evidence too). The real change (new Maximum Leverage Increase Notice trigger, 8-consecutive-quarter cap) is an addition with no old value to supersede.",
+  "suggest": "drop"
+ },
+ "cross_doc-005-b": {
+  "confidence": "medium",
+  "drop_reason": "other",
+  "reason": "Amendment 1 only adds '(including any disposition to a Delaware Divided LLC pursuant to a Delaware LLC Division)' to 8.2.4(ii); the prohibition in the answer is unchanged from the original, there is no superseded value, entity is a whole clause and evidence is from one doc.",
+  "suggest": "drop"
+ },
+ "cross_doc-006-a": {
+  "confidence": "high",
+  "edits": {
+   "entities": [
+    "0.75%"
+   ],
+   "evidence": [
+    {
+     "doc_id": "deal_11_am2",
+     "page": 3,
+     "span_text": "The second to last paragraph in Section 3.07 of the Credit Agreement is hereby amended to replace the text \"zero\" therein with \"0.75%\"."
+    },
+    {
+     "doc_id": "deal_11_ca",
+     "page": 72,
+     "span_text": "LIBOR Successor Rate be less than zero for purposes of this Agreement."
+    }
+   ],
+   "key_points": [
+    "floor is 0.75%",
+    "applies to any LIBOR Successor Rate under Section 3.07"
+   ],
+   "question": "After the Second Amendment, what is the minimum level (floor) below which no LIBOR Successor Rate may be set under Section 3.07 (Successor LIBOR) of the Credit Agreement?",
+   "reference_answer": "0.75%. The Second Amendment changed the floor in the second to last paragraph of Section 3.07, so no LIBOR Successor Rate may be less than 0.75% for purposes of the Credit Agreement.",
+   "superseded_values": [
+    "zero"
+   ]
+  },
+  "reason": "0.75% is not 'the Successor LIBOR rate'; it is the floor on any LIBOR Successor Rate (Second Amendment replaced 'zero' with '0.75%' in 3.07). Reworded question/answer and replaced the title-only CA span with the actual 'less than zero' sentence (ca p72).",
+  "suggest": "fix"
+ },
+ "cross_doc-006-b": {
+  "confidence": "medium",
+  "edits": {
+   "answer_numeric": 0.75,
+   "entities": [
+    "0.75%",
+    "Eurodollar Rate"
+   ],
+   "evidence": [
+    {
+     "doc_id": "deal_11_am2",
+     "page": 2,
+     "span_text": "The definition of \"Eurodollar Rate\" in the Credit Agreement is hereby amended to replace both instances of the text \"zero\" therein with \"0.75%\"."
+    },
+    {
+     "doc_id": "deal_11_ca",
+     "page": 17,
+     "span_text": "if the Eurodollar Rate shall be less than zero, such rate shall be deemed zero for purposes of this Agreement."
+    }
+   ],
+   "key_points": [
+    "Eurodollar Rate floor is 0.75%",
+    "rate below 0.75% is deemed 0.75%"
+   ],
+   "question": "After the Second Amendment, below what level is the Eurodollar Rate deemed to be that level (the Eurodollar Rate floor) under the Credit Agreement?",
+   "reference_answer": "0.75%. If the Eurodollar Rate would be less than 0.75%, it is deemed to be 0.75% for purposes of the Credit Agreement.",
+   "superseded_values": [
+    "zero"
+   ]
+  },
+  "reason": "As drafted it duplicates 006-a (same 3.07 'zero'->'0.75%' edit). Repointed to the parallel, separate change in the same amendment: the Eurodollar Rate definition floor (am2 p2 vs CA p17).",
+  "suggest": "fix"
+ },
+ "cross_doc-007-a": {
+  "confidence": "high",
+  "edits": {
+   "entities": [
+    "March 31, 2025"
+   ]
+  },
+  "reason": "Correct: Second Amendment restates Maturity Date as March 31, 2025 (was June 30, 2024 in CA p20). Removed the old date from entities since it is the superseded value, not part of the answer.",
+  "suggest": "fix"
+ },
+ "cross_doc-007-b": {
+  "confidence": "high",
+  "drop_reason": "duplicate",
+  "reason": "Same question and answer as cross_doc-007-a (Maturity Date -> March 31, 2025), only vaguer wording.",
+  "suggest": "drop"
+ },
+ "cross_doc-008-a": {
+  "confidence": "high",
+  "edits": {
+   "entities": [
+    "November 14, 2023"
+   ],
+   "question": "What is the Revolving Maturity Date under the Credit Agreement after the Third Amendment?"
+  },
+  "reason": "Correct per am3 p2 vs CA p21. deal_01 has three amendments, so name the Third Amendment; removed superseded date from entities.",
+  "suggest": "fix"
+ },
+ "cross_doc-009-a": {
+  "confidence": "high",
+  "edits": {
+   "evidence": [
+    {
+     "doc_id": "deal_09_am2",
+     "page": 2,
+     "span_text": "\"Revolving A Credit Maturity Date\" means the earliest to occur of (a) December 1, 2025, (b) the date of termination of the Revolving A Credit Commitments by the Borrower pursuant to Section 2.5, and (c) the date of termination of the Revolving A Credit Commitments pursuant to Section 8.2(a)."
+    },
+    {
+     "doc_id": "deal_09_ca",
+     "page": 22,
+     "span_text": "\"Revolving A Credit Maturity Date\" means, with respect to each Revolving A Credit Lender, the earliest to occur of (a) June 27, 2023, as such date may be extended from time to time with respect to such Revolving A Credit Lender pursuant to Section 2.7(a)"
+    }
+   ],
+   "question": "Under the Credit Agreement as amended by the Second Amendment, what is the Revolving A Credit Maturity Date?",
+   "reference_answer": "The earliest of (a) December 1, 2025, (b) the date the Borrower terminates the Revolving A Credit Commitments under Section 2.5, and (c) the date the Revolving A Credit Commitments terminate under Section 8.2(a)."
+  },
+  "reason": "Answer correct (am2 p2) but evidence was from one doc only (F3 fail). Added the original CA p22 definition (June 27, 2023) and named the Second Amendment.",
+  "suggest": "fix"
+ },
+ "cross_doc-009-b": {
+  "confidence": "medium",
+  "edits": {
+   "entities": [
+    "December 1, 2025"
+   ],
+   "evidence": [
+    {
+     "doc_id": "deal_09_am2",
+     "page": 2,
+     "span_text": "\"Revolving B Credit Maturity Date\" means, with respect to each Revolving B Credit Lender, the earliest to occur of (a) December 1, 2025, (b) the date of termination of the Revolving B Credit Commitments by the Borrower pursuant to Section 2.5, and (c) the date of termination of the Revolving B Credit Commitments pursuant to Section 8.2(a)."
+    },
+    {
+     "doc_id": "deal_09_ca",
+     "page": 23,
+     "span_text": "\"Revolving B Credit Maturity Date\" means, with respect to each Revolving B Credit Lender, the earliest to occur of (a) June 27, 2023, as such date may be extended from time to time with respect to such Revolving B Credit Lender pursuant to Section 2.7(b)"
+    }
+   ],
+   "key_points": [
+    "fixed date is December 1, 2025",
+    "applies to the Revolving B Credit Maturity Date"
+   ],
+   "question": "After the Second Amendment, what fixed date applies in the definition of the Revolving B Credit Maturity Date in the Credit Agreement?",
+   "reference_answer": "December 1, 2025. The Revolving B Credit Maturity Date is now the earliest of (a) December 1, 2025, (b) the Borrower terminating the Revolving B Credit Commitments under Section 2.5, and (c) termination of the Revolving B Credit Commitments under Section 8.2(a).",
+   "superseded_values": [
+    "June 27, 2023"
+   ]
+  },
+  "reason": "As drafted it duplicates 009-a (same Revolving A date change, and leaks the old date in the question). Repointed to the parallel Revolving B Credit Maturity Date change in the same amendment (am2 p2 vs CA p23, June 27, 2023 -> December 1, 2025).",
+  "suggest": "fix"
+ },
+ "cross_doc-010-a": {
+  "confidence": "high",
+  "edits": {
+   "answer_numeric": 0.26,
+   "question": "For Years 1-7, what is the difference between the Estimated Total Monthly Payment on the Loan Estimate and on the Closing Disclosure?"
+  },
+  "reason": "Values and arithmetic correct (LE p1 $1,050 vs CD p1 $1,050.26, +$0.26). Specified Years 1-7 since the table has two payment columns; added answer_numeric.",
+  "suggest": "fix"
+ },
+ "cross_doc-010-b": {
+  "confidence": "high",
+  "edits": {
+   "answer_numeric": 1906.74
+  },
+  "reason": "Values and arithmetic correct ($16,054 vs $14,147.26, $1,906.74 less). Only adding answer_numeric.",
+  "suggest": "fix"
+ },
+ "cross_doc-011-a": {
+  "confidence": "medium",
+  "edits": {
+   "answer_numeric": 878.57,
+   "question": "For the refinance, what is the difference between total closing costs on the Loan Estimate and total closing costs (J) on the corrected Closing Disclosure that includes a $200 lender credit for the increase in Closing Costs above the legal limit?",
+   "reference_answer": "The Loan Estimate shows total closing costs of $5,099, while that Closing Disclosure shows total closing costs (Borrower-Paid) of $5,977.57, so final closing costs are $878.57 higher than estimated."
+  },
+  "reason": "Session has two Closing Disclosures for this Loan Estimate: H-25(E) shows $5,757.57 and H-25(F) (with $200 tolerance cure) shows $5,977.57, so 'the Closing Disclosure' is ambiguous. Named the H-25(F) one; arithmetic ($878.57) correct.",
+  "suggest": "fix"
+ },
+ "cross_doc-011-b": {
+  "confidence": "high",
+  "edits": {
+   "answer_numeric": 4776.43
+  },
+  "reason": "Correct: $24,901 -> $29,677.43 (+$4,776.43); both H-25(E) and H-25(F) CDs show $29,677.43 so not ambiguous (H-25(G) belongs to a different LE). Adding answer_numeric.",
+  "suggest": "fix"
+ },
+ "cross_doc-012-a": {
+  "confidence": "medium",
+  "reason": "LE p2 $1,802 and CD p2 $1,802.00 both verified; zero difference is a fair 'did it change' test.",
+  "suggest": "keep"
+ },
+ "table-001-a": {
+  "confidence": "high",
+  "reason": "Row Level 3 (BBB / Baa2), Base Rate column = 0.250% on CA p6; amendments do not change the pricing grid.",
+  "suggest": "keep"
+ },
+ "table-001-b": {
+  "confidence": "high",
+  "reason": "Applicable Percentage table, Level 2 (BBB+ / Baa1) = 0.110% on CA p6; not amended.",
+  "suggest": "keep"
+ },
+ "table-002-b": {
+  "confidence": "medium",
+  "edits": {
+   "question": "In the Consolidated EBITDA calculation in the form of Compliance Certificate attached to the Credit Agreement, what add-back is listed as line (b)(vi)?",
+   "reference_answer": "Line (b)(vi) is \"non-cash license fee charges\"."
+  },
+  "reason": "Value correct, but 'Consolidated EBITDA adjustments row (vi)' is ambiguous: in the CA definition (p10) clause (vi) is non-cash asset impairment charges, while (vi) = non-cash license fee charges only in the Compliance Certificate form (p98). Named the form.",
+  "suggest": "fix"
+ },
+ "table-003-a": {
+  "confidence": "high",
+  "edits": {
+   "answer_numeric": 15000000,
+   "entities": [
+    "$15,000,000"
+   ],
+   "evidence": [
+    {
+     "doc_id": "deal_12_am1",
+     "page": 1,
+     "span_text": "2019 $15,000,000"
+    }
+   ],
+   "key_points": [
+    "Fiscal Year 2019",
+    "$15,000,000"
+   ],
+   "question": "Under Section 9.14 (Capital Expenditures) of the Credit Agreement as amended by the First Amendment, what is the maximum aggregate amount of Capital Expenditures permitted for Fiscal Year 2019?",
+   "reference_answer": "$15,000,000."
+  },
+  "reason": "STALE ANSWER: the First Amendment (am1 p1) restated the Section 9.14 capex table; 2019 is now $15,000,000, not the original $10,000,000. Re-pointed to the amended table.",
+  "suggest": "fix"
+ },
+ "table-003-b": {
+  "confidence": "high",
+  "edits": {
+   "answer_numeric": 9000000,
+   "entities": [
+    "$9,000,000",
+    "August 3, 2021"
+   ],
+   "evidence": [
+    {
+     "doc_id": "deal_12_am1",
+     "page": 1,
+     "span_text": "2021 $9,000,000"
+    },
+    {
+     "doc_id": "deal_12_am1",
+     "page": 1,
+     "span_text": "(or for the 2021 Fiscal Year, from January 1, 2021 through August 3, 2021)"
+    }
+   ],
+   "key_points": [
+    "$9,000,000",
+    "January 1, 2021 through August 3, 2021"
+   ],
+   "question": "Under Section 9.14 (Capital Expenditures) of the Credit Agreement as amended by the First Amendment, what is the Capital Expenditures limit for the 2021 Fiscal Year, and what period does it cover?",
+   "reference_answer": "$9,000,000, measured from January 1, 2021 through August 3, 2021."
+  },
+  "reason": "STALE ANSWER: First Amendment raised 2020 to $15,000,000 (was $7,000,000). Since 2020 would now duplicate 003-a's value, re-pointed to the 2021 row ($9,000,000, partial year Jan 1-Aug 3, 2021) of the amended table.",
+  "suggest": "fix"
+ },
+ "table-004-a": {
+  "confidence": "medium",
+  "drop_reason": "trivial / not useful",
+  "reason": "Correct (Japan) but trivial: the jurisdiction is in the company's own name. Same Schedule 6.1.2 list is already used by 004-b and 017-a/b.",
+  "suggest": "drop"
+ },
+ "table-004-b": {
+  "confidence": "high",
+  "edits": {
+   "entities": [
+    "Nevada (USA)"
+   ],
+   "question": "In Schedule 6.1.2 (Subsidiaries) of the RPM International Credit Agreement, what place of incorporation is listed for RPM Wood Finishes Group, Inc.?",
+   "reference_answer": "Nevada (USA)."
+  },
+  "reason": "Correct (CA p144: Nevada (USA)). Named the schedule (Schedule 6.1.2 Subsidiaries, column 'Place of Incorporation') instead of 'the table'.",
+  "suggest": "fix"
+ },
+ "table-005-a": {
+  "confidence": "high",
+  "edits": {
+   "entities": [
+    "Exhibit E"
+   ],
+   "question": "Which exhibit to the Credit Agreement is the Form of Revolving Note?",
+   "reference_answer": "Exhibit E."
+  },
+  "reason": "Correct: Exhibit E (also confirmed by the 'Revolving Note' definition, CA p24). Reworded away from 'the schedule table'.",
+  "suggest": "fix"
+ },
+ "table-005-b": {
+  "confidence": "high",
+  "drop_reason": "wrong answer",
+  "reason": "WRONG ANSWER: the exhibit list text is jumbled; per the CA definitions (p22) the Perfection Certificate is Exhibit D-1 and Exhibit D-2 is the Perfection Certificate Supplement. Table span cannot support a clean answer; TOC-style and low value.",
+  "suggest": "drop"
+ },
+ "table-006-a": {
+  "confidence": "medium",
+  "edits": {
+   "entities": [
+    "Commitments and Pro Rata Shares"
+   ],
+   "question": "In the list of Schedules to the Credit Agreement, what is the title of Schedule 2.01?",
+   "reference_answer": "Schedule 2.01 is \"Commitments and Pro Rata Shares\"."
+  },
+  "reason": "Correct (CA p5 schedule list). Reworded to name the list of Schedules; entity trimmed.",
+  "suggest": "fix"
+ },
+ "table-006-b": {
+  "confidence": "medium",
+  "edits": {
+   "entities": [
+    "U.S. Tax Compliance Certificate",
+    "Foreign Participants That Are Partnerships"
+   ],
+   "question": "In the list of Exhibits to the Credit Agreement, what form is Exhibit E-3?",
+   "reference_answer": "Exhibit E-3 is the Form of U.S. Tax Compliance Certificate for Foreign Participants That Are Partnerships for U.S. Federal Income Tax Purposes."
+  },
+  "reason": "Correct (CA p5). Entity was the whole exhibit title; shortened, and question names the exhibit list.",
+  "suggest": "fix"
+ },
+ "table-007-a": {
+  "confidence": "high",
+  "edits": {
+   "question": "Under the Liquidity financial covenant shown in Schedule I to the Compliance Certificate, what minimum Liquidity must the Company have at the end of each fiscal quarter?",
+   "reference_answer": "Not less than $20,000,000 as of the end of each fiscal quarter."
+  },
+  "reason": "Correct ($20,000,000; same as Section 6.12(a); amendments do not change it). Reworded to a natural question naming the covenant.",
+  "suggest": "fix"
+ },
+ "table-007-b": {
+  "confidence": "high",
+  "edits": {
+   "question": "In the EBITDA calculation for the Minimum EBITDA covenant in Schedule I to the Compliance Certificate, what is the cap on the add-back for transaction costs associated with the Credit Agreement?",
+   "reference_answer": "Transaction costs associated with the Credit Agreement may be added back up to $240,000."
+  },
+  "reason": "Correct ($240,000 cap, matches EBITDA definition clause (vii) on CA p10) but 'maximum transaction cost amount in the Minimum EBITDA row' is unclear; reworded as the cap on the transaction-cost add-back.",
+  "suggest": "fix"
+ },
+ "table-008-a": {
+  "confidence": "low",
+  "edits": {
+   "entities": [
+    "2.01"
+   ],
+   "question": "Which schedule to the Raymond James Credit Agreement sets out the Commitments and Applicable Percentages?",
+   "reference_answer": "Schedule 2.01."
+  },
+  "reason": "Correct (CA p5 schedule list). TOC-style lookup, similar in kind to table-006-a; reworded naturally. Human may drop if enough tables.",
+  "suggest": "fix"
+ },
+ "table-008-b": {
+  "confidence": "medium",
+  "edits": {
+   "entities": [
+    "7.03"
+   ],
+   "question": "Which schedule to the Raymond James Credit Agreement lists Indebtedness Existing on the Closing Date?",
+   "reference_answer": "Schedule 7.03."
+  },
+  "reason": "Correct (CA p5). Reworded to a natural 'where is existing indebtedness listed' question.",
+  "suggest": "fix"
+ },
+ "table-009-a": {
+  "confidence": "high",
+  "drop_reason": "trivial / not useful",
+  "reason": "Evidence is a table-of-contents line: 73 is the page number of Section 5.10 Insurance (a representation, not an affirmative covenant). Not a meaningful question.",
+  "suggest": "drop"
+ },
+ "table-010-a": {
+  "confidence": "high",
+  "edits": {
+   "answer_numeric": 350
+  },
+  "reason": "Correct: Pricing Grid Level II = 350 bp (CA p31); amendments don't change it. Added answer_numeric.",
+  "suggest": "fix"
+ },
+ "table-010-b": {
+  "confidence": "high",
+  "reason": "Correct: Level III = Funded Debt to Adjusted EBITDA ratio equal to or greater than 2.25:1.00 (CA p31).",
+  "suggest": "keep"
+ },
+ "table-011-a": {
+  "confidence": "high",
+  "reason": "Correct: APR 4.617% in Comparisons section of the only Loan Estimate in session (p3 of form).",
+  "suggest": "keep"
+ },
+ "table-011-b": {
+  "confidence": "high",
+  "reason": "Correct: TIP 81.18% on the same Comparisons table.",
+  "suggest": "keep"
+ },
+ "table-012-a": {
+  "confidence": "high",
+  "reason": "Correct: Seller Credits final -$2,500.00 in CD Calculating Cash to Close (only one CD in session).",
+  "suggest": "keep"
+ },
+ "table-012-b": {
+  "confidence": "medium",
+  "edits": {
+   "answer_numeric": 29.8,
+   "entities": [
+    "$29.80"
+   ],
+   "evidence": [
+    {
+     "doc_id": "cfpb_cd_h25b",
+     "page": 4,
+     "span_text": "Closing Costs Paid Before Closing $0 - $29.80 YES"
+    }
+   ],
+   "key_points": [
+    "Final $29.80",
+    "Loan Estimate $0"
+   ],
+   "question": "In the Calculating Cash to Close table of the Closing Disclosure, how much in Closing Costs Paid Before Closing does the Final column show, versus the Loan Estimate column?",
+   "reference_answer": "Final: $29.80 paid before closing, versus $0 on the Loan Estimate."
+  },
+  "reason": "Correct but near-duplicate of cross_doc-010-b (same CD Cash to Close $14,147.26). Repointed to another row of the same table (Closing Costs Paid Before Closing, $0 -> $29.80).",
+  "suggest": "fix"
+ },
+ "table-013-a": {
+  "confidence": "medium",
+  "reason": "Correct ($180,000) but it is a header field, easy; acceptable as a basic lookup.",
+  "suggest": "keep"
+ },
+ "table-013-b": {
+  "confidence": "medium",
+  "edits": {
+   "answer_numeric": 176032,
+   "entities": [
+    "$176,032",
+    "year 6"
+   ],
+   "evidence": [
+    {
+     "doc_id": "cfpb_le_h24f",
+     "page": 2,
+     "span_text": "Loan Amount $171,000 YES · Can go as high as $176,032 · Can increase until year 6"
+    }
+   ],
+   "key_points": [
+    "can go as high as $176,032",
+    "can increase until year 6"
+   ],
+   "question": "In the Loan Terms table of the negative-amortization Loan Estimate, the Loan Amount is $171,000; how high can the loan amount go, and until when can it increase?",
+   "reference_answer": "It can go as high as $176,032 and can increase until year 6."
+  },
+  "reason": "Loan Amount $171,000 is correct but duplicates table-014-a's value and skips the interesting part of the row (negative amortization). Reworded to ask the maximum loan amount ($176,032, until year 6) from the same span.",
+  "suggest": "fix"
+ },
+ "table-014-a": {
+  "confidence": "medium",
+  "edits": {
+   "answer_numeric": 149263,
+   "entities": [
+    "$149,263",
+    "year 7"
+   ],
+   "evidence": [
+    {
+     "doc_id": "cfpb_le_h24e",
+     "page": 2,
+     "span_text": "Balloon Payment of year 7\nYES · You will have to pay $149,263 at the end"
+    }
+   ],
+   "key_points": [
+    "balloon payment $149,263",
+    "due at the end of year 7"
+   ],
+   "question": "On the Loan Estimate for the balloon-payment loan, how large is the balloon payment and when must it be paid?",
+   "reference_answer": "$149,263, payable at the end of year 7."
+  },
+  "reason": "Loan Amount $171,000 is correct but generic and same value as 013-b. Repointed to the Balloon Payment row of the same Loan Terms table ($149,263 at end of year 7).",
+  "suggest": "fix"
+ },
+ "table-014-b": {
+  "confidence": "high",
+  "reason": "Correct: Interest Rate 4.375% in Loan Terms (single-doc session).",
+  "suggest": "keep"
+ },
+ "table-015-a": {
+  "confidence": "high",
+  "reason": "Correct ($2,473.56); H-25(E) and H-25(G) CDs both show the same escrow figure, so not ambiguous.",
+  "suggest": "keep"
+ },
+ "table-015-b": {
+  "confidence": "high",
+  "reason": "Correct ($206.13), identical across the session's CDs.",
+  "suggest": "keep"
+ },
+ "table-016-a": {
+  "confidence": "high",
+  "edits": {
+   "question": "In the Projected Payments table of the interest-only ARM Loan Estimate, what is the Principal & Interest payment for Years 1-5?",
+   "reference_answer": "$703.33 (interest only)."
+  },
+  "reason": "Correct ($703.33, interest only). 'Years 1-5' is a column, not a row; minor rewording.",
+  "suggest": "fix"
+ },
+ "table-016-b": {
+  "confidence": "high",
+  "reason": "Correct: Estimated Closing Costs $8,791 (single LE in session).",
+  "suggest": "keep"
+ },
+ "table-017-a": {
+  "confidence": "high",
+  "drop_reason": "wrong answer",
+  "reason": "WRONG ANSWER: scan_38 OCR misaligns the name and jurisdiction columns; CA p142 shows 'Galaxy Tolling Inc. Canada' (not England & Wales, and 'Toiling' is OCR). If a scan question is needed, the fix would be answer Canada with evidence deal_10_ca p142 'Galaxy Tolling Inc. Canada'; dropped because 4 questions on one subsidiary list is too many.",
+  "suggest": "drop"
+ },
+ "table-017-b": {
+  "confidence": "high",
+  "edits": {
+   "entities": [
+    "China"
+   ],
+   "evidence": [
+    {
+     "doc_id": "deal_10_ca",
+     "page": 142,
+     "span_text": "Key Resin (Shanghai) Chemical Trading Company China"
+    }
+   ],
+   "key_points": [
+    "Key Resin (Shanghai) Chemical Trading Company",
+    "China"
+   ],
+   "question": "In Schedule 6.1.2 (Subsidiaries) of the RPM International Credit Agreement, what place of incorporation is listed for Key Resin (Shanghai) Chemical Trading Company?",
+   "reference_answer": "China."
+  },
+  "reason": "WRONG ANSWER from misaligned scan_38 OCR: CA p142 lists Key Resin (Shanghai) Chemical Trading Company as China, not Delaware (USA). Switched evidence to the CA page (scan text can't support the right answer).",
+  "suggest": "fix"
+ },
+ "table-018-a": {
+  "confidence": "high",
+  "edits": {
+   "question": "In the Loan Calculations table of the refinance Closing Disclosure where the borrower must bring $6,716.60 cash to close, what is the Total Interest Percentage (TIP)?"
+  },
+  "reason": "Value correct for scan_07 (= H-25(G) CD), but the session has three CDs with different TIPs (H-25(E) shows 77.29%). Disambiguated by naming the CD with $6,716.60 cash to close.",
+  "suggest": "fix"
+ },
+ "table-018-b": {
+  "confidence": "high",
+  "edits": {
+   "question": "In the Loan Calculations table of the refinance Closing Disclosure where the borrower must bring $6,716.60 cash to close, what is the Amount Financed?"
+  },
+  "reason": "Value correct for scan_07 (= H-25(G)), but H-25(E) shows Amount Financed $148,241.94. Disambiguated the same way as 018-a.",
+  "suggest": "fix"
+ },
+ "table-019-a": {
+  "confidence": "high",
+  "reason": "Correct (3.750%, scan_25 = CA p8); amendments don't change the margin.",
+  "suggest": "keep"
+ },
+ "table-019-b": {
+  "confidence": "high",
+  "reason": "Correct (4.250%), same table; mirror of 019-a but distinct value.",
+  "suggest": "keep"
+ },
+ "unanswerable-001-a": {
+  "confidence": "medium",
+  "reason": "Searched all 11 deal_10 docs for projected EBITDA / projections / forecast: no figures. Note: one of 6 near-identical 'projected EBITDA' unanswerables across sessions.",
+  "suggest": "keep"
+ },
+ "unanswerable-001-b": {
+  "confidence": "medium",
+  "edits": {
+   "question": "What was RPM International's actual Net Leverage Ratio at the end of its most recent fiscal quarter, as reported to the lenders?",
+   "reference_answer": "The documents do not state the Company's actual Net Leverage Ratio for any fiscal quarter; they only set the maximum permitted ratio (3.75 to 1.00, or 4.25 to 1.00 in increased periods) and provide a blank Compliance Certificate form."
+  },
+  "reason": "Not answerable, but implausible (an Agent disclosing internal audit findings) and one of 5 'internal audit firm' clones. Replaced with a plausible trap: actual Net Leverage Ratio — docs only give covenant maxima (3.75x/4.25x) and a blank Compliance Certificate; grep found no actual ratio.",
+  "suggest": "fix"
+ },
+ "unanswerable-002-a": {
+  "confidence": "medium",
+  "reason": "No projections/EBITDA figures in deal_09 docs (searched). Projected-EBITDA clone pattern.",
+  "suggest": "keep"
+ },
+ "unanswerable-002-b": {
+  "confidence": "medium",
+  "reason": "No equity financing / offering info in deal_09 docs (searched 'equity financing', 'offering', 'IPO').",
+  "suggest": "keep"
+ },
+ "unanswerable-003-a": {
+  "confidence": "medium",
+  "reason": "Fee rates are given (Applicable Percentage etc.) but no projected fee totals for any year; searched.",
+  "suggest": "keep"
+ },
+ "unanswerable-003-b": {
+  "confidence": "medium",
+  "edits": {
+   "question": "How much does the Company pay PricewaterhouseCoopers LLP in annual audit fees?",
+   "reference_answer": "The documents do not state any audit fees. The Credit Agreement only says the annual financial statements are to be accompanied by an opinion of PricewaterhouseCoopers LLP or other acceptable independent accountants."
+  },
+  "reason": "Implausible premise (the Agent engaging an internal audit firm in 2028) and an 'internal audit firm' clone. deal_04_ca p58 names PricewaterhouseCoopers LLP as auditor, so a near-miss trap works better: audit fees are never stated (searched).",
+  "suggest": "fix"
+ },
+ "unanswerable-004-a": {
+  "confidence": "medium",
+  "reason": "No revenue growth / projected revenue in deal_06 docs (searched).",
+  "suggest": "keep"
+ },
+ "unanswerable-004-b": {
+  "confidence": "low",
+  "reason": "No audit firm named anywhere in deal_06 docs (searched audit firm names and 'internal audit'). Pattern: 'internal audit firm' clone.",
+  "suggest": "keep"
+ },
+ "unanswerable-005-a": {
+  "confidence": "medium",
+  "reason": "deal_01_ca mentions projections only generically (p40 rep); no EBITDA figures. Projected-EBITDA clone.",
+  "suggest": "keep"
+ },
+ "unanswerable-005-b": {
+  "confidence": "low",
+  "reason": "No audit firm in deal_01 docs (searched). 'Internal audit firm' clone.",
+  "suggest": "keep"
+ },
+ "unanswerable-006-a": {
+  "confidence": "medium",
+  "edits": {
+   "question": "According to the Projections SigmaTron delivered to the Lender, what is the Borrower's projected EBITDA for the fiscal year ending April 30, 2022?",
+   "reference_answer": "The documents do not state any projected EBITDA. The Credit Agreement refers to Projections received by the Lender but does not include their contents."
+  },
+  "reason": "False premise: SigmaTron's fiscal year ends April 30 (deal_05_ca p78, p85), not December 31. Reworded to the real fiscal year and to the 'Projections' the Lender received (contents not in the file).",
+  "suggest": "fix"
+ },
+ "unanswerable-006-b": {
+  "confidence": "medium",
+  "reason": "Nothing about 2028 or refinancing intentions in deal_05 docs (searched).",
+  "suggest": "keep"
+ },
+ "unanswerable-007-a": {
+  "confidence": "high",
+  "reason": "No IRR/yield figures in deal_08 docs ('yield' only appears as 'Yield Protection' heading).",
+  "suggest": "keep"
+ },
+ "unanswerable-007-b": {
+  "confidence": "medium",
+  "edits": {
+   "question": "When is construction of PureCycle's Augusta Project polypropylene recycling plant expected to be completed?",
+   "reference_answer": "The documents do not give an expected completion date. The Credit Agreement defines the Augusta Project (a polypropylene recycling plant near Augusta, Georgia) but includes no construction schedule."
+  },
+  "reason": "Unanswerable is right (no completion dates anywhere), but 'the project secured by this loan' is a false premise: the Augusta/Ironton projects are carved out of the guarantee/collateral package. Named the Augusta Project instead, which the CA defines (p8) without any schedule.",
+  "suggest": "fix"
+ },
+ "unanswerable-008-a": {
+  "confidence": "medium",
+  "reason": "No EBITDA projections in deal_03 docs. Projected-EBITDA clone.",
+  "suggest": "keep"
+ },
+ "unanswerable-008-b": {
+  "confidence": "low",
+  "reason": "No collateral/security provisions in deal_03 docs (unsecured facility; only 'Lien' definitions). Answerable only as 'not stated'; acceptable.",
+  "suggest": "keep"
+ },
+ "unanswerable-009-a": {
+  "confidence": "medium",
+  "edits": {
+   "question": "What revenue does Tactile Systems' annual business plan and budget project for the next fiscal year?",
+   "reference_answer": "The documents do not state any projected revenue. The Second Amendment only requires the Borrower to deliver an annual business plan and budget (with a projected income statement) within sixty days after each Fiscal Year end."
+  },
+  "reason": "False premise: the deal_12 file has no assignment and no 'Assignee' (only the Assignment and Assumption definition). Replaced with a plausible trap: am2 requires a business plan with projected income statement but gives no numbers (searched 'revenue').",
+  "suggest": "fix"
+ },
+ "unanswerable-009-b": {
+  "confidence": "medium",
+  "edits": {
+   "question": "How many employees does Tactile Systems Technology, Inc. have?",
+   "reference_answer": "The documents do not state the Borrower's number of employees."
+  },
+  "reason": "Silly and false premise (no assignment in the file; board meetings of an Assignee's parent). Replaced with a plausible, searched-unanswerable question about the Borrower.",
+  "suggest": "fix"
+ },
+ "unanswerable-010-a": {
+  "confidence": "medium",
+  "reason": "deal_02_ca p54 mentions projections only generically; no figures. Projected-EBITDA clone.",
+  "suggest": "keep"
+ },
+ "unanswerable-010-b": {
+  "confidence": "medium",
+  "reason": "Good near-miss: deal_02_ca p52 names Ernst & Young LLP as independent auditor for FY2021 statements, but nothing about an internal audit firm or a 2023 compliance review.",
+  "suggest": "keep"
+ }
+}

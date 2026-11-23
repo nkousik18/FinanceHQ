@@ -7,6 +7,21 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-22 — R3: last 5 drafting jobs
+
+**Branch:** `feature/r3-qa-golden`. Kousik: "run the remaining jobs".
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-22-1 | **Drafting complete: 92/92 jobs → 171 candidates, 13 rejected.** Last 5 (unanswerable-011…015): 8,349 tokens, $0.0018; 10/10 passed the filter, no draft issues. Unanswerable pool now 30 (quota 20). Measured over all 92 calls: mean 1,572 prompt + 508 completion. Existing review (cross_doc-003-a) not stale | Unanswerable now has slack |
+| S-2026-11-22-2 | New unanswerable drafts repeat the 2 templates seen before (projected EBITDA/cash flow/NOI; internal rating/compliance officer/audit firm) — same pattern as S-2026-11-16-13. Not pre-reviewed by the agents | For Kousik's review: pick varied ones |
+| S-2026-11-22-3 | **Review app bug fixed:** right panel (pages) empty and Keep/Drop/Later dead on every candidate with an agent suggestion. Cause: the suggestion panel reuses CSS class `.ev`; `markSpans()` looped over all `.ev` boxes, hit the panel (no evidence index) and threw, aborting `renderEditor` before the buttons were wired. Fix: select `#evs .ev` only. Checked in headless Chrome (PUT stubbed, no review written): pages + highlights render, Keep/Later send requests | Introduced in step 3b (`5dbd3fd`); Kousik reported it |
+| S-2026-11-22-4 | **Review done (Kousik):** 171 candidates → 152 keep, 19 drop. First finalise run: cross_doc 13/15 (3 amendment candidates left unreviewed, probably missed during the app bug); Kousik reviewed them and kept them | — |
+| S-2026-11-22-5 | **Finalise bug fixed:** the pick had no consumer cap, so the seeded fill took 44/120 consumer items (validator: EDGAR share ≥ 70% failed). The consumer-minimum step also took its 24 in type order (all lookup + table consumer), leaving calculation (11 EDGAR for 20 slots) and cross_doc to push consumer to 37. Fix in `pick()`: take each type's unavoidable consumer items first (they count toward the ≥ 20% minimum), then the minimum, then a fill capped at 36 consumer. 1 regression test (fails on the old code); evals 330 pass | Validator rule existed; the pick didn't respect it |
+| S-2026-11-22-6 | **QA golden set written:** `evals/golden/qa/questions.jsonl`, q0001–q0120, 40 dev / 80 test (dev 8/8/7/5/5/7), types 25/25/20/15/15/20, EDGAR 84 / consumer 36, scan evidence 11, amendment 10 (exactly the minimum), 82 edited in review, all `llm_drafted_human_verified`. 32 kept questions unused (seed 20261116). `validate_set(final=True)` passes. From now on a fix = new qid + retire the old one (F3) | R3 deliverable |
+
+---
+
 ## 2026-11-16 — R3 step 2d: drafting pilot (3 jobs)
 
 **Branch:** `feature/r3-qa-golden`. Kousik committed step 2b–c (`1803284`) and OK'd the pilot.
