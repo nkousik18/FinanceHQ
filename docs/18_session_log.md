@@ -7,6 +7,24 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-22 (cont.) — R4 step 5: S1 run
+
+**Branch:** `feature/r4-retrieval-metrics`. Kousik: "go step 5". Run at `938ea7b` (clean tree), dev 40 q (33 answerable), top_k 20, no LLM. Report: `docs/22_s1_retrieval.md`; MLflow `loandoc_retrieval_evals`, 5 runs.
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-22-24 | **S1 result (recall@budget, 95% CI):** C1 0.515 [0.364, 0.667] · C2 **0.773** [0.636, 0.894] · C3 0.652 · C4 0.758 · C5 0.758. vs baseline C1: **C2 +0.258** [+0.121, +0.409], **C4 +0.242**, **C5 +0.242** (Holm p ≤ 0.012), C3 +0.136 (CI touches 0: no detectable difference). C2 vs C4 vs C5: **no detectable difference** (n = 33). Entity recall same picture (C2/C4/C5 ≈ 0.80 vs C1 0.615) | Decision metric (D3) |
+| S-2026-11-22-25 | **Pick: C2 (rank 1), then a tie C4 = C5 at 0.758** for the second slot. Report now detects ties at the pick boundary and says the order is config order only. Tie rule open (Kousik) | D3 has no tie rule for S1 |
+| S-2026-11-22-26 | **Evidence fragmentation = 0 for all five chunkers** — checked independently: every evidence span (median 11 words, max 153) is ≥ 89% inside one chunk even for C3/C2. Real, not a bug; the metric doesn't separate chunkers on this set. Report prints this note (generated) | §8.2 ★ metric, first measurement |
+| S-2026-11-22-27 | Diagnostics: C1 recall@10 0.758 vs recall@budget 0.515 — its big (truncated) chunks fill the 1,200 words with fewer chunks; C1 redundancy highest (0.49). Amendment questions: C1 never put the amending span in the budget (0/3; 2/3 only the superseded original); C2/C5 2/3. n too small, H9 in R8 | For the R8 write-up |
+| S-2026-11-22-28 | **Bug fixed:** local `summary.json` lacked the MLflow run id (written before logging); now rewritten after logging (+ test); the 5 S1 summaries backfilled from MLflow by run name | Report provenance column showed "–" |
+| S-2026-11-22-30 | **Tie rule (Kousik): faster wins**, as S0's "ties → faster"; faster = lower retrieval latency p50 (C4 9.3 ms vs C5 11.5 ms; C4 also indexes cold in 176 s vs 392 s). Encoded in `report.rank_order`. **S1 pick: C2 + C4 → S2.** Closes S-2026-11-22-25 | Pick follows a rule, not config order |
+| S-2026-11-22-29 | Cost/time: cold indexing C1 85 s, C2 165 s, C4 176 s, C5 392 s (C3 cached); retrieval p50 8–14 ms (query embedding dominates) | — |
+
+Changes: `evals/run.py`, `evals/report.py` (tie flag, generated notes), tests (evals 364 pass), `docs/22_s1_retrieval.md` (generated).
+
+---
+
 ## 2026-11-22 (cont.) — R4 step 4: report generator
 
 **Branch:** `feature/r4-retrieval-metrics`. Kousik: "go step 4".

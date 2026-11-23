@@ -6,7 +6,7 @@ import pytest
 from evals import report as RP
 
 
-def _write_run(root, name, recalls, entity=None, chunker="C1", limit=None, sha="abc"):
+def _write_run(root, name, recalls, entity=None, chunker="C1", limit=None, sha="abc", p50=10.0):
     d = root / "s1" / "dev" / name
     d.mkdir(parents=True)
     rows = []
@@ -24,7 +24,7 @@ def _write_run(root, name, recalls, entity=None, chunker="C1", limit=None, sha="
                "questions_sha256": sha, "manifest_sha256": "m" * 64, "embedder": "minilm", "table_config": "P2",
                "cleaning_version": "v2", "git_sha": "f" * 40, "questions": len(recalls), "limit": limit,
                "cache": {"built": 0, "loaded": 1}, "seconds": 1.0,
-               "latency_ms": {"total": {"p50": 10.0, "p95": 12.0}},
+               "latency_ms": {"total": {"p50": p50, "p95": 12.0}},
                "breakdown": {"overall": over, "type=lookup": over, "part=edgar": over}}
     (d / "summary.json").write_text(json.dumps(summary))
 
@@ -55,3 +55,15 @@ def test_report_refuses_mixed_or_smoke_runs(tmp_path):
         RP.load_runs("S1", "dev", ["a", "c"], root=tmp_path)
     with pytest.raises(FileNotFoundError):
         RP.load_runs("S1", "dev", ["a", "missing"], root=tmp_path)
+
+
+def test_report_flags_a_tie_at_the_pick_boundary(tmp_path):
+    _write_run(tmp_path, "C1-dense", [0.0] * 4 + [1.0] * 6)
+    _write_run(tmp_path, "C2-dense", [1.0] * 9 + [0.0], chunker="C2")
+    _write_run(tmp_path, "C5-dense", [0.0] * 2 + [1.0] * 8, chunker="C5", p50=9.0)   # faster, listed last
+    _write_run(tmp_path, "C4-dense", [1.0] * 8 + [0.0] * 2, chunker="C4", p50=11.0)
+    md = RP.render("S1", "dev", RP.load_runs("S1", "dev", ["C1-dense", "C2-dense", "C4-dense", "C5-dense"],
+                                             root=tmp_path))
+    assert "**Tie at the pick boundary:** `C5-dense`, `C4-dense`" in md and "faster wins" in md
+    assert "2. `C5-dense` — recall@budget 0.800 ← **picked**" in md
+    assert "Evidence fragmentation is 0" not in md                      # C1 has fragmented rows

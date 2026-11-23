@@ -238,5 +238,7 @@ def test_run_stage_logs_one_mlflow_run_per_config(tmp_path):
         assert "latency.total.p50_ms" in r.data.metrics and "type.lookup.mrr_at_10" in r.data.metrics
         arts = {a.path for a in mlflow.MlflowClient().list_artifacts(r.info.run_id)}
         assert arts == {"summary.json", "questions.jsonl"}
+        local = json.loads((tmp_path / "out" / "s1" / "dev" / "C3-dense" / "summary.json").read_text())
+        assert local["mlflow_run_id"] == r.info.run_id
     finally:
         mlflow.set_tracking_uri("")

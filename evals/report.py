@@ -122,11 +122,25 @@ def headline(runs: dict, qids: list[str]) -> tuple[str, dict]:
     return table, stats
 
 
+def rank_order(runs: dict, stats: dict) -> list[str]:
+    """By recall@budget (D3); ties -> faster (lower retrieval latency p50), as S0's "ties -> faster"
+    (Kousik 2026-11-22, S-2026-11-22-30)."""
+    return sorted(runs, key=lambda r: (-(stats[r]["recall@budget"]["point"] or 0),
+                                       runs[r]["summary"]["latency_ms"]["total"]["p50"]))
+
+
 def ranking(runs: dict, stats: dict, stage: str) -> tuple[str, list[str]]:
-    order = sorted(runs, key=lambda r: -(stats[r]["recall@budget"]["point"] or 0))
+    order = rank_order(runs, stats)
     k = PICKS.get(stage, 2)
     lines = [f"{i}. `{r}` — recall@budget {stats[r]['recall@budget']['point']:.3f}" +
              (" ← **picked**" if i <= k else "") for i, r in enumerate(order, 1)]
+    if len(order) > k:
+        cut = stats[order[k - 1]]["recall@budget"]["point"]
+        tied = [r for r in order if stats[r]["recall@budget"]["point"] == cut]
+        if len(tied) > 1 and any(order.index(r) >= k for r in tied):
+            lat = ", ".join(f"`{r}` {runs[r]['summary']['latency_ms']['total']['p50']:.1f} ms" for r in tied)
+            lines.append(f"\n**Tie at the pick boundary:** {', '.join(f'`{r}`' for r in tied)} have the same "
+                         f"recall@budget. Tie rule: faster wins (retrieval latency p50: {lat}), as in S0.")
     return "\n".join(lines), order[:k]
 
 
@@ -187,11 +201,32 @@ def provenance(runs: dict) -> str:
     return head + "\n\n" + md_table(["Run", "git SHA", "questions", "cache", "MLflow run", "seconds"], rows)
 
 
+def notes(runs: dict, qids: list[str]) -> str:
+    """Caveats with their numbers computed from the runs (F7)."""
+    first = next(iter(runs.values()))
+    over = first["summary"]["breakdown"]["overall"]
+    n_ans = over["recall@budget"]["n"]
+    n_unans = len(qids) - n_ans
+    n_cross = over.get("cross_doc_coverage", {}).get("n", 0)
+    n_amend = over.get("amend_coverage", {}).get("n", 0)
+    frag = sum(r.get("fragmented") or 0 for run in runs.values() for r in run["rows"].values())
+    out = [f"- n = {n_ans} answerable dev questions ({n_unans} unanswerable left out of coverage metrics). "
+           "Type and part breakdowns have single-digit n: read them as diagnostics, not results.",
+           f"- Cross-document coverage (n = {n_cross}) and amendment coverage (n = {n_amend}) are too small "
+           "to compare chunkers; H9 is judged on the full set in R8.",
+           "- The test split is untouched: S1–S3 pick on dev only (§9.3)."]
+    if frag == 0:
+        out.append("- **Evidence fragmentation is 0 for every chunker.** QA evidence spans are short (about one "
+                   "sentence), so each span lies at least 50% inside a single chunk of every chunker. On this "
+                   "question set the metric does not separate chunkers.")
+    return "\n".join(out)
+
+
 def render(stage: str, split: str, runs: dict) -> str:
     qids = sorted(next(iter(runs.values()))["rows"])
     head_table, stats = headline(runs, qids)
     rank_text, _ = ranking(runs, stats, stage)
-    order = sorted(runs, key=lambda r: -(stats[r]["recall@budget"]["point"] or 0))
+    order = rank_order(runs, stats)
     base = next(iter(runs))
     types = [(f"type = {t}", f"type={t}") for t in TYPES]
     parts = [(f"part = {p}", f"part={p}") for p in PARTS]
@@ -235,6 +270,10 @@ next table: if the CI includes 0, the pick between them is not supported by the 
 ## Diagnostic metrics (overall)
 
 {diagnostics(runs)}
+
+## Notes
+
+{notes(runs, qids)}
 
 ## Provenance
 

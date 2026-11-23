@@ -271,6 +271,7 @@ def run_stage(cfg: StageConfig, split: str, only: list[str] | None = None, limit
         if mlflow_store is not None:
             from evals.tracking import log_retrieval_run
             summary["mlflow_run_id"] = log_retrieval_run(summary, run_dir, mlflow_store)
+            (run_dir / "summary.json").write_text(json.dumps(summary, indent=2))   # local copy gets the id
         o = summary["breakdown"]["overall"]
         log.info("run %s: recall@budget %.3f, mrr@10 %.3f, entity recall %.3f (%s s)", rc.name,
                  o["recall@budget"]["mean"], o["mrr@10"]["mean"], o["entity_recall"]["mean"],
