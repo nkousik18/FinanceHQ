@@ -1,0 +1,102 @@
+{
+  "page_id": "deal_02_ca_p058",
+  "doc_id": "deal_02_ca",
+  "page": 58,
+  "stratum": "digital_prose",
+  "source_format": "html_rendered",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612.0,
+    792.0
+  ],
+  "status": "verified",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": "agent",
+  "verified_on": "2026-11-12",
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "text",
+      "bbox": [
+        36.0,
+        75.2,
+        576.7,
+        118.9
+      ],
+      "text": "6.02 Payment of Taxes. Except as would not reasonably be expected to have a Material Adverse Effect, the Borrower will pay and discharge, and will cause each Subsidiary to pay and discharge, before delinquency, all their respective tax liabilities, except where the same may be contested in good fait"
+    },
+    {
+      "id": "e2",
+      "class": "section_header",
+      "bbox": [
+        68.4,
+        131.5,
+        253.3,
+        141.4
+      ],
+      "text": "6.03 Maintenance of Property; Insurance."
+    },
+    {
+      "id": "e3",
+      "class": "text",
+      "bbox": [
+        36.0,
+        154.0,
+        576.7,
+        175.2
+      ],
+      "text": "(a) The Borrower will keep, and will cause each Subsidiary to keep, all material property useful and necessary in its business in good working order and condition, ordinary wear and tear excepted."
+    },
+    {
+      "id": "e4",
+      "class": "text",
+      "bbox": [
+        36.0,
+        187.7,
+        576.7,
+        253.9
+      ],
+      "text": "(b) The Borrower will, and will cause each of its Subsidiaries to, maintain (either in the name of the Borrower or in such Subsidiary's own name) with financially sound and responsible insurance companies (or, in the good faith business judgment of the Borrower, through self-insurance), insurance wi"
+    },
+    {
+      "id": "e5",
+      "class": "text",
+      "bbox": [
+        36.0,
+        266.5,
+        576.7,
+        366.4
+      ],
+      "text": "6.04 Conduct of Business and Maintenance of Existence. The Borrower will preserve, renew and keep in full force and effect, and will cause each Subsidiary (to the extent failure to do so would reasonably be expected to cause a Material Adverse Effect) to preserve, renew and keep in full force and ef"
+    },
+    {
+      "id": "e6",
+      "class": "page_number",
+      "bbox": [
+        301.9,
+        389.5,
+        310.9,
+        399.4
+      ],
+      "text": "53"
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6"
+  ],
+  "tables": [],
+  "key_values": [],
+  "header_footer_lines": [
+    "53"
+  ],
+  "notes": "Replacement page (S-2026-11-12-13). Pre-filled from Docling P1, checked against the image by the agent at Kousik's request; no changes needed."
+}

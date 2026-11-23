@@ -7,6 +7,293 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-22 — R3: last 5 drafting jobs
+
+**Branch:** `feature/r3-qa-golden`. Kousik: "run the remaining jobs".
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-22-1 | **Drafting complete: 92/92 jobs → 171 candidates, 13 rejected.** Last 5 (unanswerable-011…015): 8,349 tokens, $0.0018; 10/10 passed the filter, no draft issues. Unanswerable pool now 30 (quota 20). Measured over all 92 calls: mean 1,572 prompt + 508 completion. Existing review (cross_doc-003-a) not stale | Unanswerable now has slack |
+| S-2026-11-22-2 | New unanswerable drafts repeat the 2 templates seen before (projected EBITDA/cash flow/NOI; internal rating/compliance officer/audit firm) — same pattern as S-2026-11-16-13. Not pre-reviewed by the agents | For Kousik's review: pick varied ones |
+| S-2026-11-22-3 | **Review app bug fixed:** right panel (pages) empty and Keep/Drop/Later dead on every candidate with an agent suggestion. Cause: the suggestion panel reuses CSS class `.ev`; `markSpans()` looped over all `.ev` boxes, hit the panel (no evidence index) and threw, aborting `renderEditor` before the buttons were wired. Fix: select `#evs .ev` only. Checked in headless Chrome (PUT stubbed, no review written): pages + highlights render, Keep/Later send requests | Introduced in step 3b (`5dbd3fd`); Kousik reported it |
+| S-2026-11-22-4 | **Review done (Kousik):** 171 candidates → 152 keep, 19 drop. First finalise run: cross_doc 13/15 (3 amendment candidates left unreviewed, probably missed during the app bug); Kousik reviewed them and kept them | — |
+| S-2026-11-22-5 | **Finalise bug fixed:** the pick had no consumer cap, so the seeded fill took 44/120 consumer items (validator: EDGAR share ≥ 70% failed). The consumer-minimum step also took its 24 in type order (all lookup + table consumer), leaving calculation (11 EDGAR for 20 slots) and cross_doc to push consumer to 37. Fix in `pick()`: take each type's unavoidable consumer items first (they count toward the ≥ 20% minimum), then the minimum, then a fill capped at 36 consumer. 1 regression test (fails on the old code); evals 330 pass | Validator rule existed; the pick didn't respect it |
+| S-2026-11-22-6 | **QA golden set written:** `evals/golden/qa/questions.jsonl`, q0001–q0120, 40 dev / 80 test (dev 8/8/7/5/5/7), types 25/25/20/15/15/20, EDGAR 84 / consumer 36, scan evidence 11, amendment 10 (exactly the minimum), 82 edited in review, all `llm_drafted_human_verified`. 32 kept questions unused (seed 20261116). `validate_set(final=True)` passes. From now on a fix = new qid + retire the old one (F3) | R3 deliverable |
+
+---
+
+## 2026-11-16 — R3 step 2d: drafting pilot (3 jobs)
+
+**Branch:** `feature/r3-qa-golden`. Kousik committed step 2b–c (`1803284`) and OK'd the pilot.
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-16-1 | **Pilot ran** `draft --run --limit 3` (all 3 = cross_doc jobs 001–003): 10,511 tokens, $0.0027. Measured per call: prompt 2,643 (token counter off by 3.6%), completion 861 of which reasoning 232; the guess was 1,400. Remaining 89 jobs: ≈ 125k prompt + ≈ 77–125k completion ≈ **200–250k tokens, 1.1–1.3 days, < $0.10** | Pilot replaces the completion guess |
+| S-2026-11-16-2 | **Filter yield 4/6.** Both rejects (cross_doc-003) shortened the original-agreement span with "...", so it was not verbatim → correctly rejected. 2 kept candidates flagged "amendment without superseded_values" (deal_07: original was a $62,500 *closing* fee, amendment makes it an *annual facility* fee). Seen in review: entities sometimes hold a whole long definition (cross_doc-002) | Inputs for the prompt decision and Kousik's review |
+| S-2026-11-16-3 | **Two prompt rules added** (Kousik): spans are never shortened with "..."/"…" (pick a shorter contiguous sentence instead); entities are short (a value or name, ≤ ~8 words), never a whole clause. Only cross_doc-003 re-drafted (old response kept in `data/results/r3/raw_superseded/`); 001–002 kept as drafted. Re-draft: 2/2 passed the filter; both ask about the old §2.7 terms, which the amendment removed ("[Reserved]"), so the right answer is "no longer applies" (for review) | Pilot lost 2/6 to "..." spans |
+| S-2026-11-16-4 | **Full run stopped on a Groq 400 `json_validate_failed`** (cross_doc-011, LE↔CD): CFPB page text has raw `\x07` bullets; the model copied one into a span (correct per the rules) and a raw control character is invalid JSON. **Fix:** on that error code only, keep Groq's `failed_generation`, parse leniently (`strict=False`), save it as the raw response, record estimated tokens in the ledger (`usage_estimated`); any other API error still stops the run. 2 tests added (312 pass) | Spans must stay verbatim, so cleaning `\x07` out of the prompt would break the span check; salvage costs no extra tokens |
+| S-2026-11-16-5 | **Run status end of day 1:** 37/92 jobs drafted → 66 candidates kept, 8 rejected; 87.2k tokens today, $0.024 total so far. Measured mean per call 1,698 prompt + 563 completion. Remaining 55 jobs ≈ 155k tokens (< 1 day). Second stop: Groq `json_validate_failed` with an **empty** generation on `table-007` (deal_07_ca p3 = a table-of-contents page on an image filing; OCR garbled the dot leaders so `pages.py`'s TOC filter missed it). Only page of its kind among the 92 jobs (≥ 10 SECTION/ARTICLE headings check) | Waiting on Kousik: how to handle table-007 |
+| S-2026-11-16-6 | **QA review app** (Kousik: "build the review app") `evals/golden/qa/review_app/` (`server.py`, `store.py`, `index.html`; stdlib, 127.0.0.1:8766). Reads `drafts/candidates.jsonl`, writes decisions to **`drafts/reviews.json`** (separate file: candidates.jsonl is rebuilt by every draft run). Per candidate: keep / drop (reason required) / later, edited fields saved as `final`; **keep refused while F3 checks fail**; review marked **stale** if a re-draft changes the candidate (hash of draft fields). UI: shown pages with spans highlighted, prev/next page, page image (PyMuPDF, cached in `data/qa_review_images/`), select text → new evidence, live F3 check, kept-vs-quota bars. 9 tests (321 evals pass) | Same pattern as the ingestion labelling app; the finalise script reads `final` |
+| S-2026-11-16-7 | **table-007 page swapped** (Kousik: option B) via `draft.PAGE_OVERRIDES`: deal_07_ca p3 (TOC) → **p101** (compliance-certificate schedule: Liquidity ≥ $20,000,000, add-back caps 15% / $240,000). Other unused deal_07_ca table pages rejected: p2/p4 are also TOC, p97–98 blank borrowing-base forms. Seeded selection untouched, so no drafted job moves. 1 test (322 pass) | Keeps table questions for the 25 quota |
+| S-2026-11-16-8 | **Day 1 end:** run stopped at the daily budget (186.6k used today), **87/92 jobs drafted → 161 candidates kept, 13 rejected** (12 spans not verbatim, 1 page not shown). Kept per type: table 36, lookup 34, calculation 29, cross_doc 21, explain 21, unanswerable 20 (quota 25/25/20/15/15/20). One more `json_validate_failed` salvaged (table-016); table-007 on p101 drafted fine. Left: unanswerable-011…015 (≈ 14k tokens) → resume tomorrow. Cost so far ≈ $0.05 | Unanswerable has no slack until the last 5 jobs land |
+| S-2026-11-16-9 | **Finalise script** `evals/golden/qa/finalise.py` (Kousik: "write the finalise script"): uses only non-stale "keep" reviews (`final` fields, verified_by/on from the review). **Pick** exact §5.1 type quotas, seed 20261116: constraint items first (amendment cross_doc ≥ 10, scan evidence ≥ 8, consumer ≥ 24 = 20%), then seeded fill; shortfall → nothing written. **Split** 40 dev / 80 test, dev per type by largest remainder (8/8/7/5/5/7), spread evenly over stratum order (consumer / scan / amendment / EDGAR). **qids** q0001… by type then candidate id; `source_cid`, `edited`, `drafted_by` kept. Writes only if `validate_set(final=True)` passes; no overwrite without `--force`. 5 tests (327 pass) | Deterministic and auditable; F3: fixes after release = new qid + retire |
+| S-2026-11-16-10 | **Pool vs constraints (before review):** consumer 39 (need 24), scan 14 (need 8), amendment cross_doc 16 (need 10) | Review can drop at most 6 amendment, 6 scan, 15 consumer candidates before a constraint fails |
+| S-2026-11-16-11 | **Agent pre-review, human decides** (Kousik chose this over agent-decides): two Claude agents check all 161 drafts against the page text (A: cross_doc/table/unanswerable, B: lookup/calculation/explain) and write suggestions only (`drafts/suggestions_a.json`, `_b.json`: keep / fix + exact edits / drop + reason, confidence). Review app shows a suggestion panel + filter; "Apply suggested edits" fills the form, Kousik still clicks Keep/Drop. Provenance stays `llm_drafted_human_verified`. 1 test (328 pass) | Speeds review without giving up human verification |
+| S-2026-11-16-12 | **Pre-review result (161/161):** keep 39, fix 102, drop 20; all keep/fix pass F3 (re-checked by coordinator). If Kousik accepts all: lookup 34, table 32, unanswerable 20, calculation 20, explain 19, cross_doc 16; scan 12 (≥ 8), consumer 38 (≥ 24), amendment cross_doc 11 (≥ 10). **Tight:** calculation exactly 20 (8 rebuilt by the agent), amendment cross_doc 11. 18 fixes cite pages outside the drafting pages → app now also opens every page cited by the draft, review or suggestion (1 test, 329 pass) | Rebuilt questions need Kousik's check of the cited pages |
+| S-2026-11-16-13 | **Drafting failure patterns found** (for the write-up and tomorrow's 5 jobs): fake calculations on pages without figures (15/29: arithmetic on section/page numbers, doc codes); amendment questions about values the amendment didn't change; -a/-b duplicates; same value differing across a session's documents (LE vs CD, 3 refinance CDs) → question must name the document; text-layer misread on CFPB H-25(C) ($96,500 is line L04, not Cash to Close); scan OCR shifting table rows (scan_38); unanswerable questions cloned from 2 templates (projected EBITDA, internal audit firm), some with false premises | Evidence for the "LLM drafts need human review" claim; candidate prompt rules |
+
+---
+
+## 2026-11-14 — R3 step 2c: drafting script (no real run yet)
+
+**Branch:** `feature/r3-qa-golden`. Kousik: "go" on `draft.py`.
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-14-1 | **Spend/token ledger** `evals/llm/ledger.py` → `data/spend_ledger.jsonl` (gitignored, F9 pattern): one line per call with prompt/completion/reasoning tokens and $ at list price; guards before each call: $5 per run, $40 total (override flag), **190k tokens per UTC day** (200k free tier minus margin) | D7; shared with S4 later |
+| S-2026-11-14-2 | **Price gpt-oss-120b = $0.15 / $0.60 per M tokens** (in / out; reasoning billed as output), checked 2026-11-13 via aggregators quoting Groq's model docs (launch price was $0.75 out). qwen price left out until S4 needs it | D7 "published prices"; not verified on groq.com itself |
+| S-2026-11-14-3 | **Drafting call:** gpt-oss-120b, reasoning effort low, temperature 0.4, JSON mode, max 6,000 completion tokens; one system prompt (span copied exactly, entities as written, answer_numeric plain number) + one rule per type (lookup, table, calculation, explain, unanswerable, cross_doc amendment, cross_doc LE↔CD); scan pages marked "OCR text"; calls paced under 8k tokens/min | Scope §5.2–5.3 fields; Groq free-tier per-minute limit |
+| S-2026-11-14-4 | **Auto-reject only** (§5.3 step 2): span not found verbatim (exact or whitespace-insensitive) in the page it cites, a page the model wasn't shown, unanswerable with evidence, answerable without. **Everything else the F3 validator finds is kept as `draft_issues`** for Kousik's review | Scope says the script rejects on spans; Kousik decides the rest |
+| S-2026-11-14-5 | **Resumable, reviewable output:** raw response per job in `data/results/r3/raw/` (never re-asked); candidates rebuilt from all raws every run → `evals/golden/qa/drafts/candidates.jsonl` (+ `rejected.jsonl` with reasons). Nothing writes `questions.jsonl` | A stopped run (budget, 429) loses nothing; review file is separate from the set |
+| S-2026-11-14-6 | **Dry-run estimate (92 jobs, 184 candidates):** prompt 132,703 tokens (counted, o200k_harmony; max 3,138 per call) + completion guess 128,800 (300 per candidate + 800 reasoning per call) = **≈ 261,500 tokens ≈ 1.4 free-tier days, ≈ $0.10** at list price | Completion is a guess until a pilot measures it |
+
+Changes: `evals/llm/ledger.py`, `evals/golden/qa/draft.py`, `evals/tests/test_qa_draft.py` (15 tests, fake client, no network). Evals 310 pass; production untouched.
+
+### Open items
+- Kousik: OK a **pilot of 3 jobs** (≈ 8.5k tokens), then re-estimate from measured tokens, then the full run (2 days).
+
+---
+
+## 2026-11-13 (cont.) — R3 step 2b: cross_doc pairs
+
+**Branch:** `feature/r3-qa-golden`. Kousik: "go ahead" on `pairs.py`.
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-13-24 | **Amendment pairing rule** (`evals/golden/qa/pairs.py`): an amendment page's targets = "Section N.NN … is (hereby) amended/restated/deleted/replaced" and 'definition of "Term" … amended', plus terms restated right after "Section 1.01/1.1 … is amended"; original page = first body page with a line starting "SECTION N.NN Title" or '"Term" (shall) mean(s)' | Scope §5.3: pair each amendment section with the original section it changes; deterministic, no LLM |
+| S-2026-11-13-25 | **TOC pages skipped for pairing:** `pages.is_toc` or > 15 distinct section headings on the page (TOC pages ~75; body pages ≤ 9 — image filings double their text, so distinct). First version matched TOC pages in deal_03_ca / deal_07_ca (no page numbers there) | Pairs must point at the clause text |
+| S-2026-11-13-26 | **Pair choice:** "money" pairs first (label names margin/rate/commitment/ratio/maturity/fee/covenant/…, word-bounded — "Integration" matched "rate" before), seeded round robin over deals, each amendment page and original page used once; 9 amendment jobs + 3 LE↔CD jobs (same form page, consumer session) | Money targets make "value after the amendment" questions with a superseded value (H9, stale-answer rate) |
+| S-2026-11-13-27 | Bug fixed in the amendment regex: a sentence gap `[^.;]` stopped at the dot in "Section 1.01", missing 'definition of "X" in Section 1.01 … is amended' (5 pairs) | Caught by test |
+
+Corpus: 47 pairs in 11 of 12 deals (deal_05: its amended sections aren't found in the original as headings), 19 money pairs. Chosen: 9 amendment jobs over 8 deals (fees, maturity dates ×4, commitments extension, rates, negative covenants, LIBOR successor) + 3 LE↔CD jobs. With `pages.py`: **92 jobs, no shortfall** (≈ 184 candidates). Note: 2 of the 9 (deal_03, deal_11) are image filings with OCR-damaged text (doubled letters lost).
+
+Changes: `evals/golden/qa/pairs.py`, `evals/golden/qa/pages.py` (`Job.amendment`), `evals/tests/test_qa_pairs.py` (8 tests). Evals 295 pass; production untouched.
+
+### Open items
+- Next module: `draft.py` — prompts per type, Groq gpt-oss-120b call, token ledger, dry-run token estimate, span filter → `candidates.jsonl` for Kousik's review.
+
+---
+
+## 2026-11-13 (cont.) — R3 step 2a: drafting model + page selection
+
+**Branch:** `feature/r3-qa-golden`. Kousik: start R3 step 2 (drafting script), one module at a time.
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-13-20 | **Drafting model = `openai/gpt-oss-120b`** (Kousik), `reasoning_effort=low`. Groq models on the account: qwen3.8-27b, gpt-oss-120b, gpt-oss-20b (+ non-text) | Drafting with the generator (qwen) would test it on questions shaped by its own wording; 120b is the strongest. Uses the judge's daily quota, which isn't needed before S4 | scope Decision Log |
+| S-2026-11-13-21 | **≈ 1.5 candidates per final question** (Kousik): 80 single-page jobs + 12 cross_doc jobs, 2 candidates each ≈ 184 | Room for span rejects and Kousik's rejects without doubling review time | same |
+| S-2026-11-13-22 | **Page selection** (`evals/golden/qa/pages.py`, seed 20261113): buckets edgar / consumer / scan; jobs per (type, bucket) in `PLAN` (consumer 19 jobs + scan 8 jobs, so the ≥ 20% consumer and ≥ 8 scan quotas have slack); type rules: table = table ≥ 3 rows on the page, calculation = table or ≥ 6 numbers, explain = EDGAR prose ≥ 200 words without a table, all ≥ 80 words; no CFPB covers, signature pages or TOC pages; sessions round robin, page at most once per type, unused pages first, a scan shares its use with its source page | Spread across deals; consumer forms have only 29 usable pages, so they're shared between types (4 pages) | same |
+| S-2026-11-13-23 | Scan questions: evidence on the scan doc (its Apple Vision text); `session_docs` lists the whole session incl. the scan. Swapping the source page for its scan in the index is R4's job | The schema labels pages, not index contents | same |
+
+Corpus check: 1,909 pages, usable edgar 1,384 / consumer 29 / scan 38 (TOC 32, signature 112, cover 11 excluded). All 80 single-page jobs filled, deterministic.
+
+Changes: `evals/golden/qa/pages.py`, `evals/tests/test_qa_pages.py` (9 tests). Evals 287 pass; production untouched.
+
+### Open items
+- Next module: `pairs.py` (amendment section ↔ original section, LE ↔ CD pairs → 12 cross_doc jobs). Then `draft.py` (Groq + token estimate).
+
+---
+
+## 2026-11-13 (cont.) — R3 step 1: QA golden-set schema + F3 validator
+
+**Branch:** `feature/r3-qa-golden`, built on `feature/r2-chunkers` (Kousik: "start R3 now on a branch built on R2"). R2 PR #6 opened (depends on #5; merge #5 first).
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-13-15 | **`amendment: bool` added to the §5.2 schema** | H9 and the "≥ 10 amendment questions" quota need to know which questions are amendment questions; inferring it from document roles is ambiguous (a lookup on an amendment isn't an amendment question). Amendment ⇒ `superseded_values` non-empty and evidence from an amendment doc; otherwise `superseded_values` empty | scope Decision Log |
+| S-2026-11-13-16 | Sessions come from the manifest `deal_id` (EDGAR deals, CFPB scenarios), scans included; `session_docs` must all belong to `session_id` | One source of truth for sessions | same |
+| S-2026-11-13-17 | **Validator text = parse `downstream_config("P2", part)` + cleaner v2**, the text chunkers index (scope: "parser config chosen in S0"). Span match: exact, else whitespace-insensitive | Same text retrieval scores against | same |
+| S-2026-11-13-18 | **Entity / superseded-value match:** numeric values match on `numeric_tokens` (all present, with multiplicity), others on `norm_match` substring | Scope §8.3 "numbers, rates and dates after normalization; names by normalized string"; reuses the S0 normalizer | same |
+| S-2026-11-13-19 | Validator also enforces: nothing without `verified_by`/`verified_on`; unanswerable ⇔ type `unanswerable` ⇔ no evidence; cross_doc evidence from 2+ docs; calculation needs `answer_numeric`; tolerance needs a number. `--final` adds the §5.1 quotas (type counts, 40/80 split, ≥ 70% EDGAR, ≥ 20% consumer, ≥ 8 scan-evidence, ≥ 10 amendment cross_doc) | §5.1–5.3, F3 | same |
+
+Changes: `evals/golden/qa/schema.py`, `evals/golden/qa/validate.py` (CLI: `venv/bin/python -m evals.golden.qa.validate [--final]`), `evals/tests/test_qa_schema.py` (17 tests). Smoke test on real text: a correct CFPB span ("Loan Amount $162,000 NO", cfpb_cd_h25b p2) passes, an altered one is caught. Evals 278 pass.
+
+### Open items
+- Next: R3 step 2, the drafting script (Groq; estimate tokens before running) — ask Kousik first.
+
+---
+
+## 2026-11-13 (cont.) — R2: open chunker questions settled
+
+**Branch:** `feature/r2-chunkers`. Kousik answered the three open questions (each with the agent's recommendation).
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-13-10 | **C4 promotes run-in headings** (Kousik): a `text`/`list` element opening with a dotted section number + a title of ≤ 15 title-case words ending in "." ("Section 2.11 Prepayments. (a) …", "8.3.4.3 Financial Statements. …", "SECTION 2.05 — Funding of Borrowings. …", "SECTION 2.03. [Reserved].") is split into a heading and its body (`c4_layout.split_runin`). Rejected: TOC lines (rest is a page number / dot leaders), lowercase titles (garbled text, amendment instructions "1.1. Clause (a) of Section 5.08 … is amended", numbered sub-clauses), titles without a closing period. `runin_headings=False` = strict C4. **Deviation from §6.1** "boundaries from Docling elements" | Without it, 56% of numbered sections are invisible to C4 (S-2026-11-12-28), so H1 would test Docling's labels more than layout-aware chunking | scope Decision Log |
+| S-2026-11-13-11 | **C2 keeps whole-sentence overlap** (Kousik). 46% of boundaries have none (S-2026-11-12-23); reported with its results | C2's point is sentence alignment; a token fallback would make it C3-like | same |
+| S-2026-11-13-12 | **C5 stays literal p95** (Kousik). 89% of cuts are size-driven (S-2026-11-13-3), each still at the segment's largest distance; reported with its results | Any other percentile would be arbitrary without QA data; S1 judges C5 | same |
+| S-2026-11-13-13 | Rule check on all 1,023 EDGAR body elements starting "N.N…": 945 promoted. Missed on purpose/accepted: OCR-split titles ("Use of Proce ds."), titles without a period ("Section 5.10 Margin Stock") | Sampled and read before fixing the rule | — |
+| S-2026-11-13-14 | `run_metrics --chunkers …` now merges into existing results (same table config + cleaning version) instead of overwriting | Re-running one chunker shouldn't re-embed all five | `run_metrics.save` |
+
+Effect on the corpus (C4, P2/P2V, cleaner v2): run-in headings promoted EDGAR 945, scans 8, consumer 0. EDGAR distinct sections 1,215 → 1,971; C4 chunks 8,503 → **8,749**. Corpus check: 0 errors, uncovered 0.28% (unchanged: page furniture only). §8.2 for C4 now: MiniLM p5/p50/p95/max 70/208/254/254, truncation 0%, table-break 0% (34.7% split, header always repeated), sentence-break 8.0%, redundancy 5.0%, index 12.8 MB. Full tables regenerated: `docs/21_r2_chunk_metrics.md`.
+
+Changes: `evals/chunking/c4_layout.py` (`split_runin`, `runin_headings` param), `run_metrics.py` (`save` merge), tests (+18: run-in split/reject cases, C4 integration incl. strict mode with identical coverage, partial-run merge). Evals 261 pass; production untouched.
+
+### Open items
+- None left for R2. Next: open the R2 PR `feature/r2-chunkers` → `main`, then R3 (QA golden set) — ask Kousik.
+
+---
+
+## 2026-11-13 (cont.) — R2 step 5: §8.2 chunk metrics
+
+**Branch:** `feature/r2-chunkers`. Kousik: "R2 step 5 go" (C2 overlap, C4 run-in headings, C5 tuning still open; all chunkers left as built).
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-13-4 | §8.2 metrics computed from chunk **spans** (one definition for all chunkers); text a chunker adds (C1 headings/pipes, C4 prefixes) counts in size and truncation only | Provenance is the common ground; see `evals/chunking/metrics.py` docstring | scope Decision Log |
+| S-2026-11-13-5 | Definitions: truncation = > 254 MiniLM content tokens, per chunk copy + page words no chunk embeds; table-break = split and some piece touching a data row lacks the header row; sentence-break = chunk start/end not a syntok sentence edge (doc start/end excluded); redundancy = duplicate MiniLM page-token copies ÷ all copies; fragmentation = §8.3 cover rule (≥ 50% of non-blank chars) | Scope §8.2 wording made operational | same |
+| S-2026-11-13-6 | Sentence reference = C2's splitter (syntok per line), so C2/C5 only break where they split an over-long sentence: favoured by construction (disclosed) | No independent sentence labels | same |
+| S-2026-11-13-7 | Index = one FAISS IndexFlatIP per chunker over the corpus; memory = n × 384 × 4 B, disk = written file; embedding = production MiniLM, normalized, batch 64, CPU | Flat size is linear, so total = sum over sessions | same |
+| S-2026-11-13-8 | **H8 measured: supported.** C1 truncation 99.0% [98.1, 99.4] (> 50%); C2–C5 0.0% (< 5%). 23.0% [22.5, 23.4] of corpus words are embedded by no C1 chunk (R0's loan1: 22.5%) | Formal hypothesis reporting stays in R8 | scope §11 note |
+| S-2026-11-13-9 | Evidence fragmentation: implemented and tested (`metrics.fragmentation`), **pending the QA set (R3)** | Needs evidence spans | — |
+
+Changes: `evals/chunking/metrics.py`, `evals/chunking/run_metrics.py`, `evals/chunking/r2_report.py` (renders `docs/21_r2_chunk_metrics.md`, F7), `evals/tests/test_chunking_metrics.py` (23 tests); `docs/19_handoff.md` brought up to date. Evals 244 pass; production untouched.
+Bugs found by the corpus run and fixed before the final run: C1 word alignment failed across a markdown `| --- |` separator row (9,227 → 2,178 unaligned words); BOM-only "words" counted as never embedded (0.01% for C2/C3/C5 → 0%).
+
+Corpus run (92 docs, P2/P2V, cleaner v2, 0 missing; output `data/results/r2/chunk_metrics.json` + per-doc `chunk_metrics_docs.jsonl`, gitignored):
+
+| | C1 | C2 | C3 | C4 | C5 |
+|---|---|---|---|---|---|
+| Chunks | 4,774 | 9,760 | 6,583 | 8,503 | 10,744 |
+| MiniLM tokens p5/p50/p95/max | 380/476/711/1,954 | 77/176/200/200 | 253/254/254/254 | 74/213/254/254 | 54/139/200/200 |
+| tiktoken p5/p50/p95/max | 381/483/699/1,020 | 75/175/210/288 | 238/253/279/378 | 77/215/263/338 | 53/141/203/288 |
+| Words p5/p50/p95/max | 301/358/531/600 | 55/129/162/190 | 159/194/214/242 | 50/157/200/237 | 38/104/160/186 |
+| ★ Truncation rate [95% CI] | **99.0%** [98.1, 99.4] | 0% | 0% | 0% | 0% |
+| Tokens dropped per chunk copy | 49.9% | 0 | 0 | 0 | 0 |
+| ★ Page words never embedded [CI] | **23.0%** [22.5, 23.4] | 0% | 0% | 0.26% [0.20, 0.38] | 0% |
+| Tables split / broken (n = 216) | 13.0% / 13.0% | 49.1% / 49.1% | 46.8% / 46.8% | 34.7% / **0%** | 56.9% / 56.9% |
+| Sentence-break rate | 6.9% | 12.3% | 97.6% | 7.9% | 10.4% |
+| Overlap redundancy | 38.8% | 8.4% | 12.6% | 5.4% | 0% |
+| Index memory = disk | 7.0 MB | 14.3 MB | 9.6 MB | 12.5 MB | 15.7 MB |
+| Chunking / embedding time (s) | 0.5 / 83 | 9.6 / 127 | 4.8 / 102 | 8.2 / 128 | 163 / 115 |
+
+Notes:
+- C1: 2,178 page words in truncated chunks couldn't be aligned to the chunk text and count as not embedded; counting them all as embedded gives 22.76%, so the bound is tight. C1 truncation by part: EDGAR 99.6%, consumer 92.2%, scans 78.4%.
+- C1's 38.8% redundancy includes its tables, which appear twice (page text + markdown) when the two copies land in different chunks.
+- C4's never-embedded 0.26% = page headers/footers/numbers it leaves out on purpose (consumer 3.4%, scans 1.1%, EDGAR 0.2%).
+- C1's low table-break (13%) is because it also writes each table whole as markdown; its page-text copy of the rows is split more often.
+- C5's chunking time includes embedding every sentence. Timings are from one laptop run, so they're rough.
+
+### Open items
+- Still open: C2 overlap (step 2), C4 run-in headings (step 3), C5 tuning (step 4).
+- R2 deliverables now complete pending those answers → next: PR `feature/r2-chunkers` → main, then R3 (QA golden set). Ask Kousik first.
+
+---
+
+## 2026-11-13 — R2 step 4: C5 semantic chunker
+
+**Branch:** `feature/r2-chunkers`. Kousik: "go c5" (C2 overlap and C4 run-in heading questions still open; both left as built).
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-13-1 | C5 = C2's sentence units, each embedded with MiniLM; cut where adjacent cosine distance > the document's 95th percentile; no overlap | Scope §6.1, literal | scope Decision Log |
+| S-2026-11-13-2 | C5 max 200 tokens (C2), over-max segments split at their largest distance; min 50 (C4's, since C2 has none), small segments merged into the more similar neighbour if it fits | "Same min/max as C2"; C2 has no min | same |
+| S-2026-11-13-3 | **Finding:** only 10% of C5 boundaries (1,108) pass the p95 threshold; 89% (9,544) come from the 200-token max split, which still cuts at the segment's largest distance. Median per-document threshold 0.96 (p5 0.83, p95 0.99): MiniLM sees most adjacent legal sentences as far apart | Long documents, p95 = 1 cut per 20 sentences, segments far over 200 tokens | open question below |
+
+Changes: `evals/chunking/c5_semantic.py`; `check_corpus.py` (C5, exact checks); `evals/tests/test_chunking_c5.py` (10 tests, one with real MiniLM). Evals 221 pass; production untouched.
+
+Corpus run (92 docs, P2/P2V, cleaner v2; **0 errors, no empty span, every non-blank page character covered**; 163 s on CPU incl. embedding):
+
+| Chunker | Chunks | MiniLM tokens p5 / p50 / p95 / max | Over 254 | Non-blank page chars in no chunk |
+|---|---|---|---|---|
+| C5 | 10,744 | 54 / 139 / 200 / 200 | 0% | 0% |
+
+C5 detail: 319 chunks under 50 tokens (no neighbour merge fit); 2,127 contain a split over-long sentence.
+
+### Open items
+- Kousik: keep C5 literal (p95, per-sentence embeddings — mostly size-driven cuts), or tune it (e.g. lower percentile, or embed each sentence with ±1 neighbour as in common semantic chunkers) so the threshold drives more cuts? Tuning = deviation from §6.1.
+- Still open: C2 overlap (step 2), C4 run-in headings (step 3).
+- Next: R2 step 5 (§8.2 chunk metrics on the corpus) — ask Kousik first.
+
+---
+
+## 2026-11-12 (cont.) — R2 step 3: C4 layout-aware chunker
+
+**Branch:** `feature/r2-chunkers`. Kousik: "c4 please" (C2 overlap question from step 2 still open; C2 left as built).
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-12-24 | `SourceDoc` gains Docling layout elements located in the cleaned page text (19,459/19,459 found) | C4 needs layout classes with provenance | scope Decision Log |
+| S-2026-11-12-25 | C4 heading levels inferred from numbering (Docling: all level 1, no titles); unnumbered heading after a heading is joined to it; headings on ≥ 3 pages demoted to body; body-less headings kept as heading-only pieces | See Decision Log 2026-11-12 (C4 rows) | same |
+| S-2026-11-12-26 | C4 sizes: ≤ 254 content tokens incl. prefix, prefix ≤ 64, min 50 (merge), C2 sentence windows inside sections; tables split by rows with header repeated; page furniture left out | Scope §6.1 | same |
+| S-2026-11-12-27 | Table row spans trimmed of U+FEFF (provenance only; N2 re-checked: 4,774 chunks, 0 differences) | Cell text ending in a BOM gave padded spans | `source.py` |
+| S-2026-11-12-28 | **Finding:** most numbered sections in the credit agreements are **not** Docling headings: of 1,311 EDGAR elements starting like "2.11 Title." / "Section 2.11 Title.", 738 are body `text`/`list` items and 573 are `section_header`. C4, built strictly on Docling headers as the scope says, misses those boundaries | Docling labels a run-in heading ("Section 2.11 Prepayments. (a) The Borrower may…") as a paragraph | open question below |
+
+Changes: `evals/chunking/c4_layout.py`; `base.py` (`Element`, `strip_blank`); `source.py` (`locate_elements`, row-span trim); `stream.py` (`stream_from_pieces`, page offsets); `c2_sentence_window.py` (`sentence_windows` reused by C4); `check_corpus.py` (C4, word check, coverage); `evals/tests/test_chunking_c4.py` (24 tests). Evals 211 pass; app 173 pass / 2 skipped (production untouched).
+
+Corpus run (92 docs, P2/P2V, cleaner v2; **0 errors, no empty span, no chunk without a span**):
+
+| Chunker | Chunks | MiniLM tokens p5 / p50 / p95 / max | Over 254 | Non-blank page chars in no chunk |
+|---|---|---|---|---|
+| C1 | 4,774 | 380 / 476 / 711 / 1,954 | 99.0% | 0% |
+| C2 | 9,760 | 77 / 176 / 200 / 200 | 0% | 0% |
+| C3 | 6,583 | 253 / 254 / 254 / 254 | 0% | 0% |
+| C4 | 8,503 (8,132 prose, 371 table) | 74 / 213 / 254 / 254 | 0% | 0.28% (headers/footers/page numbers only) |
+
+C4 detail: 223/223 tables in chunks, 75 split by rows (header repeated in all pieces); 106 chunks under 50 tokens (83 prose that had no room to merge, 23 small tables).
+
+### Open items
+- Kousik: add a C4 rule that promotes run-in "Section 2.11 Title." paragraphs to headings (a deviation from "boundaries from Docling elements", so asking), or keep C4 strict and report the gap?
+- Still open from step 2: C2 overlap (whole-sentence only vs token fallback).
+- Next: R2 step 4 (C5 semantic) — ask Kousik first.
+
+---
+
+## 2026-11-12 (cont.) — R2 step 2: C2 sentence window, C3 fixed tokens
+
+**Branch:** `feature/r2-chunkers`
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-12-20 | Sentence splitter **syntok 1.4.4**; token counts: MiniLM's own tokenizer + **tiktoken 0.14.0 `cl100k_base`**. Both installed in `venv/` without changing other packages, pinned in `requirements-dev.txt` | pysbd broke "Section 2.11(a)."; blingfire x86-only; nltk needs data | scope Decision Log |
+| S-2026-11-12-21 | C3 = 254 content tokens (+[CLS]/[SEP] = 256), 32 overlap, word-snapped. C2 = whole sentences ≤ 200 tokens, ≤ 40 tokens of whole-sentence overlap, over-long sentences split C3-style. Both chunk the page stream across pages | Scope §6.1; no chunk truncated by MiniLM | same |
+| S-2026-11-12-22 | Invisible format chars (U+FEFF) treated as blank in all spans; C1 spans trimmed (text unchanged) | Found by the corpus run: BOM-only/BOM-edged spans in `deal_05_ca` | same |
+| S-2026-11-12-23 | **Finding:** C2 overlap often empty: 46% of boundaries have none (last sentence > 40 tokens); 23% of C2 chunks contain a split sentence | Long legal sentences; may matter for §8.2 sentence-break and evidence fragmentation | open question below |
+
+Changes: `evals/chunking/tokens.py`, `stream.py`, `c2_sentence_window.py`, `c3_fixed_tokens.py`, `check_corpus.py` (corpus correctness check), `base.py` (`is_blank`, `has_text`, `SourceDoc.trim`), C1 span trimming; `evals/tests/test_chunking_c2_c3.py` (22 tests). Evals 187 pass; app 173 pass / 2 skipped (production untouched).
+
+Corpus run (`venv/bin/python -m evals.chunking.check_corpus`; P2 digital / P2V scans, cleaner v2; 92 docs, 0 missing, **0 errors, no empty span, every non-blank page character covered by C2 and C3**):
+
+| Chunker | Chunks | MiniLM tokens p5 / p50 / p95 / max | Over 254 |
+|---|---|---|---|
+| C1 | 4,774 | 380 / 476 / 711 / 1,954 | 99.0% |
+| C2 | 9,760 | 77 / 176 / 200 / 200 | 0% |
+| C3 | 6,583 | 253 / 254 / 254 / 254 | 0% |
+
+N2 re-checked after the C1 span change: 4,774 chunks, 0 differences.
+
+### Open items
+- Kousik: keep C2's whole-sentence overlap (often none), or allow a token-level overlap when the last sentence is > 40 tokens?
+- Next: R2 step 3 (C4 layout-aware) — **ask Kousik first**.
+
+---
+
+## 2026-11-12 (cont.) — R2 step 1: chunker interface, C1 with provenance, N2
+
+**Branch:** `feature/r2-chunkers` (from `feature/r1-docling-adapter`; R1 follow-up is PR #5, open)
+
+| ID | Decision | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-12-18 | R2 done one module at a time: (1) interface + C1 + N2, (2) C2 + C3, (3) C4, (4) C5, (5) §8.2 chunk metrics on the corpus | Kousik's step-by-step preference | this log |
+| S-2026-11-12-19 | Provenance = spans into cleaned page text; C1 = evals mirror of production with tagged lines; production chunker unchanged | See scope Decision Log 2026-11-12 | `evals/chunking/` |
+
+Changes: `evals/chunking/base.py` (Span, SourceDoc, Chunk, Chunker), `source.py` (cache → adapter → cleaner v2 → SourceDoc with table-row spans), `c1_line_window.py`, `evals/tests/test_chunking_c1.py` (10 tests). N2 on the corpus: 92 docs, 4,774 chunks, 0 differences. 165 evals tests pass.
+
+### Open items
+- Next: R2 step 2 (C2 sentence window, C3 fixed tokens) — needs the MiniLM tokenizer.
+
+---
+
 ## 2026-11-12 (cont.) — Docling → production adapter; cleaning and validation metrics
 
 **Branch:** `feature/r1-docling-adapter` (from `main` after PR #3 merged)
@@ -42,10 +329,19 @@ Not affected: the S0 P1-vs-P2 decision and H10 (no golden table page comes from 
 
 ### Fixes (Kousik chose: re-render with images, 0° shim, replace golden pages) — see scope Decision Log 2026-11-12
 - Done: image filings rendered with their 350 page images (`evals/corpus/render.py`, `fetch.py --only`); scans rebuilt (only scan_27/31/32 changed); `tesseract-no-osd` shim + `ParserConfig.ocr_orientation`; golden pages replaced (`labeling replace`) → `deal_02_ca_p058`, `deal_05_am2_p001`; 5 tests (155 evals pass).
-- **In progress at commit time:** full P1/P2 re-parse (new cache keys). Until it finishes and the steps below run, `docs/20_s0_results.md` §4 numbers are from the **pre-fix** parse.
+- Committed/merged as PR #4 with the re-parse still running.
+
+### Re-run after fixes (later the same day)
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-12-15 | 2 replacement golden pages pre-filled from P1 and **checked against the image by the agent** (`labeled_by: agent`); `deal_05_am2_p001`: title and recital "A." classes fixed | Kousik asked the agent to continue | label notes |
+| S-2026-11-12-16 | **S0 re-run** on the fixed parse: decision (P2) and H10 unchanged; H6 still not supported; scan text much better (P2 CER 5.2 → 3.1%, numeric fidelity 72.6 → 84.1%) | Fixes don't touch golden tables | `docs/20_s0_results.md` §4.3 |
+| S-2026-11-12-17 | **Finding, not fixed:** `scan_03` — Docling layout labels the whole page a *picture*, OCR text is stored inside it and dropped by the reader (as in Docling's own export). Reader left as is | Only page materially affected; changing the reader would pull logo text into CFPB pages and shift the golden pre-fill | same |
+
+Re-parse: P1 and P2, 92 docs each, 0 failures. 155 evals tests pass.
 
 ### Open items
-- After re-parse: pre-fill + check the 2 new golden pages (they have no label files yet), re-run S0 + cleaning, update §4 with before/after.
+- R1 is complete apart from the split-table gap. Next: follow-up PR, then ask Kousik before R2.
 - Then: R1 leftovers done → PR; ask before R2.
 
 ---

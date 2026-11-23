@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QA Draft Review</title>
+<style>
+:root {
+  --bg: #f6f6f4; --panel: #ffffff; --ink: #1d1d1b; --muted: #6b6b66; --line: #e2e1dc;
+  --accent: #2f5fd0; --keep: #1f8a4c; --drop: #c0392b; --later: #b7791f; --stale: #8e44ad;
+  --hl0: #fde68a; --hl1: #a7f3d0; --hl2: #bfdbfe; --hl3: #fbcfe8; --sel: #eef2ff;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #161615; --panel: #1f1f1d; --ink: #ecebe6; --muted: #9b9a93; --line: #34332f;
+    --accent: #7aa2ff; --keep: #4cc283; --drop: #ff7b6b; --later: #f0b45a; --stale: #c08ae0;
+    --hl0: #6b5a12; --hl1: #145a43; --hl2: #1e3f6e; --hl3: #6a2450; --sel: #262b3d; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.45 -apple-system, system-ui, sans-serif; height: 100vh; overflow: hidden; }
+#app { display: grid; grid-template-columns: 300px minmax(380px, 1fr) minmax(380px, 1.1fr); height: 100vh; }
+.col { overflow: auto; border-right: 1px solid var(--line); }
+header { padding: 10px 12px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--bg); z-index: 2; }
+h1 { font-size: 15px; margin: 0 0 6px; }
+h2 { font-size: 13px; margin: 14px 0 6px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.quota { display: grid; grid-template-columns: 90px 1fr 48px; gap: 2px 6px; font-size: 12px; align-items: center; }
+.bar { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.bar > i { display: block; height: 100%; background: var(--keep); }
+.filters { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+select, input, textarea, button { font: inherit; color: inherit; }
+select, input[type=text], input[type=search], textarea { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; }
+textarea { width: 100%; resize: vertical; }
+.list-item { padding: 7px 12px; border-bottom: 1px solid var(--line); cursor: pointer; }
+.list-item:hover { background: var(--sel); }
+.list-item.active { background: var(--sel); box-shadow: inset 3px 0 var(--accent); }
+.list-item .q { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.meta { font-size: 12px; color: var(--muted); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.pill { font-size: 11px; padding: 0 6px; border-radius: 8px; border: 1px solid currentColor; }
+.s-keep { color: var(--keep); } .s-drop { color: var(--drop); } .s-later { color: var(--later); }
+.s-stale { color: var(--stale); } .s-todo { color: var(--muted); }
+main, aside { padding: 0 16px 80px; }
+label.f { display: block; font-size: 12px; color: var(--muted); margin: 10px 0 3px; }
+.row { display: flex; gap: 8px; align-items: center; }
+.ev { border: 1px solid var(--line); border-radius: 8px; padding: 8px; margin: 6px 0; background: var(--panel); }
+.ev .swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.warn { background: color-mix(in srgb, var(--later) 14%, transparent); border-left: 3px solid var(--later); padding: 6px 8px; border-radius: 4px; margin: 8px 0; font-size: 13px; }
+.err { background: color-mix(in srgb, var(--drop) 12%, transparent); border-left: 3px solid var(--drop); padding: 6px 8px; border-radius: 4px; margin: 8px 0; font-size: 13px; }
+.ok { color: var(--keep); font-size: 13px; margin: 8px 0; }
+.actions { position: sticky; bottom: 0; background: var(--bg); border-top: 1px solid var(--line); padding: 10px 0; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+button { border: 1px solid var(--line); background: var(--panel); border-radius: 6px; padding: 5px 10px; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button.keep { background: var(--keep); color: #fff; border-color: var(--keep); }
+button.drop { color: var(--drop); border-color: var(--drop); }
+button.later { color: var(--later); border-color: var(--later); }
+button.small { padding: 1px 7px; font-size: 12px; }
+kbd { font: 11px var(--mono); border: 1px solid var(--line); border-radius: 3px; padding: 0 3px; color: var(--muted); }
+.page { border: 1px solid var(--line); border-radius: 8px; margin: 12px 0; background: var(--panel); }
+.page-head { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; border-bottom: 1px solid var(--line); gap: 6px; flex-wrap: wrap; }
+.page pre { margin: 0; padding: 10px; white-space: pre-wrap; word-break: break-word; font: 12.5px/1.5 var(--mono); max-height: 70vh; overflow: auto; }
+.page img { width: 100%; display: block; }
+mark { color: inherit; border-radius: 2px; }
+mark.h0 { background: var(--hl0); } mark.h1 { background: var(--hl1); } mark.h2 { background: var(--hl2); } mark.h3 { background: var(--hl3); }
+.diff { font-size: 12px; color: var(--muted); }
+.empty { color: var(--muted); padding: 40px 16px; }
+.toast { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 6px 14px; border-radius: 6px; opacity: 0; transition: opacity .2s; pointer-events: none; }
+.toast.on { opacity: .92; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="col" id="left">
+    <header>
+      <h1>QA draft review</h1>
+      <div id="summary" class="meta"></div>
+      <div id="quota" class="quota" style="margin-top:8px"></div>
+      <div class="filters">
+        <select id="fStatus"><option value="">all statuses</option><option>todo</option><option>keep</option><option>drop</option><option>later</option><option>stale</option></select>
+        <select id="fSugg"><option value="">all suggestions</option><option value="keep">agent: keep</option><option value="fix">agent: fix</option><option value="drop">agent: drop</option><option value="none">no suggestion</option></select>
+        <select id="fType"><option value="">all types</option></select>
+        <input id="fText" type="search" placeholder="search" style="width:100%">
+      </div>
+    </header>
+    <div id="list"></div>
+  </div>
+  <div class="col"><main id="editor"><div class="empty">Pick a candidate on the left. <kbd>J</kbd>/<kbd>K</kbd> move through the list.</div></main></div>
+  <div class="col" style="border-right:0"><aside id="pages"></aside></div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+let META = {}, LIST = null, CUR = null, FORM = null, PAGES = [], checkTimer = null;
+
+async function api(method, url, body) {
+  const r = await fetch(url, {method, headers: {"Content-Type": "application/json"}, body: body ? JSON.stringify(body) : undefined});
+  const data = await r.json().catch(() => ({}));
+  return {ok: r.ok, status: r.status, data};
+}
+function toast(msg) { const t = $("#toast"); t.textContent = msg; t.classList.add("on"); setTimeout(() => t.classList.remove("on"), 1600); }
+
+// ---- list --------------------------------------------------------------------------------
+async function loadList() {
+  LIST = (await api("GET", "/api/list")).data;
+  const c = LIST.counts;
+  const total = LIST.items.length;
+  $("#summary").innerHTML = `${total} candidates · ` + ["todo", "keep", "drop", "later", "stale"]
+    .filter(s => c[s]).map(s => `<span class="s-${s}">${c[s]} ${s}</span>`).join(" · ");
+  const kept = Object.values(LIST.kept_by_type).reduce((a, b) => a + b, 0);
+  $("#quota").innerHTML = Object.entries(LIST.quota).map(([t, q]) => {
+    const k = LIST.kept_by_type[t] || 0;
+    return `<span>${t}</span><span class="bar"><i style="width:${Math.min(100, 100 * k / q)}%"></i></span><span>${k}/${q}</span>`;
+  }).join("") + `<b>total</b><span class="bar"><i style="width:${Math.min(100, 100 * kept / LIST.total_quota)}%"></i></span><b>${kept}/${LIST.total_quota}</b>`;
+  const types = [...new Set(LIST.items.map(i => i.type))];
+  const fType = $("#fType");
+  if (fType.options.length === 1) types.forEach(t => fType.add(new Option(t, t)));
+  renderList();
+}
+function visible() {
+  const s = $("#fStatus").value, t = $("#fType").value, q = $("#fText").value.toLowerCase(), g = $("#fSugg").value;
+  return LIST.items.filter(i => (!s || i.status === s) && (!t || i.type === t) &&
+    (!g || (g === "none" ? !i.suggest : i.suggest === g)) &&
+    (!q || i.question.toLowerCase().includes(q) || i.cid.includes(q) || i.session_id.includes(q)));
+}
+function renderList() {
+  $("#list").innerHTML = visible().map(i => `
+    <div class="list-item ${CUR && CUR.candidate.cid === i.cid ? "active" : ""}" data-cid="${i.cid}">
+      <div class="q">${esc(i.question)}</div>
+      <div class="meta"><span class="pill s-${i.status}">${i.status}</span><span>${i.cid}</span>${i.suggest ? `<span class="s-${i.suggest === "fix" ? "later" : i.suggest}" title="agent suggestion">→ ${i.suggest}</span>` : ""}
+        ${i.issues ? `<span title="draft issues">⚠ ${i.issues}</span>` : ""}${i.edited ? "<span>edited</span>" : ""}${i.scan ? "<span>scan</span>" : ""}</div>
+    </div>`).join("") || `<div class="empty">No candidates match.</div>`;
+}
+$("#list").addEventListener("click", e => { const it = e.target.closest(".list-item"); if (it) open(it.dataset.cid); });
+["fStatus", "fType", "fText", "fSugg"].forEach(id => $("#" + id).addEventListener("input", renderList));
+
+function step(d) {
+  const v = visible(); if (!v.length) return;
+  const i = CUR ? v.findIndex(x => x.cid === CUR.candidate.cid) : -1;
+  open(v[Math.max(0, Math.min(v.length - 1, i + d))].cid);
+}
+
+// ---- one candidate -------------------------------------------------------------------------
+async function open(cid) {
+  const r = await api("GET", "/api/cand/" + cid);
+  if (!r.ok) return toast("could not load " + cid);
+  CUR = r.data;
+  const src = CUR.review && CUR.status !== "stale" ? CUR.review.final : CUR.draft;
+  FORM = JSON.parse(JSON.stringify(src));
+  PAGES = CUR.pages.map(p => ({...p, image: false}));
+  renderEditor(); renderPages(); renderList(); scrollToMarks();
+  const el = $(`.list-item[data-cid="${cid}"]`); if (el) el.scrollIntoView({block: "nearest"});
+  check();
+}
+const lines = a => (a || []).join("\n");
+const unlines = s => s.split("\n").map(x => x.trim()).filter(Boolean);
+
+function renderEditor() {
+  const c = CUR.candidate, r = CUR.review, unans = c.type === "unanswerable";
+  const docs = c.session_docs;
+  $("#editor").innerHTML = `
+    <header style="margin:0 -16px;padding:10px 16px">
+      <div class="row" style="justify-content:space-between"><b>${c.cid}</b>
+        <span class="pill s-${CUR.status}">${CUR.status}${r ? " · " + esc(r.reviewed_on) : ""}</span></div>
+      <div class="meta">${c.type}${c.amendment ? " · amendment" : ""} · session ${esc(c.session_id)} · ${esc(c.drafted_by)}${c.pair_note ? " · " + esc(c.pair_note) : ""}</div>
+    </header>
+    ${CUR.status === "stale" ? `<div class="warn">The draft changed since this review (re-drafted). The form shows the new draft; your old decision was <b>${esc(r.decision)}</b>.</div>` : ""}
+    ${suggestionPanel()}
+    ${(c.draft_issues || []).map(x => `<div class="warn">Draft issue: ${esc(x)}</div>`).join("")}
+    ${unans ? `<div class="warn">Unanswerable: keep only if the answer is truly in none of this session's documents (${docs.length}).</div>` : ""}
+    <label class="f">Question</label><textarea id="q" rows="2">${esc(FORM.question)}</textarea>
+    <label class="f">Reference answer</label><textarea id="ra" rows="3">${esc(FORM.reference_answer)}</textarea>
+    <div class="row" style="justify-content:space-between"><h2>Evidence</h2>${unans ? "" : `<button class="small" id="addEv">+ evidence</button>`}</div>
+    <div id="evs"></div>
+    <label class="f">Key points (one per line)</label><textarea id="kp" rows="3">${esc(lines(FORM.key_points))}</textarea>
+    <label class="f">Entities (one per line: amounts, rates, dates, names)</label><textarea id="en" rows="2">${esc(lines(FORM.entities))}</textarea>
+    ${c.amendment ? `<label class="f">Superseded values (old values the amendment replaced, one per line)</label><textarea id="sv" rows="2">${esc(lines(FORM.superseded_values))}</textarea>` : ""}
+    <div class="row"><div><label class="f">Answer (number)</label><input id="an" type="text" size="12" value="${esc(FORM.answer_numeric ?? "")}"></div>
+      <div><label class="f">Tolerance</label><input id="nt" type="text" size="8" value="${esc(FORM.numeric_tolerance ?? "")}"></div></div>
+    <div id="checks"></div>
+    <label class="f">Note (optional)</label><input id="note" type="text" style="width:100%" value="${esc(r?.note || "")}">
+    <div class="actions">
+      <button class="keep" id="bKeep">Keep <kbd>⌘↵</kbd></button>
+      <select id="dropReason"><option value="">drop reason…</option>${META.drop_reasons.map(x => `<option ${r?.drop_reason === x ? "selected" : ""}>${x}</option>`).join("")}</select>
+      <button class="drop" id="bDrop">Drop</button>
+      <button class="later" id="bLater">Later</button>
+      <button id="bReset" title="discard edits">Reset to draft</button>
+      <span class="diff" id="diff"></span>
+    </div>`;
+  renderEvs();
+  if ($("#applySugg")) $("#applySugg").onclick = () => {
+    const sg = CUR.suggestion; Object.assign(FORM, JSON.parse(JSON.stringify(sg.edits || {})));
+    if (sg.drop_reason) $("#dropReason").value = sg.drop_reason;
+    const note = $("#note").value; renderEditor(); $("#note").value = note; renderPages(); scrollToMarks(); check();
+    if (sg.drop_reason) $("#dropReason").value = sg.drop_reason;
+    toast(sg.suggest === "drop" ? "drop reason filled in: click Drop to confirm" : "edits applied: check, then Keep");
+  };
+  $("#q").oninput = e => { FORM.question = e.target.value; changed(); };
+  $("#ra").oninput = e => { FORM.reference_answer = e.target.value; changed(); };
+  $("#kp").oninput = e => { FORM.key_points = unlines(e.target.value); changed(); };
+  $("#en").oninput = e => { FORM.entities = unlines(e.target.value); changed(); };
+  if ($("#sv")) $("#sv").oninput = e => { FORM.superseded_values = unlines(e.target.value); changed(); };
+  $("#an").oninput = e => { FORM.answer_numeric = e.target.value; changed(); };
+  $("#nt").oninput = e => { FORM.numeric_tolerance = e.target.value; changed(); };
+  if ($("#addEv")) $("#addEv").onclick = () => { const p = PAGES[0]; FORM.evidence.push({doc_id: p.doc_id, page: p.page, span_text: ""}); renderEvs(); changed(); };
+  $("#bKeep").onclick = () => save("keep");
+  $("#bDrop").onclick = () => save("drop");
+  $("#bLater").onclick = () => save("later");
+  $("#bReset").onclick = () => { FORM = JSON.parse(JSON.stringify(CUR.draft)); renderEditor(); renderPages(); check(); };
+  showDiff();
+}
+function suggestionPanel() {
+  const sg = CUR.suggestion; if (!sg) return "";
+  const cls = sg.suggest === "keep" ? "s-keep" : sg.suggest === "drop" ? "s-drop" : "s-later";
+  const edits = Object.entries(sg.edits || {}).map(([k, v]) =>
+    `<div style="margin-top:4px"><b>${esc(k)}</b>: <span style="font-family:var(--mono);font-size:12px">${esc(typeof v === "string" ? v : JSON.stringify(v))}</span></div>`).join("");
+  const can = (sg.edits && Object.keys(sg.edits).length) || sg.drop_reason;
+  return `<div class="ev" style="border-color:currentColor" >
+    <div class="row" style="justify-content:space-between"><b class="${cls}">Agent suggests: ${esc(sg.suggest)}${sg.drop_reason ? " (" + esc(sg.drop_reason) + ")" : ""}</b>
+      <span class="meta">confidence ${esc(sg.confidence || "?")}</span></div>
+    <div style="font-size:13px;margin-top:4px">${esc(sg.reason || "")}</div>${edits}
+    ${can ? `<button class="small" id="applySugg" style="margin-top:6px">${sg.suggest === "drop" ? "Use drop reason" : "Apply suggested edits"}</button>` : ""}
+    <div class="meta" style="margin-top:4px">A suggestion only: you decide.</div></div>`;
+}
+function renderEvs() {
+  const docs = CUR.candidate.session_docs;
+  $("#evs").innerHTML = FORM.evidence.map((e, i) => `
+    <div class="ev" data-i="${i}">
+      <div class="row"><span class="swatch" style="background:var(--hl${i % 4})"></span><b>#${i}</b>
+        <select data-k="doc_id">${docs.map(d => `<option ${d === e.doc_id ? "selected" : ""}>${d}</option>`).join("")}</select>
+        <span>p</span><input data-k="page" type="text" size="3" value="${esc(e.page)}">
+        <span class="spanok" style="font-size:12px"></span>
+        <button class="small" data-act="del" style="margin-left:auto">remove</button></div>
+      <textarea data-k="span_text" rows="3" style="margin-top:6px;font:12.5px/1.45 var(--mono)">${esc(e.span_text)}</textarea>
+    </div>`).join("") || `<div class="meta">No evidence.</div>`;
+  $("#evs").querySelectorAll(".ev").forEach(box => {
+    const i = +box.dataset.i;
+    box.querySelectorAll("[data-k]").forEach(inp => inp.oninput = () => {
+      const k = inp.dataset.k; FORM.evidence[i][k] = k === "page" ? (parseInt(inp.value) || inp.value) : inp.value;
+      renderPages(); changed(false);
+    });
+    box.querySelector("[data-act=del]").onclick = () => { FORM.evidence.splice(i, 1); renderEvs(); renderPages(); changed(); };
+  });
+  markSpans();
+}
+function changed(rerenderPages = true) { if (rerenderPages) renderPages(); showDiff(); clearTimeout(checkTimer); checkTimer = setTimeout(check, 350); }
+function norm(f) { return JSON.stringify(f, (k, v) => (k === "answer_numeric" || k === "numeric_tolerance") ? (v === "" ? null : (v == null ? null : +v)) : v); }
+function showDiff() { const d = $("#diff"); if (d) d.textContent = norm(FORM) === norm(CUR.draft) ? "unchanged from draft" : "edited"; }
+
+async function check() {
+  if (!CUR) return;
+  const r = await api("POST", "/api/check/" + CUR.candidate.cid, FORM);
+  const errs = r.data.errors || [];
+  $("#checks").innerHTML = errs.length ? errs.map(x => `<div class="err">${esc(x)}</div>`).join("") : `<div class="ok">✓ passes the F3 checks</div>`;
+}
+async function save(decision) {
+  const body = {decision, final: FORM, note: $("#note").value, drop_reason: $("#dropReason").value};
+  if (decision === "drop" && !body.drop_reason) { $("#dropReason").focus(); return toast("pick a drop reason"); }
+  const r = await api("PUT", "/api/review/" + CUR.candidate.cid, body);
+  if (!r.ok) { $("#checks").innerHTML = (r.data.errors || [r.data.error]).map(x => `<div class="err">${esc(x)}</div>`).join(""); return toast("not saved: fix the problems first"); }
+  toast(decision === "keep" ? "kept ✓" : decision === "drop" ? "dropped" : "saved for later");
+  const cid = CUR.candidate.cid;
+  await loadList();
+  const v = visible(), i = v.findIndex(x => x.cid === cid);
+  const next = v[i + 1] || v.find(x => x.status === "todo");
+  if (next && next.cid !== cid) open(next.cid); else open(cid);
+}
+
+// ---- pages ---------------------------------------------------------------------------------
+function spanRx(span) { const t = String(span || "").split(/\s+/).filter(Boolean); return t.length ? new RegExp(t.map(x => x.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("\\s+")) : null; }
+function highlightsFor(p) {
+  const out = [];
+  FORM.evidence.forEach((e, i) => {
+    if (e.doc_id !== p.doc_id || +e.page !== p.page) return;
+    const rx = spanRx(e.span_text), m = rx && rx.exec(p.text || "");
+    if (m) out.push([m.index, m.index + m[0].length, i]);
+  });
+  return out.sort((a, b) => a[0] - b[0]);
+}
+function markSpans() {
+  document.querySelectorAll("#evs .ev").forEach(box => {   // not the suggestion panel (also .ev)
+    const e = FORM.evidence[+box.dataset.i], p = PAGES.find(p => p.doc_id === e.doc_id && p.page === +e.page);
+    const el = box.querySelector(".spanok");
+    if (!p) { el.innerHTML = `<span class="s-later">page not open</span>`; return; }
+    const rx = spanRx(e.span_text);
+    el.innerHTML = rx && rx.test(p.text || "") ? `<span class="s-keep">found on page</span>` : `<span class="s-drop">not found verbatim</span>`;
+  });
+}
+function renderText(p) {
+  const t = p.text || "", hs = highlightsFor(p);
+  let out = "", pos = 0;
+  for (const [s, e, i] of hs) { if (s < pos) continue; out += esc(t.slice(pos, s)) + `<mark class="h${i % 4}">` + esc(t.slice(s, e)) + "</mark>"; pos = e; }
+  return out + esc(t.slice(pos));
+}
+function renderPages() {
+  if (!CUR) return;
+  $("#pages").innerHTML = PAGES.map((p, k) => `
+    <div class="page" data-k="${k}">
+      <div class="page-head">
+        <b>${esc(p.doc_id)} · p${p.page}</b><span class="meta">${p.part}${p.role ? " · " + esc(p.role) : ""}</span>
+        <span class="row">
+          <button class="small" data-act="prev" ${p.has_prev ? "" : "disabled"}>◀</button>
+          <button class="small" data-act="next" ${p.has_next ? "" : "disabled"}>▶</button>
+          <button class="small" data-act="img">${p.image ? "text" : "image"}</button>
+          <button class="small" data-act="use" title="select text below first">selection → new evidence</button>
+        </span>
+      </div>
+      ${p.image ? `<img src="/img/${p.doc_id}/${p.page}.png" alt="page image">` : `<pre>${p.text == null ? "(no text for this page)" : renderText(p)}</pre>`}
+    </div>`).join("");
+  $("#pages").querySelectorAll(".page").forEach(box => {
+    const k = +box.dataset.k, p = PAGES[k];
+    box.querySelector("[data-act=img]").onclick = () => { p.image = !p.image; renderPages(); };
+    box.querySelector("[data-act=prev]").onclick = () => goPage(k, -1);
+    box.querySelector("[data-act=next]").onclick = () => goPage(k, +1);
+    box.querySelector("[data-act=use]").onclick = () => {
+      const s = window.getSelection().toString();
+      if (!s.trim()) return toast("select a passage in this page's text first");
+      FORM.evidence.push({doc_id: p.doc_id, page: p.page, span_text: s});
+      renderEvs(); changed();
+    };
+  });
+  markSpans();
+}
+function scrollToMarks() {
+  document.querySelectorAll(".page pre").forEach(pre => { const m = pre.querySelector("mark"); if (m) pre.scrollTop = m.offsetTop - pre.offsetTop - 60; });
+}
+async function goPage(k, d) {
+  const p = PAGES[k];
+  const r = await api("GET", `/api/page/${p.doc_id}/${p.page + d}`);
+  if (r.ok) { PAGES[k] = {...r.data, image: p.image}; renderPages(); }
+}
+
+// ---- keys ----------------------------------------------------------------------------------
+document.addEventListener("keydown", e => {
+  const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
+  if ((e.metaKey || e.ctrlKey) && e.key === "Enter" && CUR) { e.preventDefault(); save("keep"); return; }
+  if (typing) return;
+  if (e.key === "j" || e.key === "ArrowDown") { e.preventDefault(); step(1); }
+  else if (e.key === "k" || e.key === "ArrowUp") { e.preventDefault(); step(-1); }
+});
+
+(async () => { META = (await api("GET", "/api/meta")).data; await loadList();
+  const first = LIST.items.find(i => i.status === "todo") || LIST.items[0]; if (first) open(first.cid); })();
+</script>
+</body>
+</html>

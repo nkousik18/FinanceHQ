@@ -1,0 +1,199 @@
+{
+  "page_id": "deal_05_am2_p001",
+  "doc_id": "deal_05_am2",
+  "page": 1,
+  "stratum": "digital_prose",
+  "source_format": "html_rendered",
+  "scan_of": null,
+  "scan_level": null,
+  "page_size": [
+    612.0,
+    792.0
+  ],
+  "status": "verified",
+  "from_scratch": false,
+  "prefill_source": "docling 2.147.0 P1",
+  "labeled_by": "agent",
+  "verified_on": "2026-11-12",
+  "reference_text_source": "text_layer",
+  "reference_text": null,
+  "layout_elements": [
+    {
+      "id": "e1",
+      "class": "page_header",
+      "bbox": [
+        36.0,
+        37.6,
+        265.8,
+        48.4
+      ],
+      "text": "EX-10.73 6 sgma-20210430xex10_73.htm EX-10.73"
+    },
+    {
+      "id": "e2",
+      "class": "page_header",
+      "bbox": [
+        419.0,
+        52.7,
+        511.5,
+        77.7
+      ],
+      "text": "Exhibit 10.73 EXECUTION VERSION"
+    },
+    {
+      "id": "e3",
+      "class": "title",
+      "bbox": [
+        199.6,
+        90.2,
+        412.3,
+        100.2
+      ],
+      "text": "SECOND AMENDMENT TO CREDIT AGREEMENT"
+    },
+    {
+      "id": "e4",
+      "class": "text",
+      "bbox": [
+        95.4,
+        114.2,
+        516.6,
+        146.7
+      ],
+      "text": "This SECOND AMENDMENT TO CREDIT AGREEMENT (this \"Amendment\") is made as of June 21, 2021, by and among SIGMATRON INTERNATIONAL, INC., a Delaware corporation (\"Borrower\"), the other Loan Parties party hereto (if any), and JPMORGAN CHASE BANK, N.A. (\"Lender\")."
+    },
+    {
+      "id": "e5",
+      "class": "section_header",
+      "bbox": [
+        281.8,
+        163.7,
+        330.1,
+        173.7
+      ],
+      "text": "RECITALS:"
+    },
+    {
+      "id": "e6",
+      "class": "list",
+      "bbox": [
+        95.4,
+        187.7,
+        516.6,
+        231.4
+      ],
+      "text": "A. Borrower and Lender have heretofore entered into a Credit Agreement dated as of January 29, 2021 (as amended, restated, supplemented or otherwise modified from time to time, the \"Credit Agreement\"). All capitalized terms used herein and not otherwise defined shall have the meanings assigned to su"
+    },
+    {
+      "id": "e7",
+      "class": "list",
+      "bbox": [
+        95.4,
+        245.5,
+        516.6,
+        266.7
+      ],
+      "text": "B. Borrower and Lender have agreed to make certain amendments to the Credit Agreement on the terms and conditions set forth herein."
+    },
+    {
+      "id": "e8",
+      "class": "text",
+      "bbox": [
+        95.4,
+        280.7,
+        516.6,
+        301.9
+      ],
+      "text": "NOW, THEREFORE, in consideration of the premises and the mutual covenants contained herein, the parties hereto hereby agree as follows:"
+    },
+    {
+      "id": "e9",
+      "class": "section_header",
+      "bbox": [
+        95.4,
+        317.5,
+        216.6,
+        327.4
+      ],
+      "text": "SECTION 1. AMENDMENTS."
+    },
+    {
+      "id": "e10",
+      "class": "text",
+      "bbox": [
+        95.4,
+        341.5,
+        516.6,
+        362.7
+      ],
+      "text": "Subject to the satisfaction of the conditions precedent set forth in Section 2 below, the Credit Agreement shall be and hereby is amended as follows:"
+    },
+    {
+      "id": "e11",
+      "class": "list",
+      "bbox": [
+        95.4,
+        376.7,
+        516.6,
+        397.9
+      ],
+      "text": "1.1. Clause (a) of Section 5.08 of the Credit Agreement is amended and restated in its entirety to read as follows:"
+    },
+    {
+      "id": "e12",
+      "class": "list",
+      "bbox": [
+        127.8,
+        411.2,
+        516.6,
+        511.2
+      ],
+      "text": "(a) The proceeds of the Loans and the Letters of Credit will be used only for working capital, other general corporate purposes including funding business operations in the ordinary course of the Borrower, its Subsidiaries and Wagz (until the consummation of the Wagz Acquisition); provided that proc"
+    },
+    {
+      "id": "e13",
+      "class": "list",
+      "bbox": [
+        95.4,
+        525.2,
+        516.6,
+        546.4
+      ],
+      "text": "1.2. Clause (l) of Section 6.04 of the Credit Agreement is amended and restated in its entirety to read as follows:"
+    },
+    {
+      "id": "e14",
+      "class": "list",
+      "bbox": [
+        127.8,
+        560.5,
+        516.6,
+        660.4
+      ],
+      "text": "(l) the Wagz Acquisition; provided that (i) the acquisition shall be consummated on or before September 30, 2021 and the number of shares of the common stock of the Borrower exchanged in the Wagz Acquisition shall not exceed 2,443,870 (or such greater amount agreed to by the Lender in its Permitted "
+    }
+  ],
+  "reading_order": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5",
+    "e6",
+    "e7",
+    "e8",
+    "e9",
+    "e10",
+    "e11",
+    "e12",
+    "e13",
+    "e14"
+  ],
+  "tables": [],
+  "key_values": [],
+  "header_footer_lines": [
+    "EX-10.73 6 sgma-20210430xex10_73.htm EX-10.73",
+    "Exhibit 10.73 EXECUTION VERSION"
+  ],
+  "notes": "Replacement page (S-2026-11-12-13). Pre-filled from Docling P1, checked against the image by the agent at Kousik's request; changed classes: {'e3': 'title', 'e6': 'list'}."
+}
