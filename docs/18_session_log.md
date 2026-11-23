@@ -7,6 +7,27 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-22 (cont.) — R5 steps 0–1: branch, R-bm25, R-hybrid
+
+**Branch:** `feature/r5-retrieval-strategies` (from `main` after PR #8 merged, `2482e45`). Kousik: "yes go, propose R5 steps", then "go with your recommendations, start step 0 and 1".
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-22-31 | **R5 steps:** 0 branch + housekeeping → 1 `R-bm25` + `R-hybrid` → 2 `R-pc` → 3 `+rerank` → 4 S2 config + run + report (H2, H3) → 5 S3 index study → PR | Scope §12 R5; one module at a time | this log |
+| S-2026-11-22-32 | **One `R-pc` configuration in S2: children C2 → parents C4 sections** (Kousik, on the agent's recommendation). "C4 × R-pc" would be the same run, since C4 chunks are the parents. **S2 = 14 runs** (C2, C4 × dense/bm25/hybrid = 6, + R-pc = 1; each ± rerank) ≤ 16 | S1 picked C2 + C4; §7 says children are C2/C3 settings, parents C4 sections | §9.3 S2 |
+| S-2026-11-22-33 | **S3 runs on the per-question views as specified, plus one pooled index of the whole dev corpus** (Kousik, on recommendation): a single session's index is small enough that HNSW/IVF barely differ from Flat; the pooled index shows the curve | §7 "the point is the curve" | step 5 |
+| S-2026-11-22-34 | Handoff (`docs/19_handoff.md`) refresh moved from the merged R4 branch to this branch; R4 marked merged | Was uncommitted on a merged branch | handoff §3 |
+| S-2026-11-22-35 | **BM25 library: `bm25s` 0.3.16** (D10): in-process, pip, numpy only; Lucene BM25, k1 1.5, b 0.75. Added to `requirements-dev.txt` | §14 D10 needs in-process + pip; `rank_bm25` is slower and unmaintained | Decision Log |
+| S-2026-11-22-36 | **BM25 tokenizer** (D10): lowercase, words + numbers, bm25s English stopwords, **no stemming**; numbers normalized (thousands commas dropped, trailing decimal zeros dropped: "$62,500.00" = "62500", "3.50" = "3.5"); "$"/"%" not tokens; "2.11" one token | H2 is about exact identifiers; stemming/splitting would blur them | Decision Log |
+| S-2026-11-22-37 | **R-bm25 returns only chunks with score > 0** (may return fewer than k) | A zero-score chunk's rank is arbitrary | `evals/retrievers/bm25.py` |
+| S-2026-11-22-38 | **R-hybrid:** dense + BM25 lists each max(20, k) deep (= §7's 20 at top_k 20), RRF k = 60 on ranks; ties → better best rank, then dense before BM25, then chunk id | §7; deterministic | `evals/retrievers/hybrid.py` |
+| S-2026-11-22-39 | **Retriever interface:** `search(index, query_vec, k, query=...)` + `needs_vector`; registry moved to `evals/retrievers/__init__.py`. Runner skips the query embedding for R-bm25 (its latency has no embed time); latency components are whatever the retriever reports (`bm25`, `fusion` added); retriever params written to `summary.json` and MLflow (`retriever.*`) | §8.3 per-component latency; provenance | `evals/run.py`, `evals/tracking.py` |
+| S-2026-11-22-40 | **Smoke check (not S2):** C2 × {dense, bm25, hybrid}, dev, top_k 20, no MLflow: all run end to end; C2-dense reproduces S1's recall@budget exactly (0.773), so the interface change didn't move the baseline. Output deleted; S2 numbers come from the step 4 report (F7) | Plumbing check | — |
+
+Changes: `evals/retrievers/{__init__,bm25,hybrid,dense}.py`, `evals/run.py`, `evals/tracking.py`, `evals/tests/test_retrievers_lexical.py` (24 tests), `requirements-dev.txt`. Evals 388 pass.
+
+---
+
 ## 2026-11-22 (cont.) — R4 step 5: S1 run
 
 **Branch:** `feature/r4-retrieval-metrics`. Kousik: "go step 5". Run at `938ea7b` (clean tree), dev 40 q (33 answerable), top_k 20, no LLM. Report: `docs/22_s1_retrieval.md`; MLflow `loandoc_retrieval_evals`, 5 runs.

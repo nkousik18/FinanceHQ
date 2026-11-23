@@ -1,4 +1,4 @@
-# Agent handoff — Retrieval & Evals initiative (updated 2026-11-13)
+# Agent handoff — Retrieval & Evals initiative (updated 2026-11-22)
 
 For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the files in "Read next".
 
@@ -20,35 +20,34 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 1. `loandoc-retrieval-evals-scope-v2.md` — the plan: metrics (§8), stages S0–S5 (§9.3), requirements (§10), hypotheses (§11), milestones R0–R8 (§12), decisions (§14), **Decision Log** (end).
 2. `docs/18_session_log.md` — what happened each session, newest first.
 3. `docs/r0_findings.md` — R0 measurements (MiniLM truncation, test repair, model switch).
-   `docs/20_s0_results.md` (S0 parsing) and `docs/21_r2_chunk_metrics.md` (R2 chunk metrics) — generated results.
+   `docs/20_s0_results.md` (S0 parsing), `docs/21_r2_chunk_metrics.md` (R2 chunk metrics) and
+   **`docs/22_s1_retrieval.md` (S1 retrieval)** — generated results (F7: never hand-edit numbers).
 4. `evals/golden/ingest/README.md` — golden-set labelling guide.
 
 ## 3. Where things stand
 
 | Milestone | Status |
 |---|---|
-| R0 | ✅ Merged to `main` (PR #2): cache-eviction fix, tests repaired, truncation measured (100% of C1 chunks > MiniLM 256 tokens), Groq model switch, placeholder PII module + Airflow DAG |
-| R1 | ✅ Merged (PR #3, #4); S0 → **P2 wins**. Follow-up branch `feature/r1-docling-adapter` (S0 re-run after parser/corpus fixes) |
-| R2 | 🔶 PR #6 open (merge #5 first). Branch **`feature/r2-chunkers`**. C1–C5 + §8.2 metrics done; results `docs/21_r2_chunk_metrics.md` (H8 supported: C1 truncation 99%, C2–C5 0%) |
-| R3 | 🔶 On **`feature/r3-qa-golden`** (built on R2). Step 1 done: QA schema + F3 validator (`python -m evals.golden.qa.validate [--final]`). Step 2 drafting (gpt-oss-120b): 92 jobs (`pages.py` + `pairs.py`), `draft.py` (span filter, D7 ledger, salvages Groq `json_validate_failed`). **2026-11-16: 87/92 jobs drafted → 161 candidates** (table-007 swapped to deal_07_ca p101, `PAGE_OVERRIDES`). Left: unanswerable-011…015 (≈14k tokens): `venv/bin/python -m evals.golden.qa.draft --run` on the next UTC day. Unanswerable has 20 candidates for a quota of 20 until those land. Step 3: **review app** `venv/bin/python -m evals.golden.qa.review_app.server` → http://127.0.0.1:8766, decisions in `drafts/reviews.json`. Then: finalise script (qids, 40 dev / 80 test from `final`), `validate --final`, R3 PR |
+| R0 | ✅ Merged (PR #2): cache-eviction fix, tests repaired, MiniLM truncation measured, Groq model switch, placeholder PII + Airflow DAG |
+| R1 | ✅ Merged (PR #3, #4): public corpus, Docling parser, ingestion golden set, S0 → **P2 wins** |
+| R2 | ✅ Merged: chunkers C1–C5 (`evals/chunking/`) + §8.2 chunk metrics (`docs/21_r2_chunk_metrics.md`) |
+| R3 | ✅ Merged (PR #7): QA golden set `evals/golden/qa/questions.jsonl`, q0001–q0120, **40 dev / 80 test**, all human-verified |
+| R4 | ✅ Merged (PR #8): retrieval metrics, runner, MLflow, report; S1 → **C2 + C4** |
+| R5 | 🔶 On **`feature/r5-retrieval-strategies`**. Steps (S-2026-11-22-31): ~~0 housekeeping~~ → ~~1 `R-bm25` + `R-hybrid`~~ → **2 `R-pc`** → 3 `+rerank` → 4 S2 run + report → 5 S3 → PR. Ask before each step |
 
-**R1 done:**
-- Public corpus, all local, no AWS: 41 SEC EDGAR docs (12 credit-agreement "deals" + amendments, 1,836 pages), 11 CFPB TRID sample forms (40 pages), 40 simulated scans. Manifest with checksums: `evals/corpus/manifest.csv`.
-- Docling 2.147.0 parsed everything: configs **P1** (fast tables) / **P2** (accurate tables), Tesseract OCR, Apple GPU (MPS). Plus **P1V/P2V** (Apple Vision OCR) on the 40 scans.
-- Ingestion golden set: 30 pages selected and pre-filled; local labelling app built; **Kousik has verified 29/30** (his files are uncommitted).
-- §8.1 metrics + S0 runner written and tested (128 evals tests); dry run works.
+**R4 (merged), what exists:**
+- `evals/retrieval/metrics.py` — all §8.3 metrics per question. Coverage = R2's `covers()` rule. Budget = copy of production `router._build_context` (greedy to 1,200 words, first chunk always in); a test pins `MAX_CONTEXT_WORDS` to production.
+- `evals/retrieval/index_cache.py` — chunk/embedding cache (`data/cache/chunks/`), key = chunker id + params + parser cache key + cleaning version + embedder + dropped pages.
+- `evals/retrieval/views.py` — per-question index view: digital session docs; a question citing a **scan** gets that scan added and its source page dropped (a global swap would hide pages 15 digital questions cite).
+- `evals/retrievers/dense.py` — `R-dense` (FAISS IndexFlatIP, normalized MiniLM, no threshold = production). Registry `RETRIEVERS` lives in `evals/retrievers/__init__.py`; interface `search(index, query_vec, k, query=...)` + `needs_vector`.
+- `evals/retrievers/bm25.py` (R5) — `R-bm25`: bm25s, own tokenizer (no stemming, numbers normalized), only score > 0 returned. `hybrid.py` — `R-hybrid`: RRF k=60 over dense + BM25 lists max(20, k) deep.
+- `evals/run.py` — runner; YAML configs in `evals/configs/` (explicit run list, never a generated product). Ranks max(top_k, 10); only top_k can enter the budget. Writes `data/results/r4/<stage>/<split>/<run>/{questions.jsonl,summary.json}` and logs one MLflow run per config.
+- `evals/tracking.py` — local MLflow (`data/mlflow/mlflow.db`), experiments `loandoc_retrieval_evals` (S1–S4), `loandoc_ingestion_evals` (S0). `@`→`_at_`, `type=x`→`type.x` in metric names.
+- `evals/report.py` — `--stage S1 --split dev` → `docs/22_s1_retrieval.md`: ★ metrics with question-bootstrap CIs, paired comparisons vs baseline (C1) and between rank neighbours, tie detection, generated notes. Refuses smoke/mixed runs. `PICKS = {"S1": 2, "S2": 3}`; `DOCS` maps (stage, split) → doc (add S2 there).
 
-**R1 remaining (in order):**
-1. ~~Golden set verified and committed~~ (30/30). ~~Pre-registration~~ (`docs/20_s0_results.md` §1–3).
-2. ~~S0 run~~ (2026-11-12): **P2 wins**; H10 supported; H6 not supported. Disputed tables were settled by the agent at Kousik's request (S-2026-11-12-1, disclosed in §4.0). Re-render tables with `venv/bin/python -m evals.ingest_metrics.s0_report`.
-3. Downstream config from now on: `downstream_config("P2", part)` (P2 digital, P2V scans).
-4. ~~Cleaning / validation metrics~~ done 2026-11-12 via `evals/parsers/production_adapter.py` (Docling → `ExtractionResult`; R2's chunker can use the same adapter). Run `venv/bin/python -m evals.ingest_metrics.run_cleaning`. Split-table rate stays a recorded gap.
-   **Cleaner v2** (`clean_extraction(..., version="v2")`) is the downstream cleaning for evals; production default stays v1 (S-2026-11-12-12).
-5. ~~Open the R1 PR to `main`~~ (merged).
+**S1 result (dev, n = 33 answerable, top_k 20):** recall@budget C2 **0.773**, C4 0.758, C5 0.758, C3 0.652, C1 0.515. C2/C4/C5 beat C1 (CIs exclude 0), indistinguishable from each other. C4 = C5 tie → **faster wins** (Kousik) → **S1 pick: C2 + C4**. Evidence fragmentation = 0 for all chunkers (spans ≈ one sentence; checked independently).
 
-**R2 (branch `feature/r2-chunkers`):** chunkers in `evals/chunking/` (C1 = exact production chunker, N2 test; C2 sentence window; C3 fixed tokens; C4 layout-aware; C5 semantic). Check provenance: `venv/bin/python -m evals.chunking.check_corpus`. Metrics: `venv/bin/python -m evals.chunking.run_metrics` (~10 min, embeds everything) then `venv/bin/python -m evals.chunking.r2_report` → `docs/21_r2_chunk_metrics.md`. Chunker questions settled 2026-11-13 (S-2026-11-13-10…12): C4 promotes run-in "Section 2.11 Title." headings (`runin_headings`, deviation recorded); C2 overlap and C5 stay as built. Evidence fragmentation waits for the QA set.
-
-**Next:** R2 PR → `main` (ask Kousik), then R3 (QA golden set, 120 questions), R4 (retrieval metrics, S1), then **stop for review** (D9).
+**R5 plan (approved 2026-11-22):** R5 = `R-bm25`, `R-hybrid` (dense top-20 + BM25 top-20, RRF k=60), `R-pc` (parent–child), `+rerank` (cross-encoder/ms-marco-MiniLM-L-6-v2, top 20 → k); **S2** = C2, C4 × {dense, bm25, hybrid, pc} ± rerank (≤ 16 runs, dev, top 3 + C1-dense baseline by recall@budget); **S3** = winner × {Flat, HNSW, IVF}, recall vs exact + latency, no pick. Kousik's choices: **one R-pc config (C2 children → C4 section parents, 800-token window cap) → S2 = 14 runs**; S3 = per-question views + one pooled whole-dev index. Baseline C1-dense comes from the S1 run (hash-checked).
 
 ## 4. Decisions you must respect (most recent)
 
@@ -56,17 +55,25 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 - **LLMs (Groq free tier, 200k tokens/day):** generator `qwen/qwen3.8-27b`, judge `openai/gpt-oss-120b` (counts hidden reasoning tokens). S5 load test = baseline + winner only, 150 req each, concurrency 1, p50/p95. Spend caps D7.
 - **No AWS anywhere.** Production app still imports S3/Textract and can't run; porting it is out of scope (R8 recommends).
 - Data rules D11: corpus is public; raw PDFs/caches under `data/` are gitignored and rebuilt by scripts.
+- **QA set is frozen.** A fix = new qid + `retired: true` on the old one (F3). Never renumber or edit in place.
+- **S1–S3 pick on dev only; test is for S4.** One decision metric per stage (D3): recall@budget for S1/S2. Ties → faster.
+- **S1 `top_k` = 20** (the 1,200-word budget binds, not chunk count). Keep it for S2 unless Kousik says otherwise.
+- Every reported number comes from a generated report (F7).
 
 ## 5. Environment and commands
 
 | What | How |
 |---|---|
-| App + evals venv | `venv/` (Python 3.12). Tests: `venv/bin/python -m pytest -q evals/tests` and `cd fastapi_service && ../venv/bin/python -m pytest -q` (169 pass, 2 stale skipped) |
+| App + evals venv | `venv/` (Python 3.12). Tests: `venv/bin/python -m pytest -q evals/tests` and `cd fastapi_service && ../venv/bin/python -m pytest -q` (evals **388** pass; app **173** pass, 2 stale skipped) |
 | Docling venv | **`venv-docling/`** (separate: Docling's numpy 2/torch/httpx conflict with the app venv). Pinned in `requirements-docling.txt` |
 | Rebuild corpus | `venv/bin/python -m evals.corpus.fetch fetch` (needs `SEC_USER_AGENT` in `.env`; CFPB PDFs must be in `data/corpus/inbox/cfpb/` — consumerfinance.gov blocks scripts) ; scans: `python -m evals.corpus.scans build` |
 | Parse | `caffeinate -i venv-docling/bin/python -m evals.parsers.docling_runner --configs P1 P2` (resumable; ~40 min for both on the M3) |
 | Labelling app | `venv/bin/python -m evals.golden.ingest.app.server` → http://127.0.0.1:8765 ; CLI: `python -m evals.golden.ingest.labeling status|validate|render` |
 | S0 | `venv/bin/python -m evals.ingest_metrics.run_s0 [--include-unverified] [--skip-corpus] [--mlflow]` → `data/results/s0/` ; MLflow store `data/mlflow/mlflow.db` |
+| QA set | validate: `venv/bin/python -m evals.golden.qa.validate --final` |
+| Retrieval stage | `venv/bin/python -m evals.run --config evals/configs/s1_chunkers.yaml --split dev [--runs C2-dense] [--limit 3] [--no-mlflow]` (cold: ~15 min for C1–C5, C5 slowest; cached: seconds). `--limit` = smoke run, tagged SMOKE, report refuses it |
+| Report | `venv/bin/python -m evals.report --stage S1 --split dev` |
+| MLflow UI | `venv/bin/mlflow ui --backend-store-uri sqlite:///data/mlflow/mlflow.db` |
 
 Tools on the Mac: Chrome 156 (HTML→PDF rendering), Tesseract 5.5.1, Apple M3 GPU (MPS), 16 GB RAM.
 
@@ -77,6 +84,12 @@ evals/corpus/      sec_client, edgar_discover, manifest(.csv), render (Chrome), 
 evals/parsers/     config (P1/P2/P1V/P2V, cache keys, downstream_config), docling_runner (venv-docling), docling_doc (cache → per-page views)
 evals/golden/ingest/  schema (labels + F4 validator), labeling (select/prefill/render), app/ (server + index.html), pages/, images/, selection.json
 evals/ingest_metrics/ normalize, text, geometry, tables (incl. TEDS), layout, confidence, run_s0
+evals/chunking/    base (Chunk/Span provenance), source (parse → cleaned SourceDoc, drop_pages), c1–c5, metrics (§8.2), run_metrics, r2_report
+evals/golden/qa/   schema + validate (F3), pages/pairs (job selection), draft (gpt-oss-120b), review_app/, finalise, questions.jsonl
+evals/llm/         ledger (D7 spend + 190k tokens/day guard)
+evals/retrieval/   metrics (§8.3), index_cache, views (scan swap)
+evals/retrievers/  __init__ (registry RETRIEVERS), dense (R-dense), bm25 (R-bm25 + tokenizer), hybrid (R-hybrid, rrf)
+evals/run.py  evals/report.py  evals/tracking.py  evals/configs/s1_chunkers.yaml
 evals/stats.py     bootstrap, ratio CI, paired diff CI, Holm
 evals/tests/       all evals tests (F8 known-answer tests per metric; F9 data-rules test)
 orchestration/     placeholder Airflow DAG (not wired in)   fastapi_service/app/privacy/pii.py  placeholder PII (not wired in)
@@ -99,3 +112,7 @@ orchestration/     placeholder Airflow DAG (not wired in)   fastapi_service/app/
 - EDGAR: same amendment is often filed twice (8-K, then 10-Q; redacted then full) — dedupe logic in `edgar_discover.dedupe_amendments`.
 - Unverified (pre-filled) golden labels **are** Docling P1 output — any run on them is a dry run, not a result.
 - Background parse runs: launch with `run_in_background`; don't poll; the runner logs to `data/parse_cache/run.log`.
+- **Import faiss only after torch** (macOS): if faiss loads first, the next MiniLM encode segfaults (two OpenMP runtimes). `evals/retrievers/dense.py::_faiss()` imports torch first — reuse it for any new FAISS code (HNSW/IVF in S3).
+- Production code is imported as `app.…` (path set by `evals/parsers/production_adapter.py`), not `fastapi_service.app.…`.
+- `value_in` (entity match) treats `62500.00` ≠ `$62,500` — numeric tokens must match exactly after normalization.
+- Groq JSON mode fails (`json_validate_failed`) on raw control chars in CFPB text; `draft.py` salvages `failed_generation`.

@@ -1,5 +1,5 @@
 """
-Eval runner (scope v2 §9.2), retrieval stages (S1 now; S2/S3 reuse it).
+Eval runner (scope v2 §9.2), retrieval stages S1–S3.
 
     venv/bin/python -m evals.run --config evals/configs/s1_chunkers.yaml --split dev
     venv/bin/python -m evals.run --config evals/configs/s1_chunkers.yaml --split dev --runs C2-dense --limit 5
@@ -8,7 +8,8 @@ Config (YAML): `stage`, `table_config`, and `runs`: an explicit list (never a ge
 {name, chunker, chunker_params?, retriever, top_k}. Per run and question:
   1. session view (views.py: digital docs, or the cited scan swapped in for its source page)
   2. each document view's chunks + vectors from the chunk/embedding cache (index_cache.py)
-  3. one FAISS index per view (like production's per-session index), query embedded with MiniLM
+  3. one FAISS index per view (like production's per-session index; BM25 built lazily on it), query
+     embedded with MiniLM when the retriever uses vectors (not R-bm25)
   4. retrieve max(top_k, 10) chunks; only the first top_k can enter the 1,200-word budget
   5. §8.3 metrics (retrieval/metrics.py), relevant chunks counted over the whole session index
 
@@ -42,7 +43,7 @@ from evals.golden.qa.validate import QUESTIONS, read_questions
 from evals.retrieval import metrics as M
 from evals.retrieval.index_cache import EMBEDDER_ID, IndexCache
 from evals.retrieval.views import DocView, session_view
-from evals.retrievers.dense import RETRIEVERS, SessionIndex
+from evals.retrievers import RETRIEVERS, SessionIndex
 
 REPO = Path(__file__).resolve().parents[1]
 OUT_ROOT = REPO / "data" / "results" / "r4"
@@ -184,7 +185,7 @@ def run_one(rc: RunConfig, questions: list[dict], corpus, cache: IndexCache, emb
     retriever = RETRIEVERS[rc.retriever]()
     amend = corpus.amendment_docs()
     sessions: dict[tuple[DocView, ...], tuple[SessionIndex, dict]] = {}
-    rows, results, lat = [], [], {"query_embed": [], "vector_search": [], "total": []}
+    rows, results, lat = [], [], {}                 # latency: component -> seconds per question
     t_run = time.perf_counter()
     for q in questions:
         view = tuple(session_view(q, corpus.part_of, corpus.role_of))
@@ -194,9 +195,9 @@ def run_one(rc: RunConfig, questions: list[dict], corpus, cache: IndexCache, emb
             sessions[view] = (idx, {p.source.doc_id: p.source for p in parts})
         idx, sources = sessions[view]
         t0 = time.perf_counter()
-        qvec = embed([q["question"]])[0]
+        qvec = embed([q["question"]])[0] if retriever.needs_vector else None
         t_embed = time.perf_counter() - t0
-        hits = retriever.search(idx, qvec, max(rc.top_k, RANK_DEPTH))
+        hits = retriever.search(idx, qvec, max(rc.top_k, RANK_DEPTH), query=q["question"])
         t_total = time.perf_counter() - t0
         ranked = [idx.chunks[i] for i in hits.ids]
         n_rel = fragmented = None
@@ -206,9 +207,10 @@ def run_one(rc: RunConfig, questions: list[dict], corpus, cache: IndexCache, emb
         part = M.question_part(q, corpus.part_of)
         r = M.score_question(q, part, ranked, hits.scores, sources, n_relevant=n_rel,
                              amendment_docs=amend, budget_pool=rc.top_k)
-        timings = {"query_embed": t_embed, **hits.timings, "total": t_total}
-        for k in lat:
-            lat[k].append(timings.get(k, 0.0))
+        timings = {**({"query_embed": t_embed} if retriever.needs_vector else {}), **hits.timings,
+                   "total": t_total}
+        for k, v in timings.items():
+            lat.setdefault(k, []).append(v)
         results.append(r)
         rows.append({"qid": q["qid"], "type": q["type"], "part": part, "split": q["split"],
                      "view": [[v.doc_id, sorted(v.drop_pages)] for v in view],
@@ -264,7 +266,7 @@ def run_stage(cfg: StageConfig, split: str, only: list[str] | None = None, limit
         log.info("run %s (%s + %s, top_k %d) on %d questions", rc.name, rc.chunker, rc.retriever,
                  rc.top_k, len(questions))
         rows, summary = run_one(rc, questions, corpus, cache, embed)
-        summary = {"run": asdict(rc), **prov, **summary,
+        summary = {"run": asdict(rc), "retriever_params": RETRIEVERS[rc.retriever].params, **prov, **summary,
                    "cache": {"built": cache.built - built0, "loaded": cache.loaded - loaded0}}
         run_dir = out_root / cfg.stage.lower() / split / rc.name
         write_run(run_dir, rows, summary)

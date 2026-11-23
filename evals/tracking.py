@@ -78,7 +78,8 @@ def log_retrieval_run(summary: dict, run_dir: Path, store: Path = STORE) -> str:
               **flat_params({k: summary[k] for k in ("stage", "split", "limit", "git_sha", "manifest_sha256",
                                                     "questions_sha256", "embedder", "table_config",
                                                     "cleaning_version")}),
-              **flat_params(summary.get("parser", {}), "parser.")}
+              **flat_params(summary.get("parser", {}), "parser."),
+              **flat_params(summary.get("retriever_params", {}), "retriever.")}
     with mlflow.start_run(run_name=name) as run:
         mlflow.set_tags({"stage": summary["stage"], "split": summary["split"], "smoke": str(smoke),
                          "chunker": rc["chunker"], "retriever": rc["retriever"]})

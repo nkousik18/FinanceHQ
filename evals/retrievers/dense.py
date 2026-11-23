@@ -9,7 +9,7 @@ session, like production).
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import numpy as np
 
@@ -29,6 +29,7 @@ class SessionIndex:
     chunks: list[Chunk]
     vectors: np.ndarray
     faiss_index: object              # faiss.Index
+    extras: dict = field(default_factory=dict)   # per-session side indexes (BM25), built lazily
 
     @classmethod
     def build(cls, parts: list[tuple[list[Chunk], np.ndarray]]) -> "SessionIndex":
@@ -52,8 +53,9 @@ class Hits:
 class DenseRetriever:
     retriever_id = "R-dense"
     params: dict = {"index": "IndexFlatIP", "metric": "inner_product", "normalized": True}
+    needs_vector = True
 
-    def search(self, index: SessionIndex, query_vec: np.ndarray, k: int) -> Hits:
+    def search(self, index: SessionIndex, query_vec: np.ndarray, k: int, query: str = "") -> Hits:
         k = min(k, index.faiss_index.ntotal)
         if k == 0:
             return Hits([], [], {"vector_search": 0.0})
@@ -63,5 +65,3 @@ class DenseRetriever:
         keep = [(int(i), float(s)) for i, s in zip(ids[0], scores[0]) if i >= 0]
         return Hits([i for i, _ in keep], [s for _, s in keep], {"vector_search": dt})
 
-
-RETRIEVERS = {"R-dense": DenseRetriever}
