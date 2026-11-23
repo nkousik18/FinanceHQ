@@ -61,6 +61,7 @@ class RunConfig:
     chunker_params: dict = field(default_factory=dict)
     parent_chunker: str | None = None        # R-pc only: the chunker whose sections are the parents
     rerank: bool = False                     # +rerank: cross-encoder over the top 20 candidates
+    index: dict | None = None                # FAISS index spec (S3; None = IndexFlatIP), evals.retrievers.ann
 
     def __post_init__(self):
         if self.chunker not in CHUNKERS:
@@ -72,6 +73,8 @@ class RunConfig:
             raise ValueError(f"run {self.name}: {self.retriever} needs a known parent_chunker")
         if not needs and self.parent_chunker is not None:
             raise ValueError(f"run {self.name}: parent_chunker only applies to parent-child retrievers")
+        from evals.retrievers.ann import parse_spec
+        parse_spec(self.index)
         if not isinstance(self.rerank, bool):
             raise ValueError(f"run {self.name}: rerank must be true/false")
         if not (isinstance(self.top_k, int) and self.top_k >= 1):
@@ -206,7 +209,7 @@ def run_one(rc: RunConfig, questions: list[dict], corpus, cache: IndexCache, emb
         view = tuple(session_view(q, corpus.part_of, corpus.role_of))
         if view not in sessions:
             parts = [cache.get(chunker, v.doc_id, v.drop_pages) for v in view]
-            idx = SessionIndex.build([(p.chunks, p.vectors) for p in parts])
+            idx = SessionIndex.build([(p.chunks, p.vectors) for p in parts], index=rc.index)
             if parent_chunker is not None:
                 from evals.retrievers.parent_child import ParentMap
                 pparts = [cache.get(parent_chunker, v.doc_id, v.drop_pages) for v in view]
@@ -248,7 +251,8 @@ def run_one(rc: RunConfig, questions: list[dict], corpus, cache: IndexCache, emb
                            "p95": None if not v else 1000 * _pct(v, 95)} for k, v in lat.items()},
         "questions": len(questions), "unlocated_spans": sum(r.unlocated for r in results),
         "sessions_built": len(sessions), "seconds": round(time.perf_counter() - t_run, 1),
-        "retriever_info": info_tot,             # totals over questions (e.g. rerank_truncated / _candidates)
+        "retriever_info": info_tot,             # totals over questions (e.g. rerank_truncated / _candidates;
+                                                # exact_overlap / exact_overlap_n = mean recall vs exact)
     }
     return rows, summary
 

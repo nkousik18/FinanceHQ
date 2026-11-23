@@ -51,4 +51,4 @@ class HybridRetriever:
         fused = rrf([dense.ids, bm_ids])[:k]
         t2 = time.perf_counter()
         return Hits([i for i, _ in fused], [s for _, s in fused],
-                    {**dense.timings, "bm25": t1 - t0, "fusion": t2 - t1})
+                    {**dense.timings, "bm25": t1 - t0, "fusion": t2 - t1}, info=dict(dense.info))

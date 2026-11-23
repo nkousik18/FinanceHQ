@@ -1,0 +1,36 @@
+# S3 (scope v2 §9.3): the S2 winner (C2 + R-hybrid + rerank; S-2026-11-23-8) × {Flat, HNSW, IVF}, dev.
+# No pick: recall vs exact search + latency curve only. Parameters (D10, S-2026-11-23-9):
+#   HNSW M 32, efConstruction 200, efSearch ∈ {16, 32, 64, 128}
+#   IVF nlist = round(sqrt(N)) per index, nprobe ∈ {1, 2, 4, 8, 16}
+# Two scopes (S-2026-11-22-33):
+#   runs:   per-question session indexes, as every other stage (evals.run); only the dense list of
+#           R-hybrid uses the FAISS index, so BM25 and the reranker are unchanged
+#   pooled: one index over the whole dev corpus (evals.index_study), where an approximate index can
+#           actually differ from Flat
+stage: S3
+table_config: P2
+runs:
+  - {name: flat,        chunker: C2, retriever: R-hybrid, rerank: true, top_k: 20, index: {type: flat}}
+  - {name: hnsw-ef16,   chunker: C2, retriever: R-hybrid, rerank: true, top_k: 20, index: {type: hnsw, ef_search: 16}}
+  - {name: hnsw-ef32,   chunker: C2, retriever: R-hybrid, rerank: true, top_k: 20, index: {type: hnsw, ef_search: 32}}
+  - {name: hnsw-ef64,   chunker: C2, retriever: R-hybrid, rerank: true, top_k: 20, index: {type: hnsw, ef_search: 64}}
+  - {name: hnsw-ef128,  chunker: C2, retriever: R-hybrid, rerank: true, top_k: 20, index: {type: hnsw, ef_search: 128}}
+  - {name: ivf-np1,     chunker: C2, retriever: R-hybrid, rerank: true, top_k: 20, index: {type: ivf, nprobe: 1}}
+  - {name: ivf-np2,     chunker: C2, retriever: R-hybrid, rerank: true, top_k: 20, index: {type: ivf, nprobe: 2}}
+  - {name: ivf-np4,     chunker: C2, retriever: R-hybrid, rerank: true, top_k: 20, index: {type: ivf, nprobe: 4}}
+  - {name: ivf-np8,     chunker: C2, retriever: R-hybrid, rerank: true, top_k: 20, index: {type: ivf, nprobe: 8}}
+  - {name: ivf-np16,    chunker: C2, retriever: R-hybrid, rerank: true, top_k: 20, index: {type: ivf, nprobe: 16}}
+pooled:
+  chunker: C2
+  repeats: 5
+  specs:
+    - {type: flat}
+    - {type: hnsw, ef_search: 16}
+    - {type: hnsw, ef_search: 32}
+    - {type: hnsw, ef_search: 64}
+    - {type: hnsw, ef_search: 128}
+    - {type: ivf, nprobe: 1}
+    - {type: ivf, nprobe: 2}
+    - {type: ivf, nprobe: 4}
+    - {type: ivf, nprobe: 8}
+    - {type: ivf, nprobe: 16}

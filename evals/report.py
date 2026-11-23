@@ -4,6 +4,7 @@ generated from the run folders, never typed by hand (F7).
 
     venv/bin/python -m evals.report --stage S1 --split dev        # -> docs/22_s1_retrieval.md
     venv/bin/python -m evals.report --stage S2 --split dev        # -> docs/23_s2_retrieval.md
+    venv/bin/python -m evals.report --stage S3 --split dev        # -> docs/24_s3_index_types.md (no pick)
 
 Reads data/results/r4/<stage>/<split>/<run>/{summary.json, questions.jsonl} for every run in the
 stage config, in config order. All runs must have scored the same questions file (sha256) and the
@@ -39,8 +40,9 @@ from evals.stats import bootstrap_ci, holm, paired_diff_ci, ratio_ci
 
 STARRED = ("recall@budget", "entity_recall")
 PICKS = {"S1": 2, "S2": 3}                     # §9.3: S1 top 2 chunkers, S2 top 3 configurations
-DOCS = {("S1", "dev"): REPO / "docs" / "22_s1_retrieval.md", ("S2", "dev"): REPO / "docs" / "23_s2_retrieval.md"}
-CONFIGS = {"S1": "s1_chunkers.yaml", "S2": "s2_retrievers.yaml"}
+DOCS = {("S1", "dev"): REPO / "docs" / "22_s1_retrieval.md", ("S2", "dev"): REPO / "docs" / "23_s2_retrieval.md",
+        ("S3", "dev"): REPO / "docs" / "24_s3_index_types.md"}
+CONFIGS = {"S1": "s1_chunkers.yaml", "S2": "s2_retrievers.yaml", "S3": "s3_index_types.yaml"}
 SAME = ("questions_sha256", "manifest_sha256", "embedder", "table_config", "cleaning_version")
 TYPES = ("lookup", "table", "calculation", "cross_doc", "explain", "unanswerable")
 PARTS = ("edgar", "consumer", "simulated_scan")
@@ -435,6 +437,93 @@ next table: if the CI includes 0, the pick between them is not supported by the 
 """
 
 
+# ---- S3: index types (no pick) -----------------------------------------------------------------
+def index_label(spec: dict | None) -> str:
+    from evals.retrievers.ann import parse_spec
+    sp = parse_spec(spec)
+    if sp["type"] == "hnsw":
+        return f"HNSW M={sp['M']} efC={sp['ef_construction']} efSearch={sp['ef_search']}"
+    if sp["type"] == "ivf":
+        return f"IVF nlist={sp['nlist']} nprobe={sp['nprobe']}"
+    return "Flat (exact)"
+
+
+def render_s3(split: str, runs: dict, pooled: dict) -> str:
+    qids = sorted(next(iter(runs.values()))["rows"])
+    names = list(runs)
+    base = names[0]
+    rows = []
+    for name, run in runs.items():
+        sm = run["summary"]
+        ci = bootstrap_ci(values(run, "recall@budget", qids))
+        d = paired_diff_ci(values(runs[base], "recall@budget", qids), values(run, "recall@budget", qids))
+        info = sm.get("retriever_info") or {}
+        ov = info["exact_overlap"] / info["exact_overlap_n"] if info.get("exact_overlap_n") else None
+        vs, tot = sm["latency_ms"]["vector_search"], sm["latency_ms"]["total"]
+        rows.append([f"`{name}`", index_label(sm["run"].get("index")), ci_cell(ci),
+                     "–" if name == base else diff_cell(d), "1 (exact)" if name == base else f3(ov),
+                     f"{1000 * vs['p50']:.0f} / {1000 * vs['p95']:.0f}", f"{tot['p50']:.0f}"])
+    n = bootstrap_ci(values(runs[base], "recall@budget", qids))["n"]
+    session = md_table(["Run", "Index", f"★ recall@budget (n={n})", "diff vs Flat [95% CI]",
+                        "dense top-20 recall vs exact (mean)", "vector search µs p50 / p95", "total ms p50"], rows)
+    prow = []
+    for r in pooled["results"]:
+        sp = r["spec"]
+        label = index_label(sp) + (f" (nlist used {r['nlist_used']})" if "nlist_used" in r else "")
+        prow.append([label, f"{r['build_s']:.2f}", f"{r['bytes'] / 2**20:.1f}",
+                     f"{r['recall_vs_exact@10']['mean']:.3f} (min {r['recall_vs_exact@10']['min']:.2f})",
+                     f"{r['recall_vs_exact@20']['mean']:.3f} (min {r['recall_vs_exact@20']['min']:.2f})",
+                     f"{1000 * r['search_ms']['p50']:.0f} / {1000 * r['search_ms']['p95']:.0f}"])
+    pooled_tab = md_table(["Index", "build s", "size MB", "recall vs exact @10", "recall vs exact @20",
+                           "search µs p50 / p95"], prow)
+    sizes = sorted(r["index_chunks"] for r in next(iter(runs.values()))["rows"].values())
+    return f"""# S3 Results — Index types ({split} split)
+
+**Generated** by `venv/bin/python -m evals.report --stage S3 --split {split}` from
+`data/results/r4/s3/{split}/` (per-session runs: `venv/bin/python -m evals.run --config
+evals/configs/s3_index_types.yaml`; pooled study: `venv/bin/python -m evals.index_study --config
+evals/configs/s3_index_types.yaml`). Do not edit numbers by hand (F7). Parameters and scope:
+`docs/18_session_log.md` (S-2026-11-22-33, S-2026-11-23-9).
+
+**No pick** (§9.3): this stage shows the recall-vs-latency curve of approximate FAISS indexes against
+exact search (`IndexFlatIP`, production). Configuration = the S2 winner, `C2` + `R-hybrid` + rerank; only
+the dense list of R-hybrid uses the FAISS index. "Recall vs exact" (§8.3) = share of exact search's top k
+that the approximate index's top k contains, per query, averaged.
+
+## Per-question session indexes (as in every other stage)
+
+Session index sizes over the {len(qids)} dev questions: {sizes[0]}–{sizes[-1]} chunks (median
+{sizes[len(sizes) // 2]}). Latency per question; the total is dominated by the CPU reranker.
+
+{session}
+
+## Pooled index: the whole dev corpus
+
+{pooled['n_vectors']:,} `{pooled['chunker']}` vectors ({pooled['n_docs']} documents, each once, scans included;
+d = {pooled['dim']}), {pooled['n_queries']} dev questions as queries. Search latency = median of
+{pooled['repeats']} single-query searches per question, then p50 / p95 over questions (FAISS
+{pooled['faiss_version']}, {pooled['search_threads']} thread — single-threaded in the evals, see `dense._faiss`). Top 20 is
+what R-hybrid takes from the dense list.
+
+{pooled_tab}
+
+## Notes
+
+- Index building is offline (as production builds a session's index at upload); build time and size are
+  shown for the rollout question (R8: does the winner fit a 1 GB host?).
+- The test split is untouched (§9.3).
+
+## Provenance
+
+Questions file sha256 `{pooled['questions_sha256'][:16]}…`, manifest `{pooled['manifest_sha256'][:16]}…`,
+embedder `{pooled['embedder']}`. Pooled study git SHA `{pooled['git_sha'][:12]}`.
+
+{md_table(["Run", "git SHA", "MLflow run", "seconds"],
+          [[f"`{n}`", r["summary"]["git_sha"][:12], str(r["summary"].get("mlflow_run_id", "–"))[:12],
+            str(r["summary"]["seconds"])] for n, r in runs.items()])}
+"""
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--stage", default="S1")
@@ -451,7 +540,13 @@ def main(argv: list[str] | None = None) -> int:
         raise ValueError("questions file changed since the runs; re-run the stage before reporting")
     questions = {q["qid"]: q for q in read_questions(QUESTIONS)}
     out = a.out or DOCS.get((a.stage, a.split)) or REPO / "docs" / f"{a.stage.lower()}_{a.split}_retrieval.md"
-    out.write_text(render(a.stage, a.split, runs, questions))
+    if a.stage == "S3":
+        pooled = json.loads((OUT_ROOT / "s3" / a.split / "pooled" / "summary.json").read_text())
+        if any(pooled[k] != next(iter(runs.values()))["summary"][k] for k in SAME if k in pooled):
+            raise ValueError("pooled study and per-session runs used different setups; re-run both")
+        out.write_text(render_s3(a.split, runs, pooled))
+    else:
+        out.write_text(render(a.stage, a.split, runs, questions))
     print(f"wrote {out.relative_to(REPO) if out.is_relative_to(REPO) else out}")
     return 0
 
