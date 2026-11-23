@@ -7,6 +7,21 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-22 (cont.) — R4 step 1: §8.3 retrieval metrics
+
+**Branch:** `feature/r4-retrieval-metrics` (from `main` after PR #7). Kousik: "start step 1".
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-22-7 | **R4 steps:** 1 metrics (pure, tested) → 2 runner + chunk/embedding cache → 3 local MLflow logging → 4 report generator → 5 run S1 on dev | Scope §12 R4; one module at a time | this log |
+| S-2026-11-22-8 | **`evals/retrieval/metrics.py`:** all §8.3 QA metrics per question from a ranked chunk list. Coverage reuses R2's `covers()` / `locate_evidence()` (one rule for fragmentation and retrieval). Budget = copy of production `router._build_context` (greedy to 1,200 words, first chunk always in, first misfit stops the loop); a test pins `MAX_CONTEXT_WORDS` to production's | "after the same trimming production uses" |
+| S-2026-11-22-9 | **Metric choices:** ndcg/map ideal = min(10, relevant chunks in the whole session index) (runner passes it; default = relevant in the ranking); context precision = RAGAS (mean precision@i at relevant ranks); precision@k divides by k even if fewer chunks come back; entity recall uses R3's `value_in` (so `62500.00` ≠ `$62,500`); noise ratio, cross-doc and amendment coverage are measured **within the budget**; `amend_only_superseded` = original span covered, no amending span; unanswerable → coverage metrics None, context_words/redundancy kept; unlocatable span = not covered, counted in `unlocated` | Definitions §8.3 leaves open |
+| S-2026-11-22-10 | Corpus part per question: `simulated_scan` if any evidence on a scan, `consumer` for `cfpb*` sessions, else `edgar` (finalise strata) | §8.3 breakdown by part |
+
+Changes: `evals/retrieval/{__init__,metrics}.py`, `evals/tests/test_retrieval_metrics.py` (14 tests). Evals 344 pass; app 173 pass, 2 skipped. Latency and recall-vs-exact metrics come with the runner (step 2) and S3.
+
+---
+
 ## 2026-11-22 — R3: last 5 drafting jobs
 
 **Branch:** `feature/r3-qa-golden`. Kousik: "run the remaining jobs".
