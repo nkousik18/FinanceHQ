@@ -1,4 +1,4 @@
-# Agent handoff — Retrieval & Evals initiative (updated 2026-11-22)
+# Agent handoff — Retrieval & Evals initiative (updated 2026-11-23)
 
 For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the files in "Read next".
 
@@ -10,8 +10,11 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 - **Git:** never commit to `main`. Feature branches (`feature/<name>`), merged by PR (`gh pr create` / `gh pr merge --merge`).
   After each chunk of work, commit + push (or remind Kousik with the exact command) — he usually says "commit and push".
   Commit trailer: `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`; PR bodies end with the Claude Code line.
-- **Log everything.** Every decision/finding/change goes into `docs/18_session_log.md` (new `## YYYY-MM-DD` section, IDs `S-<date>-<n>`)
-  and implementation choices into the **Decision Log** at the end of `loandoc-retrieval-evals-scope-v2.md`. Kousik checks this.
+- **Log everything — not just final decisions** (S-2026-11-23-23). `docs/18_session_log.md` (one section per step, IDs `S-<date>-<n>`)
+  records: findings **with numbers**, every option put to Kousik **and the rejected ones with reasons**, alternatives you
+  considered and dropped, smoke-check observations, bugs found/fixed, PR/merge events. Write it as each step finishes.
+  Implementation choices also go into the **Decision Log** at the end of `loandoc-retrieval-evals-scope-v2.md`. Kousik uses
+  the log to make and defend decisions; he checks it.
 - **Don't commit Kousik's label files** (`evals/golden/ingest/pages/*.json`) unless he asks — stage your own files explicitly, never `git add -A`.
 - If a fixed decision (scope §14) looks wrong in practice: stop and ask, don't work around it.
 
@@ -49,6 +52,23 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 **S1 result (dev, n = 33 answerable, top_k 20):** recall@budget C2 **0.773**, C4 0.758, C5 0.758, C3 0.652, C1 0.515. C2/C4/C5 beat C1 (CIs exclude 0), indistinguishable from each other. C4 = C5 tie → **faster wins** (Kousik) → **S1 pick: C2 + C4**. Evidence fragmentation = 0 for all chunkers (spans ≈ one sentence; checked independently).
 
 **S2 result (dev, n = 33, recall@budget):** C2-hybrid+rerank **0.864**, then a 3-way tie at 0.833 (C2-bm25, C2-bm25+rerank, C2-dense+rerank) → faster wins → **S2 picks: C2-hybrid+rerank, C2-bm25, C2-bm25+rerank** (+ C1-dense baseline 0.515) — **kept by Kousik** (S-2026-11-23-8). No ranking neighbours distinguishable. H2, H3 inconclusive on dev. Report: `venv/bin/python -m evals.report --stage S2 --split dev`.
+
+**R6 — next, only after Kousik merges PR #9 and says go.** Scope §12 R6, §8.4–8.6, §9.5, D7. Propose the steps to Kousik
+before writing code. Suggested:
+1. **Generation harness:** Groq native streaming (§9.5), client-side timestamps (TTFT, TTFS, inter-token, tokens/s, e2e),
+   citation prompt (`[chunk_id]`), generator `qwen/qwen3.8-27b`; cost guard (`--confirm-cost`) + D7 ledger (`evals/llm/ledger.py`,
+   190k tokens/day guard); deterministic §8.4 metrics first (numeric exact match, refusal correctness, false-refusal,
+   stale-answer, citation precision/recall, format compliance). Tests with a fake stream; smoke on a few dev questions.
+2. **Judge** (`openai/gpt-oss-120b`, counts hidden reasoning tokens): versioned rubric for faithfulness (claim by claim),
+   hallucination count, answer correctness (correct/partial/wrong), completeness, relevance (1–5).
+3. **Calibration (§8.6):** 50 dev answers mixed across configurations → labelling tool for Kousik → Cohen's κ (weighted for
+   relevance). **Gate: κ ≥ 0.6 on faithfulness and correctness** before any judge number is reported; rubric fixes re-tested on a
+   fresh 25 dev answers, never on test.
+4. **S4 on test:** the 3 S2 picks + C1-dense baseline × 80 test questions; ranked by answer correctness; Holm-adjusted paired
+   comparisons (§9.6, required in S4); latency means/medians only (percentiles are S5). Estimate tokens first — the Groq free
+   tier is ~200k tokens/day, so S4 + judging will span several days (runner must be resumable).
+5. Dev-only extras for the top configuration: noise sensitivity, run-to-run consistency (3 runs, temperature 0). Then H4, H5, H7
+   verdicts and the S4 report.
 
 **R5 plan (approved 2026-11-22):** R5 = `R-bm25`, `R-hybrid` (dense top-20 + BM25 top-20, RRF k=60), `R-pc` (parent–child), `+rerank` (cross-encoder/ms-marco-MiniLM-L-6-v2, top 20 → k); **S2** = C2, C4 × {dense, bm25, hybrid, pc} ± rerank (≤ 16 runs, dev, top 3 + C1-dense baseline by recall@budget); **S3** = winner × {Flat, HNSW, IVF}, recall vs exact + latency, no pick. Kousik's choices: **one R-pc config (C2 children → C4 section parents, 800-token window cap) → S2 = 14 runs**; S3 = per-question views + one pooled whole-dev index. Baseline C1-dense comes from the S1 run (hash-checked).
 
