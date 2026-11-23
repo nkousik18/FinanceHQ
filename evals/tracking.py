@@ -65,6 +65,8 @@ def retrieval_metrics(summary: dict) -> dict[str, float]:
     out["unlocated_spans"] = summary["unlocated_spans"]
     out["questions"] = summary["questions"]
     out["run_seconds"] = summary["seconds"]
+    for k, v in (summary.get("retriever_info") or {}).items():
+        out[metric_name("retriever", k)] = v
     return out
 
 
@@ -82,7 +84,8 @@ def log_retrieval_run(summary: dict, run_dir: Path, store: Path = STORE) -> str:
               **flat_params(summary.get("retriever_params", {}), "retriever.")}
     with mlflow.start_run(run_name=name) as run:
         mlflow.set_tags({"stage": summary["stage"], "split": summary["split"], "smoke": str(smoke),
-                         "chunker": rc["chunker"], "retriever": rc["retriever"]})
+                         "chunker": rc["chunker"], "retriever": rc["retriever"],
+                         "rerank": str(rc.get("rerank", False))})
         mlflow.log_params(params)
         mlflow.log_metrics(retrieval_metrics(summary))
         for f in ("summary.json", "questions.jsonl"):

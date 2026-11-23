@@ -43,7 +43,7 @@ from evals.golden.qa.validate import QUESTIONS, read_questions
 from evals.retrieval import metrics as M
 from evals.retrieval.index_cache import EMBEDDER_ID, IndexCache
 from evals.retrieval.views import DocView, session_view
-from evals.retrievers import RETRIEVERS, SessionIndex
+from evals.retrievers import RETRIEVERS, SessionIndex, make_retriever
 
 REPO = Path(__file__).resolve().parents[1]
 OUT_ROOT = REPO / "data" / "results" / "r4"
@@ -60,6 +60,7 @@ class RunConfig:
     top_k: int
     chunker_params: dict = field(default_factory=dict)
     parent_chunker: str | None = None        # R-pc only: the chunker whose sections are the parents
+    rerank: bool = False                     # +rerank: cross-encoder over the top 20 candidates
 
     def __post_init__(self):
         if self.chunker not in CHUNKERS:
@@ -71,6 +72,8 @@ class RunConfig:
             raise ValueError(f"run {self.name}: {self.retriever} needs a known parent_chunker")
         if not needs and self.parent_chunker is not None:
             raise ValueError(f"run {self.name}: parent_chunker only applies to parent-child retrievers")
+        if not isinstance(self.rerank, bool):
+            raise ValueError(f"run {self.name}: rerank must be true/false")
         if not (isinstance(self.top_k, int) and self.top_k >= 1):
             raise ValueError(f"run {self.name}: top_k must be a positive int")
 
@@ -188,11 +191,12 @@ def _pct(xs: list[float], q: float) -> float | None:
 
 def run_one(rc: RunConfig, questions: list[dict], corpus, cache: IndexCache, embed) -> tuple[list[dict], dict]:
     chunker = CHUNKERS[rc.chunker](**rc.chunker_params)
-    retriever = RETRIEVERS[rc.retriever]()
+    retriever = make_retriever(rc.retriever, rc.rerank)
     parent_chunker = CHUNKERS[rc.parent_chunker]() if rc.parent_chunker else None
     amend = corpus.amendment_docs()
     sessions: dict[tuple[DocView, ...], tuple[SessionIndex, dict]] = {}
     rows, results, lat = [], [], {}                 # latency: component -> seconds per question
+    info_tot: dict[str, int] = {}
     t_run = time.perf_counter()
     for q in questions:
         view = tuple(session_view(q, corpus.part_of, corpus.role_of))
@@ -223,21 +227,32 @@ def run_one(rc: RunConfig, questions: list[dict], corpus, cache: IndexCache, emb
                    "total": t_total}
         for k, v in timings.items():
             lat.setdefault(k, []).append(v)
+        for k, v in hits.info.items():
+            info_tot[k] = info_tot.get(k, 0) + v
         results.append(r)
         rows.append({"qid": q["qid"], "type": q["type"], "part": part, "split": q["split"],
                      "view": [[v.doc_id, sorted(v.drop_pages)] for v in view],
                      "index_chunks": len(idx.chunks), "n_relevant": n_rel, "unlocated": r.unlocated,
                      "spans": len(q["evidence"]), "fragmented": fragmented,
                      "n_budget": r.n_budget, "metrics": r.metrics, "ranked": r.ranked,
-                     "timings_s": timings})
+                     "timings_s": timings, **({"retriever_info": hits.info} if hits.info else {})})
     summary = {
         "breakdown": M.breakdown(results),
         "latency_ms": {k: {"p50": None if not v else 1000 * _pct(v, 50),
                            "p95": None if not v else 1000 * _pct(v, 95)} for k, v in lat.items()},
         "questions": len(questions), "unlocated_spans": sum(r.unlocated for r in results),
         "sessions_built": len(sessions), "seconds": round(time.perf_counter() - t_run, 1),
+        "retriever_info": info_tot,             # totals over questions (e.g. rerank_truncated / _candidates)
     }
     return rows, summary
+
+
+def make_retriever_params(rc: RunConfig) -> dict:
+    p = dict(RETRIEVERS[rc.retriever].params)
+    if rc.rerank:
+        from evals.retrievers.rerank import Reranked
+        p["rerank"] = Reranked.params_extra
+    return p
 
 
 # ---- stage -------------------------------------------------------------------------------------
@@ -275,10 +290,10 @@ def run_stage(cfg: StageConfig, split: str, only: list[str] | None = None, limit
     out: dict[str, dict] = {}
     for rc in runs:
         built0, loaded0 = cache.built, cache.loaded
-        log.info("run %s (%s + %s, top_k %d) on %d questions", rc.name, rc.chunker, rc.retriever,
-                 rc.top_k, len(questions))
+        log.info("run %s (%s + %s%s, top_k %d) on %d questions", rc.name, rc.chunker, rc.retriever,
+                 "+rerank" if rc.rerank else "", rc.top_k, len(questions))
         rows, summary = run_one(rc, questions, corpus, cache, embed)
-        summary = {"run": asdict(rc), "retriever_params": RETRIEVERS[rc.retriever].params, **prov, **summary,
+        summary = {"run": asdict(rc), "retriever_params": make_retriever_params(rc), **prov, **summary,
                    "cache": {"built": cache.built - built0, "loaded": cache.loaded - loaded0}}
         run_dir = out_root / cfg.stage.lower() / split / rc.name
         write_run(run_dir, rows, summary)

@@ -33,14 +33,14 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 | R2 | ✅ Merged: chunkers C1–C5 (`evals/chunking/`) + §8.2 chunk metrics (`docs/21_r2_chunk_metrics.md`) |
 | R3 | ✅ Merged (PR #7): QA golden set `evals/golden/qa/questions.jsonl`, q0001–q0120, **40 dev / 80 test**, all human-verified |
 | R4 | ✅ Merged (PR #8): retrieval metrics, runner, MLflow, report; S1 → **C2 + C4** |
-| R5 | 🔶 On **`feature/r5-retrieval-strategies`**. Steps (S-2026-11-22-31): ~~0 housekeeping~~ → ~~1 `R-bm25` + `R-hybrid`~~ → ~~2 `R-pc`~~ → **3 `+rerank`** → 4 S2 run + report → 5 S3 → PR. Ask before each step |
+| R5 | 🔶 On **`feature/r5-retrieval-strategies`**. Steps (S-2026-11-22-31): ~~0 housekeeping~~ → ~~1 `R-bm25` + `R-hybrid`~~ → ~~2 `R-pc`~~ → ~~3 `+rerank`~~ → **4 S2 run + report** → 5 S3 → PR. Ask before each step |
 
 **R4 (merged), what exists:**
 - `evals/retrieval/metrics.py` — all §8.3 metrics per question. Coverage = R2's `covers()` rule. Budget = copy of production `router._build_context` (greedy to 1,200 words, first chunk always in); a test pins `MAX_CONTEXT_WORDS` to production.
 - `evals/retrieval/index_cache.py` — chunk/embedding cache (`data/cache/chunks/`), key = chunker id + params + parser cache key + cleaning version + embedder + dropped pages.
 - `evals/retrieval/views.py` — per-question index view: digital session docs; a question citing a **scan** gets that scan added and its source page dropped (a global swap would hide pages 15 digital questions cite).
 - `evals/retrievers/dense.py` — `R-dense` (FAISS IndexFlatIP, normalized MiniLM, no threshold = production). Registry `RETRIEVERS` lives in `evals/retrievers/__init__.py`; interface `search(index, query_vec, k, query=...)` + `needs_vector`.
-- `evals/retrievers/bm25.py` (R5) — `R-bm25`: bm25s, own tokenizer (no stemming, numbers normalized), only score > 0 returned. `hybrid.py` — `R-hybrid`: RRF k=60 over dense + BM25 lists max(20, k) deep. `parent_child.py` — `R-pc`: C2 children → C4 sections rebuilt from page text, 800-token window cap, child skipped if ≥ 50% inside a returned parent; run config needs `parent_chunker: C4`.
+- `evals/retrievers/bm25.py` (R5) — `R-bm25`: bm25s, own tokenizer (no stemming, numbers normalized), only score > 0 returned. `hybrid.py` — `R-hybrid`: RRF k=60 over dense + BM25 lists max(20, k) deep. `parent_child.py` — `R-pc`: C2 children → C4 sections rebuilt from page text, 800-token window cap, child skipped if ≥ 50% inside a returned parent; run config needs `parent_chunker: C4`. `rerank.py` — `+rerank` wrapper (`rerank: true` in a run config), CPU cross-encoder, reports `rerank_truncated`.
 - `evals/run.py` — runner; YAML configs in `evals/configs/` (explicit run list, never a generated product). Ranks max(top_k, 10); only top_k can enter the budget. Writes `data/results/r4/<stage>/<split>/<run>/{questions.jsonl,summary.json}` and logs one MLflow run per config.
 - `evals/tracking.py` — local MLflow (`data/mlflow/mlflow.db`), experiments `loandoc_retrieval_evals` (S1–S4), `loandoc_ingestion_evals` (S0). `@`→`_at_`, `type=x`→`type.x` in metric names.
 - `evals/report.py` — `--stage S1 --split dev` → `docs/22_s1_retrieval.md`: ★ metrics with question-bootstrap CIs, paired comparisons vs baseline (C1) and between rank neighbours, tie detection, generated notes. Refuses smoke/mixed runs. `PICKS = {"S1": 2, "S2": 3}`; `DOCS` maps (stage, split) → doc (add S2 there).
@@ -64,7 +64,7 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 
 | What | How |
 |---|---|
-| App + evals venv | `venv/` (Python 3.12). Tests: `venv/bin/python -m pytest -q evals/tests` and `cd fastapi_service && ../venv/bin/python -m pytest -q` (evals **398** pass; app **173** pass, 2 stale skipped) |
+| App + evals venv | `venv/` (Python 3.12). Tests: `venv/bin/python -m pytest -q evals/tests` and `cd fastapi_service && ../venv/bin/python -m pytest -q` (evals **407** pass; app **173** pass, 2 stale skipped) |
 | Docling venv | **`venv-docling/`** (separate: Docling's numpy 2/torch/httpx conflict with the app venv). Pinned in `requirements-docling.txt` |
 | Rebuild corpus | `venv/bin/python -m evals.corpus.fetch fetch` (needs `SEC_USER_AGENT` in `.env`; CFPB PDFs must be in `data/corpus/inbox/cfpb/` — consumerfinance.gov blocks scripts) ; scans: `python -m evals.corpus.scans build` |
 | Parse | `caffeinate -i venv-docling/bin/python -m evals.parsers.docling_runner --configs P1 P2` (resumable; ~40 min for both on the M3) |
@@ -88,7 +88,7 @@ evals/chunking/    base (Chunk/Span provenance), source (parse → cleaned Sourc
 evals/golden/qa/   schema + validate (F3), pages/pairs (job selection), draft (gpt-oss-120b), review_app/, finalise, questions.jsonl
 evals/llm/         ledger (D7 spend + 190k tokens/day guard)
 evals/retrieval/   metrics (§8.3), index_cache, views (scan swap)
-evals/retrievers/  __init__ (registry RETRIEVERS), dense (R-dense), bm25 (R-bm25 + tokenizer), hybrid (R-hybrid, rrf), parent_child (R-pc, ParentMap)
+evals/retrievers/  __init__ (registry RETRIEVERS), dense (R-dense), bm25 (R-bm25 + tokenizer), hybrid (R-hybrid, rrf), parent_child (R-pc, ParentMap), rerank (Reranked; make_retriever)
 evals/run.py  evals/report.py  evals/tracking.py  evals/configs/s1_chunkers.yaml
 evals/stats.py     bootstrap, ratio CI, paired diff CI, Holm
 evals/tests/       all evals tests (F8 known-answer tests per metric; F9 data-rules test)

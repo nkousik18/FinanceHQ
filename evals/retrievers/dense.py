@@ -49,6 +49,7 @@ class Hits:
     scores: list[float]
     timings: dict[str, float]  # seconds per component
     chunks: list[Chunk] | None = None   # retrievers that return chunks not in the index (R-pc parents)
+    info: dict = field(default_factory=dict)   # per-question counts to report (e.g. rerank_truncated)
 
     def ranked(self, index: "SessionIndex") -> list[Chunk]:
         return self.chunks if self.chunks is not None else [index.chunks[i] for i in self.ids]

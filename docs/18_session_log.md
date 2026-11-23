@@ -7,6 +7,20 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-22 (cont.) — R5 step 3: +rerank
+
+**Branch:** `feature/r5-retrieval-strategies`. Kousik: "step 3".
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-22-47 | **`+rerank`** (`evals/retrievers/rerank.py`): wraps any retriever; base top max(20, k) candidates → `cross-encoder/ms-marco-MiniLM-L-6-v2` scores (question, chunk text) → top k; ties → base order. **CPU** (production-like small host), max_length 512, batch = one question's candidates | §7 |
+| S-2026-11-22-48 | Run config `rerank: true|false`; `make_retriever(name, rerank)`; summary + MLflow get `retriever_params.rerank`, tag `rerank`, latency component `rerank`, and per-run totals `retriever_info` (`rerank_candidates`, `rerank_truncated`; per question in `questions.jsonl`) | Per-component latency (§8.3); truncation visible | `evals/run.py`, `evals/tracking.py` |
+| S-2026-11-22-49 | **Finding (smoke, dev, not S2): the reranker truncates 421 / 682 (62%) of R-pc parent candidates** at 512 tokens — it scores only the first ~490 tokens of an ~800-token parent. C2 / C4 candidates: 0 truncated. Rerank adds ≈ 170–220 ms p50 per question on CPU for 254-token chunks, ≈ 470 ms for parents (smoke run timings) | Affects how "R-pc + rerank" should be read. **Open for Kousik:** keep as specified (rerank the parents, report truncation) or rerank R-pc's children before parent mapping | — |
+
+Changes: `evals/retrievers/{rerank,dense,__init__}.py`, `evals/run.py`, `evals/tracking.py`, `evals/tests/test_retriever_rerank.py` (9 tests, one with the real cross-encoder). Evals 407 pass. Smoke output deleted.
+
+---
+
 ## 2026-11-22 (cont.) — R5 step 2: R-pc (parent–child)
 
 **Branch:** `feature/r5-retrieval-strategies`. Kousik: "run step 2".
