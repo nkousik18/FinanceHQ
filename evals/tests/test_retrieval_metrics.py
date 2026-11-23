@@ -159,3 +159,11 @@ def test_question_part():
     assert M.question_part(_q(evidence=[{"doc_id": "scan_27", "page": 1, "span_text": "x"}]), parts) == \
         "simulated_scan"
     assert M.question_part(_q(session_id="cfpb_le_cd_1"), parts) == "consumer"
+
+
+def test_index_coverage_counts_relevant_chunks_and_fragmented_spans():
+    ev = [M.Evidence("ca", 1, "closing fee of $62,500"), M.Evidence("am", 1, "annual facility fee of $75,000"),
+          M.Evidence("ca", 1, "nowhere in the text")]
+    loc = M.locate_all(ev, SOURCES)
+    assert M.index_coverage([C_ORIG, C_OTHER], loc, SOURCES) == (1, 1)    # am span fragmented; unlocated not counted
+    assert M.index_coverage([C_ORIG, C_AMEND], loc, SOURCES) == (2, 0)

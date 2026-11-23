@@ -96,6 +96,19 @@ def count_relevant(chunks: list[Chunk], loc: Located, sources: dict[str, SourceD
     return sum(bool(coverage(c, loc, sources)) for c in chunks)
 
 
+def index_coverage(chunks: list[Chunk], loc: Located, sources: dict[str, SourceDoc]) -> tuple[int, int]:
+    """Over a whole index: (relevant chunks, located spans no single chunk covers). The second is
+    §8.2 evidence fragmentation's numerator, per question."""
+    covered: set[int] = set()
+    n_rel = 0
+    for c in chunks:
+        cv = coverage(c, loc, sources)
+        n_rel += bool(cv)
+        covered |= cv
+    located = {i for i, s in enumerate(loc.spans) if s is not None}
+    return n_rel, len(located - covered)
+
+
 # ---- rank metrics on a coverage list (pure; cov[i] = spans covered by the chunk at rank i+1) ----
 def recall_at(cov: list[frozenset[int]], n_spans: int, k: int) -> float:
     return len(frozenset().union(*cov[:k])) / n_spans

@@ -7,6 +7,20 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-22 (cont.) — R4 step 4: report generator
+
+**Branch:** `feature/r4-retrieval-metrics`. Kousik: "go step 4".
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-22-21 | **`evals/report.py`** (`--stage S1 --split dev` → `docs/22_s1_retrieval.md`, F7: generated only). ★ recall@budget and entity recall: mean + question-bootstrap 95% CI; paired per-question bootstrap vs the baseline (first config = C1 + R-dense, production) **and between neighbours in the ranking** (is #2 distinguishable from #3); Holm p vs baseline shown for information (§9.6 requires Holm in S4 only); pick = top 2 by recall@budget point estimate (D3), with the tie caveat printed; breakdowns by type and part; all other metrics diagnostic | §9.6, §9.3 |
+| S-2026-11-22-22 | Report **refuses** runs on different question files / qid sets, smoke (`--limit`) runs, and missing runs | No mixed or partial comparisons |
+| S-2026-11-22-23 | **Evidence fragmentation (★ §8.2) now measured in the runner**: per question, located spans no single chunk in its index covers (`metrics.index_coverage`); report pools it with a question-bootstrap ratio CI. Closes R2's "pending QA set" | R2 left it for R3/R4 |
+
+Changes: `evals/report.py`, `evals/retrieval/metrics.py` (`index_coverage`), `evals/run.py` (`spans`, `fragmented` per row), `evals/tests/test_report.py` (2), 1 metrics test. Evals 363 pass; app 173 pass, 2 skipped. The C3 check run from step 2 predates the fragmentation field: S1 (step 5) re-runs everything.
+
+---
+
 ## 2026-11-22 (cont.) — R4 step 3: local MLflow logging
 
 **Branch:** `feature/r4-retrieval-metrics`. Kousik: "go step 3 and s1 keep 20".

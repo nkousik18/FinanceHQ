@@ -199,10 +199,10 @@ def run_one(rc: RunConfig, questions: list[dict], corpus, cache: IndexCache, emb
         hits = retriever.search(idx, qvec, max(rc.top_k, RANK_DEPTH))
         t_total = time.perf_counter() - t0
         ranked = [idx.chunks[i] for i in hits.ids]
-        n_rel = None
+        n_rel = fragmented = None
         if q["evidence"] and not q.get("unanswerable"):
             ev = [M.Evidence(e["doc_id"], e["page"], e["span_text"]) for e in q["evidence"]]
-            n_rel = M.count_relevant(idx.chunks, M.locate_all(ev, sources), sources)
+            n_rel, fragmented = M.index_coverage(idx.chunks, M.locate_all(ev, sources), sources)
         part = M.question_part(q, corpus.part_of)
         r = M.score_question(q, part, ranked, hits.scores, sources, n_relevant=n_rel,
                              amendment_docs=amend, budget_pool=rc.top_k)
@@ -213,6 +213,7 @@ def run_one(rc: RunConfig, questions: list[dict], corpus, cache: IndexCache, emb
         rows.append({"qid": q["qid"], "type": q["type"], "part": part, "split": q["split"],
                      "view": [[v.doc_id, sorted(v.drop_pages)] for v in view],
                      "index_chunks": len(idx.chunks), "n_relevant": n_rel, "unlocated": r.unlocated,
+                     "spans": len(q["evidence"]), "fragmented": fragmented,
                      "n_budget": r.n_budget, "metrics": r.metrics, "ranked": r.ranked,
                      "timings_s": timings})
     summary = {
