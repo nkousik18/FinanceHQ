@@ -9,7 +9,7 @@ session, like production).
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import numpy as np
 
@@ -17,10 +17,14 @@ from evals.chunking.base import Chunk
 
 
 def _faiss():
-    """faiss, imported after torch. On macOS faiss and torch each ship an OpenMP runtime; if faiss
-    loads first, the next MiniLM encode segfaults (checked 2026-11-22). Torch first is safe."""
+    """faiss, imported after torch, single-threaded. On macOS faiss and torch each ship an OpenMP
+    runtime: if faiss loads first, the next MiniLM encode segfaults (checked 2026-11-22); and with
+    torch loaded, any FAISS OpenMP parallel region (batch search, nq > 1) segfaults (checked
+    2026-11-23). One FAISS thread avoids both; single-query search — what the evals and production
+    do — doesn't use OpenMP threads anyway."""
     import torch  # noqa: F401
     import faiss
+    faiss.omp_set_num_threads(1)
     return faiss
 
 
@@ -29,17 +33,24 @@ class SessionIndex:
     chunks: list[Chunk]
     vectors: np.ndarray
     faiss_index: object              # faiss.Index
+    extras: dict = field(default_factory=dict)   # per-session side indexes (BM25), built lazily
 
     @classmethod
-    def build(cls, parts: list[tuple[list[Chunk], np.ndarray]]) -> "SessionIndex":
+    def build(cls, parts: list[tuple[list[Chunk], np.ndarray]], index: dict | None = None) -> "SessionIndex":
+        """`index`: FAISS index spec (evals.retrievers.ann; None = IndexFlatIP, production). A non-flat
+        index keeps an exact IndexFlatIP in extras["exact"] for the recall-vs-exact measurement."""
         chunks = [c for cs, _ in parts for c in cs]
         vecs = [v for _, v in parts if len(v)]
         x = np.vstack(vecs).astype(np.float32) if vecs else np.zeros((0, 384), np.float32)
         if len(x) != len(chunks):
             raise ValueError(f"{len(x)} vectors for {len(chunks)} chunks")
-        index = _faiss().IndexFlatIP(x.shape[1])
-        index.add(x)
-        return cls(chunks, x, index)
+        flat = _faiss().IndexFlatIP(x.shape[1])
+        flat.add(x)
+        from evals.retrievers.ann import parse_spec
+        if parse_spec(index)["type"] == "flat":
+            return cls(chunks, x, flat)
+        from evals.retrievers import ann
+        return cls(chunks, x, ann.build(x, index), extras={"exact": flat})
 
 
 @dataclass
@@ -47,13 +58,19 @@ class Hits:
     ids: list[int]           # positions in SessionIndex.chunks, rank order
     scores: list[float]
     timings: dict[str, float]  # seconds per component
+    chunks: list[Chunk] | None = None   # retrievers that return chunks not in the index (R-pc parents)
+    info: dict = field(default_factory=dict)   # per-question counts to report (e.g. rerank_truncated)
+
+    def ranked(self, index: "SessionIndex") -> list[Chunk]:
+        return self.chunks if self.chunks is not None else [index.chunks[i] for i in self.ids]
 
 
 class DenseRetriever:
     retriever_id = "R-dense"
     params: dict = {"index": "IndexFlatIP", "metric": "inner_product", "normalized": True}
+    needs_vector = True
 
-    def search(self, index: SessionIndex, query_vec: np.ndarray, k: int) -> Hits:
+    def search(self, index: SessionIndex, query_vec: np.ndarray, k: int, query: str = "") -> Hits:
         k = min(k, index.faiss_index.ntotal)
         if k == 0:
             return Hits([], [], {"vector_search": 0.0})
@@ -61,7 +78,12 @@ class DenseRetriever:
         scores, ids = index.faiss_index.search(query_vec.reshape(1, -1).astype(np.float32), k)
         dt = time.perf_counter() - t0
         keep = [(int(i), float(s)) for i, s in zip(ids[0], scores[0]) if i >= 0]
-        return Hits([i for i, _ in keep], [s for _, s in keep], {"vector_search": dt})
+        hits = Hits([i for i, _ in keep], [s for _, s in keep], {"vector_search": dt})
+        if "exact" in index.extras:                   # S3: approximate index vs exact search, untimed
+            from evals.retrievers.ann import overlap
+            _, ex = index.extras["exact"].search(query_vec.reshape(1, -1).astype(np.float32), k)
+            ov = overlap(hits.ids, [int(i) for i in ex[0] if i >= 0])
+            if ov is not None:
+                hits.info.update({"exact_overlap": ov, "exact_overlap_n": 1})
+        return hits
 
-
-RETRIEVERS = {"R-dense": DenseRetriever}

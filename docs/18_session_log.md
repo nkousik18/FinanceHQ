@@ -7,6 +7,114 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-23 (cont.) — R5 wrap-up: PR, options considered, logging rule
+
+Kousik asked that **every discovery and every discussion** be logged, not only final decisions, so that each decision can be checked or defended later. This section adds what earlier sections left out: the options presented to Kousik and the ones rejected, with reasons.
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-23-15 | **R5 PR #9 opened** (`feature/r5-retrieval-strategies` → `main`), waiting for Kousik's review. R6 not started (needs Kousik's go) | Plan S-2026-11-22-31 ends with the PR | GitHub #9 |
+| S-2026-11-23-16 | **Rejected (S2 R-pc variants, 2026-11-22):** a second R-pc configuration with C3 children → C4 parents (16 runs). Rejected on the agent's recommendation: C3 lost S1 (0.652 vs C2 0.773), and the 2 extra runs would test a chunker already ruled out | Keeps S2 at 14 runs, all on S1's picks | S-2026-11-22-32 |
+| S-2026-11-23-17 | **Rejected (S3 scope, 2026-11-22):** per-session indexes only. Rejected because sessions hold 3–1,489 chunks, too few for HNSW/IVF to differ from Flat; the S3 results confirmed it (per-session recall vs exact ≥ 0.95 for every HNSW setting) | The curve needs a bigger index | S-2026-11-22-33, S-2026-11-23-12 |
+| S-2026-11-23-18 | **Rejected (R-pc + rerank, 2026-11-23, Kousik chose option 1):** reranking R-pc's *children* before parent mapping (option 2). It would avoid the 62% truncation of ~800-token parents, but it changes §7's "rerank the candidates" and would need a Decision Log deviation. Result for the record: R-pc + rerank is the weakest S2 config (0.667), and the truncation is a likely contributor; not tested | Follow the spec; measure the cost | S-2026-11-22-49, S-2026-11-23-4 |
+| S-2026-11-23-19 | **Rejected (S2 picks, 2026-11-23, Kousik kept the rule):** replacing the third pick C2-bm25+rerank with C2-dense+rerank for a more varied S4. Both have recall@budget 0.833; the rule's choice rests on a ~50 ms rerank-latency gap (CPU noise) | Pre-committed rule over a post-hoc choice | S-2026-11-23-8 |
+| S-2026-11-23-20 | **Rejected (R-pc design, agent, 2026-11-22):** fixed, non-overlapping 800-token blocks per section as parents (simpler duplicate removal, parents precomputable). Rejected for centred windows (as proposed to Kousik), so a child near a block edge still gets context on both sides; overlap handled by the covered-child skip (S-2026-11-22-43) | Matches the approved proposal | S-2026-11-22-42 |
+| S-2026-11-23-21 | **Rejected (R-pc rank metrics, agent):** counting relevant *parents* for ndcg/map (map every relevant child to its parent). Rejected as itself an approximation (a non-relevant child's parent can also cover evidence); children count kept and the caveat printed in the report | Decision metric unaffected | S-2026-11-22-44 |
+| S-2026-11-23-22 | **Rejected (BM25 zero-score results, agent):** returning zero-score chunks in index order to always fill k. Rejected: their rank would be arbitrary. Consequence: R-bm25 can return fewer than 20 chunks (e.g. 704 rerank candidates for 40 questions vs 706 for dense) | Honest lower bound | S-2026-11-22-37 |
+| S-2026-11-23-23 | **Logging rule (Kousik):** from now on each session section records findings (with numbers), every option put to Kousik **and the ones rejected, with reasons**, smoke-check observations, bugs found, and PR/merge events — not only final decisions | So decisions can be proved or revisited from the log | memory + this log |
+
+---
+
+## 2026-11-23 (cont.) — R5 step 5: S3 index-type study
+
+**Branch:** `feature/r5-retrieval-strategies`. Kousik: "Start step 5 by keeping the rules pick". Runs at `e5ecdd5` (clean tree), dev. Report: `docs/24_s3_index_types.md` (no pick); MLflow `loandoc_retrieval_evals`: 10 per-session runs + 10 pooled runs (tag `study=pooled`).
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-23-9 | **Index parameters (D10):** HNSW M 32, efConstruction 200, efSearch ∈ {16, 32, 64, 128}; IVF nlist = round(√N) per index (IVFFlat, trained on the index's own vectors), nprobe ∈ {1, 2, 4, 8, 16}; all inner product on normalized MiniLM vectors. Config `evals/configs/s3_index_types.yaml`; spec in a run's `index:` (`evals/retrievers/ann.py`) | Standard sweep points; √N is the usual IVF starting point | Decision Log |
+| S-2026-11-23-10 | **Recall vs exact (§8.3)** = share of exact search's top k inside the approximate top k. Per session: a non-flat index keeps an exact IndexFlatIP copy; the dense list's overlap is computed outside the timers (`exact_overlap` in `retriever_info`). Pooled: `evals/index_study.py`, one index over the 52 dev-session documents (each once, no dropped pages; 9,592 C2 vectors), 40 dev questions, top 10/20, latency = median of 5 single-query searches per question | §8.3; S-2026-11-22-33 | — |
+| S-2026-11-23-11 | **Bug found: FAISS batch search (nq > 1) segfaults when torch is loaded** (two OpenMP runtimes, macOS; single-query search was safe, which is all the runner does). **`dense._faiss()` now sets FAISS to 1 thread** for all evals; this also makes HNSW/IVF builds reproducible. Flat S3 run reproduces S2's C2-hybrid+rerank exactly (0.864) | Same family as S-2026-11-22-15; a small CPU host is single-threaded anyway | `evals/retrievers/dense.py` |
+| S-2026-11-23-12 | **S3 per-session result:** HNSW (every efSearch) and IVF nprobe 8/16 give the **same recall@budget as Flat (0.864)**; IVF nprobe 1/2/4: 0.833 / 0.803 / 0.803 (diff vs Flat CIs touch 0). Dense top-20 recall vs exact: HNSW 0.950 → 0.999 (ef 16 → 128), IVF 0.428 → 0.990 (np 1 → 16). Vector search is 36–161 µs p50 on sessions of 3–1,489 chunks: **irrelevant next to query embedding (~12 ms) and CPU rerank (~300 ms)** | §9.3 S3 | — |
+| S-2026-11-23-13 | **S3 pooled curve (9,592 vectors):** Flat 374 µs p50, recall 1.0; HNSW ef 16/32/64/128 → recall@20 0.860 / 0.944 / 0.981 / 0.990 at 22 / 34 / 58 / 109 µs (build 2.1 s, 16.5 MB vs 14.1 MB); IVF np 1→16 → recall@20 0.395 → 0.919 at 13 → 86 µs (build 0.04 s). **At this corpus size Flat stays the right choice** (exact, < 0.4 ms); HNSW ef 64 would be the pick only at far larger N | §7 "the point is the curve" | R8 |
+| S-2026-11-23-14 | Per-session total latency: the first two runs (flat, hnsw-ef16) were ~520 ms p50 vs ~320 ms for the rest — **reranker CPU warm-up** (rerank p50 485 / 469 vs 286–304 ms), not the index. Report adds a rerank column and a generated note | Don't misread order effects as index effects | `evals/report.py` |
+
+Changes: `evals/retrievers/{ann,dense,hybrid}.py`, `evals/run.py` (`index`), `evals/index_study.py`, `evals/report.py` (`render_s3`), `evals/configs/s3_index_types.yaml`, `evals/tests/test_index_types.py` (14 tests). Evals 434 pass. `docs/24_s3_index_types.md` (generated); S1/S2 reports regenerate byte-identical.
+
+**R5 complete:** R-bm25, R-hybrid, R-pc, +rerank, S2 (picks C2-hybrid+rerank, C2-bm25, C2-bm25+rerank + C1-dense baseline → S4), S3 (Flat stays). Next: R5 PR → Kousik's review; R6 (generation, judge, S4 on test) only when Kousik says go.
+
+---
+
+## 2026-11-23 — R5 step 4: S2 run + report
+
+**Branch:** `feature/r5-retrieval-strategies`. Kousik: "option 1, go step 4" (R-pc + rerank reranks the parents as specified; truncation reported — closes S-2026-11-22-49). Run at `a5b5f96` (clean tree), dev 40 q (33 answerable), top_k 20. Report: `docs/23_s2_retrieval.md`; MLflow `loandoc_retrieval_evals`, 14 runs.
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-23-1 | **S2 config** `evals/configs/s2_retrievers.yaml`: 14 runs (C2, C4 × dense/bm25/hybrid ± rerank; C2→C4 R-pc ± rerank). **Baseline = S1's C1-dense run**, named in the config (`baseline: {stage, run}`), loaded first by the report, **refused unless** questions file, manifest, embedder, parse config and cleaner all match; not a pick candidate | §9.3 "plus the C1 + R-dense baseline"; no need to re-run it | `evals/report.py` |
+| S-2026-11-23-2 | **H2 subset rule fixed before the run** (`report.has_identifier`): a lookup question "contains exact identifiers" if it has a digit, a quoted term, a section/clause reference, or ≥ 2 capitalized words not at the start (defined term). 7 / 8 dev lookup questions match. Test: paired recall@budget hybrid − dense per chunker, no rerank. **Hypothesis verdict rule** (H2, H3): supported = every CI above 0; not supported = any CI below 0; else inconclusive | §11 gives no operational definition | Decision Log |
+| S-2026-11-23-3 | **Bug found in the first S2 run and fixed before reporting:** BM25's index was built lazily on each session's first question, inside the runner's `total` timer (R-bm25 total p95 ≈ 81 ms vs 0.3 ms of BM25 work). Added a retriever `prepare(index)` hook called at session build; re-ran all 14 runs at `a5b5f96`. Quality metrics identical; the 14 first-attempt MLflow runs (`ec45b80`) tagged `superseded` | Latency must exclude index building (offline in production) | `evals/run.py` |
+| S-2026-11-23-4 | **S2 result (recall@budget, 95% CI, n = 33):** C2-hybrid+rerank **0.864** [0.742, 0.955]; C2-bm25 / C2-bm25+rerank / C2-dense+rerank 0.833; C2-hybrid, C4-hybrid 0.818; C4-bm25(+rerank), C4-hybrid+rerank 0.803; C2-dense 0.773 (= S1); C4-dense+rerank 0.773; C4-dense 0.758; C2-pc 0.727; C2-pc+rerank 0.667; baseline C1-dense 0.515. **Every config except C2-pc+rerank beats the baseline** (CIs exclude 0); **no two neighbours in the ranking are distinguishable** | Decision metric (D3) |
+| S-2026-11-23-5 | **S2 picks (top 3, D3 + ties → faster): C2-hybrid+rerank, C2-bm25, C2-bm25+rerank.** 3-way tie at 0.833 for slots 2–3 (C2-bm25, C2-bm25+rerank, C2-dense+rerank) decided by latency p50 (0.1 / 344 / 392 ms). The bm25+rerank vs dense+rerank order rests on CPU rerank-time noise (same order in both S2 attempts: 362 vs 409, 344 vs 392 ms). Two of the three picks share a base (C2-bm25) — **flagged to Kousik** | Rule as written; low diversity for S4 |
+| S-2026-11-23-6 | **H2 (dev): inconclusive** — hybrid − dense on 7 identifier lookups: C2 +0.000 [−0.429, +0.429], C4 +0.000 (identical per question). **H3 (dev): inconclusive** — rerank improves mrr@10 only for C2-dense (+0.127 [+0.010, +0.245]); for BM25 bases the point estimate is negative (C2 −0.031, C4 −0.045), all other CIs include 0 | §11 |
+| S-2026-11-23-7 | Findings for R8: **BM25 alone matches the best dense setups at ~0.1 ms and no query embedding**; R-pc is the weakest strategy (parents are ~800 tokens, so ≈ 3 fit the budget; noise ratio lowest but recall lower); reranking costs ≈ 300–560 ms p50 on CPU (870 ms on R-pc parents, 62% of which are truncated at 512 tokens); C4-hybrid+rerank rerank p50 varied 432 → 564 ms between the two attempts (CPU noise) | Rollout cost/benefit |
+| S-2026-11-23-8 | **S2 picks kept as the rule gives (Kousik): C2-hybrid+rerank, C2-bm25, C2-bm25+rerank** → S4 (with the C1-dense baseline). Closes the flag in S-2026-11-23-5. S3 winner = C2-hybrid+rerank | Pre-committed rule over a post-hoc override | §9.3 |
+
+Changes: `evals/configs/s2_retrievers.yaml`, `evals/report.py` (baseline, H2/H3, latency + truncation tables), `evals/run.py` (`baseline`, `prepare`), `evals/retrievers/{bm25,hybrid,rerank,parent_child}.py` (prepare; section tokens at build; reranker loaded at init), tests (evals 420 pass), `docs/23_s2_retrieval.md` (generated). S1 report regenerates byte-identical.
+
+---
+
+## 2026-11-22 (cont.) — R5 step 3: +rerank
+
+**Branch:** `feature/r5-retrieval-strategies`. Kousik: "step 3".
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-22-47 | **`+rerank`** (`evals/retrievers/rerank.py`): wraps any retriever; base top max(20, k) candidates → `cross-encoder/ms-marco-MiniLM-L-6-v2` scores (question, chunk text) → top k; ties → base order. **CPU** (production-like small host), max_length 512, batch = one question's candidates | §7 |
+| S-2026-11-22-48 | Run config `rerank: true|false`; `make_retriever(name, rerank)`; summary + MLflow get `retriever_params.rerank`, tag `rerank`, latency component `rerank`, and per-run totals `retriever_info` (`rerank_candidates`, `rerank_truncated`; per question in `questions.jsonl`) | Per-component latency (§8.3); truncation visible | `evals/run.py`, `evals/tracking.py` |
+| S-2026-11-22-49 | **Finding (smoke, dev, not S2): the reranker truncates 421 / 682 (62%) of R-pc parent candidates** at 512 tokens — it scores only the first ~490 tokens of an ~800-token parent. C2 / C4 candidates: 0 truncated. Rerank adds ≈ 170–220 ms p50 per question on CPU for 254-token chunks, ≈ 470 ms for parents (smoke run timings) | Affects how "R-pc + rerank" should be read. **Open for Kousik:** keep as specified (rerank the parents, report truncation) or rerank R-pc's children before parent mapping | — |
+
+Changes: `evals/retrievers/{rerank,dense,__init__}.py`, `evals/run.py`, `evals/tracking.py`, `evals/tests/test_retriever_rerank.py` (9 tests, one with the real cross-encoder). Evals 407 pass. Smoke output deleted.
+
+---
+
+## 2026-11-22 (cont.) — R5 step 2: R-pc (parent–child)
+
+**Branch:** `feature/r5-retrieval-strategies`. Kousik: "run step 2".
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-22-41 | **R-pc parents** (`evals/retrievers/parent_child.py`): children = the run's chunker (C2), dense search; a C4 *section* = consecutive C4 chunks with the same heading path; parent text rebuilt from the cleaned page text under the union of the section's spans (C4's own chunks overlap and repeat the prefix), prefixed with the heading path → parent spans match parent text exactly. Child → the section sharing the most characters (ties → earlier) | §7; C4 chunks are ≤ 254 tokens, so "the C4 section" must be rebuilt from its chunks |
+| S-2026-11-22-42 | **Window cap (D10): section > 800 MiniLM content tokens → 800-token window centred on the child**, clipped at the section ends (stays 800). **No C4 section** (no overlap, or empty heading path) → same window over the whole document | Unbounded sections (definitions run to 50+ pages) would fill the 1,200-word budget alone | Decision Log |
+| S-2026-11-22-43 | **Dedupe:** a child is skipped if its parent is already returned **or ≥ 50% of its characters are inside a returned parent** (§8.3 coverage rule); parent score = best child's score; stops at k parents | Centred windows of nearby children overlap; without this they repeat text in the budget |
+| S-2026-11-22-44 | Rank metrics' ideal (`n_relevant`, ndcg/map) stays the **children** count for R-pc: parents are built per query, so there's no fixed parent index. ndcg@10/map@10 for R-pc are diagnostic only; recall@budget and entity recall don't use it | Report caveat |
+| S-2026-11-22-45 | Runner: `parent_chunker` in the run config (required for R-pc, rejected otherwise); parent C4 chunks come from the same chunk cache; `Hits.chunks` carries chunks not in the index; latency component `parent_map` | — | `evals/run.py` |
+| S-2026-11-22-46 | **Checks:** provenance on real data — 19 dev views, 434 sampled parents, 0 spans whose text isn't in the parent text; parent size p50 811 / p95 822 / max 843 MiniLM tokens (800 + heading prefix). Smoke run C2-pc (dev, no MLflow): runs end to end, ~half of returned parents are windows, ≈ 2.9 parents fit the budget; output deleted, numbers come from S2 (F7) | Plumbing check |
+
+Changes: `evals/retrievers/{parent_child,dense,__init__}.py`, `evals/run.py`, `evals/tests/test_retriever_pc.py` (10 tests). Evals 398 pass.
+
+---
+
+## 2026-11-22 (cont.) — R5 steps 0–1: branch, R-bm25, R-hybrid
+
+**Branch:** `feature/r5-retrieval-strategies` (from `main` after PR #8 merged, `2482e45`). Kousik: "yes go, propose R5 steps", then "go with your recommendations, start step 0 and 1".
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-22-31 | **R5 steps:** 0 branch + housekeeping → 1 `R-bm25` + `R-hybrid` → 2 `R-pc` → 3 `+rerank` → 4 S2 config + run + report (H2, H3) → 5 S3 index study → PR | Scope §12 R5; one module at a time | this log |
+| S-2026-11-22-32 | **One `R-pc` configuration in S2: children C2 → parents C4 sections** (Kousik, on the agent's recommendation). "C4 × R-pc" would be the same run, since C4 chunks are the parents. **S2 = 14 runs** (C2, C4 × dense/bm25/hybrid = 6, + R-pc = 1; each ± rerank) ≤ 16 | S1 picked C2 + C4; §7 says children are C2/C3 settings, parents C4 sections | §9.3 S2 |
+| S-2026-11-22-33 | **S3 runs on the per-question views as specified, plus one pooled index of the whole dev corpus** (Kousik, on recommendation): a single session's index is small enough that HNSW/IVF barely differ from Flat; the pooled index shows the curve | §7 "the point is the curve" | step 5 |
+| S-2026-11-22-34 | Handoff (`docs/19_handoff.md`) refresh moved from the merged R4 branch to this branch; R4 marked merged | Was uncommitted on a merged branch | handoff §3 |
+| S-2026-11-22-35 | **BM25 library: `bm25s` 0.3.16** (D10): in-process, pip, numpy only; Lucene BM25, k1 1.5, b 0.75. Added to `requirements-dev.txt` | §14 D10 needs in-process + pip; `rank_bm25` is slower and unmaintained | Decision Log |
+| S-2026-11-22-36 | **BM25 tokenizer** (D10): lowercase, words + numbers, bm25s English stopwords, **no stemming**; numbers normalized (thousands commas dropped, trailing decimal zeros dropped: "$62,500.00" = "62500", "3.50" = "3.5"); "$"/"%" not tokens; "2.11" one token | H2 is about exact identifiers; stemming/splitting would blur them | Decision Log |
+| S-2026-11-22-37 | **R-bm25 returns only chunks with score > 0** (may return fewer than k) | A zero-score chunk's rank is arbitrary | `evals/retrievers/bm25.py` |
+| S-2026-11-22-38 | **R-hybrid:** dense + BM25 lists each max(20, k) deep (= §7's 20 at top_k 20), RRF k = 60 on ranks; ties → better best rank, then dense before BM25, then chunk id | §7; deterministic | `evals/retrievers/hybrid.py` |
+| S-2026-11-22-39 | **Retriever interface:** `search(index, query_vec, k, query=...)` + `needs_vector`; registry moved to `evals/retrievers/__init__.py`. Runner skips the query embedding for R-bm25 (its latency has no embed time); latency components are whatever the retriever reports (`bm25`, `fusion` added); retriever params written to `summary.json` and MLflow (`retriever.*`) | §8.3 per-component latency; provenance | `evals/run.py`, `evals/tracking.py` |
+| S-2026-11-22-40 | **Smoke check (not S2):** C2 × {dense, bm25, hybrid}, dev, top_k 20, no MLflow: all run end to end; C2-dense reproduces S1's recall@budget exactly (0.773), so the interface change didn't move the baseline. Output deleted; S2 numbers come from the step 4 report (F7) | Plumbing check | — |
+
+Changes: `evals/retrievers/{__init__,bm25,hybrid,dense}.py`, `evals/run.py`, `evals/tracking.py`, `evals/tests/test_retrievers_lexical.py` (24 tests), `requirements-dev.txt`. Evals 388 pass.
+
+---
+
 ## 2026-11-22 (cont.) — R4 step 5: S1 run
 
 **Branch:** `feature/r4-retrieval-metrics`. Kousik: "go step 5". Run at `938ea7b` (clean tree), dev 40 q (33 answerable), top_k 20, no LLM. Report: `docs/22_s1_retrieval.md`; MLflow `loandoc_retrieval_evals`, 5 runs.

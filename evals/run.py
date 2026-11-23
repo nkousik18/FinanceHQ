@@ -1,14 +1,15 @@
 """
-Eval runner (scope v2 §9.2), retrieval stages (S1 now; S2/S3 reuse it).
+Eval runner (scope v2 §9.2), retrieval stages S1–S3.
 
     venv/bin/python -m evals.run --config evals/configs/s1_chunkers.yaml --split dev
     venv/bin/python -m evals.run --config evals/configs/s1_chunkers.yaml --split dev --runs C2-dense --limit 5
 
 Config (YAML): `stage`, `table_config`, and `runs`: an explicit list (never a generated product) of
-{name, chunker, chunker_params?, retriever, top_k}. Per run and question:
+{name, chunker, chunker_params?, retriever, top_k, parent_chunker? (R-pc)}. Per run and question:
   1. session view (views.py: digital docs, or the cited scan swapped in for its source page)
   2. each document view's chunks + vectors from the chunk/embedding cache (index_cache.py)
-  3. one FAISS index per view (like production's per-session index), query embedded with MiniLM
+  3. one FAISS index per view (like production's per-session index; BM25 built lazily on it), query
+     embedded with MiniLM when the retriever uses vectors (not R-bm25)
   4. retrieve max(top_k, 10) chunks; only the first top_k can enter the 1,200-word budget
   5. §8.3 metrics (retrieval/metrics.py), relevant chunks counted over the whole session index
 
@@ -42,7 +43,7 @@ from evals.golden.qa.validate import QUESTIONS, read_questions
 from evals.retrieval import metrics as M
 from evals.retrieval.index_cache import EMBEDDER_ID, IndexCache
 from evals.retrieval.views import DocView, session_view
-from evals.retrievers.dense import RETRIEVERS, SessionIndex
+from evals.retrievers import RETRIEVERS, SessionIndex, make_retriever
 
 REPO = Path(__file__).resolve().parents[1]
 OUT_ROOT = REPO / "data" / "results" / "r4"
@@ -58,12 +59,24 @@ class RunConfig:
     retriever: str
     top_k: int
     chunker_params: dict = field(default_factory=dict)
+    parent_chunker: str | None = None        # R-pc only: the chunker whose sections are the parents
+    rerank: bool = False                     # +rerank: cross-encoder over the top 20 candidates
+    index: dict | None = None                # FAISS index spec (S3; None = IndexFlatIP), evals.retrievers.ann
 
     def __post_init__(self):
         if self.chunker not in CHUNKERS:
             raise ValueError(f"run {self.name}: unknown chunker {self.chunker!r}")
         if self.retriever not in RETRIEVERS:
             raise ValueError(f"run {self.name}: unknown retriever {self.retriever!r}")
+        needs = getattr(RETRIEVERS[self.retriever], "needs_parents", False)
+        if needs and self.parent_chunker not in CHUNKERS:
+            raise ValueError(f"run {self.name}: {self.retriever} needs a known parent_chunker")
+        if not needs and self.parent_chunker is not None:
+            raise ValueError(f"run {self.name}: parent_chunker only applies to parent-child retrievers")
+        from evals.retrievers.ann import parse_spec
+        parse_spec(self.index)
+        if not isinstance(self.rerank, bool):
+            raise ValueError(f"run {self.name}: rerank must be true/false")
         if not (isinstance(self.top_k, int) and self.top_k >= 1):
             raise ValueError(f"run {self.name}: top_k must be a positive int")
 
@@ -73,6 +86,7 @@ class StageConfig:
     stage: str
     table_config: str
     runs: list[RunConfig]
+    baseline: dict | None = None      # {stage, run}: an earlier stage's run the report compares against
 
 
 def load_config(path: Path) -> StageConfig:
@@ -83,7 +97,10 @@ def load_config(path: Path) -> StageConfig:
     names = [r.name for r in runs]
     if len(set(names)) != len(names):
         raise ValueError(f"{path}: duplicate run names")
-    return StageConfig(raw["stage"], raw.get("table_config", "P2"), runs)
+    base = raw.get("baseline")
+    if base is not None and (set(base) != {"stage", "run"} or base["run"] in names):
+        raise ValueError(f"{path}: baseline must be {{stage, run}} naming a run outside this stage")
+    return StageConfig(raw["stage"], raw.get("table_config", "P2"), runs, base)
 
 
 # ---- provenance --------------------------------------------------------------------------------
@@ -181,24 +198,33 @@ def _pct(xs: list[float], q: float) -> float | None:
 
 def run_one(rc: RunConfig, questions: list[dict], corpus, cache: IndexCache, embed) -> tuple[list[dict], dict]:
     chunker = CHUNKERS[rc.chunker](**rc.chunker_params)
-    retriever = RETRIEVERS[rc.retriever]()
+    retriever = make_retriever(rc.retriever, rc.rerank)
+    parent_chunker = CHUNKERS[rc.parent_chunker]() if rc.parent_chunker else None
     amend = corpus.amendment_docs()
     sessions: dict[tuple[DocView, ...], tuple[SessionIndex, dict]] = {}
-    rows, results, lat = [], [], {"query_embed": [], "vector_search": [], "total": []}
+    rows, results, lat = [], [], {}                 # latency: component -> seconds per question
+    info_tot: dict[str, int] = {}
     t_run = time.perf_counter()
     for q in questions:
         view = tuple(session_view(q, corpus.part_of, corpus.role_of))
         if view not in sessions:
             parts = [cache.get(chunker, v.doc_id, v.drop_pages) for v in view]
-            idx = SessionIndex.build([(p.chunks, p.vectors) for p in parts])
+            idx = SessionIndex.build([(p.chunks, p.vectors) for p in parts], index=rc.index)
+            if parent_chunker is not None:
+                from evals.retrievers.parent_child import ParentMap
+                pparts = [cache.get(parent_chunker, v.doc_id, v.drop_pages) for v in view]
+                idx.extras["parents"] = ParentMap({p.source.doc_id: p.source for p in parts},
+                                                  {pp.source.doc_id: pp.chunks for pp in pparts})
+            if hasattr(retriever, "prepare"):
+                retriever.prepare(idx)           # index-time work (BM25), outside the query timers
             sessions[view] = (idx, {p.source.doc_id: p.source for p in parts})
         idx, sources = sessions[view]
         t0 = time.perf_counter()
-        qvec = embed([q["question"]])[0]
+        qvec = embed([q["question"]])[0] if retriever.needs_vector else None
         t_embed = time.perf_counter() - t0
-        hits = retriever.search(idx, qvec, max(rc.top_k, RANK_DEPTH))
+        hits = retriever.search(idx, qvec, max(rc.top_k, RANK_DEPTH), query=q["question"])
         t_total = time.perf_counter() - t0
-        ranked = [idx.chunks[i] for i in hits.ids]
+        ranked = hits.ranked(idx)
         n_rel = fragmented = None
         if q["evidence"] and not q.get("unanswerable"):
             ev = [M.Evidence(e["doc_id"], e["page"], e["span_text"]) for e in q["evidence"]]
@@ -206,24 +232,37 @@ def run_one(rc: RunConfig, questions: list[dict], corpus, cache: IndexCache, emb
         part = M.question_part(q, corpus.part_of)
         r = M.score_question(q, part, ranked, hits.scores, sources, n_relevant=n_rel,
                              amendment_docs=amend, budget_pool=rc.top_k)
-        timings = {"query_embed": t_embed, **hits.timings, "total": t_total}
-        for k in lat:
-            lat[k].append(timings.get(k, 0.0))
+        timings = {**({"query_embed": t_embed} if retriever.needs_vector else {}), **hits.timings,
+                   "total": t_total}
+        for k, v in timings.items():
+            lat.setdefault(k, []).append(v)
+        for k, v in hits.info.items():
+            info_tot[k] = info_tot.get(k, 0) + v
         results.append(r)
         rows.append({"qid": q["qid"], "type": q["type"], "part": part, "split": q["split"],
                      "view": [[v.doc_id, sorted(v.drop_pages)] for v in view],
                      "index_chunks": len(idx.chunks), "n_relevant": n_rel, "unlocated": r.unlocated,
                      "spans": len(q["evidence"]), "fragmented": fragmented,
                      "n_budget": r.n_budget, "metrics": r.metrics, "ranked": r.ranked,
-                     "timings_s": timings})
+                     "timings_s": timings, **({"retriever_info": hits.info} if hits.info else {})})
     summary = {
         "breakdown": M.breakdown(results),
         "latency_ms": {k: {"p50": None if not v else 1000 * _pct(v, 50),
                            "p95": None if not v else 1000 * _pct(v, 95)} for k, v in lat.items()},
         "questions": len(questions), "unlocated_spans": sum(r.unlocated for r in results),
         "sessions_built": len(sessions), "seconds": round(time.perf_counter() - t_run, 1),
+        "retriever_info": info_tot,             # totals over questions (e.g. rerank_truncated / _candidates;
+                                                # exact_overlap / exact_overlap_n = mean recall vs exact)
     }
     return rows, summary
+
+
+def make_retriever_params(rc: RunConfig) -> dict:
+    p = dict(RETRIEVERS[rc.retriever].params)
+    if rc.rerank:
+        from evals.retrievers.rerank import Reranked
+        p["rerank"] = Reranked.params_extra
+    return p
 
 
 # ---- stage -------------------------------------------------------------------------------------
@@ -261,10 +300,10 @@ def run_stage(cfg: StageConfig, split: str, only: list[str] | None = None, limit
     out: dict[str, dict] = {}
     for rc in runs:
         built0, loaded0 = cache.built, cache.loaded
-        log.info("run %s (%s + %s, top_k %d) on %d questions", rc.name, rc.chunker, rc.retriever,
-                 rc.top_k, len(questions))
+        log.info("run %s (%s + %s%s, top_k %d) on %d questions", rc.name, rc.chunker, rc.retriever,
+                 "+rerank" if rc.rerank else "", rc.top_k, len(questions))
         rows, summary = run_one(rc, questions, corpus, cache, embed)
-        summary = {"run": asdict(rc), **prov, **summary,
+        summary = {"run": asdict(rc), "retriever_params": make_retriever_params(rc), **prov, **summary,
                    "cache": {"built": cache.built - built0, "loaded": cache.loaded - loaded0}}
         run_dir = out_root / cfg.stage.lower() / split / rc.name
         write_run(run_dir, rows, summary)
