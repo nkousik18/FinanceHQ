@@ -75,7 +75,7 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 | S0 | `venv/bin/python -m evals.ingest_metrics.run_s0 [--include-unverified] [--skip-corpus] [--mlflow]` → `data/results/s0/` ; MLflow store `data/mlflow/mlflow.db` |
 | QA set | validate: `venv/bin/python -m evals.golden.qa.validate --final` |
 | Retrieval stage | `venv/bin/python -m evals.run --config evals/configs/s1_chunkers.yaml --split dev [--runs C2-dense] [--limit 3] [--no-mlflow]` (cold: ~15 min for C1–C5, C5 slowest; cached: seconds). `--limit` = smoke run, tagged SMOKE, report refuses it |
-| Report | `venv/bin/python -m evals.report --stage S1|S2|S3 --split dev` ; S3 pooled study: `venv/bin/python -m evals.index_study --config evals/configs/s3_index_types.yaml` |
+| Report | `venv/bin/python -m evals.report --stage S3 --split dev` (S1, S2, S3) ; S3 pooled study: `venv/bin/python -m evals.index_study --config evals/configs/s3_index_types.yaml` |
 | MLflow UI | `venv/bin/mlflow ui --backend-store-uri sqlite:///data/mlflow/mlflow.db` |
 
 Tools on the Mac: Chrome 156 (HTML→PDF rendering), Tesseract 5.5.1, Apple M3 GPU (MPS), 16 GB RAM.
