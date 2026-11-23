@@ -21,7 +21,7 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 2. `docs/18_session_log.md` — what happened each session, newest first.
 3. `docs/r0_findings.md` — R0 measurements (MiniLM truncation, test repair, model switch).
    `docs/20_s0_results.md` (S0 parsing), `docs/21_r2_chunk_metrics.md` (R2 chunk metrics) and
-   **`docs/22_s1_retrieval.md` (S1 retrieval)** — generated results (F7: never hand-edit numbers).
+   **`docs/22_s1_retrieval.md` (S1 retrieval)**, **`docs/23_s2_retrieval.md` (S2 retrieval)** — generated results (F7: never hand-edit numbers).
 4. `evals/golden/ingest/README.md` — golden-set labelling guide.
 
 ## 3. Where things stand
@@ -33,7 +33,7 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 | R2 | ✅ Merged: chunkers C1–C5 (`evals/chunking/`) + §8.2 chunk metrics (`docs/21_r2_chunk_metrics.md`) |
 | R3 | ✅ Merged (PR #7): QA golden set `evals/golden/qa/questions.jsonl`, q0001–q0120, **40 dev / 80 test**, all human-verified |
 | R4 | ✅ Merged (PR #8): retrieval metrics, runner, MLflow, report; S1 → **C2 + C4** |
-| R5 | 🔶 On **`feature/r5-retrieval-strategies`**. Steps (S-2026-11-22-31): ~~0 housekeeping~~ → ~~1 `R-bm25` + `R-hybrid`~~ → ~~2 `R-pc`~~ → ~~3 `+rerank`~~ → **4 S2 run + report** → 5 S3 → PR. Ask before each step |
+| R5 | 🔶 On **`feature/r5-retrieval-strategies`**. Steps (S-2026-11-22-31): ~~0 housekeeping~~ → ~~1 `R-bm25` + `R-hybrid`~~ → ~~2 `R-pc`~~ → ~~3 `+rerank`~~ → ~~4 S2 run + report~~ → **5 S3** → PR. Ask before each step |
 
 **R4 (merged), what exists:**
 - `evals/retrieval/metrics.py` — all §8.3 metrics per question. Coverage = R2's `covers()` rule. Budget = copy of production `router._build_context` (greedy to 1,200 words, first chunk always in); a test pins `MAX_CONTEXT_WORDS` to production.
@@ -46,6 +46,8 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 - `evals/report.py` — `--stage S1 --split dev` → `docs/22_s1_retrieval.md`: ★ metrics with question-bootstrap CIs, paired comparisons vs baseline (C1) and between rank neighbours, tie detection, generated notes. Refuses smoke/mixed runs. `PICKS = {"S1": 2, "S2": 3}`; `DOCS` maps (stage, split) → doc (add S2 there).
 
 **S1 result (dev, n = 33 answerable, top_k 20):** recall@budget C2 **0.773**, C4 0.758, C5 0.758, C3 0.652, C1 0.515. C2/C4/C5 beat C1 (CIs exclude 0), indistinguishable from each other. C4 = C5 tie → **faster wins** (Kousik) → **S1 pick: C2 + C4**. Evidence fragmentation = 0 for all chunkers (spans ≈ one sentence; checked independently).
+
+**S2 result (dev, n = 33, recall@budget):** C2-hybrid+rerank **0.864**, then a 3-way tie at 0.833 (C2-bm25, C2-bm25+rerank, C2-dense+rerank) → faster wins → **S2 picks: C2-hybrid+rerank, C2-bm25, C2-bm25+rerank** (+ C1-dense baseline 0.515), unless Kousik overrides (two picks share the bm25 base). No ranking neighbours distinguishable. H2, H3 inconclusive on dev. Report: `venv/bin/python -m evals.report --stage S2 --split dev`.
 
 **R5 plan (approved 2026-11-22):** R5 = `R-bm25`, `R-hybrid` (dense top-20 + BM25 top-20, RRF k=60), `R-pc` (parent–child), `+rerank` (cross-encoder/ms-marco-MiniLM-L-6-v2, top 20 → k); **S2** = C2, C4 × {dense, bm25, hybrid, pc} ± rerank (≤ 16 runs, dev, top 3 + C1-dense baseline by recall@budget); **S3** = winner × {Flat, HNSW, IVF}, recall vs exact + latency, no pick. Kousik's choices: **one R-pc config (C2 children → C4 section parents, 800-token window cap) → S2 = 14 runs**; S3 = per-question views + one pooled whole-dev index. Baseline C1-dense comes from the S1 run (hash-checked).
 
@@ -64,7 +66,7 @@ For a fresh agent picking up FinanceHQ / LoanDoc. Read this first, then the file
 
 | What | How |
 |---|---|
-| App + evals venv | `venv/` (Python 3.12). Tests: `venv/bin/python -m pytest -q evals/tests` and `cd fastapi_service && ../venv/bin/python -m pytest -q` (evals **407** pass; app **173** pass, 2 stale skipped) |
+| App + evals venv | `venv/` (Python 3.12). Tests: `venv/bin/python -m pytest -q evals/tests` and `cd fastapi_service && ../venv/bin/python -m pytest -q` (evals **420** pass; app **173** pass, 2 stale skipped) |
 | Docling venv | **`venv-docling/`** (separate: Docling's numpy 2/torch/httpx conflict with the app venv). Pinned in `requirements-docling.txt` |
 | Rebuild corpus | `venv/bin/python -m evals.corpus.fetch fetch` (needs `SEC_USER_AGENT` in `.env`; CFPB PDFs must be in `data/corpus/inbox/cfpb/` — consumerfinance.gov blocks scripts) ; scans: `python -m evals.corpus.scans build` |
 | Parse | `caffeinate -i venv-docling/bin/python -m evals.parsers.docling_runner --configs P1 P2` (resumable; ~40 min for both on the M3) |

@@ -7,6 +7,24 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-23 — R5 step 4: S2 run + report
+
+**Branch:** `feature/r5-retrieval-strategies`. Kousik: "option 1, go step 4" (R-pc + rerank reranks the parents as specified; truncation reported — closes S-2026-11-22-49). Run at `a5b5f96` (clean tree), dev 40 q (33 answerable), top_k 20. Report: `docs/23_s2_retrieval.md`; MLflow `loandoc_retrieval_evals`, 14 runs.
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-23-1 | **S2 config** `evals/configs/s2_retrievers.yaml`: 14 runs (C2, C4 × dense/bm25/hybrid ± rerank; C2→C4 R-pc ± rerank). **Baseline = S1's C1-dense run**, named in the config (`baseline: {stage, run}`), loaded first by the report, **refused unless** questions file, manifest, embedder, parse config and cleaner all match; not a pick candidate | §9.3 "plus the C1 + R-dense baseline"; no need to re-run it | `evals/report.py` |
+| S-2026-11-23-2 | **H2 subset rule fixed before the run** (`report.has_identifier`): a lookup question "contains exact identifiers" if it has a digit, a quoted term, a section/clause reference, or ≥ 2 capitalized words not at the start (defined term). 7 / 8 dev lookup questions match. Test: paired recall@budget hybrid − dense per chunker, no rerank. **Hypothesis verdict rule** (H2, H3): supported = every CI above 0; not supported = any CI below 0; else inconclusive | §11 gives no operational definition | Decision Log |
+| S-2026-11-23-3 | **Bug found in the first S2 run and fixed before reporting:** BM25's index was built lazily on each session's first question, inside the runner's `total` timer (R-bm25 total p95 ≈ 81 ms vs 0.3 ms of BM25 work). Added a retriever `prepare(index)` hook called at session build; re-ran all 14 runs at `a5b5f96`. Quality metrics identical; the 14 first-attempt MLflow runs (`ec45b80`) tagged `superseded` | Latency must exclude index building (offline in production) | `evals/run.py` |
+| S-2026-11-23-4 | **S2 result (recall@budget, 95% CI, n = 33):** C2-hybrid+rerank **0.864** [0.742, 0.955]; C2-bm25 / C2-bm25+rerank / C2-dense+rerank 0.833; C2-hybrid, C4-hybrid 0.818; C4-bm25(+rerank), C4-hybrid+rerank 0.803; C2-dense 0.773 (= S1); C4-dense+rerank 0.773; C4-dense 0.758; C2-pc 0.727; C2-pc+rerank 0.667; baseline C1-dense 0.515. **Every config except C2-pc+rerank beats the baseline** (CIs exclude 0); **no two neighbours in the ranking are distinguishable** | Decision metric (D3) |
+| S-2026-11-23-5 | **S2 picks (top 3, D3 + ties → faster): C2-hybrid+rerank, C2-bm25, C2-bm25+rerank.** 3-way tie at 0.833 for slots 2–3 (C2-bm25, C2-bm25+rerank, C2-dense+rerank) decided by latency p50 (0.1 / 344 / 392 ms). The bm25+rerank vs dense+rerank order rests on CPU rerank-time noise (same order in both S2 attempts: 362 vs 409, 344 vs 392 ms). Two of the three picks share a base (C2-bm25) — **flagged to Kousik** | Rule as written; low diversity for S4 |
+| S-2026-11-23-6 | **H2 (dev): inconclusive** — hybrid − dense on 7 identifier lookups: C2 +0.000 [−0.429, +0.429], C4 +0.000 (identical per question). **H3 (dev): inconclusive** — rerank improves mrr@10 only for C2-dense (+0.127 [+0.010, +0.245]); for BM25 bases the point estimate is negative (C2 −0.031, C4 −0.045), all other CIs include 0 | §11 |
+| S-2026-11-23-7 | Findings for R8: **BM25 alone matches the best dense setups at ~0.1 ms and no query embedding**; R-pc is the weakest strategy (parents are ~800 tokens, so ≈ 3 fit the budget; noise ratio lowest but recall lower); reranking costs ≈ 300–560 ms p50 on CPU (870 ms on R-pc parents, 62% of which are truncated at 512 tokens); C4-hybrid+rerank rerank p50 varied 432 → 564 ms between the two attempts (CPU noise) | Rollout cost/benefit |
+
+Changes: `evals/configs/s2_retrievers.yaml`, `evals/report.py` (baseline, H2/H3, latency + truncation tables), `evals/run.py` (`baseline`, `prepare`), `evals/retrievers/{bm25,hybrid,rerank,parent_child}.py` (prepare; section tokens at build; reranker loaded at init), tests (evals 420 pass), `docs/23_s2_retrieval.md` (generated). S1 report regenerates byte-identical.
+
+---
+
 ## 2026-11-22 (cont.) — R5 step 3: +rerank
 
 **Branch:** `feature/r5-retrieval-strategies`. Kousik: "step 3".
