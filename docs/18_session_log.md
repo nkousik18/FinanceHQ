@@ -7,6 +7,85 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-22 (cont.) — R4 step 5: S1 run
+
+**Branch:** `feature/r4-retrieval-metrics`. Kousik: "go step 5". Run at `938ea7b` (clean tree), dev 40 q (33 answerable), top_k 20, no LLM. Report: `docs/22_s1_retrieval.md`; MLflow `loandoc_retrieval_evals`, 5 runs.
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-22-24 | **S1 result (recall@budget, 95% CI):** C1 0.515 [0.364, 0.667] · C2 **0.773** [0.636, 0.894] · C3 0.652 · C4 0.758 · C5 0.758. vs baseline C1: **C2 +0.258** [+0.121, +0.409], **C4 +0.242**, **C5 +0.242** (Holm p ≤ 0.012), C3 +0.136 (CI touches 0: no detectable difference). C2 vs C4 vs C5: **no detectable difference** (n = 33). Entity recall same picture (C2/C4/C5 ≈ 0.80 vs C1 0.615) | Decision metric (D3) |
+| S-2026-11-22-25 | **Pick: C2 (rank 1), then a tie C4 = C5 at 0.758** for the second slot. Report now detects ties at the pick boundary and says the order is config order only. Tie rule open (Kousik) | D3 has no tie rule for S1 |
+| S-2026-11-22-26 | **Evidence fragmentation = 0 for all five chunkers** — checked independently: every evidence span (median 11 words, max 153) is ≥ 89% inside one chunk even for C3/C2. Real, not a bug; the metric doesn't separate chunkers on this set. Report prints this note (generated) | §8.2 ★ metric, first measurement |
+| S-2026-11-22-27 | Diagnostics: C1 recall@10 0.758 vs recall@budget 0.515 — its big (truncated) chunks fill the 1,200 words with fewer chunks; C1 redundancy highest (0.49). Amendment questions: C1 never put the amending span in the budget (0/3; 2/3 only the superseded original); C2/C5 2/3. n too small, H9 in R8 | For the R8 write-up |
+| S-2026-11-22-28 | **Bug fixed:** local `summary.json` lacked the MLflow run id (written before logging); now rewritten after logging (+ test); the 5 S1 summaries backfilled from MLflow by run name | Report provenance column showed "–" |
+| S-2026-11-22-30 | **Tie rule (Kousik): faster wins**, as S0's "ties → faster"; faster = lower retrieval latency p50 (C4 9.3 ms vs C5 11.5 ms; C4 also indexes cold in 176 s vs 392 s). Encoded in `report.rank_order`. **S1 pick: C2 + C4 → S2.** Closes S-2026-11-22-25 | Pick follows a rule, not config order |
+| S-2026-11-22-29 | Cost/time: cold indexing C1 85 s, C2 165 s, C4 176 s, C5 392 s (C3 cached); retrieval p50 8–14 ms (query embedding dominates) | — |
+
+Changes: `evals/run.py`, `evals/report.py` (tie flag, generated notes), tests (evals 364 pass), `docs/22_s1_retrieval.md` (generated).
+
+---
+
+## 2026-11-22 (cont.) — R4 step 4: report generator
+
+**Branch:** `feature/r4-retrieval-metrics`. Kousik: "go step 4".
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-22-21 | **`evals/report.py`** (`--stage S1 --split dev` → `docs/22_s1_retrieval.md`, F7: generated only). ★ recall@budget and entity recall: mean + question-bootstrap 95% CI; paired per-question bootstrap vs the baseline (first config = C1 + R-dense, production) **and between neighbours in the ranking** (is #2 distinguishable from #3); Holm p vs baseline shown for information (§9.6 requires Holm in S4 only); pick = top 2 by recall@budget point estimate (D3), with the tie caveat printed; breakdowns by type and part; all other metrics diagnostic | §9.6, §9.3 |
+| S-2026-11-22-22 | Report **refuses** runs on different question files / qid sets, smoke (`--limit`) runs, and missing runs | No mixed or partial comparisons |
+| S-2026-11-22-23 | **Evidence fragmentation (★ §8.2) now measured in the runner**: per question, located spans no single chunk in its index covers (`metrics.index_coverage`); report pools it with a question-bootstrap ratio CI. Closes R2's "pending QA set" | R2 left it for R3/R4 |
+
+Changes: `evals/report.py`, `evals/retrieval/metrics.py` (`index_coverage`), `evals/run.py` (`spans`, `fragmented` per row), `evals/tests/test_report.py` (2), 1 metrics test. Evals 363 pass; app 173 pass, 2 skipped. The C3 check run from step 2 predates the fragmentation field: S1 (step 5) re-runs everything.
+
+---
+
+## 2026-11-22 (cont.) — R4 step 3: local MLflow logging
+
+**Branch:** `feature/r4-retrieval-metrics`. Kousik: "go step 3 and s1 keep 20".
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-22-18 | **S1 `top_k` = 20** (Kousik; closes S-2026-11-22-17): the 1,200-word budget binds, not the chunk count | Small-chunk chunkers not capped below the budget | `evals/configs/s1_chunkers.yaml` |
+| S-2026-11-22-19 | **`evals/tracking.py`**: shared local MLflow (SQLite `data/mlflow/mlflow.db`, artifacts `data/mlflow/artifacts/`); S0's `log_mlflow` now uses it. Runner logs **one MLflow run per configuration** to `loandoc_retrieval_evals` by default (`--no-mlflow` to skip). Params: every run-config field, stage/split/limit, git SHA, manifest + questions sha256, embedder, table config, cleaning version, parser name/config/versions per downstream config (P2, P2V). Metrics: every breakdown group's means + n answerable, latency p50/p95 per component, unlocated spans. Artifacts: summary.json, questions.jsonl. `--limit` runs named/tagged **SMOKE** | §9.2 |
+| S-2026-11-22-20 | Metric names: `@` → `_at_`, `type=lookup` → `type.lookup` (MLflow rejects `@` and `=`) | MLflow name rules |
+
+Checked: a 2-question smoke run logged to the real store (43 params, 75 metrics, 2 artifacts). Changes: `evals/tracking.py`, `evals/run.py`, `evals/ingest_metrics/run_s0.py`, `evals/configs/s1_chunkers.yaml`, 3 tests. Evals 360 pass.
+
+---
+
+## 2026-11-22 (cont.) — R4 step 2: runner, chunk/embedding cache, R-dense
+
+**Branch:** `feature/r4-retrieval-metrics`. Kousik: "start step 2".
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-22-11 | **Scan views per question** (`evals/retrieval/views.py`): default index = the session's digital docs (scans left out); a question citing a scan gets the scan added and the scan's source page **dropped** from its source doc (page removed before cleaning: text, tables, form fields, layout elements). Swapping every scan in permanently was rejected: 15 digital questions cite pages that a scan copies | Decision Log 2026-11-13 left "scan in place of its source page" to R4 |
+| S-2026-11-22-12 | **Chunk/embedding cache** (`evals/retrieval/index_cache.py`, `data/cache/chunks/`): one entry per document view × chunker; key = sha256(chunker_id, params, parser cache key, cleaning version, embedder, dropped pages, format). Entry stores cleaned page text + chunks (gz JSON) + vectors (npy), so cached runs neither re-parse nor re-clean; written json-last (no half entries); vector/chunk count mismatch → rebuild | §9.2 key + what scoring needs |
+| S-2026-11-22-13 | **R-dense** (`evals/retrievers/dense.py`): FAISS IndexFlatIP per question view (production builds one per session), MiniLM normalized query, no threshold | §7 baseline = production |
+| S-2026-11-22-14 | **Runner** `python -m evals.run --config … --split dev [--runs …] [--limit N]`: explicit run list in YAML (`evals/configs/s1_chunkers.yaml`, C1–C5 × R-dense); ranks max(top_k, 10) chunks, only the first top_k can enter the 1,200-word budget; ndcg/map ideal from relevant chunks in the whole view index. Output `data/results/r4/<stage>/<split>/<run>/questions.jsonl` + `summary.json` (git SHA, manifest + questions hashes, breakdowns, latency p50/p95, cache stats). MLflow = step 3 | §9.2 |
+| S-2026-11-22-15 | **Segfault fixed before it shipped:** if faiss loads before torch, the next MiniLM encode segfaults on macOS (two OpenMP runtimes); my test module's top-level faiss import crashed the C5 MiniLM test. `dense.py` now imports faiss lazily, after torch. Checked both orders in a script | R2 only worked because it imported faiss after embedding |
+| S-2026-11-22-16 | **Check run (not S1):** C3 × R-dense, top_k 20, dev 40 q: 0 unlocated spans, 19 views, 3 scan views correct; recall@budget 0.652 (n 33), mrr@10 0.551, entity recall 0.681; query embed p50 10 ms, search p50 0.04 ms; 100 s cold. Cold indexing C3 ≈ 0.07 s/page | Plumbing check only |
+| S-2026-11-22-17 | **Open (Kousik, before S1):** `top_k` for S1. Config has 20 (API max, so the 1,200-word budget binds and small-chunk chunkers aren't capped); production default is 5 | Changes what recall@budget measures |
+
+Changes: `evals/chunking/source.py` (`load_source(drop_pages=…)`), `evals/retrieval/{index_cache,views}.py`, `evals/retrievers/{__init__,dense}.py`, `evals/run.py`, `evals/configs/s1_chunkers.yaml`, `evals/retrieval/metrics.py` (`budget_pool`), `evals/tests/test_retrieval_runner.py` (13 tests). Evals 357 pass; app 173 pass, 2 skipped.
+
+---
+
+## 2026-11-22 (cont.) — R4 step 1: §8.3 retrieval metrics
+
+**Branch:** `feature/r4-retrieval-metrics` (from `main` after PR #7). Kousik: "start step 1".
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-22-7 | **R4 steps:** 1 metrics (pure, tested) → 2 runner + chunk/embedding cache → 3 local MLflow logging → 4 report generator → 5 run S1 on dev | Scope §12 R4; one module at a time | this log |
+| S-2026-11-22-8 | **`evals/retrieval/metrics.py`:** all §8.3 QA metrics per question from a ranked chunk list. Coverage reuses R2's `covers()` / `locate_evidence()` (one rule for fragmentation and retrieval). Budget = copy of production `router._build_context` (greedy to 1,200 words, first chunk always in, first misfit stops the loop); a test pins `MAX_CONTEXT_WORDS` to production's | "after the same trimming production uses" |
+| S-2026-11-22-9 | **Metric choices:** ndcg/map ideal = min(10, relevant chunks in the whole session index) (runner passes it; default = relevant in the ranking); context precision = RAGAS (mean precision@i at relevant ranks); precision@k divides by k even if fewer chunks come back; entity recall uses R3's `value_in` (so `62500.00` ≠ `$62,500`); noise ratio, cross-doc and amendment coverage are measured **within the budget**; `amend_only_superseded` = original span covered, no amending span; unanswerable → coverage metrics None, context_words/redundancy kept; unlocatable span = not covered, counted in `unlocated` | Definitions §8.3 leaves open |
+| S-2026-11-22-10 | Corpus part per question: `simulated_scan` if any evidence on a scan, `consumer` for `cfpb*` sessions, else `edgar` (finalise strata) | §8.3 breakdown by part |
+
+Changes: `evals/retrieval/{__init__,metrics}.py`, `evals/tests/test_retrieval_metrics.py` (14 tests). Evals 344 pass; app 173 pass, 2 skipped. Latency and recall-vs-exact metrics come with the runner (step 2) and S3.
+
+---
+
 ## 2026-11-22 — R3: last 5 drafting jobs
 
 **Branch:** `feature/r3-qa-golden`. Kousik: "run the remaining jobs".
