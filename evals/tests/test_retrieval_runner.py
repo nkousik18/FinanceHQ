@@ -200,3 +200,43 @@ def test_run_stage_rejects_unknown_run_names(tmp_path):
         R.run_stage(cfg, "dev", only=["nope"], questions_path=qpath, out_root=tmp_path, corpus=FakeCorpus(),
                     embed=fake_embed, cache=IndexCache(FakeCorpus().load_source, fake_embed,
                                                        FakeCorpus().parser_key, root=tmp_path / "c"))
+
+
+# ---- MLflow (step 3) ---------------------------------------------------------------------------
+def test_metric_names_are_mlflow_safe():
+    from evals.tracking import metric_name
+    assert metric_name("", "recall@budget") == "recall_at_budget"
+    assert metric_name("type=cross_doc", "hit@10") == "type.cross_doc.hit_at_10"
+    assert metric_name("part=simulated_scan", "mrr@10") == "part.simulated_scan.mrr_at_10"
+
+
+def test_flat_params_nests_config():
+    from evals.tracking import flat_params
+    assert flat_params({"chunker": "C3", "chunker_params": {"size": 128}, "x": {}}, "run.") == \
+        {"run.chunker": "C3", "run.chunker_params.size": "128", "run.x": "{}"}
+
+
+def test_run_stage_logs_one_mlflow_run_per_config(tmp_path):
+    import mlflow
+    qpath = tmp_path / "q.jsonl"
+    qpath.write_text(json.dumps(_q()) + "\n")
+    corpus = FakeCorpus()
+    cache = IndexCache(corpus.load_source, fake_embed, corpus.parser_key, root=tmp_path / "cache")
+    cfg = R.StageConfig("S1", "P2", [R.RunConfig("C3-dense", "C3", "R-dense", 5),
+                                     R.RunConfig("C2-dense", "C2", "R-dense", 5)])
+    store = tmp_path / "mlflow"
+    try:
+        out = R.run_stage(cfg, "dev", limit=1, questions_path=qpath, out_root=tmp_path / "out", corpus=corpus,
+                          embed=fake_embed, cache=cache, mlflow_store=store)
+        runs = mlflow.search_runs(experiment_names=["loandoc_retrieval_evals"], output_format="list")
+        assert len(runs) == 2
+        r = next(x for x in runs if x.info.run_id == out["C3-dense"]["mlflow_run_id"])
+        assert r.data.params["run.chunker"] == "C3" and r.data.params["run.top_k"] == "5"
+        assert r.data.params["questions_sha256"] == R.file_sha256(qpath)
+        assert r.data.tags["smoke"] == "True" and r.info.run_name == "S1 C3-dense dev SMOKE"
+        assert r.data.metrics["recall_at_budget"] == 1.0 and r.data.metrics["n_answerable"] == 1
+        assert "latency.total.p50_ms" in r.data.metrics and "type.lookup.mrr_at_10" in r.data.metrics
+        arts = {a.path for a in mlflow.MlflowClient().list_artifacts(r.info.run_id)}
+        assert arts == {"summary.json", "questions.jsonl"}
+    finally:
+        mlflow.set_tracking_uri("")

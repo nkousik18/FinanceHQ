@@ -14,7 +14,9 @@ Config (YAML): `stage`, `table_config`, and `runs`: an explicit list (never a ge
 
 Output (gitignored) data/results/r4/<stage>/<split>/<run>/: questions.jsonl (per question: metrics,
 ranked chunk ids, scores, covered spans, timings) and summary.json (config, git SHA, manifest and
-golden-set hashes, metric breakdowns, latency p50/p95, cache stats). MLflow logging: R4 step 3.
+golden-set hashes, parser versions, metric breakdowns, latency p50/p95, cache stats), and one run per
+configuration in local MLflow, experiment loandoc_retrieval_evals (evals/tracking.py; --no-mlflow to
+skip; --limit runs are tagged smoke).
 """
 from __future__ import annotations
 
@@ -140,6 +142,23 @@ class Corpus:
             raise FileNotFoundError(f"{doc_id}: no parse cache")
         return load_source(cached, doc_id, drop_pages=drop_pages), cached["meta"]["cache_key"]
 
+    def parser_info(self) -> dict:
+        """Parser name, versions and config per downstream config in use (from one cached parse each;
+        the smallest document of each corpus part)."""
+        from evals.parsers.config import downstream_config, load_cached
+        out: dict[str, dict] = {}
+        rows = sorted(read_manifest(), key=lambda r: int(r.pdf_pages or 10**6))
+        for part in ("consumer", "edgar", "simulated_scan"):
+            cfg = downstream_config(self.table_config, part)
+            doc = next((r.doc_id for r in rows if r.part == part), None)
+            if cfg in out or doc is None:
+                continue
+            cached = load_cached(self._config(doc), doc)
+            if cached:
+                meta = cached["meta"]
+                out[cfg] = {"parser": meta["parser"], "config": meta["config"], "versions": meta["versions"]}
+        return out
+
     def amendment_docs(self) -> set[str]:
         return {d for d, r in self.role_of.items() if r.startswith("amendment")}
 
@@ -222,7 +241,8 @@ def write_run(out: Path, rows: list[dict], summary: dict) -> None:
 
 def run_stage(cfg: StageConfig, split: str, only: list[str] | None = None, limit: int | None = None,
               questions_path: Path = QUESTIONS, out_root: Path = OUT_ROOT, corpus=None, embed=None,
-              cache: IndexCache | None = None) -> dict[str, dict]:
+              cache: IndexCache | None = None, mlflow_store: Path | None = None) -> dict[str, dict]:
+    """Run each configuration; write its results; log it to MLflow when `mlflow_store` is given."""
     questions = select_questions(read_questions(questions_path), split, limit)
     if not questions:
         raise ValueError(f"no questions in split {split!r}")
@@ -232,7 +252,8 @@ def run_stage(cfg: StageConfig, split: str, only: list[str] | None = None, limit
     prov = {"git_sha": git_sha(), "manifest_sha256": file_sha256(MANIFEST),
             "questions_sha256": file_sha256(questions_path), "embedder": EMBEDDER_ID,
             "table_config": cfg.table_config, "cleaning_version": CLEANING_VERSION,
-            "split": split, "limit": limit, "stage": cfg.stage}
+            "split": split, "limit": limit, "stage": cfg.stage,
+            "parser": corpus.parser_info() if hasattr(corpus, "parser_info") else {}}
     runs = [r for r in cfg.runs if not only or r.name in only]
     if only and len(runs) != len(only):
         raise ValueError(f"unknown runs: {sorted(set(only) - {r.name for r in runs})}")
@@ -244,7 +265,11 @@ def run_stage(cfg: StageConfig, split: str, only: list[str] | None = None, limit
         rows, summary = run_one(rc, questions, corpus, cache, embed)
         summary = {"run": asdict(rc), **prov, **summary,
                    "cache": {"built": cache.built - built0, "loaded": cache.loaded - loaded0}}
-        write_run(out_root / cfg.stage.lower() / split / rc.name, rows, summary)
+        run_dir = out_root / cfg.stage.lower() / split / rc.name
+        write_run(run_dir, rows, summary)
+        if mlflow_store is not None:
+            from evals.tracking import log_retrieval_run
+            summary["mlflow_run_id"] = log_retrieval_run(summary, run_dir, mlflow_store)
         o = summary["breakdown"]["overall"]
         log.info("run %s: recall@budget %.3f, mrr@10 %.3f, entity recall %.3f (%s s)", rc.name,
                  o["recall@budget"]["mean"], o["mrr@10"]["mean"], o["entity_recall"]["mean"],
@@ -259,13 +284,16 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--split", choices=["dev", "test", "all"], default="dev")
     ap.add_argument("--runs", help="comma-separated run names (default: all in the config)")
     ap.add_argument("--limit", type=int, help="first N questions only (smoke runs)")
+    ap.add_argument("--no-mlflow", action="store_true", help="don't log to local MLflow")
     a = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(message)s")
     structlog.configure(wrapper_class=structlog.make_filtering_bound_logger(logging.WARNING))
     if a.split == "test":
         log.warning("test split: S1–S3 pick on dev; test is for S4 (scope §9.3)")
     cfg = load_config(a.config)
-    run_stage(cfg, a.split, a.runs.split(",") if a.runs else None, a.limit)
+    from evals.tracking import STORE
+    run_stage(cfg, a.split, a.runs.split(",") if a.runs else None, a.limit,
+              mlflow_store=None if a.no_mlflow else STORE)
     return 0
 
 

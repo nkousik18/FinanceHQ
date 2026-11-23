@@ -345,14 +345,8 @@ def flat_metrics(summary: dict) -> dict[str, float]:
 
 
 def log_mlflow(summary: dict) -> None:
-    import mlflow
-    store = REPO / "data" / "mlflow"
-    store.mkdir(parents=True, exist_ok=True)
-    mlflow.set_tracking_uri(f"sqlite:///{store / 'mlflow.db'}")
-    exp = "loandoc_ingestion_evals"
-    if mlflow.get_experiment_by_name(exp) is None:
-        mlflow.create_experiment(exp, artifact_location=(store / "artifacts").as_uri())
-    mlflow.set_experiment(exp)
+    from evals.tracking import INGESTION_EXPERIMENT, use_experiment
+    mlflow = use_experiment(INGESTION_EXPERIMENT)
     with mlflow.start_run(run_name="S0" + (" DRY RUN" if summary["dry_run"] else "")):
         mlflow.set_tags({"stage": "S0", "dry_run": str(summary["dry_run"])})
         mlflow.log_params({"configs": ",".join(summary["configs"]),

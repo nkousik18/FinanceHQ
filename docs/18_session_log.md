@@ -7,6 +7,20 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-22 (cont.) — R4 step 3: local MLflow logging
+
+**Branch:** `feature/r4-retrieval-metrics`. Kousik: "go step 3 and s1 keep 20".
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-22-18 | **S1 `top_k` = 20** (Kousik; closes S-2026-11-22-17): the 1,200-word budget binds, not the chunk count | Small-chunk chunkers not capped below the budget | `evals/configs/s1_chunkers.yaml` |
+| S-2026-11-22-19 | **`evals/tracking.py`**: shared local MLflow (SQLite `data/mlflow/mlflow.db`, artifacts `data/mlflow/artifacts/`); S0's `log_mlflow` now uses it. Runner logs **one MLflow run per configuration** to `loandoc_retrieval_evals` by default (`--no-mlflow` to skip). Params: every run-config field, stage/split/limit, git SHA, manifest + questions sha256, embedder, table config, cleaning version, parser name/config/versions per downstream config (P2, P2V). Metrics: every breakdown group's means + n answerable, latency p50/p95 per component, unlocated spans. Artifacts: summary.json, questions.jsonl. `--limit` runs named/tagged **SMOKE** | §9.2 |
+| S-2026-11-22-20 | Metric names: `@` → `_at_`, `type=lookup` → `type.lookup` (MLflow rejects `@` and `=`) | MLflow name rules |
+
+Checked: a 2-question smoke run logged to the real store (43 params, 75 metrics, 2 artifacts). Changes: `evals/tracking.py`, `evals/run.py`, `evals/ingest_metrics/run_s0.py`, `evals/configs/s1_chunkers.yaml`, 3 tests. Evals 360 pass.
+
+---
+
 ## 2026-11-22 (cont.) — R4 step 2: runner, chunk/embedding cache, R-dense
 
 **Branch:** `feature/r4-retrieval-metrics`. Kousik: "start step 2".
