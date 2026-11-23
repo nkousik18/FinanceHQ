@@ -100,7 +100,17 @@ def build_source(extraction, cleaning_version: str = CLEANING_VERSION, views: di
     return src
 
 
-def load_source(cached: dict, doc_id: str, cleaning_version: str = CLEANING_VERSION) -> SourceDoc:
-    """SourceDoc with layout elements (C4 needs them; other chunkers ignore them)."""
-    return build_source(to_extraction_result(cached, doc_id), cleaning_version,
-                        views=all_page_views(cached["document"]))
+def load_source(cached: dict, doc_id: str, cleaning_version: str = CLEANING_VERSION,
+                drop_pages: frozenset[int] = frozenset()) -> SourceDoc:
+    """SourceDoc with layout elements (C4 needs them; other chunkers ignore them).
+    `drop_pages`: pages removed before cleaning (R4: a simulated scan indexed in place of its
+    source page). Their text, tables, form fields and layout elements all go."""
+    extraction = to_extraction_result(cached, doc_id)
+    views = all_page_views(cached["document"])
+    if drop_pages:
+        extraction.pages = [p for p in extraction.pages if p.page_number not in drop_pages]
+        extraction.tables = [t for t in extraction.tables if t.page not in drop_pages]
+        extraction.form_fields = [f for f in extraction.form_fields if f.page not in drop_pages]
+        extraction.total_pages = len(extraction.pages)
+        views = {n: v for n, v in views.items() if n not in drop_pages}
+    return build_source(extraction, cleaning_version, views=views)

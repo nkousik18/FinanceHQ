@@ -1,0 +1,14 @@
+# S1 (scope v2 §9.3): C1–C5 × R-dense, dev split. Picks the top 2 chunkers by recall@budget.
+# Runs are listed explicitly (§9.2: never a generated product). Chunker params = R2 defaults.
+# top_k = chunks that may enter the 1,200-word budget (production trims top_k by words).
+#   20 = the /query API maximum, so the word budget (not the chunk count) is what binds and
+#   small-chunk chunkers aren't capped below the budget. Production's default is 5.
+#   OPEN: confirm before the S1 run (R4 step 5).
+stage: S1
+table_config: P2
+runs:
+  - {name: C1-dense, chunker: C1, retriever: R-dense, top_k: 20}
+  - {name: C2-dense, chunker: C2, retriever: R-dense, top_k: 20}
+  - {name: C3-dense, chunker: C3, retriever: R-dense, top_k: 20}
+  - {name: C4-dense, chunker: C4, retriever: R-dense, top_k: 20}
+  - {name: C5-dense, chunker: C5, retriever: R-dense, top_k: 20}

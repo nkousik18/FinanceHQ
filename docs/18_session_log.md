@@ -7,6 +7,24 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-22 (cont.) — R4 step 2: runner, chunk/embedding cache, R-dense
+
+**Branch:** `feature/r4-retrieval-metrics`. Kousik: "start step 2".
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-22-11 | **Scan views per question** (`evals/retrieval/views.py`): default index = the session's digital docs (scans left out); a question citing a scan gets the scan added and the scan's source page **dropped** from its source doc (page removed before cleaning: text, tables, form fields, layout elements). Swapping every scan in permanently was rejected: 15 digital questions cite pages that a scan copies | Decision Log 2026-11-13 left "scan in place of its source page" to R4 |
+| S-2026-11-22-12 | **Chunk/embedding cache** (`evals/retrieval/index_cache.py`, `data/cache/chunks/`): one entry per document view × chunker; key = sha256(chunker_id, params, parser cache key, cleaning version, embedder, dropped pages, format). Entry stores cleaned page text + chunks (gz JSON) + vectors (npy), so cached runs neither re-parse nor re-clean; written json-last (no half entries); vector/chunk count mismatch → rebuild | §9.2 key + what scoring needs |
+| S-2026-11-22-13 | **R-dense** (`evals/retrievers/dense.py`): FAISS IndexFlatIP per question view (production builds one per session), MiniLM normalized query, no threshold | §7 baseline = production |
+| S-2026-11-22-14 | **Runner** `python -m evals.run --config … --split dev [--runs …] [--limit N]`: explicit run list in YAML (`evals/configs/s1_chunkers.yaml`, C1–C5 × R-dense); ranks max(top_k, 10) chunks, only the first top_k can enter the 1,200-word budget; ndcg/map ideal from relevant chunks in the whole view index. Output `data/results/r4/<stage>/<split>/<run>/questions.jsonl` + `summary.json` (git SHA, manifest + questions hashes, breakdowns, latency p50/p95, cache stats). MLflow = step 3 | §9.2 |
+| S-2026-11-22-15 | **Segfault fixed before it shipped:** if faiss loads before torch, the next MiniLM encode segfaults on macOS (two OpenMP runtimes); my test module's top-level faiss import crashed the C5 MiniLM test. `dense.py` now imports faiss lazily, after torch. Checked both orders in a script | R2 only worked because it imported faiss after embedding |
+| S-2026-11-22-16 | **Check run (not S1):** C3 × R-dense, top_k 20, dev 40 q: 0 unlocated spans, 19 views, 3 scan views correct; recall@budget 0.652 (n 33), mrr@10 0.551, entity recall 0.681; query embed p50 10 ms, search p50 0.04 ms; 100 s cold. Cold indexing C3 ≈ 0.07 s/page | Plumbing check only |
+| S-2026-11-22-17 | **Open (Kousik, before S1):** `top_k` for S1. Config has 20 (API max, so the 1,200-word budget binds and small-chunk chunkers aren't capped); production default is 5 | Changes what recall@budget measures |
+
+Changes: `evals/chunking/source.py` (`load_source(drop_pages=…)`), `evals/retrieval/{index_cache,views}.py`, `evals/retrievers/{__init__,dense}.py`, `evals/run.py`, `evals/configs/s1_chunkers.yaml`, `evals/retrieval/metrics.py` (`budget_pool`), `evals/tests/test_retrieval_runner.py` (13 tests). Evals 357 pass; app 173 pass, 2 skipped.
+
+---
+
 ## 2026-11-22 (cont.) — R4 step 1: §8.3 retrieval metrics
 
 **Branch:** `feature/r4-retrieval-metrics` (from `main` after PR #7). Kousik: "start step 1".

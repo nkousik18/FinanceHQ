@@ -179,15 +179,17 @@ class QuestionResult:
 def score_question(q: dict, part: str, ranked: list[Chunk], scores: list[float] | None,
                    sources: dict[str, SourceDoc], n_relevant: int | None = None,
                    amendment_docs: set[str] = frozenset(),
-                   max_words: int = MAX_CONTEXT_WORDS) -> QuestionResult:
+                   max_words: int = MAX_CONTEXT_WORDS, budget_pool: int | None = None) -> QuestionResult:
     """Score one question's ranked retrieval. `sources` must hold every session doc that appears in
     the evidence or the ranking. `n_relevant`: relevant chunks in the session index (ndcg/map
     ideal); defaults to the relevant chunks in `ranked`. `amendment_docs`: doc_ids whose role is an
-    amendment (amendment coverage)."""
+    amendment (amendment coverage). `budget_pool`: production's top_k — only the first
+    `budget_pool` chunks can enter the budget (the ranking may be deeper, for the @10 metrics);
+    default: all of `ranked`."""
     evidence = [Evidence(e["doc_id"], e["page"], e["span_text"]) for e in q["evidence"]]
     loc = locate_all(evidence, sources)
     cov = [coverage(c, loc, sources) for c in ranked]
-    nb = budget_cut(ranked, max_words)
+    nb = budget_cut(ranked[:budget_pool] if budget_pool is not None else ranked, max_words)
     budget = ranked[:nb]
     words = [chunk_words(c) for c in budget]
     m: dict[str, float | None] = {"context_words": float(sum(words)),
