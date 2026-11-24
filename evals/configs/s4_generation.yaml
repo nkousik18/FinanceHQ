@@ -1,0 +1,14 @@
+# S4 generation (scope v2 §9.3, R6): the S2 picks + the C1-dense baseline, answered by the production
+# generator with the D5 citation prompt. Generator settings = production (fastapi_service/app/core/config.py).
+# Retrieval comes from the R4 runner's output for the same split (run evals.run on that split first).
+# tpm: tokens/minute pacing for the Groq free tier (check the console Limits page).
+stage: S4
+model: qwen/qwen3.8-27b
+temperature: 0.1
+max_tokens: 1024
+tpm: 6000
+runs:
+  - {name: C2-hybrid+rerank, retrieval: {stage: S2, run: C2-hybrid+rerank}}
+  - {name: C1-dense,         retrieval: {stage: S1, run: C1-dense}}
+  - {name: C2-bm25,          retrieval: {stage: S2, run: C2-bm25}}
+  - {name: C2-bm25+rerank,   retrieval: {stage: S2, run: C2-bm25+rerank}}

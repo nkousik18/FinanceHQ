@@ -25,7 +25,8 @@ LEDGER = REPO / "data" / "spend_ledger.jsonl"
 
 PRICES = {   # $ per 1M tokens: (input, output). Reasoning tokens are billed as output.
     "openai/gpt-oss-120b": (0.15, 0.60),
-}                     # add the generator's price (qwen/qwen3.8-27b) when S4 needs it, from Groq's page
+    "qwen/qwen3.8-27b": (0.80, 4.00),   # R6 generator; Groq preview-model list price, checked 2026-11-24
+}                                       # via price trackers (pi.dev, computeprices.com) — confirm on groq.com/pricing
 RUN_CAP_USD = 5.0
 TOTAL_CAP_USD = 40.0
 DAILY_TOKENS = 200_000

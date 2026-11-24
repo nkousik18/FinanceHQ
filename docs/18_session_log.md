@@ -7,6 +7,41 @@ Related: initiative scope `loandoc-retrieval-evals-scope-v2.md` (its own Decisio
 
 ---
 
+## 2026-11-24 — R6 step 1: generation harness, test-split retrieval, smoke run
+
+**Branch:** `feature/r6-generation`. Kousik's answer to the R6 proposal (S-2026-11-23-26): the Groq free tier is **one daily token budget per account** shared by all models, input and output, so the 15-day plan (~2.85M tokens) is out. Priority: **resume numbers first, only what's necessary, a fully working pipeline end to end**; the rest later. Step 1 approved.
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-24-1 | **Groq limit = one budget per account (~200k tokens/day, all models).** The "per model → ~8 days" option is rejected | Kousik checked; ledger's single 190k guard was already right | ledger unchanged |
+| S-2026-11-24-2 | **Dev extras (noise sensitivity, 3-run consistency, ~680k tokens) deferred**, not cut from scope. Options offered: keep in full; 2 runs instead of 3; only 13 calc + 7 unanswerable — all set aside for now | Biggest optional cost; not needed for the headline S4 numbers | this log |
+| S-2026-11-24-3 | **Harness** `evals/generation/` (`prompt.py`, `stream.py`, `metrics.py`, `run.py`) + `evals/configs/s4_generation.yaml`; generator = production settings (`qwen/qwen3.8-27b`, temp 0.1, max 1,024, single user message) | §8.4, §8.5, §9.5, D5 | code |
+| S-2026-11-24-4 | **Context = the retrieval run's `in_budget` chunks** rebuilt from the R4 chunk cache (production `_build_context` rule via `budget_cut`), not re-retrieved | One retrieval per config; generation sees exactly what retrieval was scored on | `run.py` docstring |
+| S-2026-11-24-5 | **Chunks labelled `S1…Sn` in the prompt**, mapped back to chunk ids for the citation metrics. Rejected: raw chunk ids (`deal_10_am1-C2-75`) | Fewer prompt tokens and fewer mangled ids; metrics stay per chunk as D5 asks | `prompt.py` docstring |
+| S-2026-11-24-6 | **One citation template (`cite-v1`) for every question type.** Rejected: production's intent-routed templates + A/B selector | Configurations must differ only in retrieval. Fixed strings: refusal = "Not found in the document." (production lookup phrase); calculations end "Final answer: …" | `prompt.py` |
+| S-2026-11-24-7 | **Metric rules:** refusal = the exact phrase anywhere or a decline pattern in the *first* sentence; false refusal counted only when recall@budget = 1 (partial evidence may justify a refusal); stale = states a superseded value and none of the current entities; an unknown cited id counts as a wrong citation; numeric EM reads the "Final answer:" line, else the last number (million/billion scaled) | Deterministic, judge-free (§8.4); edge cases pinned by tests | `metrics.py` docstring, `test_generation.py` |
+| S-2026-11-24-8 | **Added `answer_entity_recall`** (question entities found in the answer; refusal = 0) as a judge-free correctness proxy | Gives a correctness number before any judge spend; limits stated in the docstring (ignores wrong extra claims) | `metrics.py` |
+| S-2026-11-24-9 | **Runner order: question by question, every configuration per question** | A run stopped by the daily budget still leaves paired results | `run.py` |
+| S-2026-11-24-10 | **qwen/qwen3.8-27b price $0.80 in / $4.00 out per M** (Groq preview list price via price trackers; not yet confirmed on groq.com/pricing) | D7 needs a price even on the free tier | `ledger.py` |
+| S-2026-11-24-11 | **Retrieval on test (local, 0 tokens), runner log:** recall@budget C2-bm25 0.846, C2-hybrid+rerank 0.811, C2-bm25+rerank 0.771, C1-dense 0.585. Not quotable until a generated report covers it (F7); test ranking ≠ dev ranking (dev: hybrid+rerank first) | S4 input | `data/results/r4/s{1,2}/test/` |
+| S-2026-11-24-12 | **Smoke (dev q0004–q0006 × C2-hybrid+rerank, C1-dense): 6 calls, 11,412 tokens, $0.0096.** Prompt 1,670–2,224 tokens, completion 7–56, **no reasoning tokens**, TTFT 0.52–0.89 s, e2e ≤ 0.92 s. Hybrid+rerank answered 3/3 with correct citations; C1-dense refused 2/3 — both where its recall@budget was 0 | Replaces the assumed 2,050 tokens/call | `data/results/r6/s4/dev/` |
+| S-2026-11-24-13 | **Revised estimate:** generation ≈ 1,920 tokens/call (measured). Full S4 generation 320 calls ≈ 615k (~3.2 days); dev-picked winner + baseline only, 160 calls ≈ 307k (~1.6 days). Judge still assumed ≈ 2,800/call (to measure) | — | — |
+| S-2026-11-24-14 | Tests: evals **458** pass (+24 in `test_generation.py`, fake stream, no network) | N3 | — |
+
+---
+
+## 2026-11-23 (cont.) — R6 start: plan proposal and token estimate
+
+**Branch:** `feature/r6-generation` (from `main` at `a5771b6`, after PR #9 merged). Kousik: "start r6".
+
+| ID | Decision / finding | Why | Recorded in |
+|---|---|---|---|
+| S-2026-11-23-24 | **PR #9 (R5) merged to `main`** by Kousik, 2026-11-23 15:22 UTC (merge commit `a5771b6`) | — | GitHub #9 |
+| S-2026-11-23-25 | **Token estimate inputs (measured):** mean context words in the S2/S1 runs: C2-hybrid+rerank 1,051, C2-bm25 1,047, C2-bm25+rerank 1,067, C1-dense 985 (max 1,200). **Assumed** (to be replaced by smoke-run numbers): 1.35 tokens/word; generator ≈ 1,850 in + 200 out ≈ 2,050 tokens/call; judge ≈ 2,600 in + 900 out (incl. hidden reasoning) ≈ 3,500 tokens/call | Estimate before any LLM run (Kousik's rule) | proposal below |
+| S-2026-11-23-26 | **Estimate (proposed, pending Kousik):** smoke ~20k; calibration 50 gen + 50 judge ≈ 280k (+ ~90k if a 25-answer re-test is needed); S4 320 gen + 320 judge ≈ 1.78M; dev extras (top config: noise sensitivity 2 × 40 gen+judge, consistency 3 × 40 gen) ≈ 680k. **Total ≈ 2.85M tokens ≈ 15 days at 190k/day if the limit is per account**; $ (gpt-oss-120b list price) ≈ $0.30 for S4 judging — far below D7 caps | — | — |
+
+---
+
 ## 2026-11-23 (cont.) — R5 wrap-up: PR, options considered, logging rule
 
 Kousik asked that **every discovery and every discussion** be logged, not only final decisions, so that each decision can be checked or defended later. This section adds what earlier sections left out: the options presented to Kousik and the ones rejected, with reasons.
