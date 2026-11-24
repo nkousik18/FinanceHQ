@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Judge Calibration</title>
+<style>
+:root {
+  --bg: #f6f6f4; --panel: #ffffff; --ink: #1d1d1b; --muted: #6b6b66; --line: #e2e1dc;
+  --accent: #2f5fd0; --good: #1f8a4c; --bad: #c0392b; --mid: #b7791f; --cite: #fde68a; --sel: #eef2ff;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #161615; --panel: #1f1f1d; --ink: #ecebe6; --muted: #9b9a93; --line: #34332f;
+    --accent: #7aa2ff; --good: #4cc283; --bad: #ff7b6b; --mid: #f0b45a; --cite: #6b5a12; --sel: #262b3d; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 -apple-system, system-ui, sans-serif; height: 100vh; overflow: hidden; }
+#app { display: grid; grid-template-columns: 200px minmax(420px, 1fr) minmax(420px, 1.1fr); height: 100vh; }
+.col { overflow: auto; border-right: 1px solid var(--line); }
+header { padding: 10px 12px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--bg); z-index: 2; }
+h1 { font-size: 15px; margin: 0; }
+h2 { font-size: 12px; margin: 16px 0 6px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.progress { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.bar { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; margin-top: 4px; }
+.bar > i { display: block; height: 100%; background: var(--good); }
+.item { padding: 6px 12px; border-bottom: 1px solid var(--line); cursor: pointer; font-size: 13px; display: flex; justify-content: space-between; }
+.item:hover, .item.active { background: var(--sel); }
+.item.active { box-shadow: inset 3px 0 var(--accent); }
+.done { color: var(--good); } .todo { color: var(--muted); }
+main, aside { padding: 0 16px 120px; }
+.box { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.answer { white-space: pre-wrap; }
+.cite { background: var(--cite); border-radius: 3px; padding: 0 2px; font: 12px var(--mono); }
+ul { margin: 4px 0; padding-left: 20px; }
+.chunk { border: 1px solid var(--line); border-radius: 8px; margin: 10px 0; background: var(--panel); }
+.chunk.cited { border-color: var(--mid); box-shadow: 0 0 0 1px var(--mid); }
+.chunk-head { padding: 5px 10px; border-bottom: 1px solid var(--line); font-size: 12px; color: var(--muted); display: flex; gap: 8px; }
+.chunk-head b { color: var(--ink); font-family: var(--mono); }
+.chunk pre { margin: 0; padding: 10px; white-space: pre-wrap; word-break: break-word; font: 12.5px/1.5 var(--mono); }
+.form { position: sticky; bottom: 0; background: var(--bg); border-top: 1px solid var(--line); padding: 10px 0; }
+.grp { display: flex; gap: 6px; align-items: center; margin: 6px 0; flex-wrap: wrap; }
+.grp > span { width: 92px; font-size: 12px; color: var(--muted); }
+button { font: inherit; color: inherit; border: 1px solid var(--line); background: var(--panel); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+button.save { background: var(--good); border-color: var(--good); color: #fff; }
+textarea { width: 100%; font: inherit; color: inherit; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; }
+kbd { font: 11px var(--mono); border: 1px solid var(--line); border-radius: 3px; padding: 0 3px; color: var(--muted); }
+.msg { font-size: 13px; margin-left: 8px; }
+.help { font-size: 12px; color: var(--muted); margin: 4px 0 0; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="col">
+    <header><h1>Judge calibration</h1><div class="progress" id="prog"></div><div class="bar"><i id="bar"></i></div></header>
+    <div id="list"></div>
+  </div>
+  <div class="col"><main id="main"></main></div>
+  <div class="col"><aside id="ctx"></aside></div>
+</div>
+<script>
+const S = { list: [], cur: null, item: null, form: {} };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const cites = s => esc(s).replace(/\[(S\d{1,3}(?:\s*,\s*S\d{1,3})*)\]/g, '<span class="cite">[$1]</span>');
+
+async function loadList() {
+  S.list = await (await fetch("/api/list")).json();
+  const done = S.list.filter(x => x.labelled).length;
+  document.getElementById("prog").textContent = `${done} / ${S.list.length} labelled`;
+  document.getElementById("bar").style.width = `${100 * done / S.list.length}%`;
+  document.getElementById("list").innerHTML = S.list.map(x =>
+    `<div class="item ${x.i === S.cur ? "active" : ""}" onclick="open_(${x.i})">
+       <span>#${x.i + 1} · ${esc(x.type)}</span><span class="${x.labelled ? "done" : "todo"}">${x.labelled ? "✓" : "·"}</span></div>`).join("");
+}
+
+async function open_(i) {
+  S.cur = i;
+  const it = S.item = await (await fetch(`/api/item/${i}`)).json();
+  S.form = it.label ? { ...it.label } : { correctness: null, faithful: null, relevance: null, note: "" };
+  document.getElementById("main").innerHTML = `
+    <h2>Question #${i + 1} of ${it.n} · ${esc(it.type)}</h2><div class="box">${esc(it.question)}</div>
+    <h2>Reference answer</h2><div class="box">${esc(it.reference)}
+      ${it.key_points.length ? `<ul>${it.key_points.map(k => `<li>${esc(k)}</li>`).join("")}</ul>` : ""}</div>
+    <h2>Answer to grade</h2><div class="box answer">${cites(it.answer)}</div>
+    <div class="form">
+      <div class="grp"><span>Correctness</span>
+        ${["correct","partial","wrong"].map((c, k) => `<button data-f="correctness" data-v="${c}">${c} <kbd>${k + 1}</kbd></button>`).join("")}</div>
+      <div class="help">vs the reference: correct = all essential facts right; partial = some right, some missing/wrong; wrong = main fact wrong or missing.</div>
+      <div class="grp"><span>Faithful</span>
+        <button data-f="faithful" data-v="true">yes <kbd>y</kbd></button><button data-f="faithful" data-v="false">no <kbd>n</kbd></button></div>
+      <div class="help">yes = every factual claim in the answer is supported by the context on the right (ignore the reference here).</div>
+      <div class="grp"><span>Relevance</span>
+        ${[1,2,3,4,5].map(r => `<button data-f="relevance" data-v="${r}">${r}</button>`).join("")}
+        <span class="help" style="width:auto">5 direct · 3 partly / padded · 1 off-topic (keys <kbd>q</kbd>–<kbd>t</kbd> = 1–5)</span></div>
+      <textarea id="note" rows="2" placeholder="note (optional)">${esc(S.form.note || "")}</textarea>
+      <div class="grp"><button class="save" onclick="save()">Save &amp; next <kbd>↵</kbd></button><span class="msg" id="msg"></span></div>
+    </div>`;
+  document.getElementById("ctx").innerHTML = `<h2>Context the model saw (${it.context.length} chunks; cited ones outlined)</h2>` +
+    it.context.map(c => `<div class="chunk ${c.cited ? "cited" : ""}"><div class="chunk-head"><b>${c.sid}</b>
+      <span>${esc(c.doc_id)} · page ${c.page ?? "?"}</span>${c.cited ? "<span>· cited</span>" : ""}</div><pre>${esc(c.text)}</pre></div>`).join("");
+  document.querySelectorAll("[data-f]").forEach(b => b.onclick = () => set(b.dataset.f, b.dataset.v));
+  paint(); loadList();
+  document.getElementById("main").parentElement.scrollTop = 0;
+  document.getElementById("ctx").parentElement.scrollTop = 0;
+}
+
+function set(f, v) {
+  S.form[f] = f === "faithful" ? v === "true" : f === "relevance" ? Number(v) : v;
+  paint();
+}
+function paint() {
+  document.querySelectorAll("[data-f]").forEach(b => {
+    const v = S.form[b.dataset.f];
+    b.classList.toggle("on", v !== null && v !== undefined && String(v) === b.dataset.v);
+  });
+}
+
+async function save() {
+  S.form.note = document.getElementById("note").value;
+  const r = await fetch(`/api/label/${S.cur}`, { method: "PUT", body: JSON.stringify(S.form) });
+  const j = await r.json(), msg = document.getElementById("msg");
+  if (!r.ok) { msg.textContent = j.error; msg.style.color = "var(--bad)"; return; }
+  await loadList();
+  const next = S.list.find(x => !x.labelled && x.i > S.cur) || S.list.find(x => !x.labelled);
+  if (next) open_(next.i); else { msg.textContent = "All labelled ✓"; msg.style.color = "var(--good)"; }
+}
+
+document.addEventListener("keydown", e => {
+  if (e.target.tagName === "TEXTAREA") { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) save(); return; }
+  const k = e.key;
+  if (k === "1") set("correctness", "correct"); else if (k === "2") set("correctness", "partial");
+  else if (k === "3") set("correctness", "wrong"); else if (k === "y") set("faithful", "true");
+  else if (k === "n") set("faithful", "false"); else if ("qwert".includes(k) && k.length === 1) set("relevance", String("qwert".indexOf(k) + 1));
+  else if (k === "Enter") save();
+  else if (k === "ArrowDown" || k === "j") open_(Math.min(S.cur + 1, S.list.length - 1));
+  else if (k === "ArrowUp" || k === "k") open_(Math.max(S.cur - 1, 0));
+});
+
+loadList().then(() => open_((S.list.find(x => !x.labelled) || S.list[0]).i));
+</script>
+</body>
+</html>

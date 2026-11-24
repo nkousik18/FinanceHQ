@@ -325,6 +325,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--confirm-cost", action="store_true", help="actually call the model (D7)")
     ap.add_argument("--summarise", action="store_true", help="write summary.json from saved answers; no calls")
     ap.add_argument("--daily-budget", type=int, help="override the ledger's daily token guard")
+    ap.add_argument("--qids-file", type=Path, help="JSON with a 'qids' list: only these questions (calibration)")
     a = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(message)s")
     logging.getLogger("httpx").setLevel(logging.WARNING)
@@ -336,6 +337,9 @@ def main(argv: list[str] | None = None) -> int:
     from evals.golden.qa.validate import QUESTIONS, read_questions
     from evals.llm.ledger import Ledger
     questions = {q["qid"]: q for q in read_questions(QUESTIONS) if not q.get("retired") and q["split"] == a.split}
+    if a.qids_file:
+        keep = set(json.loads(a.qids_file.read_text())["qids"])
+        questions = {k: v for k, v in questions.items() if k in keep}
     ledger = Ledger(**({"daily_budget": a.daily_budget} if a.daily_budget else {}))
     table_config = "P2"
     store = ChunkStore(table_config)

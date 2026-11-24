@@ -232,3 +232,18 @@ def test_answer_entity_recall():
     assert GM.score_answer(q, "Multiples of $500,000 [S1].", ctx([0]), 1.0)["answer_entity_recall"] == 0.5
     assert GM.score_answer(q, REFUSAL, ctx([0]), 1.0)["answer_entity_recall"] == 0.0
     assert GM.score_answer({**q, "unanswerable": True}, REFUSAL, ctx([]), None)["answer_entity_recall"] is None
+
+
+def test_report_renders_and_flags_partial(setup):
+    from evals.generation import report as RP
+    cfg, qs, rroot, oroot, led = setup
+    GR.generate(cfg, "test", qs, FakeClient(["Fee [S1].", REFUSAL, "Fee [S2].", "Fee [S1]."]), led, FakeStore(),
+                confirm=True, retrieval_root=rroot, out_root=oroot, sleep=lambda s: None)
+    cfg.runs[1].name = RP.BASELINE                               # B plays the baseline
+    (oroot / "s4/test/B").rename(oroot / f"s4/test/{RP.BASELINE}")
+    retr, gen = RP.load(cfg, "test", rroot, oroot)
+    md = RP.render(cfg, "test", retr, gen, questions_n=2, provenance={"generator": "m"})
+    assert "PARTIAL" not in md and "Paired question set: **2**" in md and "## Latency" in md
+    assert "| Answered (answerable Qs) | **1.000** [1.000, 1.000] (n 2) | **0.500**" in md   # A both, baseline refused q1
+    md = RP.render(cfg, "test", retr, gen, questions_n=3, provenance={})
+    assert "PARTIAL — not quotable" in md
